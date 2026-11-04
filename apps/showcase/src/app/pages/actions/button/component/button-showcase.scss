@@ -17,3 +17,8 @@
   gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
   margin-bottom: var(--solaris-spacing-4);
 }
+
+.button-showcase__props-values {
+  overflow-wrap: anywhere;
+  white-space: normal;
+}

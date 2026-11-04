@@ -1,5 +1,4 @@
 import path from 'node:path';
-import fs from 'node:fs';
 import {
   workspaceRoot,
   findFilesRecursive,
@@ -28,7 +27,6 @@ const componentTokens = new Set();
 const referencedTokens = new Map();
 
 function stripScssComments(content) {
-  // Remove block comments first, then // line comments.
   return content
     .replace(/\/\*[\s\S]*?\*\//g, '')
     .replace(/(^|[^:"'(-])\/\/[^\n]*/g, '$1');
@@ -37,10 +35,13 @@ function stripScssComments(content) {
 function extractTokenDefs(content) {
   const defs = [];
   const clean = stripScssComments(content);
-  const defRegex = /^\s*--solaris-[\w-]+\s*:/gm;
-  let match;
-  while ((match = defRegex.exec(content)) !== null) {
-    defs.push(match[0].trim().replace(':', ''));
+  for (const line of clean.split('\n')) {
+    const trimmed = line.trim();
+    if (!trimmed.startsWith('--solaris-')) continue;
+    const end = trimmed.indexOf(':');
+    if (end === -1) continue;
+    const name = trimmed.slice(0, end).trim();
+    if (/^--solaris-[\w-]+$/.test(name)) defs.push(name);
   }
   return defs;
 }
@@ -96,8 +97,9 @@ const allDefined = new Set([...globalTokens, ...componentTokens]);
 for (const [token, files] of referencedTokens) {
   if (!allDefined.has(token)) {
     const fileList = [...files];
+    const extra = fileList.length > 1 ? ` (+${fileList.length - 1} more)` : '';
     errors.push(
-      `Token "${token}" is used but never defined anywhere. Found in: ${path.relative(workspaceRoot, fileList[0])}${fileList.length > 1 ? ` (+${fileList.length - 1} more)` : ''}`,
+      `Token "${token}" is used but never defined anywhere. Found in: ${path.relative(workspaceRoot, fileList[0])}${extra}`,
     );
   }
 }

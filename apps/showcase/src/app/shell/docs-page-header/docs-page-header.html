@@ -111,3 +111,76 @@
   </p>
   }
 </header>
+
+@if (copyable() || prev() || next()) {
+<div class="docs-page-header__mobile-bar">
+  @if (copyable()) {
+  <solaris-button-group
+    [attr.aria-label]="'docs.page-header.page-actions' | translate"
+  >
+    <button solaris-button appearance="surface" (click)="copyPage.emit()">
+      <solaris-icon solaris-button-icon name="copy" [decorative]="true" />
+      {{ 'docs.page-header.copy-page' | translate }}
+    </button>
+    <button
+      solaris-icon-button
+      appearance="surface"
+      solaris-dropdown-menu-trigger
+      [solarisDropdownMenuTriggerFor]="pageMenuMobile"
+      [attr.aria-label]="'docs.page-header.open-menu' | translate"
+    >
+      <solaris-icon name="chevron-up" [decorative]="true" />
+    </button>
+  </solaris-button-group>
+  <solaris-dropdown-menu #pageMenuMobile>
+    <solaris-dropdown-menu-item
+      icon="markdown"
+      (itemSelected)="viewMarkdown.emit()"
+      [label]="'docs.page-header.view-markdown' | translate"
+    />
+    <solaris-dropdown-menu-item
+      icon="open-ai"
+      (itemSelected)="openChatGpt.emit()"
+      [label]="'docs.page-header.open-chatgpt' | translate"
+    />
+    <solaris-dropdown-menu-item
+      icon="claude-code"
+      (itemSelected)="openClaude.emit()"
+      [label]="'docs.page-header.open-claude' | translate"
+    />
+  </solaris-dropdown-menu>
+  } @if (prev() || next()) {
+  <solaris-button-group
+    [attr.aria-label]="'docs.page-header.component-nav' | translate"
+  >
+    @if (prev(); as prevNav) {
+    <a
+      solaris-icon-button
+      appearance="surface"
+      [href]="prevNav.route"
+      [attr.aria-label]="
+        ('docs.page-header.prev' | translate) +
+        ': ' +
+        (prevNav.labelKey ? (prevNav.labelKey | translate) : prevNav.label)
+      "
+    >
+      <solaris-icon name="chevron-left" [decorative]="true" />
+    </a>
+    } @if (next(); as nextNav) {
+    <a
+      solaris-icon-button
+      appearance="surface"
+      [href]="nextNav.route"
+      [attr.aria-label]="
+        ('docs.page-header.next' | translate) +
+        ': ' +
+        (nextNav.labelKey ? (nextNav.labelKey | translate) : nextNav.label)
+      "
+    >
+      <solaris-icon name="chevron-right" [decorative]="true" />
+    </a>
+    }
+  </solaris-button-group>
+  }
+</div>
+}

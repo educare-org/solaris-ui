@@ -1,26 +1,17 @@
-import path from 'node:path';
 import {
-  workspaceRoot,
   fileExists,
   readJson,
   printSummary,
+  findForbiddenLockfiles,
+  lockfileErrorMessage,
+  packageManagerFieldErrors,
 } from './shared.mjs';
 
 const errors = [];
 const warnings = [];
 
-const lockFiles = [
-  { file: 'package-lock.json', name: 'npm' },
-  { file: 'yarn.lock', name: 'Yarn' },
-  { file: 'bun.lockb', name: 'Bun' },
-];
-
-for (const { file, name } of lockFiles) {
-  if (fileExists(file)) {
-    errors.push(
-      `Found ${file} — ${name} lock file detected. Solaris requires pnpm. Delete ${file} and use pnpm install.`,
-    );
-  }
+for (const lock of findForbiddenLockfiles()) {
+  errors.push(lockfileErrorMessage(lock));
 }
 
 if (!fileExists('pnpm-lock.yaml')) {
@@ -30,16 +21,7 @@ if (!fileExists('pnpm-lock.yaml')) {
 if (!fileExists('package.json')) {
   errors.push('Missing package.json at workspace root');
 } else {
-  const pkg = readJson('package.json');
-  if (!pkg.packageManager) {
-    errors.push(
-      'Missing "packageManager" field in package.json. Add: "packageManager": "pnpm@9.x.x" (use the installed pnpm version)',
-    );
-  } else if (!pkg.packageManager.startsWith('pnpm')) {
-    errors.push(
-      `"packageManager" in package.json is "${pkg.packageManager}" — must be "pnpm@<version>"`,
-    );
-  }
+  errors.push(...packageManagerFieldErrors(readJson('package.json')));
 }
 
 const result = printSummary('Package Manager Check', errors, warnings);

@@ -1,9 +1,30 @@
-<div class="theme-toggle">
+<div class="theme-toggle" [attr.data-full-width]="fullWidth() || undefined">
+  @if (showScheme()) { @if (schemeDisplay() === 'labels') {
   <solaris-segmented-control
-    size="md"
+    [size]="size()"
+    [density]="density()"
     radius="md"
     appearance="outline"
     [value]="baseTheme()"
+    [fullWidth]="fullWidth()"
+    ariaLabelKey="shell.theme.label"
+    (valueChange)="setTheme($event)"
+  >
+    <solaris-segmented-item value="light" labelKey="shell.theme.light-short" />
+    <solaris-segmented-item value="dark" labelKey="shell.theme.dark-short" />
+    <solaris-segmented-item
+      value="system"
+      labelKey="shell.theme.system-short"
+    />
+  </solaris-segmented-control>
+  } @else {
+  <solaris-segmented-control
+    [size]="size()"
+    [density]="density()"
+    radius="md"
+    appearance="outline"
+    [value]="baseTheme()"
+    [fullWidth]="fullWidth()"
     ariaLabelKey="shell.theme.label"
     (valueChange)="setTheme($event)"
   >
@@ -23,7 +44,7 @@
       ariaLabelKey="shell.theme.system"
     />
   </solaris-segmented-control>
-
+  } } @if (showHighContrast()) {
   <button
     size="md"
     radius="md"
@@ -38,4 +59,5 @@
   >
     <solaris-icon name="contrast" [decorative]="true" />
   </button>
+  }
 </div>

@@ -9,8 +9,8 @@ export const ACCORDION_TRANSLATION_PREFIX = 'accordion';
 
 export const ACCORDION_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-    { labelKey: 'shell.sidebar.group.interaction', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+    { labelKey: 'shell.sidebar.group.interaction', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.accordion' },
   ];
 
@@ -20,8 +20,8 @@ export const ACCORDION_SHOWCASE_PREV: ShowcaseDocsPageNav = {
 };
 
 export const ACCORDION_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.tabs',
-  route: '/navigation/tabs',
+  labelKey: 'shell.sidebar.item.media-carousel',
+  route: '/interaction/media-carousel',
 };
 
 export const ACCORDION_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
@@ -67,7 +67,7 @@ export const ACCORDION_SHOWCASE_MULTIPLE_CODE = [
 export const ACCORDION_SHOWCASE_QUESTION_CODE = [
   '<solaris-accordion [(value)]="openValue">',
   '  <solaris-collapsible value="a" label="What is Solaris?">',
-  '    <p>A design system for Educare.</p>',
+  '    <p>A design system for institutional products.</p>',
   '  </solaris-collapsible>',
   '  <solaris-collapsible-input',
   '    value="ask"',

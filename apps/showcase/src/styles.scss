@@ -18,6 +18,7 @@ html {
 html,
 body {
   height: 100%;
+  overflow-x: clip;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -35,11 +36,6 @@ body {
   font-family: var(--solaris-font-family-sans), system-ui;
 }
 
-// Calendar print isolation. Active only while the print showcase page is
-// mounted (it toggles `showcase-print-calendars` on <body>), so no other
-// route is affected. Kept here instead of print-showcase.scss because
-// emulated encapsulation cannot reach the shell/docs chrome from component
-// CSS, and this repo does not use ::ng-deep.
 @media print {
   body.showcase-print-calendars {
     .shell__header,
@@ -58,9 +54,6 @@ body {
       display: none;
     }
 
-    // Flatten every screen scroll/flex container: in print they reserve
-    // blank pages and clip the grids (visible scrollbar in the output).
-    // Block layout + visible overflow lets month/agenda flow across pages.
     app-shell {
       display: block;
       min-height: 0;
@@ -103,9 +96,6 @@ body {
       overflow: visible;
     }
 
-    // Screen gap comes from grid `gap` (grid items are blockified);
-    // print uses block layout and the calendar hosts are inline, so
-    // blockify them and restore the same spacing between month/agenda.
     .print-showcase__preview > * {
       display: block;
     }

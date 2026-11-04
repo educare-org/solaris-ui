@@ -27,7 +27,7 @@ describe('ShowcaseDocsPageHeader', () => {
     fixture.componentRef.setInput('title', 'Badge');
     fixture.componentRef.setInput('description', 'Status labels.');
     fixture.componentRef.setInput('breadcrumbs', [
-      { label: 'Components', route: '/configuration' },
+      { label: 'Components', route: '/introduction' },
       { label: 'Badge' },
     ]);
     fixture.detectChanges();
@@ -118,5 +118,43 @@ describe('ShowcaseDocsPageHeader', () => {
     );
     copyButton.nativeElement.click();
     expect(emitted).toBe(1);
+  });
+
+  it('should render a fixed mobile bar mirroring the page actions', () => {
+    fixture.componentRef.setInput('copyable', true);
+    fixture.componentRef.setInput('prev', {
+      label: 'Card',
+      route: '/data-display/card',
+    });
+    fixture.componentRef.setInput('next', {
+      label: 'Alert',
+      route: '/feedback/alert',
+    });
+    fixture.detectChanges();
+
+    const bar = fixture.debugElement.query(
+      By.css('.docs-page-header__mobile-bar'),
+    );
+    expect(bar).toBeTruthy();
+    const navLinks = bar.queryAll(By.css('a[href]'));
+    expect(navLinks.length).toBe(2);
+    expect(navLinks[0].nativeElement.getAttribute('href')).toBe(
+      '/data-display/card',
+    );
+
+    let emitted = 0;
+    fixture.componentInstance.copyPage.subscribe(() => {
+      emitted += 1;
+    });
+    bar.query(By.css('solaris-button-group button')).nativeElement.click();
+    expect(emitted).toBe(1);
+  });
+
+  it('should omit the mobile bar when there are no page actions', () => {
+    fixture.detectChanges();
+
+    expect(
+      fixture.debugElement.query(By.css('.docs-page-header__mobile-bar')),
+    ).toBeNull();
   });
 });

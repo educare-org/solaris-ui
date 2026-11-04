@@ -1,5 +1,9 @@
-import { TestBed } from '@angular/core/testing';
-import { Component, provideZonelessChangeDetection } from '@angular/core';
+import { TestBed, type ComponentFixture } from '@angular/core/testing';
+import {
+  Component,
+  provideZonelessChangeDetection,
+  type Signal,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -15,6 +19,10 @@ import { SolarisFormSuffixActionDirective } from '../../form-field/directives/fo
 
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
 import { SolarisTranslateService } from '../../../../services/translation';
+
+type EmailFieldTestSeam = SolarisEmailFieldComponent & {
+  internalValue: Signal<string>;
+};
 
 @Component({
   standalone: true,
@@ -1014,7 +1022,7 @@ describe('SolarisEmailFieldComponent', () => {
     })
     class LoadingHost {}
 
-    function getInnerField(fixture: any): HTMLElement {
+    function getInnerField(fixture: ComponentFixture<unknown>): HTMLElement {
       return fixture.nativeElement.querySelector(
         'solaris-email-field solaris-form-field',
       );
@@ -1128,7 +1136,7 @@ describe('SolarisEmailFieldComponent', () => {
         ) as HTMLButtonElement
       ).click();
       fixture.detectChanges();
-      expect((field as any).internalValue()).toBe('');
+      expect((field as unknown as EmailFieldTestSeam).internalValue()).toBe('');
       expect(fixture.componentInstance.clearedCount).toBe(1);
       const button = fixture.nativeElement.querySelector(
         '.solaris-email-field__clear',
@@ -1159,7 +1167,7 @@ describe('SolarisEmailFieldComponent', () => {
         field.writeValue(null);
         fixture.detectChanges();
       }).not.toThrow();
-      expect((field as any).internalValue()).toBe('');
+      expect((field as unknown as EmailFieldTestSeam).internalValue()).toBe('');
       expect(input.nativeElement.value).toBe('');
       const button = fixture.nativeElement.querySelector(
         '.solaris-email-field__clear',
@@ -1180,7 +1188,7 @@ describe('SolarisEmailFieldComponent', () => {
         field.writeValue(undefined);
         fixture.detectChanges();
       }).not.toThrow();
-      expect((field as any).internalValue()).toBe('');
+      expect((field as unknown as EmailFieldTestSeam).internalValue()).toBe('');
       expect(input.nativeElement.value).toBe('');
       const button = fixture.nativeElement.querySelector(
         '.solaris-email-field__clear',

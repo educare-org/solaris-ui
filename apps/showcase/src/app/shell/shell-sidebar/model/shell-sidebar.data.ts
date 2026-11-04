@@ -5,8 +5,12 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
     labelKey: 'shell.sidebar.section.getting-started',
     items: [
       {
-        labelKey: 'shell.sidebar.item.configuration',
-        route: '/configuration',
+        labelKey: 'shell.sidebar.item.introduction',
+        route: '/introduction',
+      },
+      {
+        labelKey: 'shell.sidebar.item.installation',
+        route: '/installation',
       },
     ],
     groups: [],
@@ -23,14 +27,22 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
       {
         labelKey: 'shell.sidebar.group.actions',
         items: [
-          { labelKey: 'shell.sidebar.item.button', route: '/actions/button' },
           {
-            labelKey: 'shell.sidebar.item.icon-button',
-            route: '/actions/icon-button',
-          },
-          {
-            labelKey: 'shell.sidebar.item.button-group',
-            route: '/actions/button-group',
+            labelKey: 'shell.sidebar.item.buttons',
+            children: [
+              {
+                labelKey: 'shell.sidebar.item.button',
+                route: '/actions/button',
+              },
+              {
+                labelKey: 'shell.sidebar.item.icon-button',
+                route: '/actions/icon-button',
+              },
+              {
+                labelKey: 'shell.sidebar.item.button-group',
+                route: '/actions/button-group',
+              },
+            ],
           },
         ],
       },
@@ -267,6 +279,19 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
                 ],
               },
               {
+                labelKey: 'shell.sidebar.item.sliders',
+                children: [
+                  {
+                    labelKey: 'shell.sidebar.item.slider',
+                    route: '/forms/slider',
+                  },
+                  {
+                    labelKey: 'shell.sidebar.item.range-slider',
+                    route: '/forms/range-slider',
+                  },
+                ],
+              },
+              {
                 labelKey: 'shell.sidebar.item.selection-card',
                 route: '/forms/selection-card',
               },
@@ -322,6 +347,19 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
           {
             labelKey: 'shell.sidebar.item.accordion',
             route: '/interaction/accordion',
+          },
+          {
+            labelKey: 'shell.sidebar.item.carousel',
+            children: [
+              {
+                labelKey: 'shell.sidebar.item.media-carousel',
+                route: '/interaction/media-carousel',
+              },
+              {
+                labelKey: 'shell.sidebar.item.content-carousel',
+                route: '/interaction/content-carousel',
+              },
+            ],
           },
         ],
       },

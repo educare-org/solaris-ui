@@ -11,7 +11,7 @@
     "align-space-between": "Space between",
     "align-start": "Align start",
     "appearance": "Appearance",
-    "appearance-desc": "Outline (default) has surface background with visible border. Surface is borderless with shadow.",
+    "appearance-desc": "Outline (default) has surface background with visible border. Surface is borderless with shadow. Flat keeps the border and uses the same background on header, content and footer.",
     "basic": "Basic dialogs",
     "basic-desc": "Simple dialogs created via open() configuration.",
     "behavior": "Behavior",
@@ -43,7 +43,7 @@
       "open-placement": "Open placement dialog",
       "open-sheet": "Open bottom sheet",
       "open-validated-flow": "Open validated flow",
-      "open-variant": "Open variant dialog"
+      "open-split": "Open split actions dialog"
     },
     "density": {
       "comfortable": "Comfortable",
@@ -107,7 +107,9 @@
       },
       "density": {
         "desc": "Section spacing follows the {{density}} density.",
-        "title": "Density dialog"
+        "title": "Density dialog",
+        "item-title": "Section {{index}}",
+        "item-text": "Density changes the content padding and the header scale. Switch densities to compare."
       },
       "flow": {
         "step1-desc": "Fill in your basic information to get started.",
@@ -125,7 +127,8 @@
         "step3-list2": "Verify institution data",
         "step3-list3": "Accept terms and conditions",
         "step3-title": "Step 3: Review",
-        "title": "Multi-step Dialog"
+        "title": "Multi-step Dialog",
+        "step-counter": "Step {{current}} of {{total}}"
       },
       "fullscreen": {
         "desc": "Fullscreen dialog fills the entire viewport.",
@@ -136,7 +139,8 @@
         "inner-title": "Discard changes?",
         "open-inner": "Open nested dialog",
         "outer-desc": "This is the outer dialog. Opening another dialog stacks it on top.",
-        "outer-title": "Project settings"
+        "outer-title": "Project settings",
+        "outer-hint": "Open a warning dialog on top. Only the topmost reacts to Escape."
       },
       "no-backdrop-close": {
         "desc": "Clicking outside will not close this dialog. Use the button below.",
@@ -178,9 +182,24 @@
         "step2-title": "Step 2: Review",
         "title": "Validated flow"
       },
-      "variant": {
-        "desc": "This dialog uses the {{variant}} variant.",
-        "title": "{{variant}} variant"
+      "appearance-flat": {
+        "title": "Flat appearance",
+        "desc": "Flat uses the same background on header, content and footer: no bands. Separators and scrolled shadows stay off."
+      },
+      "actions-split": {
+        "title": "Split actions",
+        "desc": "The first action pins to the start; the rest stays at the end.",
+        "back": "Back",
+        "help": "Help",
+        "verify": "Verify"
+      },
+      "tabs": {
+        "basic": "Basic",
+        "confirmation": "Confirmation",
+        "danger": "Danger",
+        "component": "Component",
+        "chrome": "With chrome",
+        "scroll": "Scrollable"
       }
     },
     "flow": "Dialog Flow",
@@ -236,20 +255,13 @@
       "nested": "Nested dialogs",
       "placement": "Placement",
       "props": "Properties",
-      "sheet": "Sheets",
-      "variants": "Variants"
+      "sheet": "Sheets"
     },
     "sheet": {
       "note": "Sheets dock the panel to an edge placement with full-edge span. Only edge placements support sheet."
     },
     "surface": "Surface",
     "title": "Dialog",
-    "variant-danger": "danger",
-    "variant-info": "info",
-    "variant-neutral": "neutral",
-    "variant-success": "success",
-    "variant-warning": "warning",
-    "variants": "Variants",
-    "variants-desc": "Variants affect icon and accent color."
+    "flat": "Flat"
   }
 }

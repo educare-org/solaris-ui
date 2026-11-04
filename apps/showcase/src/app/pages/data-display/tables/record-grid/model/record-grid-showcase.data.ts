@@ -22,7 +22,7 @@ export const RECORD_GRID_TRANSLATION_PREFIX = 'record-grid';
 
 export const RECORD_GRID_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.tables' },
     { labelKey: 'shell.sidebar.item.record-grid' },
   ];

@@ -9,8 +9,8 @@ export const PHONE_FIELD_TRANSLATION_PREFIX = 'phone-field';
 
 export const PHONE_FIELD_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-    { labelKey: 'shell.sidebar.group.forms', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+    { labelKey: 'shell.sidebar.group.forms', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.phone-field' },
   ];
 

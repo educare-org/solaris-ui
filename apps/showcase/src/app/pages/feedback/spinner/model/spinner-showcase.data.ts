@@ -8,8 +8,8 @@ export const SPINNER_SHOWCASE_SLUG = 'spinner';
 export const SPINNER_TRANSLATION_PREFIX = 'spinner';
 
 export const SPINNER_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] = [
-  { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-  { labelKey: 'shell.sidebar.group.feedback', route: '/configuration' },
+  { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+  { labelKey: 'shell.sidebar.group.feedback', route: '/introduction' },
   { labelKey: 'shell.sidebar.item.spinner' },
 ];
 
@@ -68,7 +68,7 @@ export function spinnerColorCode(color: string): string {
 export const SPINNER_SHOWCASE_ZONE_CODE = [
   '<form [solaris-loading-zone]="saving()">',
   '  <solaris-form-field label="Institution">',
-  '    <input solaris-input value="Educare" />',
+  '    <input solaris-input value="Solaris" />',
   '  </solaris-form-field>',
   '  @if (saving()) {',
   '    <solaris-spinner overlay label="Saving…" />',

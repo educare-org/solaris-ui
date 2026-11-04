@@ -1,0 +1,63 @@
+{
+  "media-carousel": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "description": "Rotating banner and image viewport with arrows, dot navigation, and keyboard support.",
+    "autoplay": {
+      "note": "With autoplay, the active dot fills over the duration and pauses on hover, focus, hidden tabs, and reduced motion. The toggle pauses and resumes."
+    },
+    "dots-outside": {
+      "note": "Dots render below the viewport instead of overlaid on the image."
+    },
+    "chrome": {
+      "arrows": "Arrows only",
+      "dots": "Dots only",
+      "minimal": "Minimal",
+      "note": "Pick how much chrome the carousel shows: nothing, arrows alone, or dots alone. Keyboard always keeps working."
+    },
+    "examples": {
+      "label": "Featured stories",
+      "note": "One slide visible at a time. Use the arrows or dots to move, or focus the viewport and use the arrow keys."
+    },
+    "installation": {
+      "note": "Install the single Solaris package, then import the component."
+    },
+    "loop": {
+      "note": "With loop off, the arrows clamp at the first and last slide and expose aria-disabled."
+    },
+    "preview": {
+      "note": "With preview, an overlay strip shows the current slide plus the next two thumbnails. Video thumbs carry a Play badge; clicking a slide or thumb emits slideActivate for the consumer player."
+    },
+    "minimal": {
+      "note": "Without arrows or dots, the carousel is a quiet rotator driven by autoplay or keyboard only."
+    },
+    "peek": {
+      "note": "With peek, the active slide centers at 80% with neighbors peeking at the edges. Side slides render smaller and dimmed; keyboard and dots keep working."
+    },
+    "progress": {
+      "note": "With progress navigation and autoplay, the active dot fills over the duration, then the carousel advances."
+    },
+    "ratios": {
+      "note": "The viewport keeps any valid aspect ratio. Pick a tab to compare widescreen, standard, and square."
+    },
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "section": {
+      "autoplay": "Autoplay",
+      "chrome": "Chrome",
+      "dots-outside": "Dots outside",
+      "examples": "Examples",
+      "installation": "Installation",
+      "loop": "Loop",
+      "minimal": "Minimal",
+      "peek": "Peek",
+      "preview": "Preview",
+      "progress": "Progress",
+      "props": "Props",
+      "ratios": "Aspect ratios"
+    },
+    "title": "Media carousel"
+  }
+}

@@ -510,16 +510,12 @@
     box-shadow: none;
   }
 
-  // Draft and error washes are screen affordances; print keeps the text
-  // with an underlined error marker instead of the tinted wash.
   // SOLARIS_TOKEN_EXCEPTION(print): ink error marker for print.
   .solaris-record-grid__cell-error {
     color: #000;
     text-decoration: underline;
   }
 
-  // Interactive-only chrome never prints: pagination footer, draft bar,
-  // and cell edit buttons. Print from the committed records (see docs).
   .solaris-record-grid__footer,
   .solaris-record-grid__draftbar,
   .solaris-record-grid__cell-button {

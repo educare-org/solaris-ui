@@ -1,6 +1,9 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Component } from '@angular/core';
-import { configureSolarisTesting } from '../../../../../../testing/solaris-test-utilities';
+import {
+  assertPresent,
+  configureSolarisTesting,
+} from '../../../../../../testing/solaris-test-utilities';
 import { provideSolaris } from '../../../../../../providers/provide-solaris';
 import { SOLARIS_BUILT_IN_ICONS } from '../../../../../../services/icon/icons/solaris-built-in-icons';
 import { SolarisDialogRef } from '../../../service/dialog-ref';
@@ -36,6 +39,16 @@ function createFixture(
   }
   fixture.detectChanges();
   return fixture;
+}
+
+function queryActionButton(
+  fixture: ComponentFixture<SolarisDialogActionsComponent>,
+  selector = 'button',
+): HTMLButtonElement {
+  return assertPresent(
+    (fixture.nativeElement as HTMLElement).querySelector(selector),
+    'action button',
+  ) as HTMLButtonElement;
 }
 
 describe('SolarisDialogActionsComponent', () => {
@@ -75,9 +88,7 @@ describe('SolarisDialogActionsComponent', () => {
     const spy = vi.fn();
     fixture.componentInstance.actionExecuted.subscribe(spy);
 
-    const button = (fixture.nativeElement as HTMLElement).querySelector(
-      'button',
-    )!;
+    const button = queryActionButton(fixture);
     button.click();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledWith(
@@ -89,9 +100,7 @@ describe('SolarisDialogActionsComponent', () => {
     const actionFn = vi.fn();
     const fixture = createFixture([{ label: 'Action', action: actionFn }]);
 
-    const button = (fixture.nativeElement as HTMLElement).querySelector(
-      'button',
-    )!;
+    const button = queryActionButton(fixture);
     button.click();
     expect(actionFn).toHaveBeenCalledTimes(1);
   });
@@ -114,9 +123,7 @@ describe('SolarisDialogActionsComponent', () => {
     ]);
     fixture.detectChanges();
 
-    const button = (fixture.nativeElement as HTMLElement).querySelector(
-      'button',
-    )!;
+    const button = queryActionButton(fixture);
     button.click();
     expect(closeSpy).toHaveBeenCalledWith('closed-value');
   });
@@ -139,9 +146,7 @@ describe('SolarisDialogActionsComponent', () => {
     ]);
     fixture.detectChanges();
 
-    const button = (fixture.nativeElement as HTMLElement).querySelector(
-      'button',
-    )!;
+    const button = queryActionButton(fixture);
     button.click();
     expect(closeSpy).not.toHaveBeenCalled();
   });
@@ -151,9 +156,7 @@ describe('SolarisDialogActionsComponent', () => {
       { label: 'Async', action: () => Promise.resolve() },
     ]);
 
-    const button = (fixture.nativeElement as HTMLElement).querySelector(
-      'button',
-    )!;
+    const button = queryActionButton(fixture);
     expect(() => button.click()).not.toThrow();
   });
 
@@ -221,9 +224,7 @@ describe('SolarisDialogActionsComponent', () => {
     ]);
     fixture.detectChanges();
 
-    const button = (fixture.nativeElement as HTMLElement).querySelector(
-      '[solaris-button]',
-    )!;
+    const button = queryActionButton(fixture, '[solaris-button]');
     expect(button.textContent?.trim()).toBe('OK translated');
   });
 
@@ -237,9 +238,7 @@ describe('SolarisDialogActionsComponent', () => {
         loading: true,
       },
     ]);
-    const button = (fixture.nativeElement as HTMLElement).querySelector(
-      '[solaris-button]',
-    )!;
+    const button = queryActionButton(fixture, '[solaris-button]');
     expect(button.getAttribute('data-shape')).toBe('wide');
     expect(button.getAttribute('data-radius')).toBe('full');
     expect(button.getAttribute('data-loading')).toBe('true');

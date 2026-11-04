@@ -1,5 +1,13 @@
-import { TestBed } from '@angular/core/testing';
-import { Component, provideZonelessChangeDetection } from '@angular/core';
+import { TestBed, type ComponentFixture } from '@angular/core/testing';
+import {
+  Component,
+  type ElementRef,
+  type InputSignal,
+  type OutputEmitterRef,
+  provideZonelessChangeDetection,
+  type Signal,
+  type WritableSignal,
+} from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { vi } from 'vitest';
@@ -9,6 +17,45 @@ import { SolarisFormSuffixDirective } from '../../form-field/directives/form-suf
 import { SolarisFormSuffixActionDirective } from '../../form-field/directives/form-suffix-action.directive';
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
 import { SolarisTranslateService } from '../../../../services/translation';
+import { assertPresent } from '../../../../testing/solaris-test-utilities';
+import type { SolarisPopoverTriggerDirective } from '../../../interaction/popover';
+import type { SolarisPhoneFieldRadius } from '../model/phone-field.types';
+import type {
+  SolarisCountry,
+  SolarisCountryCode,
+} from '../model/country.types';
+
+type PhoneFieldTestSeam = Omit<SolarisPhoneFieldComponent, 'translateKey'> & {
+  internalValue: WritableSignal<string>;
+  displayValue: WritableSignal<string>;
+  panelOpen: WritableSignal<boolean>;
+  countries: Signal<SolarisCountry[]>;
+  clearAriaLabel: Signal<string>;
+  ariaDescribedBy: Signal<string | null>;
+  popoverAppearance: Signal<'outline' | 'surface'>;
+  effectiveMaxLength: Signal<number>;
+  inputMaxLength: Signal<number | null>;
+  placeholderText: Signal<string>;
+  searchPlaceholderText: Signal<string>;
+  emptyTextValue: Signal<string>;
+  noResultsTextValue: Signal<string>;
+  countryButtonLabelText: Signal<string>;
+  computedError: Signal<string>;
+  radius: InputSignal<SolarisPhoneFieldRadius>;
+  valueChange: OutputEmitterRef<string>;
+  countryChange: OutputEmitterRef<SolarisCountryCode>;
+  cleared: OutputEmitterRef<void>;
+  inputElementRef: Signal<ElementRef<HTMLInputElement> | undefined>;
+  popoverTrigger: Signal<SolarisPopoverTriggerDirective | undefined>;
+  writeValue: (value: string | null | undefined) => void;
+  setDisabledState: (isDisabled: boolean) => void;
+  setDescribedByIds: (ids: string[]) => void;
+  focus: () => void;
+  onCountryToggle: (event: Event) => void;
+  closeCountryPanel: () => void;
+  selectCountry: (country: SolarisCountry) => void;
+  translateKey: (key: string | undefined) => string | undefined;
+};
 
 @Component({
   standalone: true,
@@ -84,10 +131,10 @@ class HintHost {}
 
 describe('SolarisPhoneFieldComponent', () => {
   async function setup<T>(hostType: new () => T): Promise<{
-    fixture: any;
+    fixture: ComponentFixture<T>;
     input: HTMLInputElement;
     countryButton: HTMLButtonElement;
-    component: any;
+    component: PhoneFieldTestSeam;
   }> {
     await TestBed.configureTestingModule({
       imports: [hostType],
@@ -98,7 +145,7 @@ describe('SolarisPhoneFieldComponent', () => {
     const debug = fixture.debugElement.query(
       By.directive(SolarisPhoneFieldComponent),
     );
-    const component = debug.componentInstance as any;
+    const component = debug.componentInstance as unknown as PhoneFieldTestSeam;
     const input = debug.query(By.css('input[solaris-input]')).nativeElement;
     const countryButton = debug.query(
       By.css('.solaris-phone-field__country'),
@@ -297,7 +344,7 @@ describe('SolarisPhoneFieldComponent', () => {
       input.dispatchEvent(new Event('input', { bubbles: true }));
       fixture.detectChanges();
 
-      component.selectCountry(us);
+      component.selectCountry(assertPresent(us, 'US country'));
       fixture.detectChanges();
 
       const dialCode = fixture.debugElement.query(
@@ -316,7 +363,7 @@ describe('SolarisPhoneFieldComponent', () => {
       const sub = component.countryChange.subscribe(
         (c: string) => (emitted = c),
       );
-      component.selectCountry(pt);
+      component.selectCountry(assertPresent(pt, 'PT country'));
       sub.unsubscribe();
       expect(emitted).toBe('PT');
     });
@@ -647,7 +694,10 @@ describe('SolarisPhoneFieldComponent', () => {
   describe('country panel interactions', () => {
     it('toggles the panel when interaction is allowed', async () => {
       const { component } = await setup(BasicHost);
-      const trigger = component.popoverTrigger();
+      const trigger = assertPresent(
+        component.popoverTrigger(),
+        'popover trigger',
+      );
       expect(trigger).toBeTruthy();
       const toggle = vi.spyOn(trigger, 'toggle');
       const event = new Event('click', { bubbles: true });
@@ -659,7 +709,10 @@ describe('SolarisPhoneFieldComponent', () => {
 
     it('does not toggle the panel when disabled', async () => {
       const { component } = await setup(DisabledHost);
-      const trigger = component.popoverTrigger();
+      const trigger = assertPresent(
+        component.popoverTrigger(),
+        'popover trigger',
+      );
       const toggle = vi.spyOn(trigger, 'toggle');
       component.onCountryToggle(new Event('click', { bubbles: true }));
       expect(toggle).not.toHaveBeenCalled();
@@ -667,7 +720,10 @@ describe('SolarisPhoneFieldComponent', () => {
 
     it('closes the country panel on request', async () => {
       const { component } = await setup(BasicHost);
-      const trigger = component.popoverTrigger();
+      const trigger = assertPresent(
+        component.popoverTrigger(),
+        'popover trigger',
+      );
       const close = vi.spyOn(trigger, 'close');
       component.closeCountryPanel();
       expect(close).toHaveBeenCalled();
@@ -675,7 +731,10 @@ describe('SolarisPhoneFieldComponent', () => {
 
     it('tracks panel open state from popover events', async () => {
       const { fixture, countryButton, component } = await setup(BasicHost);
-      const trigger = component.popoverTrigger();
+      const trigger = assertPresent(
+        component.popoverTrigger(),
+        'popover trigger',
+      );
       expect(component.panelOpen()).toBe(false);
       trigger.solarisPopoverOpened.emit();
       fixture.detectChanges();
@@ -693,7 +752,8 @@ describe('SolarisPhoneFieldComponent', () => {
         providers: [provideZonelessChangeDetection(), provideSolarisTesting()],
       }).compileComponents();
       const fixture = TestBed.createComponent(SolarisPhoneFieldComponent);
-      const component: any = fixture.componentInstance;
+      const component =
+        fixture.componentInstance as unknown as PhoneFieldTestSeam;
       fixture.componentRef.setInput('appearance', 'filled');
       fixture.detectChanges();
       expect(component.popoverAppearance()).toBe('surface');
@@ -704,14 +764,20 @@ describe('SolarisPhoneFieldComponent', () => {
   });
 
   describe('text and list computeds', () => {
-    async function setupDirect(): Promise<{ fixture: any; component: any }> {
+    async function setupDirect(): Promise<{
+      fixture: ComponentFixture<SolarisPhoneFieldComponent>;
+      component: PhoneFieldTestSeam;
+    }> {
       await TestBed.configureTestingModule({
         imports: [SolarisPhoneFieldComponent],
         providers: [provideZonelessChangeDetection(), provideSolarisTesting()],
       }).compileComponents();
       const fixture = TestBed.createComponent(SolarisPhoneFieldComponent);
       fixture.detectChanges();
-      return { fixture, component: fixture.componentInstance };
+      return {
+        fixture,
+        component: fixture.componentInstance as unknown as PhoneFieldTestSeam,
+      };
     }
 
     it('restricts the country list when countryList is provided', async () => {
@@ -810,7 +876,8 @@ describe('SolarisPhoneFieldComponent', () => {
         providers: [provideZonelessChangeDetection(), provideSolarisTesting()],
       }).compileComponents();
       const fixture = TestBed.createComponent(SolarisPhoneFieldComponent);
-      const component: any = fixture.componentInstance;
+      const component =
+        fixture.componentInstance as unknown as PhoneFieldTestSeam;
       fixture.componentRef.setInput('label', 'Phone');
       fixture.componentRef.setInput('value', '+5511999998888');
       fixture.detectChanges();
@@ -834,7 +901,7 @@ describe('SolarisPhoneFieldComponent', () => {
       const sub = component.valueChange.subscribe(
         (value: string) => (emitted = value),
       );
-      component.selectCountry(us);
+      component.selectCountry(assertPresent(us, 'US country'));
       sub.unsubscribe();
       fixture.detectChanges();
       expect(component.internalValue()).toBe('+12015550123');

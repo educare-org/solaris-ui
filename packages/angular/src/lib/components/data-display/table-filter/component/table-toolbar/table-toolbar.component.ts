@@ -14,6 +14,7 @@ import {
   output,
   PLATFORM_ID,
   signal,
+  TemplateRef,
   untracked,
   viewChild,
 } from '@angular/core';
@@ -27,7 +28,10 @@ import {
 import { SolarisThemeService } from '../../../../../services/theme';
 import { SolarisIconComponent } from '../../../../icon';
 import { SolarisButtonDirective } from '../../../../actions/button';
-import { SolarisIconButtonDirective } from '../../../../actions/icon-button';
+import {
+  SolarisIconButtonBadgeDirective,
+  SolarisIconButtonDirective,
+} from '../../../../actions/icon-button';
 import { SolarisBadgeComponent } from '../../../badge';
 import { SolarisFormFieldComponent } from '../../../../forms/form-field';
 import { SolarisInputDirective } from '../../../../forms/input';
@@ -44,6 +48,10 @@ import {
   SolarisDropdownMenuLabelComponent,
   SolarisDropdownMenuTriggerDirective,
 } from '../../../../interaction/dropdown-menu';
+import {
+  SolarisDialogService,
+  type SolarisDialogRef,
+} from '../../../../overlay/dialog';
 
 import {
   defaultOperatorForColumn,
@@ -60,6 +68,7 @@ import {
   FILTER_COLUMN_LABEL_KEY,
   FILTER_COLUMNS_BUTTON,
   FILTER_COLUMNS_BUTTON_LABEL_KEY,
+  FILTER_COLUMNS_TITLE_KEY,
   FILTER_CREATE_VIEW_LABEL,
   FILTER_CREATE_VIEW_LABEL_KEY,
   FILTER_CREATE_VIEW_NAME_LABEL,
@@ -107,6 +116,7 @@ import type {
   SolarisTableFilterRangeValue,
   SolarisTableFilterState,
   SolarisTableToolbarExportDisplay,
+  SolarisTableToolbarSheetData,
   SolarisTableView,
 } from '../../model/filter.types';
 import {
@@ -128,6 +138,7 @@ import {
   SolarisTableToolbarLeadingDirective,
   SolarisTableToolbarTrailingDirective,
 } from './table-toolbar-slots.directive';
+import { SolarisTableToolbarSheetComponent } from '../table-toolbar-sheet/table-toolbar-sheet.component';
 
 interface PersistedToolbarState {
   readonly filter?: Partial<SolarisTableFilterState>;
@@ -142,6 +153,7 @@ interface PersistedToolbarState {
     SolarisIconComponent,
     SolarisButtonDirective,
     SolarisIconButtonDirective,
+    SolarisIconButtonBadgeDirective,
     SolarisBadgeComponent,
     SolarisFormFieldComponent,
     SolarisInputDirective,
@@ -161,6 +173,7 @@ interface PersistedToolbarState {
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.data-density]': 'effectiveDensity()',
+    '[attr.data-narrow]': 'narrowViewport() || undefined',
     '[attr.role]': '"toolbar"',
     '[attr.aria-label]': 'resolvedAriaLabel()',
   },
@@ -174,6 +187,9 @@ export class SolarisTableToolbarComponent<T = unknown> implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document = inject(DOCUMENT);
+  private readonly dialogService = inject(SolarisDialogService, {
+    optional: true,
+  });
 
   readonly columns = input<readonly SolarisTableFilterableColumn<T>[]>([]);
   readonly filter = model<SolarisTableFilterState>(
@@ -210,11 +226,18 @@ export class SolarisTableToolbarComponent<T = unknown> implements OnInit {
   private readonly createViewTrigger = viewChild('createViewTrigger', {
     read: SolarisPopoverTriggerDirective,
   });
+  private readonly filterSheetContent = viewChild('filterSheetContent', {
+    read: TemplateRef,
+  });
+  private readonly columnsSheetContent = viewChild('columnsSheetContent', {
+    read: TemplateRef,
+  });
 
   protected readonly searchDraft = signal('');
   protected readonly viewNameDraft = signal('');
   protected readonly chipsRendered = signal(false);
   protected readonly chipsOpen = signal(false);
+  protected readonly narrowViewport = signal(false);
   private readonly closingSnapshot = signal<{
     readonly globalSearch: string;
     readonly conditions: readonly SolarisTableFilterCondition[];
@@ -222,8 +245,24 @@ export class SolarisTableToolbarComponent<T = unknown> implements OnInit {
   private searchTimer: ReturnType<typeof setTimeout> | null = null;
   private chipsCollapseTimer: ReturnType<typeof setTimeout> | null = null;
   private chipsOpenFrame: number | null = null;
+  private readonly openSheets: SolarisDialogRef[] = [];
 
   constructor() {
+    // SECURITY_EXCEPTION: narrow-viewport tracking uses matchMedia via the Angular DOCUMENT token (defaultView) instead of the global window; SSR-safe via isPlatformBrowser guard; matchMedia has no Renderer2 alternative; read-only query with the change listener removed on destroy; mirrors the table narrow-viewport precedent.
+    const view = isPlatformBrowser(this.platformId)
+      ? this.document.defaultView
+      : null;
+    if (view?.matchMedia !== undefined) {
+      const query = view.matchMedia('(max-width: 720px)');
+      this.narrowViewport.set(query.matches);
+      const listener = (event: MediaQueryListEvent): void => {
+        this.narrowViewport.set(event.matches);
+      };
+      query.addEventListener('change', listener);
+      this.destroyRef.onDestroy(() =>
+        query.removeEventListener('change', listener),
+      );
+    }
     effect(() => {
       if (this.searchTimer) {
         return;
@@ -254,16 +293,11 @@ export class SolarisTableToolbarComponent<T = unknown> implements OnInit {
         this.chipsCollapseTimer = null;
       }
       this.cancelPendingChipsOpen();
+      for (const sheet of this.openSheets) {
+        sheet.close();
+      }
+      this.openSheets.length = 0;
     });
-    const persisted = readPersistedToolbarState(this.persistenceKey());
-    if (persisted) {
-      if (isDefaultFilterState(this.filter()) && persisted.filter) {
-        this.filter.set(normalizeTableFilterState(persisted.filter));
-      }
-      if (this.selectedViewId() === null && persisted.selectedViewId) {
-        this.selectedViewId.set(persisted.selectedViewId);
-      }
-    }
     this.searchDraft.set(this.filter().globalSearch);
     effect(() => {
       if (this.hasActiveFilters()) {
@@ -281,6 +315,15 @@ export class SolarisTableToolbarComponent<T = unknown> implements OnInit {
   }
 
   ngOnInit(): void {
+    const persisted = readPersistedToolbarState(this.persistenceKey());
+    if (persisted) {
+      if (isDefaultFilterState(this.filter()) && persisted.filter) {
+        this.filter.set(normalizeTableFilterState(persisted.filter));
+      }
+      if (this.selectedViewId() === null && persisted.selectedViewId) {
+        this.selectedViewId.set(persisted.selectedViewId);
+      }
+    }
     if (this.hasActiveFilters()) {
       this.chipsRendered.set(true);
       this.chipsOpen.set(true);
@@ -636,6 +679,7 @@ export class SolarisTableToolbarComponent<T = unknown> implements OnInit {
       columnVisibility: { ...save.visibility },
     });
     this.columnsTrigger()?.close();
+    this.closeTopSheet();
   }
 
   protected handleColumnReset(): void {
@@ -701,6 +745,45 @@ export class SolarisTableToolbarComponent<T = unknown> implements OnInit {
 
   protected closeColumnsPanel(): void {
     this.columnsTrigger()?.close();
+  }
+
+  protected handleColumnsCancelled(): void {
+    this.columnsTrigger()?.close();
+    this.closeTopSheet();
+  }
+
+  protected openFilterSheet(): void {
+    const content = this.filterSheetContent();
+    const service = this.dialogService;
+    if (!content || !service) {
+      return;
+    }
+    const data: SolarisTableToolbarSheetData = { content };
+    this.openSheets.push(
+      service.openComponent(SolarisTableToolbarSheetComponent, {
+        titleKey: FILTER_BUTTON_LABEL_KEY,
+        data,
+      }),
+    );
+  }
+
+  protected openColumnsSheet(): void {
+    const content = this.columnsSheetContent();
+    const service = this.dialogService;
+    if (!content || !service) {
+      return;
+    }
+    const data: SolarisTableToolbarSheetData = { content };
+    this.openSheets.push(
+      service.openComponent(SolarisTableToolbarSheetComponent, {
+        titleKey: FILTER_COLUMNS_TITLE_KEY,
+        data,
+      }),
+    );
+  }
+
+  protected closeTopSheet(): void {
+    this.openSheets.pop()?.close();
   }
 
   protected toStringValue(value: unknown): string {

@@ -9,8 +9,8 @@ export const EDITABLE_TABS_TRANSLATION_PREFIX = 'editableTabs';
 
 export const EDITABLE_TABS_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-    { labelKey: 'shell.sidebar.group.navigation', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+    { labelKey: 'shell.sidebar.group.navigation', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.editable-tabs' },
   ];
 

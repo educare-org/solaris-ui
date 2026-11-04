@@ -1,6 +1,9 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Component } from '@angular/core';
-import { configureSolarisTesting } from '../../../../../../testing/solaris-test-utilities';
+import {
+  assertPresent,
+  configureSolarisTesting,
+} from '../../../../../../testing/solaris-test-utilities';
 import { provideSolaris } from '../../../../../../providers/provide-solaris';
 import { SOLARIS_BUILT_IN_ICONS } from '../../../../../../services/icon/icons/solaris-built-in-icons';
 import { SolarisDialogRef } from '../../../service/dialog-ref';
@@ -64,14 +67,18 @@ describe('SolarisDialogComponent', () => {
     const fixture = createFixture({ title: 'Test Title' });
     const titleEl = q(fixture, '.solaris-dialog-header__title');
     expect(titleEl).toBeTruthy();
-    expect(titleEl!.textContent?.trim()).toBe('Test Title');
+    expect(assertPresent(titleEl, 'title').textContent?.trim()).toBe(
+      'Test Title',
+    );
   });
 
   it('should render description', () => {
     const fixture = createFixture({ description: 'Test Description' });
     const descEl = q(fixture, '.solaris-dialog-header__description');
     expect(descEl).toBeTruthy();
-    expect(descEl!.textContent?.trim()).toBe('Test Description');
+    expect(assertPresent(descEl, 'description').textContent?.trim()).toBe(
+      'Test Description',
+    );
   });
 
   it('should set data-separator on header by default', () => {

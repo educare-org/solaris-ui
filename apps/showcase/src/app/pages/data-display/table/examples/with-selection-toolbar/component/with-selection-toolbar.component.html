@@ -1,0 +1,12 @@
+<solaris-table
+  rowId="id"
+  layout="card"
+  [data]="rows()"
+  [columns]="orderedVisibleColumns()"
+  selectionMode="multiple"
+  [(selectedRowIds)]="selectedRowIds"
+>
+  <ng-template solaris-table-toolbar>
+    <solaris-table-toolbar [columns]="columns" [(filter)]="filter" />
+  </ng-template>
+</solaris-table>

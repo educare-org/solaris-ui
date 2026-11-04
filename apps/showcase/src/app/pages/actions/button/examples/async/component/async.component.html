@@ -1,0 +1,14 @@
+<button
+  solaris-button
+  color="primary"
+  [action]="save"
+  (actionSuccess)="onSuccess()"
+  (actionError)="onFailure()"
+>
+  {{ 'button.example.async.save' | translate }}
+</button>
+@if (status() === 'success') {
+  <p>{{ 'button.example.async.success' | translate }}</p>
+} @else if (status() === 'failure') {
+  <p>{{ 'button.example.async.failure' | translate }}</p>
+}

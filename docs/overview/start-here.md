@@ -2,7 +2,7 @@
 
 Solaris UI is an institutional, international, and accessible Angular UI framework.
 
-It is built first for Educare and personal projects, but its architecture must be strong enough for critical products.
+Its architecture must be strong enough for critical products.
 
 ## Official package name
 
@@ -86,18 +86,17 @@ packages/
 
 ## Required reading order
 
-1. `ARCHITECTURE.md`
-2. `ENGINEERING_PRINCIPLES.md`
-3. `CROSS_PLATFORM_COMMANDS.md`
-4. `STYLING_AND_TOKENS.md`
-5. `ACCESSIBILITY_STANDARD.md`
-6. `I18N_STANDARD.md`
-7. `COMPONENT_STANDARD.md`
-8. `TESTING_STRATEGY.md`
-9. `SECURITY_BASELINE.md`
-10. `DEFINITION_OF_DONE.md`
-11. `AI_DEVELOPMENT_RULES.md`
-12. `PROJECT_ROADMAP.md`
+1. `docs/architecture/architecture.md`
+2. `docs/engineering/engineering-principles.md`
+3. `docs/quality-and-validation/cross-platform-commands.md`
+4. `docs/standards/styling-and-tokens.md`
+5. `docs/standards/accessibility-standard.md`
+6. `docs/standards/i18n-standard.md`
+7. `docs/standards/component-standard.md`
+8. `docs/quality-and-validation/testing-strategy.md`
+9. `docs/engineering/security-baseline.md`
+10. `docs/quality-and-validation/definition-of-done.md`
+11. `docs/engineering/ai-development-rules.md`
 
 ## Non-negotiable rule
 

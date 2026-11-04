@@ -1,5 +1,9 @@
-import { TestBed } from '@angular/core/testing';
-import { Component, provideZonelessChangeDetection } from '@angular/core';
+import { TestBed, type ComponentFixture } from '@angular/core/testing';
+import {
+  Component,
+  provideZonelessChangeDetection,
+  type Signal,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -15,6 +19,10 @@ import { SolarisFormLabelActionDirective } from '../../form-field';
 
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
 import { provideSolaris } from '../../../../providers/provide-solaris';
+
+type PasswordFieldTestSeam = SolarisPasswordFieldComponent & {
+  internalValue: Signal<string>;
+};
 const defaultPolicy: SolarisPasswordPolicy = {
   minLength: 8,
   requireLowercase: true,
@@ -835,7 +843,9 @@ describe('SolarisPasswordFieldComponent', () => {
         field.writeValue(null);
         fixture.detectChanges();
       }).not.toThrow();
-      expect((field as any).internalValue()).toBe('');
+      expect((field as unknown as PasswordFieldTestSeam).internalValue()).toBe(
+        '',
+      );
       const strength = fixture.debugElement.query(
         By.css('.solaris-password-field__strength'),
       );
@@ -854,7 +864,9 @@ describe('SolarisPasswordFieldComponent', () => {
         field.writeValue(undefined);
         fixture.detectChanges();
       }).not.toThrow();
-      expect((field as any).internalValue()).toBe('');
+      expect((field as unknown as PasswordFieldTestSeam).internalValue()).toBe(
+        '',
+      );
       const strength = fixture.debugElement.query(
         By.css('.solaris-password-field__strength'),
       );
@@ -1000,7 +1012,7 @@ describe('SolarisPasswordFieldComponent', () => {
     })
     class LoadingHost {}
 
-    function getInnerField(fixture: any): HTMLElement {
+    function getInnerField(fixture: ComponentFixture<unknown>): HTMLElement {
       return fixture.nativeElement.querySelector(
         'solaris-password-field solaris-form-field',
       );

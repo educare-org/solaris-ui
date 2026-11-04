@@ -35,7 +35,7 @@ Solaris uses Conventional Commits.
 Examples:
 
 ```txt
-feat(actions-button): add loading state
+feature(actions-button): add loading state
 fix(forms-input): correct aria-describedby
 docs(architecture): document boundary rules
 test(navigation-tabs): add keyboard coverage

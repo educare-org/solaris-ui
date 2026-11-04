@@ -31,10 +31,7 @@ import {
   getPrimaryPosition,
   getFallbackPositions,
 } from '../../popover/model/popover-position';
-import {
-  scheduleMotionClose,
-  cancelMotionClose,
-} from '../../../../core/utils/motion-close';
+import { scheduleMotionClose, cancelMotionClose } from '../../../../core';
 
 import { SolarisDropdownMenuComponent } from '../component/dropdown-menu.component';
 
@@ -206,8 +203,6 @@ export class SolarisDropdownMenuTriggerDirective {
       return;
     }
 
-    // State and outputs stay synchronous; only the overlay detach is delayed
-    // so the [data-closing] exit animation can play (motion-standard).
     this.markPanelClosing();
     this.restoreFocus();
     this.isOpen.set(false);

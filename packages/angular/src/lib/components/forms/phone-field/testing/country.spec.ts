@@ -11,14 +11,17 @@ import {
   getExampleNumberFor,
   getMaxNationalNumberLength,
 } from '../model/phone-format';
+import { assertPresent } from '../../../../testing/solaris-test-utilities';
 
 describe('country model', () => {
   it('builds a sorted list with calling codes', () => {
     const countries = buildCountries('en-US');
     expect(countries.length).toBeGreaterThan(100);
-    const br = countries.find((c) => c.code === 'BR');
-    expect(br).toBeTruthy();
-    expect(br!.callingCode).toBe('55');
+    const br = assertPresent(
+      countries.find((c) => c.code === 'BR'),
+      'Brazil country',
+    );
+    expect(br.callingCode).toBe('55');
   });
 
   it('returns a flag for a known country', () => {
@@ -32,8 +35,11 @@ describe('country model', () => {
 
   it('localizes country names', () => {
     const pt = buildCountries('pt-BR');
-    const br = pt.find((c) => c.code === 'BR');
-    expect(br!.name).toBe('Brasil');
+    const br = assertPresent(
+      pt.find((c) => c.code === 'BR'),
+      'Brazil country',
+    );
+    expect(br.name).toBe('Brasil');
   });
 });
 

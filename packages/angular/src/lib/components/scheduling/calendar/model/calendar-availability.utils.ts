@@ -27,8 +27,6 @@ function rangeOverlaps(
   return first.startMs < second.endMs && second.startMs < first.endMs;
 }
 
-// Why: room/equipment double-booking must be detected on pure instants,
-// never on wall time, so DST transitions cannot create false free slots.
 export function findSolarisConflicts(
   events: readonly SolarisCalendarEvent[],
   candidate: SolarisCalendarEvent,

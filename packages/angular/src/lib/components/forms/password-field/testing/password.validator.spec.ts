@@ -1,6 +1,7 @@
 import { FormControl, ValidatorFn } from '@angular/forms';
 import { solarisPasswordValidator } from '../validators/password.validator';
 import { SolarisPasswordPolicy } from '../model/password-policy.types';
+import { assertPresent } from '../../../../testing/solaris-test-utilities';
 
 function runValidator(
   value: string,
@@ -52,59 +53,79 @@ describe('solarisPasswordValidator', () => {
   it('detects minLength violation', () => {
     const result = runValidator('Ab1!', policy);
     expect(result).not.toBeNull();
-    expect(result!['solarisPasswordMinLength']).toBeTruthy();
+    expect(
+      assertPresent(result, 'validation result')['solarisPasswordMinLength'],
+    ).toBeTruthy();
   });
 
   it('detects maxLength violation', () => {
     const result = runValidator('Abcdef1234!@#$%^&*()extra', policy);
     expect(result).not.toBeNull();
-    expect(result!['solarisPasswordMaxLength']).toBeTruthy();
+    expect(
+      assertPresent(result, 'validation result')['solarisPasswordMaxLength'],
+    ).toBeTruthy();
   });
 
   it('detects missing lowercase', () => {
     const policy2: SolarisPasswordPolicy = { requireLowercase: true };
     const result = runValidator('ABCDEF123!', policy2);
     expect(result).not.toBeNull();
-    expect(result!['solarisPasswordLowercase']).toBe(true);
+    expect(
+      assertPresent(result, 'validation result')['solarisPasswordLowercase'],
+    ).toBe(true);
   });
 
   it('detects missing uppercase', () => {
     const policy2: SolarisPasswordPolicy = { requireUppercase: true };
     const result = runValidator('abcdef123!', policy2);
     expect(result).not.toBeNull();
-    expect(result!['solarisPasswordUppercase']).toBe(true);
+    expect(
+      assertPresent(result, 'validation result')['solarisPasswordUppercase'],
+    ).toBe(true);
   });
 
   it('detects missing number', () => {
     const policy2: SolarisPasswordPolicy = { requireNumber: true };
     const result = runValidator('Abcdefgh!', policy2);
     expect(result).not.toBeNull();
-    expect(result!['solarisPasswordNumber']).toBe(true);
+    expect(
+      assertPresent(result, 'validation result')['solarisPasswordNumber'],
+    ).toBe(true);
   });
 
   it('detects missing symbol', () => {
     const policy2: SolarisPasswordPolicy = { requireSymbol: true };
     const result = runValidator('Abcdefgh1', policy2);
     expect(result).not.toBeNull();
-    expect(result!['solarisPasswordSymbol']).toBe(true);
+    expect(
+      assertPresent(result, 'validation result')['solarisPasswordSymbol'],
+    ).toBe(true);
   });
 
   it('detects whitespace when disallowed', () => {
     const policy2: SolarisPasswordPolicy = { disallowWhitespace: true };
     const result = runValidator('Abc def1!', policy2);
     expect(result).not.toBeNull();
-    expect(result!['solarisPasswordWhitespace']).toBe(true);
+    expect(
+      assertPresent(result, 'validation result')['solarisPasswordWhitespace'],
+    ).toBe(true);
   });
 
   it('detects forbidden values', () => {
     const result = runValidator('MyPassword123!', policy);
     expect(result).not.toBeNull();
-    expect(result!['solarisPasswordForbiddenValue']).toBe(true);
+    expect(
+      assertPresent(result, 'validation result')[
+        'solarisPasswordForbiddenValue'
+      ],
+    ).toBe(true);
   });
 
   it('detects multiple violations', () => {
     const result = runValidator('short', policy);
     expect(result).not.toBeNull();
-    expect(Object.keys(result!).length).toBeGreaterThan(1);
+    expect(
+      Object.keys(assertPresent(result, 'validation result')).length,
+    ).toBeGreaterThan(1);
   });
 });

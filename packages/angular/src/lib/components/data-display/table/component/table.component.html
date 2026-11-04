@@ -51,11 +51,27 @@
               *ngTemplateOutlet="loadingSlot.templateRef"
             ></ng-container>
           } @else {
-            @for (loadingRow of loadingRowIndexes; track loadingRow) {
-              <div class="solaris-table__card" aria-hidden="true">
-                <solaris-skeleton variant="text" width="60%" />
-              </div>
-            }
+            <ul class="solaris-table__cards-list" aria-hidden="true">
+              @for (loadingRow of loadingRowIndexes; track loadingRow) {
+                <li class="solaris-table__card solaris-table__card--loading">
+                  <div class="solaris-table__card-fields">
+                    @for (
+                      loadingField of loadingCardFields();
+                      track loadingField
+                    ) {
+                      <div class="solaris-table__card-field">
+                        <span class="solaris-table__card-label">
+                          <solaris-skeleton variant="text" width="48px" />
+                        </span>
+                        <span class="solaris-table__card-value">
+                          <solaris-skeleton variant="text" width="96px" />
+                        </span>
+                      </div>
+                    }
+                  </div>
+                </li>
+              }
+            </ul>
           }
         } @else if (hasError()) {
           <div class="solaris-table__cards-error" role="alert">
@@ -79,14 +95,33 @@
           </div>
         } @else {
           @if (normalizedSelectionMode() === 'multiple') {
-            <div class="solaris-table__cards-select-all">
+            <div
+              class="solaris-table__cards-select-all"
+              role="checkbox"
+              tabindex="0"
+              [attr.aria-checked]="allVisibleRowsSelected()"
+              [attr.aria-label]="resolvedSelectAllLabel()"
+              [attr.data-selected]="allVisibleRowsSelected() || undefined"
+              (click)="toggleSelectAllVisibleRows()"
+              (keydown.enter)="toggleSelectAllVisibleRows()"
+              (keydown.space)="
+                $event.preventDefault(); toggleSelectAllVisibleRows()
+              "
+            >
               <solaris-checkbox
                 radius="sm"
                 [checked]="allVisibleRowsSelected()"
                 [indeterminate]="someVisibleRowsSelected()"
                 [ariaLabel]="resolvedSelectAllLabel()"
+                (click)="$event.stopPropagation()"
                 (checkedChange)="toggleSelectAllVisibleRows()"
               />
+              <span class="solaris-table__cards-select-all-label">{{
+                resolvedSelectAllLabel()
+              }}</span>
+              <span class="solaris-table__cards-select-all-count"
+                >{{ selectedVisibleCount() }}/{{ visibleRows().length }}</span
+              >
             </div>
           }
           <ul class="solaris-table__cards-list">
@@ -96,12 +131,14 @@
                 [attr.data-selected]="row.selected || undefined"
               >
                 @if (isSelectable()) {
-                  <solaris-checkbox
-                    radius="sm"
-                    [checked]="row.selected"
-                    [ariaLabel]="resolveRowSelectionLabel(row)"
-                    (checkedChange)="toggleRowSelection(row)"
-                  />
+                  <div class="solaris-table__card-select">
+                    <solaris-checkbox
+                      radius="sm"
+                      [checked]="row.selected"
+                      [ariaLabel]="resolveRowSelectionLabel(row)"
+                      (checkedChange)="toggleRowSelection(row)"
+                    />
+                  </div>
                 }
                 <div class="solaris-table__card-fields">
                   @if (
@@ -122,7 +159,7 @@
                     </div>
                   }
                   @for (
-                    column of cardColumns();
+                    column of cardPrimaryColumns();
                     track trackByColumnId($index, column)
                   ) {
                     <div
@@ -181,6 +218,65 @@
                           ></ng-container>
                         } @else {
                           {{ resolveCellText(row, column) }}
+                        }
+                      </div>
+                    }
+                  }
+                  @if (isRowExpandable() && cardDetailColumns().length > 0) {
+                    <button
+                      type="button"
+                      class="solaris-table__card-expand"
+                      (click)="toggleRowExpanded(row)"
+                      [attr.aria-expanded]="isRowExpanded(row)"
+                      [attr.aria-controls]="cardDetailId(row)"
+                      [attr.aria-label]="resolveExpandLabel(row)"
+                      [attr.data-expanded]="isRowExpanded(row) || undefined"
+                    >
+                      <solaris-icon name="chevron-down" [decorative]="true" />
+                    </button>
+                    @if (isDetailRowVisible(row)) {
+                      <div
+                        class="solaris-table__card-more"
+                        [attr.id]="cardDetailId(row)"
+                      >
+                        @for (
+                          column of cardDetailColumns();
+                          track trackByColumnId($index, column)
+                        ) {
+                          <div
+                            class="solaris-table__card-field solaris-table__card-field--detail"
+                          >
+                            @if (!column.hideCardLabel) {
+                              <span class="solaris-table__card-label">
+                                {{ resolveColumnHeader(column) }}
+                              </span>
+                            }
+                            <span class="solaris-table__card-value">
+                              @if (
+                                resolveDetailTemplate(column);
+                                as detailSlot
+                              ) {
+                                <ng-container
+                                  *ngTemplateOutlet="
+                                    detailSlot.templateRef;
+                                    context: customCellContext(row, column)
+                                  "
+                                ></ng-container>
+                              } @else if (
+                                resolveCellTemplate(column);
+                                as cellSlot
+                              ) {
+                                <ng-container
+                                  *ngTemplateOutlet="
+                                    cellSlot.templateRef;
+                                    context: customCellContext(row, column)
+                                  "
+                                ></ng-container>
+                              } @else {
+                                {{ resolveCellText(row, column) }}
+                              }
+                            </span>
+                          </div>
                         }
                       </div>
                     }

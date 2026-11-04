@@ -42,22 +42,30 @@ Icon Button is implemented as a **directive** (`[solaris-icon-button]`), not a c
 
 Selector: `[solaris-icon-button]`
 
-| Input             | Type                                                                                 | Default     | Description                            |
-| ----------------- | ------------------------------------------------------------------------------------ | ----------- | -------------------------------------- |
-| `appearance`      | `'solid' \| 'outline' \| 'ghost' \| 'tonal' \| 'surface'`                            | `'solid'`   | Visual style                           |
-| `pressed`         | `boolean \| undefined`                                                               | —           | Toggle state (`aria-pressed` when set) |
-| `color`           | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'neutral'` | Semantic color                         |
-| `size`            | `'sm' \| 'md' \| 'lg'`                                                               | `'md'`      | Control size                           |
-| `radius`          | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'`                                           | `'md'`      | Border radius                          |
-| `density`         | `'compact' \| 'normal' \| 'comfortable'`                                             | inherited   | Spacing density                        |
-| `shape`           | `'normal' \| 'wide'`                                                                 | `'normal'`  | Button shape                           |
-| `chromeless`      | `boolean`                                                                            | `false`     | Icon without button chrome             |
-| `loading`         | `boolean`                                                                            | `false`     | Loading state                          |
-| `disabled`        | `boolean`                                                                            | `false`     | Disabled state                         |
-| `ariaLabel`       | `string \| undefined`                                                                | —           | Accessible name input                  |
-| `ariaLabelKey`    | `string \| undefined`                                                                | —           | i18n key for accessible name           |
-| `loadingLabel`    | `string`                                                                             | —           | Accessible label during loading        |
-| `loadingLabelKey` | `string`                                                                             | —           | i18n key for loading label             |
+| Input             | Type                                                                                 | Default     | Description                             |
+| ----------------- | ------------------------------------------------------------------------------------ | ----------- | --------------------------------------- |
+| `appearance`      | `'solid' \| 'outline' \| 'ghost' \| 'tonal' \| 'surface' \| 'gradient'`              | `'solid'`   | Visual style                            |
+| `pressed`         | `boolean \| undefined`                                                               | —           | Toggle state (`aria-pressed` when set)  |
+| `color`           | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'neutral'` | Semantic color                          |
+| `size`            | `'sm' \| 'md' \| 'lg'`                                                               | `'md'`      | Control size                            |
+| `radius`          | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'`                                           | `'md'`      | Border radius                           |
+| `density`         | `'compact' \| 'normal' \| 'comfortable'`                                             | inherited   | Spacing density                         |
+| `shape`           | `'normal' \| 'wide'`                                                                 | `'normal'`  | Button shape                            |
+| `chromeless`      | `boolean`                                                                            | `false`     | Icon without button chrome              |
+| `loading`         | `boolean`                                                                            | `false`     | Loading state                           |
+| `disabled`        | `boolean`                                                                            | `false`     | Disabled state                          |
+| `action`          | `() => Promise<unknown>`                                                             | —           | Async action (pending disables + loads) |
+| `ariaLabel`       | `string \| undefined`                                                                | —           | Accessible name input                   |
+| `ariaLabelKey`    | `string \| undefined`                                                                | —           | i18n key for accessible name            |
+| `loadingLabel`    | `string`                                                                             | —           | Accessible label during loading         |
+| `loadingLabelKey` | `string`                                                                             | —           | i18n key for loading label              |
+
+#### Outputs
+
+| Output          | Type      | Description                       |
+| --------------- | --------- | --------------------------------- |
+| `actionSuccess` | `unknown` | Emitted with the `action` result  |
+| `actionError`   | `unknown` | Emitted with the `action` failure |
 
 ### SolarisIconButtonBadgeDirective
 
@@ -67,15 +75,30 @@ Used on a badge element projected inside the icon button to position it correctl
 
 ## Appearances
 
-| Appearance | Visual                                 |
-| ---------- | -------------------------------------- |
-| `solid`    | Filled background, high visual weight  |
-| `outline`  | Transparent background, visible border |
-| `ghost`    | No background or border, subtle hover  |
-| `tonal`    | Soft background, subtle border         |
-| `surface`  | Muted background, no border            |
+| Appearance | Visual                                                             |
+| ---------- | ------------------------------------------------------------------ |
+| `solid`    | Filled background, high visual weight                              |
+| `outline`  | Transparent background, visible border                             |
+| `ghost`    | No background or border, subtle hover                              |
+| `tonal`    | Soft background, subtle border                                     |
+| `surface`  | Muted background, no border                                        |
+| `gradient` | `135deg` ramp (duotone where it stays accessible, depth otherwise) |
 
 Default: `solid`
+
+Gradient crosses with every `color`: `linear-gradient(135deg, from, to)`
+with `from` as the `solid` stop of the color family and `to` as the `solid`
+stop of a partner hue for `primary`/`success` (`primary` → `violet`,
+`success` → `info`); `warning`/`danger`/`info` use same-hue depth
+(`warning` → `solid-active`, `danger` → `solid-deep`,
+`info` → `foreground`) and `neutral` ramps monochrome
+(`inverse` → `text-secondary`), so red stays red, yellow stays yellow, and
+blue stays blue.
+Text, border, and focus-ring mirror `solid`. See `button.md` § Gradient for
+the per-color ramp table, contrast ratios, and the `custom` gradient
+variables (`--solaris-icon-button-gradient-from/to`, plus hover/active
+pairs). Without them, `gradient` + `custom` falls back to the flat `custom`
+solid.
 
 ## Colors
 
@@ -219,6 +242,26 @@ When `loading` is `true`:
 - Accessible name is preserved (`loadingLabel` wins while loading)
 - Respects `prefers-reduced-motion`
 
+## Async action
+
+Pass an async function via `action`. While it runs, the button enters an
+internal `pending` state: effective loading is `manual || pending`, the
+effective disabled state includes `pending`, `aria-busy="true"` is set, and a
+second click is discarded. On success the button emits `actionSuccess` with
+the result; on failure it resets, restores focus to the button, and emits
+`actionError` with the error. A manual `loading="true"` still wins and is not
+cleared when the action settles. The action never runs on the server and the
+initial pending state is always `false`.
+
+```html
+<button solaris-icon-button aria-label="Refresh" [action]="refresh" (actionSuccess)="onRefreshed($event)">
+  <solaris-icon name="refresh" decorative="true" />
+</button>
+```
+
+On `<a>` with `href`, the directive calls `preventDefault()` before running
+the action, so the navigation does not race the async work.
+
 ## Badge
 
 Use the `[solaris-icon-button-badge]` directive on a badge element inside the icon button:
@@ -278,6 +321,17 @@ The following CSS variables can be customized:
 | `--solaris-icon-button-custom-hover-border-color`  | Hover border color  |
 | `--solaris-icon-button-custom-active-background`   | Active background   |
 | `--solaris-icon-button-custom-active-border-color` | Active border color |
+
+### Gradient tokens
+
+| Token                                        | Purpose                 |
+| -------------------------------------------- | ----------------------- |
+| `--solaris-icon-button-gradient-from`        | Gradient start (rest)   |
+| `--solaris-icon-button-gradient-to`          | Gradient end (rest)     |
+| `--solaris-icon-button-gradient-hover-from`  | Gradient start (hover)  |
+| `--solaris-icon-button-gradient-hover-to`    | Gradient end (hover)    |
+| `--solaris-icon-button-gradient-active-from` | Gradient start (active) |
+| `--solaris-icon-button-gradient-active-to`   | Gradient end (active)   |
 
 ## Accessibility
 

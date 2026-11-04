@@ -1,0 +1,109 @@
+{
+  "content-carousel": {
+    "ai": {
+      "prompt": "Estou olhando a documentação Solaris UI de {{component}} ({{url}}). Me ajude a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "description": "Painel giratório para conteúdo projetado arbitrário, com lados de alinhamento/divisor e suporte a teclado.",
+    "chrome": {
+      "arrows": "Só setas",
+      "dots": "Só pontos",
+      "minimal": "Mínimo",
+      "note": "Escolha quanto chrome o painel mostra: nada, só setas ou só pontos. O teclado continua funcionando sempre."
+    },
+    "dividers": {
+      "center": "Destaques centralizados",
+      "note": "Conteúdo centralizado ganha divisor dos dois lados. Alinhamentos de topo e base jogam o divisor para a borda oposta."
+    },
+    "examples": {
+      "label": "Destaques do login",
+      "note": "Formulário de login estático à esquerda, destaques giratórios à direita com um divisor entre eles. Use as setas ou os pontos para navegar, ou foque a janela e use as setas do teclado."
+    },
+    "installation": {
+      "note": "Instale o pacote único Solaris e importe o componente e a diretiva de slide."
+    },
+    "login": {
+      "kicker": "Entrar",
+      "qr": "Espaço reservado do QR code para entrar pelo app",
+      "text": "Use o celular para aprovar esta sessão ou continue explorando os destaques.",
+      "title": "Bem-vindo de volta"
+    },
+    "mega-panel": {
+      "label": "Conteúdo em destaque",
+      "note": "Espaço de destaque sem divisor: o carrossel cabe em qualquer caixa e nunca se dimensiona sozinho."
+    },
+    "progress": {
+      "label": "Avisos giratórios",
+      "note": "Com navegação de progresso e reprodução automática, o ponto ativo preenche ao longo da duração e o carrossel avança. O preenchimento pausa com hover, foco, aba oculta e movimento reduzido."
+    },
+    "promo": {
+      "label": "Promoções",
+      "note": "Mesmo espaço, componentes de promoção diferentes. Abaixo de 360px o divisor vertical vira horizontal embaixo para manter a separação legível no painel empilhado."
+    },
+    "props": {
+      "note": "Tabela de props em breve, com o componente de tabela."
+    },
+    "section": {
+      "chrome": "Controles",
+      "dividers": "Divisores",
+      "examples": "Exemplos",
+      "installation": "Instalação",
+      "mega-panel": "Painel de destaque",
+      "progress": "Progresso",
+      "promo": "Promoção",
+      "props": "Props"
+    },
+    "slides": {
+      "announce": {
+        "kicker": "Aviso",
+        "text": "Manutenção programada acontece domingo de madrugada.",
+        "title": "Aviso de indisponibilidade"
+      },
+      "cashback": {
+        "kicker": "Tempo limitado",
+        "text": "Ganhe pontos em dobro em cada compra no cartão.",
+        "title": "Fim de semana de cashback"
+      },
+      "centered": {
+        "kicker": "Palco central",
+        "text": "Divisores emolduram os dois lados do conteúdo centralizado.",
+        "title": "Destaque emoldurado"
+      },
+      "early": {
+        "kicker": "Novo",
+        "text": "Convide seu time e libere controles de gastos hoje.",
+        "title": "Acesso antecipado liberado"
+      },
+      "founders": {
+        "kicker": "Clientes",
+        "text": "Como três startups escalaram gastos.",
+        "title": "Histórias de fundadores"
+      },
+      "quiet": {
+        "kicker": "Lembrete",
+        "text": "O teclado move os slides mesmo sem controles visíveis.",
+        "title": "Rotação silenciosa"
+      },
+      "scan": {
+        "kicker": "Passo um",
+        "text": "Aponte o app do banco para o código para entrar neste dispositivo.",
+        "title": "Escaneie para continuar"
+      },
+      "stacked": {
+        "kicker": "Segundo ato",
+        "text": "O divisor fica parado enquanto os slides passam por ele.",
+        "title": "Ainda emoldurado"
+      },
+      "travel": {
+        "kicker": "Exclusivo",
+        "text": "Acesso a salas VIP incluído nos planos premium.",
+        "title": "Vantagens de viagem"
+      },
+      "wellness": {
+        "kicker": "Benefícios",
+        "text": "Novo guia de benefícios para times em crescimento.",
+        "title": "Auxílio bem-estar"
+      }
+    },
+    "title": "Carrossel de conteúdo"
+  }
+}

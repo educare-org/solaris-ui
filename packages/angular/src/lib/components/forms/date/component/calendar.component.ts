@@ -121,10 +121,12 @@ export class SolarisDateCalendarComponent {
 
   protected isDisabled(value: SolarisDateValue): boolean {
     const today = todaySolarisDate();
+    const min = this.min();
+    const max = this.max();
     return (
       this.disabledDates().includes(value) ||
-      (!!this.min() && compareSolarisDates(value, this.min()!) < 0) ||
-      (!!this.max() && compareSolarisDates(value, this.max()!) > 0) ||
+      (min !== undefined && compareSolarisDates(value, min) < 0) ||
+      (max !== undefined && compareSolarisDates(value, max) > 0) ||
       (this.disablePast() && compareSolarisDates(value, today) < 0) ||
       (this.disableFuture() && compareSolarisDates(value, today) > 0)
     );

@@ -59,12 +59,12 @@ describe('SolarisCollapsibleComponent', () => {
       <solaris-collapsible
         [disabled]="true"
         label="Details"
-        (openChange)="onOpen($event)"
+        (openChange)="onOpen()"
       />
     `,
   })
   class DisabledToggleHost {
-    onOpen(_value: boolean): void {
+    onOpen(): void {
       // no-op
     }
   }

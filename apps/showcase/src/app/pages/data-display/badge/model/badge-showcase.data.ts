@@ -12,8 +12,8 @@ export const BADGE_SHOWCASE_SLUG = 'badge';
 export const BADGE_TRANSLATION_PREFIX = 'badge';
 
 export const BADGE_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] = [
-  { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-  { labelKey: 'shell.sidebar.group.data-display', route: '/configuration' },
+  { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+  { labelKey: 'shell.sidebar.group.data-display', route: '/introduction' },
   { labelKey: 'shell.sidebar.item.badge' },
 ];
 

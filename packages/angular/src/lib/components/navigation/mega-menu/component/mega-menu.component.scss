@@ -145,7 +145,6 @@
   }
 }
 
-// NOTE: ViewEncapsulation.None here, so the app-level attribute (no :host-context).
 [data-reduced-motion='true'] .solaris-mega-menu__panel {
   animation: none;
 }

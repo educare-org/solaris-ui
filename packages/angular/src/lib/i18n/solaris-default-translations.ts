@@ -20,6 +20,8 @@ import { FORM_FIELD_TRANSLATION } from '../components/forms/form-field/translati
 import { GRADEBOOK_TRANSLATION } from '../components/data-display/gradebook/translation';
 import { ICON_BUTTON_TRANSLATION } from '../components/actions/icon-button/translation';
 import { LOADING_TEXT_TRANSLATION } from '../components/feedback/loading-text/translation';
+import { MEDIA_CAROUSEL_TRANSLATION } from '../components/interaction/carousel/media-carousel/translation';
+import { CONTENT_CAROUSEL_TRANSLATION } from '../components/interaction/carousel/content-carousel/translation';
 import { MULTI_SELECT_TRANSLATION } from '../components/forms/multi-select/translation';
 import { OTP_INPUT_TRANSLATION } from '../components/forms/otp-input/translation';
 import { PAGINATION_TRANSLATION } from '../components/navigation/pagination/translation';
@@ -28,6 +30,7 @@ import { PHONE_FIELD_TRANSLATION } from '../components/forms/phone-field/transla
 import { PROGRESS_TRANSLATION } from '../components/feedback/progress/translation';
 import { RECORD_GRID_TRANSLATION } from '../components/data-display/record-grid/translation';
 import { SELECT_TRANSLATION } from '../components/forms/select/translation';
+import { SLIDER_TRANSLATION } from '../components/forms/slider/translation';
 import { SPINNER_TRANSLATION } from '../components/feedback/spinner/translation';
 import { STEPPER_TRANSLATION } from '../components/navigation/stepper/translation';
 import { TABLE_FILTER_TRANSLATION } from '../components/data-display/table-filter/translation';
@@ -70,6 +73,7 @@ const TRANSLATION_PACKAGES: readonly Record<string, TranslationTree>[] = [
   LOADING_TEXT_TRANSLATION,
   STEPPER_TRANSLATION,
   SELECT_TRANSLATION,
+  SLIDER_TRANSLATION,
   MULTI_SELECT_TRANSLATION,
   TOAST_TRANSLATION,
   ALERT_TRANSLATION,
@@ -96,6 +100,8 @@ const TRANSLATION_PACKAGES: readonly Record<string, TranslationTree>[] = [
   PAGINATION_TRANSLATION,
   COLLAPSIBLE_TRANSLATION,
   COLLAPSIBLE_INPUT_TRANSLATION,
+  MEDIA_CAROUSEL_TRANSLATION,
+  CONTENT_CAROUSEL_TRANSLATION,
 ];
 
 function mergeLocaleTrees(locale: string): TranslationRecord {

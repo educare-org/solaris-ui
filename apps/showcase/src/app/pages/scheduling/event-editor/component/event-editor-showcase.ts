@@ -61,7 +61,7 @@ const SHOWCASE_RECURRING: SolarisCalendarEvent = {
   recurrence: { freq: 'weekly', byWeekday: [4], count: 8 },
 };
 
-type DemoLocale = 'pt-BR' | 'en-US' | 'es';
+type DemoLocale = 'pt-BR' | 'en-US' | 'es-419';
 
 @Component({
   standalone: true,
@@ -120,7 +120,7 @@ export class EventEditorShowcasePage {
   );
 
   protected selectLocale(locale: unknown): void {
-    if (locale !== 'pt-BR' && locale !== 'en-US' && locale !== 'es') return;
+    if (locale !== 'pt-BR' && locale !== 'en-US' && locale !== 'es-419') return;
     this.demoLocale.set(locale);
   }
 

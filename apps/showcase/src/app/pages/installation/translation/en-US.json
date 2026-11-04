@@ -1,0 +1,50 @@
+{
+  "installation": {
+    "title": "Installation",
+    "description": "Add Solaris UI to a new or existing Angular project in minutes: install the package, wire styles and providers, and render your first component.",
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "section": {
+      "prerequisites": "Prerequisites",
+      "install": "Install the package",
+      "styles": "Wire the styles",
+      "providers": "Register providers",
+      "language": "Add a language (optional)",
+      "verify": "Verify"
+    },
+    "prerequisites": {
+      "note": "Solaris targets standalone Angular applications. You need Node.js LTS and one package manager.",
+      "angular": "Angular 21 or later with a standalone bootstrap (ApplicationConfig).",
+      "node": "Node.js LTS with pnpm, npm, yarn, or bun.",
+      "peers": "Peer dependencies (such as @angular/cdk) install automatically with the package."
+    },
+    "install": {
+      "note": "Install the single package, then let the schematic wire the rest.",
+      "package": "Install with your package manager.",
+      "schematic": "Recommended: run ng add. It creates src/styles/solaris.scss, imports it from your global stylesheet, and adds provideSolaris(...) to the app config.",
+      "nx": "On Nx workspaces, install the package and run the init generator instead of ng add.",
+      "manual": "Prefer to wire things yourself? Skip the schematic and follow the styles and providers sections below."
+    },
+    "styles": {
+      "note": "The schematic creates this stylesheet and imports it from your global styles. Manual setups copy both blocks.",
+      "file": "src/styles/solaris.scss — created by the schematic.",
+      "global": "Prepended to your global stylesheet (for example src/styles.scss)."
+    },
+    "providers": {
+      "note": "Register Solaris services once in the app config. Start minimal; add theme or translation options only when you need them.",
+      "tab": {
+        "basic": "Basic",
+        "theme": "Theme",
+        "translate": "Translate"
+      }
+    },
+    "language": {
+      "note": "Translation is opt-in: without it, providers fall back to defaults. When you need it, pass the locale, a fallback locale, and your flattened translation maps."
+    },
+    "verify": {
+      "note": "Start the dev server and open the app. Theme tokens and base styles apply globally — no component import is needed for the foundation.",
+      "success": "If the page renders with the Solaris look and feel, the setup is complete. Continue with the icon library or any component page."
+    }
+  }
+}

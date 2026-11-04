@@ -30,7 +30,7 @@ import {
   HOLIDAYS_TRANSLATION_PREFIX,
 } from '../model/holidays-showcase.data';
 
-type DemoLocale = 'pt-BR' | 'en-US' | 'es';
+type DemoLocale = 'pt-BR' | 'en-US' | 'es-419';
 
 @Component({
   standalone: true,
@@ -79,7 +79,7 @@ export class HolidaysShowcasePage implements OnInit {
   }
 
   protected async selectLocale(locale: unknown): Promise<void> {
-    if (locale !== 'pt-BR' && locale !== 'en-US' && locale !== 'es') return;
+    if (locale !== 'pt-BR' && locale !== 'en-US' && locale !== 'es-419') return;
     this.demoLocale.set(locale);
     await this.refreshHolidays();
   }

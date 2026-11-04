@@ -1,0 +1,143 @@
+@if (showHeader()) {
+  <div class="solaris-range-slider__header">
+    @if (labelText(); as label) {
+      <span class="solaris-range-slider__label" [id]="labelId()">
+        {{ label }}
+        @if (requiredInput()) {
+          <span class="solaris-range-slider__required" aria-hidden="true"
+            >*</span
+          >
+        }
+      </span>
+    }
+    @if (valueDisplay() === 'inline') {
+      <span class="solaris-range-slider__value">{{ inlineText() }}</span>
+    }
+  </div>
+}
+<div class="solaris-range-slider__body">
+  @if (startIcon(); as startIconName) {
+    <span class="solaris-range-slider__edge-icon" aria-hidden="true">
+      <solaris-icon [name]="startIconName" [decorative]="true" />
+    </span>
+  }
+  @if (showMinMax()) {
+    <span class="solaris-range-slider__min" aria-hidden="true">{{
+      minLabel()
+    }}</span>
+  }
+  <div
+    class="solaris-range-slider__track"
+    (pointerdown)="onTrackPointerDown($event)"
+    (pointermove)="onTrackPointerMove($event)"
+    (pointerup)="onTrackPointerUp($event)"
+    (pointercancel)="onTrackPointerCancel()"
+    #trackElement
+  >
+    @if (distributionBars().length > 0) {
+      <div class="solaris-range-slider__distribution" aria-hidden="true">
+        @for (bar of distributionBars(); track $index) {
+          <span
+            class="solaris-range-slider__bar"
+            [style.transform]="
+              orientation() === 'vertical'
+                ? 'scaleX(' + bar + ')'
+                : 'scaleY(' + bar + ')'
+            "
+          ></span>
+        }
+      </div>
+    }
+    <div
+      class="solaris-range-slider__fill"
+      aria-hidden="true"
+      [style.transform]="fillTransform()"
+    ></div>
+    <div
+      class="solaris-range-slider__zone-fade"
+      aria-hidden="true"
+      [attr.data-zone]="zoneFadeColor()"
+      [attr.data-fade]="zoneFade()"
+      [style.transform]="fillTransform()"
+    ></div>
+    @if (showTicks()) {
+      <div class="solaris-range-slider__ticks" aria-hidden="true">
+        @for (tick of tickOffsets(); track $index) {
+          <span
+            class="solaris-range-slider__tick"
+            [style.left]="orientation() === 'horizontal' ? tick + '%' : null"
+            [style.bottom]="orientation() === 'vertical' ? tick + '%' : null"
+          ></span>
+        }
+      </div>
+    }
+    @for (value of effectiveValues(); track $index) {
+      <div
+        class="solaris-range-slider__thumb"
+        role="slider"
+        [attr.tabindex]="isEffectivelyDisabled() ? -1 : 0"
+        [attr.data-active]="activeThumb() === $index ? '' : null"
+        [attr.aria-valuemin]="min()"
+        [attr.aria-valuemax]="max()"
+        [attr.aria-valuenow]="value"
+        [attr.aria-valuetext]="ariaTextOne(value)"
+        [attr.aria-orientation]="orientation()"
+        [attr.aria-label]="thumbName($index)"
+        [attr.aria-describedby]="ariaDescribedBy()"
+        [attr.aria-disabled]="isEffectivelyDisabled() ? 'true' : null"
+        [attr.aria-readonly]="readonlyInput() ? 'true' : null"
+        [attr.aria-invalid]="invalidInput() ? 'true' : null"
+        [style.left]="
+          orientation() === 'horizontal' ? thumbPercents()[$index] + '%' : null
+        "
+        [style.bottom]="
+          orientation() === 'vertical' ? thumbPercents()[$index] + '%' : null
+        "
+        [attr.data-released]="releasedThumb() === $index ? '' : null"
+        (keydown)="onThumbKeydown($event, $index)"
+        (focus)="onThumbFocus($index)"
+        (blur)="onThumbBlur()"
+        (animationend)="onThumbAnimationEnd($index)"
+        #thumbElement
+      >
+        @if (thumbIcon(); as thumbIconName) {
+          <solaris-icon [name]="thumbIconName" [decorative]="true" />
+        }
+        @if (valueDisplay() === 'thumb') {
+          <span class="solaris-range-slider__thumb-value" aria-hidden="true">{{
+            formatOne(value)
+          }}</span>
+        }
+        @if (valueDisplay() === 'tooltip') {
+          <span class="solaris-range-slider__tooltip" aria-hidden="true">{{
+            formatOne(value)
+          }}</span>
+        }
+      </div>
+    }
+  </div>
+  @if (showMinMax()) {
+    <span class="solaris-range-slider__max" aria-hidden="true">{{
+      maxLabel()
+    }}</span>
+  }
+  @if (endIcon(); as endIconName) {
+    <span class="solaris-range-slider__edge-icon" aria-hidden="true">
+      <solaris-icon [name]="endIconName" [decorative]="true" />
+    </span>
+  }
+</div>
+@if (descriptionText(); as description) {
+  <p class="solaris-range-slider__description" [id]="descriptionId()">
+    {{ description }}
+  </p>
+}
+@for (value of effectiveValues(); track $index) {
+  <input
+    type="hidden"
+    aria-hidden="true"
+    tabindex="-1"
+    [attr.name]="name() ?? null"
+    [value]="value"
+  />
+}

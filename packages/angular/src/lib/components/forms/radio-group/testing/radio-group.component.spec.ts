@@ -3,7 +3,10 @@ import { Component, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
-import { configureSolarisTesting } from '../../../../testing/solaris-test-utilities';
+import {
+  configureSolarisTesting,
+  assertPresent,
+} from '../../../../testing/solaris-test-utilities';
 import { SolarisRadioGroupComponent } from '../component/radio-group.component';
 import { SolarisRadioComponent } from '../../radio/component/radio.component';
 import { SolarisFormFieldComponent } from '../../form-field/component/form-field.component';
@@ -145,7 +148,7 @@ describe('SolarisRadioGroupComponent CVA', () => {
   it('writeValue should check matching child', () => {
     const { groupComp, radios } = setup();
     groupComp.writeValue('a');
-    hostFixture!.detectChanges();
+    assertPresent(hostFixture, 'host fixture').detectChanges();
     expect(radios[0]['_checked']()).toBe(true);
     expect(radios[1]['_checked']()).toBe(false);
   });
@@ -153,9 +156,9 @@ describe('SolarisRadioGroupComponent CVA', () => {
   it('writeValue should update when value changes', () => {
     const { groupComp, radios } = setup();
     groupComp.writeValue('a');
-    hostFixture!.detectChanges();
+    assertPresent(hostFixture, 'host fixture').detectChanges();
     groupComp.writeValue('b');
-    hostFixture!.detectChanges();
+    assertPresent(hostFixture, 'host fixture').detectChanges();
     expect(radios[0]['_checked']()).toBe(false);
     expect(radios[1]['_checked']()).toBe(true);
   });
@@ -163,9 +166,9 @@ describe('SolarisRadioGroupComponent CVA', () => {
   it('writeValue with null should uncheck all', () => {
     const { groupComp, radios } = setup();
     groupComp.writeValue('a');
-    hostFixture!.detectChanges();
+    assertPresent(hostFixture, 'host fixture').detectChanges();
     groupComp.writeValue(null);
-    hostFixture!.detectChanges();
+    assertPresent(hostFixture, 'host fixture').detectChanges();
     expect(radios[0]['_checked']()).toBe(false);
     expect(radios[1]['_checked']()).toBe(false);
   });
@@ -177,56 +180,60 @@ describe('SolarisRadioGroupComponent CVA', () => {
       emitted = v;
     });
     radios[0].checkedChange.emit(true);
-    hostFixture!.detectChanges();
+    assertPresent(hostFixture, 'host fixture').detectChanges();
     expect(emitted).toBe('a');
   });
 
   it('registerOnTouched should be called on focusout', () => {
     const { groupComp } = setup();
-    const groupEl = hostFixture!.nativeElement.querySelector(
-      'solaris-radio-group',
-    ) as HTMLElement;
+    const groupEl = assertPresent(
+      hostFixture,
+      'host fixture',
+    ).nativeElement.querySelector('solaris-radio-group') as HTMLElement;
     let touched = false;
     groupComp.registerOnTouched(() => {
       touched = true;
     });
     groupEl.dispatchEvent(new FocusEvent('focusout', { relatedTarget: null }));
-    hostFixture!.detectChanges();
+    assertPresent(hostFixture, 'host fixture').detectChanges();
     expect(touched).toBe(true);
   });
 
   it('setDisabledState should disable group', () => {
     const { groupComp } = setup();
     groupComp.setDisabledState(true);
-    hostFixture!.detectChanges();
-    const el = hostFixture!.nativeElement.querySelector(
-      'solaris-radio-group',
-    ) as HTMLElement;
+    assertPresent(hostFixture, 'host fixture').detectChanges();
+    const el = assertPresent(
+      hostFixture,
+      'host fixture',
+    ).nativeElement.querySelector('solaris-radio-group') as HTMLElement;
     expect(el.hasAttribute('data-disabled')).toBe(true);
   });
 
   it('setDisabledState(false) should enable group', () => {
     const { groupComp } = setup();
     groupComp.setDisabledState(true);
-    hostFixture!.detectChanges();
+    assertPresent(hostFixture, 'host fixture').detectChanges();
     groupComp.setDisabledState(false);
-    hostFixture!.detectChanges();
-    const el = hostFixture!.nativeElement.querySelector(
-      'solaris-radio-group',
-    ) as HTMLElement;
+    assertPresent(hostFixture, 'host fixture').detectChanges();
+    const el = assertPresent(
+      hostFixture,
+      'host fixture',
+    ).nativeElement.querySelector('solaris-radio-group') as HTMLElement;
     expect(el.hasAttribute('data-disabled')).toBe(false);
   });
 
   it('setCvaReadonlyState should toggle group readonly', () => {
     const { groupComp } = setup();
     groupComp.setCvaReadonlyState(true);
-    hostFixture!.detectChanges();
-    const el = hostFixture!.nativeElement.querySelector(
-      'solaris-radio-group',
-    ) as HTMLElement;
+    assertPresent(hostFixture, 'host fixture').detectChanges();
+    const el = assertPresent(
+      hostFixture,
+      'host fixture',
+    ).nativeElement.querySelector('solaris-radio-group') as HTMLElement;
     expect(el.hasAttribute('data-readonly')).toBe(true);
     groupComp.setCvaReadonlyState(false);
-    hostFixture!.detectChanges();
+    assertPresent(hostFixture, 'host fixture').detectChanges();
     expect(el.hasAttribute('data-readonly')).toBe(false);
   });
 });
@@ -692,11 +699,15 @@ describe('SolarisRadioGroupComponent public API surface', () => {
   })
   class ApiHost {}
 
-  function getGroup(): any {
+  type RadioGroupTestSeam = SolarisRadioGroupComponent & {
+    radios: () => readonly SolarisRadioComponent[];
+  };
+
+  function getGroup(): RadioGroupTestSeam {
     const f = TestBed.createComponent(ApiHost);
     f.detectChanges();
     return f.debugElement.query(By.css('solaris-radio-group'))
-      .componentInstance as any;
+      .componentInstance as unknown as RadioGroupTestSeam;
   }
 
   it('should expose state getters', () => {

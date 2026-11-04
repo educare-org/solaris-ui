@@ -27,15 +27,9 @@ A component is done only when it has:
 
 ## Required tests
 
-Depending on the component:
-
-- unit tests;
-- component tests;
-- accessibility tests;
-- keyboard tests;
-- Reactive Forms tests;
-- harness tests;
-- visual tests for critical components.
+See `docs/quality-and-validation/testing-strategy.md` (test pyramid and
+coverage targets) for the required set per component kind. Coverage without
+meaningful assertions is not accepted.
 
 ## Blocking failures
 

@@ -1,0 +1,128 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="installation.title"
+    descriptionKey="installation.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section
+    anchor="prerequisites"
+    titleKey="installation.section.prerequisites"
+  >
+    <p class="installation-showcase__note">
+      {{ 'installation.prerequisites.note' | translate }}
+    </p>
+    <ul class="installation-showcase__list">
+      <li>{{ 'installation.prerequisites.angular' | translate }}</li>
+      <li>{{ 'installation.prerequisites.node' | translate }}</li>
+      <li>{{ 'installation.prerequisites.peers' | translate }}</li>
+    </ul>
+  </app-docs-section>
+
+  <app-docs-section anchor="install" titleKey="installation.section.install">
+    <p class="installation-showcase__note">
+      {{ 'installation.install.note' | translate }}
+    </p>
+    <div class="installation-showcase__stack">
+      <div>
+        <h3 class="installation-showcase__subtitle">
+          {{ 'installation.install.package' | translate }}
+        </h3>
+        <solaris-code-block variant="command" [commands]="installCommands" />
+      </div>
+      <div>
+        <h3 class="installation-showcase__subtitle">
+          {{ 'installation.install.schematic' | translate }}
+        </h3>
+        <solaris-code-block variant="command" [commands]="schematicCommands" />
+      </div>
+      <div>
+        <h3 class="installation-showcase__subtitle">
+          {{ 'installation.install.nx' | translate }}
+        </h3>
+        <solaris-code-block variant="command" [commands]="nxCommands" />
+        <p class="installation-showcase__note">
+          {{ 'installation.install.manual' | translate }}
+        </p>
+      </div>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section anchor="styles" titleKey="installation.section.styles">
+    <p class="installation-showcase__note">
+      {{ 'installation.styles.note' | translate }}
+    </p>
+    <div class="installation-showcase__stack">
+      <div>
+        <h3 class="installation-showcase__subtitle">
+          {{ 'installation.styles.file' | translate }}
+        </h3>
+        <solaris-code-block [code]="styleCode" language="scss" />
+      </div>
+      <div>
+        <h3 class="installation-showcase__subtitle">
+          {{ 'installation.styles.global' | translate }}
+        </h3>
+        <solaris-code-block [code]="globalStyleCode" language="scss" />
+      </div>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="providers"
+    titleKey="installation.section.providers"
+  >
+    <p class="installation-showcase__note">
+      {{ 'installation.providers.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedProviders"
+      [ariaLabel]="'installation.section.providers' | translate"
+    >
+      <solaris-tab value="basic"
+        >{{ 'installation.providers.tab.basic' | translate }}</solaris-tab
+      >
+      <solaris-tab value="theme"
+        >{{ 'installation.providers.tab.theme' | translate }}</solaris-tab
+      >
+      <solaris-tab value="translate"
+        >{{ 'installation.providers.tab.translate' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="basic">
+        <solaris-code-block [code]="providersCode()" language="typescript" />
+      </solaris-tab-panel>
+      <solaris-tab-panel value="theme">
+        <solaris-code-block [code]="providersCode()" language="typescript" />
+      </solaris-tab-panel>
+      <solaris-tab-panel value="translate">
+        <solaris-code-block [code]="providersCode()" language="typescript" />
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="language" titleKey="installation.section.language">
+    <p class="installation-showcase__note">
+      {{ 'installation.language.note' | translate }}
+    </p>
+    <solaris-code-block [code]="translateCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="verify" titleKey="installation.section.verify">
+    <p class="installation-showcase__note">
+      {{ 'installation.verify.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="verifyCommands" />
+    <p class="installation-showcase__note">
+      {{ 'installation.verify.success' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

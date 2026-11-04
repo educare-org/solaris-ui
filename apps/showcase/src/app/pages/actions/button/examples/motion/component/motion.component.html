@@ -1,0 +1,7 @@
+<button solaris-button color="primary" [loading]="loading()">
+  @if (longLabel()) {
+    {{ 'button.example.motion.long' | translate }}
+  } @else {
+    {{ 'button.example.motion.short' | translate }}
+  }
+</button>

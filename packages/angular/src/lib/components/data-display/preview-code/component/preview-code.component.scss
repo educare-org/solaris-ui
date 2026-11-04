@@ -157,6 +157,18 @@
 .solaris-preview-code__panel--code solaris-code-block {
   display: block;
   min-inline-size: 0;
+  max-inline-size: 100%;
+}
+
+@media (width <= 768px) {
+  :host {
+    --solaris-preview-code-padding-block: var(--solaris-spacing-7);
+    --solaris-preview-code-padding-inline: var(--solaris-spacing-7);
+  }
+
+  .solaris-preview-code__preview-surface {
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

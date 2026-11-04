@@ -1,0 +1,23 @@
+<solaris-button-group
+  [orientation]="orientation()"
+  [aria-label]="'button-group.example.mood' | translate"
+>
+  <button
+    solaris-icon-button
+    [aria-label]="'button-group.example.happy' | translate"
+  >
+    <solaris-icon name="success" [decorative]="true" />
+  </button>
+  <button
+    solaris-icon-button
+    [aria-label]="'button-group.example.neutral' | translate"
+  >
+    <solaris-icon name="info" [decorative]="true" />
+  </button>
+  <button
+    solaris-icon-button
+    [aria-label]="'button-group.example.sad' | translate"
+  >
+    <solaris-icon name="danger" [decorative]="true" />
+  </button>
+</solaris-button-group>

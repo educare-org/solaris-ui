@@ -1,13 +1,62 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
-import { Component, signal } from '@angular/core';
+import { Component, signal, type WritableSignal } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-import { configureSolarisTesting } from '../../../../testing/solaris-test-utilities';
+import {
+  assertPresent,
+  configureSolarisTesting,
+} from '../../../../testing/solaris-test-utilities';
 import { provideSolaris } from '../../../../providers/provide-solaris';
 import { SOLARIS_BUILT_IN_ICONS } from '../../../../services/icon/icons/solaris-built-in-icons';
 import { SolarisEditableTabsComponent } from '../component/editable-tabs.component';
 
-import type { SolarisEditableTabData } from '../model/editable-tabs.types';
+import type {
+  SolarisEditableTabAction,
+  SolarisEditableTabActionEvent,
+  SolarisEditableTabData,
+  SolarisEditableTabDefaultChangeEvent,
+  SolarisEditableTabMoveDirection,
+  SolarisEditableTabMoveEvent,
+  SolarisEditableTabRemoveEvent,
+  SolarisEditableTabRenameEvent,
+} from '../model/editable-tabs.types';
+
+type EditableTabsTestSeam = {
+  startRename: (tab: SolarisEditableTabData) => void;
+  commitRename: (tab: SolarisEditableTabData) => void;
+  renameValue: WritableSignal<string>;
+  canRename: (tab: SolarisEditableTabData) => boolean;
+  confirmRemove: (tab: SolarisEditableTabData, index: number) => void;
+  canRemove: (tab: SolarisEditableTabData) => boolean;
+  moveTab: (
+    tab: SolarisEditableTabData,
+    index: number,
+    direction: SolarisEditableTabMoveDirection,
+  ) => void;
+  canMoveLeft: (tab: SolarisEditableTabData) => boolean;
+  canMoveRight: (tab: SolarisEditableTabData) => boolean;
+  setAsDefault: (tab: SolarisEditableTabData) => void;
+  handleCustomAction: (
+    tab: SolarisEditableTabData,
+    action: SolarisEditableTabAction,
+  ) => void;
+  hasActions: (tab: SolarisEditableTabData) => boolean;
+  isDragReorderEnabled: (tab: SolarisEditableTabData) => boolean;
+  onTabDragStart: (
+    event: Pick<DragEvent, 'preventDefault' | 'target'>,
+    tab: SolarisEditableTabData,
+    index: number,
+  ) => void;
+  onTabDragOver: (event: DragEvent, index: number) => void;
+  onTabDrop: (
+    event: DragEvent,
+    tab: SolarisEditableTabData,
+    index: number,
+  ) => void;
+  onTabDragEnd: () => void;
+  draggingTabIndex: WritableSignal<number | null>;
+  dropIndicatorIndex: WritableSignal<number | null>;
+};
 
 const THREE_TABS: SolarisEditableTabData[] = [
   { value: 'tab1', label: 'Tab 1' },
@@ -159,29 +208,29 @@ class EventsTestHost {
   readonly tabs = signal<SolarisEditableTabData[]>(THREE_TABS);
   value: unknown = 'tab1';
 
-  renameEvent: any = null;
-  removeEvent: any = null;
-  moveEvent: any = null;
-  defaultChangeEvent: any = null;
-  actionEvent: any = null;
+  renameEvent: SolarisEditableTabRenameEvent | null = null;
+  removeEvent: SolarisEditableTabRemoveEvent | null = null;
+  moveEvent: SolarisEditableTabMoveEvent | null = null;
+  defaultChangeEvent: SolarisEditableTabDefaultChangeEvent | null = null;
+  actionEvent: SolarisEditableTabActionEvent | null = null;
 
-  onRename(e: any): void {
+  onRename(e: SolarisEditableTabRenameEvent): void {
     this.renameEvent = e;
   }
 
-  onRemove(e: any): void {
+  onRemove(e: SolarisEditableTabRemoveEvent): void {
     this.removeEvent = e;
   }
 
-  onMove(e: any): void {
+  onMove(e: SolarisEditableTabMoveEvent): void {
     this.moveEvent = e;
   }
 
-  onDefaultChange(e: any): void {
+  onDefaultChange(e: SolarisEditableTabDefaultChangeEvent): void {
     this.defaultChangeEvent = e;
   }
 
-  onAction(e: any): void {
+  onAction(e: SolarisEditableTabActionEvent): void {
     this.actionEvent = e;
   }
 }
@@ -211,9 +260,9 @@ class CustomActionsTestHost {
   ]);
   value: unknown = 'tab1';
 
-  actionEvent: any = null;
+  actionEvent: SolarisEditableTabActionEvent | null = null;
 
-  onAction(e: any): void {
+  onAction(e: SolarisEditableTabActionEvent): void {
     this.actionEvent = e;
   }
 }
@@ -544,7 +593,7 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.detectChanges();
       const component = getComponent(fixture);
       const tab = component['tabs']()[0];
-      (component as any).startRename(tab);
+      (component as unknown as EditableTabsTestSeam).startRename(tab);
       fixture.detectChanges();
       expect(
         fixture.nativeElement.querySelector(
@@ -559,9 +608,9 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.detectChanges();
       const component = getComponent(fixture);
       const tab = component['tabs']()[0];
-      (component as any).startRename(tab);
+      (component as unknown as EditableTabsTestSeam).startRename(tab);
       fixture.detectChanges();
-      (component as any).commitRename(tab);
+      (component as unknown as EditableTabsTestSeam).commitRename(tab);
       fixture.detectChanges();
       expect(
         fixture.nativeElement.querySelector(
@@ -576,17 +625,26 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.detectChanges();
       const component = getComponent(fixture);
       const tab = component['tabs']()[0];
-      (component as any).startRename(tab);
-      (component as any).renameValue.set('Renamed Tab');
-      fixture.detectChanges();
-      (component as any).commitRename(tab);
-      fixture.detectChanges();
-      expect(fixture.componentInstance.renameEvent).toBeTruthy();
-      expect(fixture.componentInstance.renameEvent.previousLabel).toBe('Tab 1');
-      expect(fixture.componentInstance.renameEvent.nextLabel).toBe(
+      (component as unknown as EditableTabsTestSeam).startRename(tab);
+      (component as unknown as EditableTabsTestSeam).renameValue.set(
         'Renamed Tab',
       );
-      expect(fixture.componentInstance.renameEvent.source).toBe('inline');
+      fixture.detectChanges();
+      (component as unknown as EditableTabsTestSeam).commitRename(tab);
+      fixture.detectChanges();
+      expect(fixture.componentInstance.renameEvent).toBeTruthy();
+      expect(
+        assertPresent(fixture.componentInstance.renameEvent, 'rename event')
+          .previousLabel,
+      ).toBe('Tab 1');
+      expect(
+        assertPresent(fixture.componentInstance.renameEvent, 'rename event')
+          .nextLabel,
+      ).toBe('Renamed Tab');
+      expect(
+        assertPresent(fixture.componentInstance.renameEvent, 'rename event')
+          .source,
+      ).toBe('inline');
     });
 
     it('should not emit rename when label is unchanged', () => {
@@ -595,9 +653,9 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.detectChanges();
       const component = getComponent(fixture);
       const tab = component['tabs']()[0];
-      (component as any).startRename(tab);
+      (component as unknown as EditableTabsTestSeam).startRename(tab);
       fixture.detectChanges();
-      (component as any).commitRename(tab);
+      (component as unknown as EditableTabsTestSeam).commitRename(tab);
       fixture.detectChanges();
       expect(fixture.componentInstance.renameEvent).toBeNull();
     });
@@ -608,10 +666,10 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.detectChanges();
       const component = getComponent(fixture);
       const tab = component['tabs']()[0];
-      (component as any).startRename(tab);
-      (component as any).renameValue.set('   ');
+      (component as unknown as EditableTabsTestSeam).startRename(tab);
+      (component as unknown as EditableTabsTestSeam).renameValue.set('   ');
       fixture.detectChanges();
-      (component as any).commitRename(tab);
+      (component as unknown as EditableTabsTestSeam).commitRename(tab);
       fixture.detectChanges();
       expect(fixture.componentInstance.renameEvent).toBeNull();
     });
@@ -622,8 +680,8 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.detectChanges();
       const component = getComponent(fixture);
       const tab = component['tabs']()[0];
-      (component as any).startRename(tab);
-      (component as any).renameValue.set('New');
+      (component as unknown as EditableTabsTestSeam).startRename(tab);
+      (component as unknown as EditableTabsTestSeam).renameValue.set('New');
       fixture.detectChanges();
       const input = fixture.nativeElement.querySelector(
         '.solaris-editable-tabs__rename-input',
@@ -644,8 +702,8 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.detectChanges();
       const component = getComponent(fixture);
       const tab = component['tabs']()[0];
-      (component as any).startRename(tab);
-      (component as any).renameValue.set('Entered');
+      (component as unknown as EditableTabsTestSeam).startRename(tab);
+      (component as unknown as EditableTabsTestSeam).renameValue.set('Entered');
       fixture.detectChanges();
       const input = fixture.nativeElement.querySelector(
         '.solaris-editable-tabs__rename-input',
@@ -668,7 +726,9 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.componentInstance.renamable.set(false);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).canRename(THREE_TABS[0])).toBe(false);
+      expect(
+        (component as unknown as EditableTabsTestSeam).canRename(THREE_TABS[0]),
+      ).toBe(false);
     });
 
     it('should return false for locked tab without renamable override', () => {
@@ -676,7 +736,11 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(LockedTabTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).canRename(LOCKED_TABS[0])).toBe(false);
+      expect(
+        (component as unknown as EditableTabsTestSeam).canRename(
+          LOCKED_TABS[0],
+        ),
+      ).toBe(false);
     });
 
     it('should return true for locked tab with renamable override', () => {
@@ -685,7 +749,9 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.detectChanges();
       const component = getComponent(fixture);
       const overriddenTab = { ...LOCKED_TABS[0], renamable: true };
-      expect((component as any).canRename(overriddenTab)).toBe(true);
+      expect(
+        (component as unknown as EditableTabsTestSeam).canRename(overriddenTab),
+      ).toBe(true);
     });
 
     it('should return false when tab renamable is false', () => {
@@ -694,7 +760,10 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.detectChanges();
       const component = getComponent(fixture);
       expect(
-        (component as any).canRename({ ...THREE_TABS[0], renamable: false }),
+        (component as unknown as EditableTabsTestSeam).canRename({
+          ...THREE_TABS[0],
+          renamable: false,
+        }),
       ).toBe(false);
     });
   });
@@ -706,12 +775,21 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.detectChanges();
       const component = getComponent(fixture);
       const tab = component['tabs']()[0];
-      (component as any).confirmRemove(tab, 0);
+      (component as unknown as EditableTabsTestSeam).confirmRemove(tab, 0);
       fixture.detectChanges();
       expect(fixture.componentInstance.removeEvent).toBeTruthy();
-      expect(fixture.componentInstance.removeEvent.value).toBe('tab1');
-      expect(fixture.componentInstance.removeEvent.index).toBe(0);
-      expect(fixture.componentInstance.removeEvent.wasActive).toBe(true);
+      expect(
+        assertPresent(fixture.componentInstance.removeEvent, 'remove event')
+          .value,
+      ).toBe('tab1');
+      expect(
+        assertPresent(fixture.componentInstance.removeEvent, 'remove event')
+          .index,
+      ).toBe(0);
+      expect(
+        assertPresent(fixture.componentInstance.removeEvent, 'remove event')
+          .wasActive,
+      ).toBe(true);
     });
 
     it('should set wasActive to false when removing inactive tab', () => {
@@ -720,9 +798,12 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.detectChanges();
       const component = getComponent(fixture);
       const tab = component['tabs']()[2];
-      (component as any).confirmRemove(tab, 2);
+      (component as unknown as EditableTabsTestSeam).confirmRemove(tab, 2);
       fixture.detectChanges();
-      expect(fixture.componentInstance.removeEvent.wasActive).toBe(false);
+      expect(
+        assertPresent(fixture.componentInstance.removeEvent, 'remove event')
+          .wasActive,
+      ).toBe(false);
     });
   });
 
@@ -733,7 +814,9 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.componentInstance.removable.set(false);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).canRemove(THREE_TABS[0])).toBe(false);
+      expect(
+        (component as unknown as EditableTabsTestSeam).canRemove(THREE_TABS[0]),
+      ).toBe(false);
     });
 
     it('should return false for locked tab without removable override', () => {
@@ -741,7 +824,11 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(LockedTabTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).canRemove(LOCKED_TABS[0])).toBe(false);
+      expect(
+        (component as unknown as EditableTabsTestSeam).canRemove(
+          LOCKED_TABS[0],
+        ),
+      ).toBe(false);
     });
 
     it('should return false for disabled tab', () => {
@@ -749,7 +836,11 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(DisabledTabTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).canRemove(DISABLED_TABS[1])).toBe(false);
+      expect(
+        (component as unknown as EditableTabsTestSeam).canRemove(
+          DISABLED_TABS[1],
+        ),
+      ).toBe(false);
     });
 
     it('should return false when at minimum tabs', () => {
@@ -758,7 +849,9 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.componentInstance.minTabs.set(3);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).canRemove(THREE_TABS[0])).toBe(false);
+      expect(
+        (component as unknown as EditableTabsTestSeam).canRemove(THREE_TABS[0]),
+      ).toBe(false);
     });
 
     it('should return true when allowEmpty is true regardless of minTabs', () => {
@@ -766,7 +859,9 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(AllowEmptyTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).canRemove(TWO_TABS[0])).toBe(true);
+      expect(
+        (component as unknown as EditableTabsTestSeam).canRemove(TWO_TABS[0]),
+      ).toBe(true);
     });
   });
 
@@ -777,13 +872,24 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.detectChanges();
       const component = getComponent(fixture);
       const tab = component['tabs']()[1];
-      (component as any).moveTab(tab, 1, 'left');
+      (component as unknown as EditableTabsTestSeam).moveTab(tab, 1, 'left');
       fixture.detectChanges();
       expect(fixture.componentInstance.moveEvent).toBeTruthy();
-      expect(fixture.componentInstance.moveEvent.value).toBe('tab2');
-      expect(fixture.componentInstance.moveEvent.previousIndex).toBe(1);
-      expect(fixture.componentInstance.moveEvent.nextIndex).toBe(0);
-      expect(fixture.componentInstance.moveEvent.direction).toBe('left');
+      expect(
+        assertPresent(fixture.componentInstance.moveEvent, 'move event').value,
+      ).toBe('tab2');
+      expect(
+        assertPresent(fixture.componentInstance.moveEvent, 'move event')
+          .previousIndex,
+      ).toBe(1);
+      expect(
+        assertPresent(fixture.componentInstance.moveEvent, 'move event')
+          .nextIndex,
+      ).toBe(0);
+      expect(
+        assertPresent(fixture.componentInstance.moveEvent, 'move event')
+          .direction,
+      ).toBe('left');
     });
 
     it('should emit tabMove on move right', () => {
@@ -792,10 +898,16 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.detectChanges();
       const component = getComponent(fixture);
       const tab = component['tabs']()[1];
-      (component as any).moveTab(tab, 1, 'right');
+      (component as unknown as EditableTabsTestSeam).moveTab(tab, 1, 'right');
       fixture.detectChanges();
-      expect(fixture.componentInstance.moveEvent.direction).toBe('right');
-      expect(fixture.componentInstance.moveEvent.nextIndex).toBe(2);
+      expect(
+        assertPresent(fixture.componentInstance.moveEvent, 'move event')
+          .direction,
+      ).toBe('right');
+      expect(
+        assertPresent(fixture.componentInstance.moveEvent, 'move event')
+          .nextIndex,
+      ).toBe(2);
     });
   });
 
@@ -805,7 +917,11 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(BasicTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).canMoveLeft(THREE_TABS[0])).toBe(false);
+      expect(
+        (component as unknown as EditableTabsTestSeam).canMoveLeft(
+          THREE_TABS[0],
+        ),
+      ).toBe(false);
     });
 
     it('should return true for second tab', () => {
@@ -813,7 +929,11 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(BasicTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).canMoveLeft(THREE_TABS[1])).toBe(true);
+      expect(
+        (component as unknown as EditableTabsTestSeam).canMoveLeft(
+          THREE_TABS[1],
+        ),
+      ).toBe(true);
     });
 
     it('should return false when movable input is false', () => {
@@ -822,7 +942,11 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.componentInstance.movable.set(false);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).canMoveLeft(THREE_TABS[1])).toBe(false);
+      expect(
+        (component as unknown as EditableTabsTestSeam).canMoveLeft(
+          THREE_TABS[1],
+        ),
+      ).toBe(false);
     });
 
     it('should return false for disabled tab', () => {
@@ -830,7 +954,11 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(DisabledTabTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).canMoveLeft(DISABLED_TABS[1])).toBe(false);
+      expect(
+        (component as unknown as EditableTabsTestSeam).canMoveLeft(
+          DISABLED_TABS[1],
+        ),
+      ).toBe(false);
     });
   });
 
@@ -840,7 +968,11 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(BasicTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).canMoveRight(THREE_TABS[2])).toBe(false);
+      expect(
+        (component as unknown as EditableTabsTestSeam).canMoveRight(
+          THREE_TABS[2],
+        ),
+      ).toBe(false);
     });
 
     it('should return true for middle tab', () => {
@@ -848,7 +980,11 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(BasicTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).canMoveRight(THREE_TABS[0])).toBe(true);
+      expect(
+        (component as unknown as EditableTabsTestSeam).canMoveRight(
+          THREE_TABS[0],
+        ),
+      ).toBe(true);
     });
   });
 
@@ -858,7 +994,11 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(LockedTabTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).canMoveLeft(LOCKED_TABS[1])).toBe(false);
+      expect(
+        (component as unknown as EditableTabsTestSeam).canMoveLeft(
+          LOCKED_TABS[1],
+        ),
+      ).toBe(false);
     });
 
     it('should not allow moving right past a locked tab', () => {
@@ -866,7 +1006,11 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(LockedTabTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).canMoveRight(LOCKED_TABS[1])).toBe(false);
+      expect(
+        (component as unknown as EditableTabsTestSeam).canMoveRight(
+          LOCKED_TABS[1],
+        ),
+      ).toBe(false);
     });
 
     it('should not move tab when moveTab is called without permission', () => {
@@ -874,7 +1018,11 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(EventsTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      (component as any).moveTab(THREE_TABS[0], 0, 'left');
+      (component as unknown as EditableTabsTestSeam).moveTab(
+        THREE_TABS[0],
+        0,
+        'left',
+      );
       fixture.detectChanges();
       expect(fixture.componentInstance.moveEvent).toBeNull();
     });
@@ -887,10 +1035,15 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.detectChanges();
       const component = getComponent(fixture);
       const tab = component['tabs']()[1];
-      (component as any).setAsDefault(tab);
+      (component as unknown as EditableTabsTestSeam).setAsDefault(tab);
       fixture.detectChanges();
       expect(fixture.componentInstance.defaultChangeEvent).toBeTruthy();
-      expect(fixture.componentInstance.defaultChangeEvent.value).toBe('tab2');
+      expect(
+        assertPresent(
+          fixture.componentInstance.defaultChangeEvent,
+          'default change event',
+        ).value,
+      ).toBe('tab2');
     });
 
     it('should include previousDefaultValue when changing default', () => {
@@ -898,10 +1051,15 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(EventsTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      (component as any).setAsDefault(component['tabs']()[0]);
+      (component as unknown as EditableTabsTestSeam).setAsDefault(
+        component['tabs']()[0],
+      );
       fixture.detectChanges();
       expect(
-        fixture.componentInstance.defaultChangeEvent.previousDefaultValue,
+        assertPresent(
+          fixture.componentInstance.defaultChangeEvent,
+          'default change event',
+        ).previousDefaultValue,
       ).toBeUndefined();
     });
 
@@ -912,12 +1070,15 @@ describe('SolarisEditableTabsComponent', () => {
       const component = getComponent(fixture);
       const tab1 = component['tabs']()[0];
       const tab2 = component['tabs']()[1];
-      (component as any).setAsDefault(tab1);
+      (component as unknown as EditableTabsTestSeam).setAsDefault(tab1);
       fixture.detectChanges();
-      (component as any).setAsDefault(tab2);
+      (component as unknown as EditableTabsTestSeam).setAsDefault(tab2);
       fixture.detectChanges();
       expect(
-        fixture.componentInstance.defaultChangeEvent.previousDefaultValue,
+        assertPresent(
+          fixture.componentInstance.defaultChangeEvent,
+          'default change event',
+        ).previousDefaultValue,
       ).toBe('tab1');
     });
   });
@@ -929,12 +1090,22 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.detectChanges();
       const component = getComponent(fixture);
       const tab = component['tabs']()[0];
-      const action = tab.customActions![0];
-      (component as any).handleCustomAction(tab, action);
+      const actions = assertPresent(tab.customActions, 'custom actions');
+      const action = assertPresent(actions[0], 'custom action');
+      (component as unknown as EditableTabsTestSeam).handleCustomAction(
+        tab,
+        action,
+      );
       fixture.detectChanges();
       expect(fixture.componentInstance.actionEvent).toBeTruthy();
-      expect(fixture.componentInstance.actionEvent.tabValue).toBe('tab1');
-      expect(fixture.componentInstance.actionEvent.actionId).toBe('duplicate');
+      expect(
+        assertPresent(fixture.componentInstance.actionEvent, 'action event')
+          .tabValue,
+      ).toBe('tab1');
+      expect(
+        assertPresent(fixture.componentInstance.actionEvent, 'action event')
+          .actionId,
+      ).toBe('duplicate');
     });
   });
 
@@ -944,7 +1115,11 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(NonEditableTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).hasActions(THREE_TABS[0])).toBe(false);
+      expect(
+        (component as unknown as EditableTabsTestSeam).hasActions(
+          THREE_TABS[0],
+        ),
+      ).toBe(false);
     });
 
     it('should return true for editable tab with default settings', () => {
@@ -952,7 +1127,11 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(BasicTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).hasActions(THREE_TABS[0])).toBe(true);
+      expect(
+        (component as unknown as EditableTabsTestSeam).hasActions(
+          THREE_TABS[0],
+        ),
+      ).toBe(true);
     });
 
     it('should return true when tab has custom actions', () => {
@@ -961,7 +1140,11 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.detectChanges();
       const component = getComponent(fixture);
       const tabWithActions = component['tabs']()[0];
-      expect((component as any).hasActions(tabWithActions)).toBe(true);
+      expect(
+        (component as unknown as EditableTabsTestSeam).hasActions(
+          tabWithActions,
+        ),
+      ).toBe(true);
     });
 
     it('should return true when tab has custom actions even when removable/movable are disabled', () => {
@@ -977,7 +1160,11 @@ describe('SolarisEditableTabsComponent', () => {
         ...THREE_TABS[0],
         customActions: [{ id: 'test', label: 'Test' }],
       };
-      expect((component as any).hasActions(tabWithActions)).toBe(true);
+      expect(
+        (component as unknown as EditableTabsTestSeam).hasActions(
+          tabWithActions,
+        ),
+      ).toBe(true);
     });
 
     it('should return false for disabled tab', () => {
@@ -985,7 +1172,11 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(DisabledTabTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).hasActions(DISABLED_TABS[1])).toBe(false);
+      expect(
+        (component as unknown as EditableTabsTestSeam).hasActions(
+          DISABLED_TABS[1],
+        ),
+      ).toBe(false);
     });
 
     it('should return false when all individual actions are disabled', () => {
@@ -997,7 +1188,11 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.componentInstance.defaultable.set(false);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).hasActions(THREE_TABS[0])).toBe(false);
+      expect(
+        (component as unknown as EditableTabsTestSeam).hasActions(
+          THREE_TABS[0],
+        ),
+      ).toBe(false);
     });
   });
 
@@ -1035,9 +1230,11 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(BasicTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).isDragReorderEnabled(THREE_TABS[1])).toBe(
-        false,
-      );
+      expect(
+        (component as unknown as EditableTabsTestSeam).isDragReorderEnabled(
+          THREE_TABS[1],
+        ),
+      ).toBe(false);
     });
 
     it('should render draggable="false" by default with no grab affordance', () => {
@@ -1054,7 +1251,11 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(EventsTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).isDragReorderEnabled(THREE_TABS[1])).toBe(true);
+      expect(
+        (component as unknown as EditableTabsTestSeam).isDragReorderEnabled(
+          THREE_TABS[1],
+        ),
+      ).toBe(true);
     });
 
     it('should set draggable attribute on tabs when enabled', () => {
@@ -1071,9 +1272,11 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.componentInstance.movable.set(false);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).isDragReorderEnabled(THREE_TABS[1])).toBe(
-        false,
-      );
+      expect(
+        (component as unknown as EditableTabsTestSeam).isDragReorderEnabled(
+          THREE_TABS[1],
+        ),
+      ).toBe(false);
     });
 
     it('should disable drag reorder with property-bound dragToReorder false', () => {
@@ -1081,9 +1284,11 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(DragDisabledTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).isDragReorderEnabled(THREE_TABS[1])).toBe(
-        false,
-      );
+      expect(
+        (component as unknown as EditableTabsTestSeam).isDragReorderEnabled(
+          THREE_TABS[1],
+        ),
+      ).toBe(false);
     });
 
     it('should disable drag reorder with static dragToReorder="false" attribute', () => {
@@ -1091,9 +1296,11 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(StaticDragOffTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).isDragReorderEnabled(THREE_TABS[1])).toBe(
-        false,
-      );
+      expect(
+        (component as unknown as EditableTabsTestSeam).isDragReorderEnabled(
+          THREE_TABS[1],
+        ),
+      ).toBe(false);
     });
 
     it('should render draggable="false" and no grab affordance when disabled', () => {
@@ -1110,9 +1317,14 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(DragDisabledTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      (component as any).draggingTabIndex.set(0);
-      (component as any).onTabDragOver(dragEvent() as DragEvent, 1);
-      expect((component as any).dropIndicatorIndex()).toBeNull();
+      (component as unknown as EditableTabsTestSeam).draggingTabIndex.set(0);
+      (component as unknown as EditableTabsTestSeam).onTabDragOver(
+        dragEvent() as DragEvent,
+        1,
+      );
+      expect(
+        (component as unknown as EditableTabsTestSeam).dropIndicatorIndex(),
+      ).toBeNull();
     });
 
     it('should disable drag reorder for locked tabs', () => {
@@ -1120,9 +1332,11 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(LockedTabTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).isDragReorderEnabled(LOCKED_TABS[0])).toBe(
-        false,
-      );
+      expect(
+        (component as unknown as EditableTabsTestSeam).isDragReorderEnabled(
+          LOCKED_TABS[0],
+        ),
+      ).toBe(false);
     });
 
     it('should disable drag reorder for disabled tabs', () => {
@@ -1130,9 +1344,11 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(DisabledTabTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      expect((component as any).isDragReorderEnabled(DISABLED_TABS[1])).toBe(
-        false,
-      );
+      expect(
+        (component as unknown as EditableTabsTestSeam).isDragReorderEnabled(
+          DISABLED_TABS[1],
+        ),
+      ).toBe(false);
     });
 
     it('should not start drag from buttons or inputs', () => {
@@ -1142,7 +1358,7 @@ describe('SolarisEditableTabsComponent', () => {
       const component = getComponent(fixture);
       const button = document.createElement('button');
       let prevented = false;
-      (component as any).onTabDragStart(
+      (component as unknown as EditableTabsTestSeam).onTabDragStart(
         {
           preventDefault: (): void => {
             prevented = true;
@@ -1153,7 +1369,9 @@ describe('SolarisEditableTabsComponent', () => {
         1,
       );
       expect(prevented).toBe(true);
-      expect((component as any).draggingTabIndex()).toBeNull();
+      expect(
+        (component as unknown as EditableTabsTestSeam).draggingTabIndex(),
+      ).toBeNull();
     });
 
     it('should emit tabMove on drop at a new position', () => {
@@ -1161,7 +1379,7 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(EventsTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      (component as any).onTabDragStart(
+      (component as unknown as EditableTabsTestSeam).onTabDragStart(
         dragEvent() as DragEvent,
         component['tabs']()[0],
         0,
@@ -1173,16 +1391,25 @@ describe('SolarisEditableTabsComponent', () => {
             ({ left: 0, width: 100 }) as DOMRect,
         },
       });
-      (component as any).onTabDrop(
+      (component as unknown as EditableTabsTestSeam).onTabDrop(
         dropEvent as DragEvent,
         component['tabs']()[1],
         1,
       );
       fixture.detectChanges();
       expect(fixture.componentInstance.moveEvent).toBeTruthy();
-      expect(fixture.componentInstance.moveEvent.previousIndex).toBe(0);
-      expect(fixture.componentInstance.moveEvent.nextIndex).toBe(1);
-      expect(fixture.componentInstance.moveEvent.direction).toBe('right');
+      expect(
+        assertPresent(fixture.componentInstance.moveEvent, 'move event')
+          .previousIndex,
+      ).toBe(0);
+      expect(
+        assertPresent(fixture.componentInstance.moveEvent, 'move event')
+          .nextIndex,
+      ).toBe(1);
+      expect(
+        assertPresent(fixture.componentInstance.moveEvent, 'move event')
+          .direction,
+      ).toBe('right');
     });
 
     it('should not emit tabMove when dropped at the same position', () => {
@@ -1190,13 +1417,13 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(EventsTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      (component as any).onTabDragStart(
+      (component as unknown as EditableTabsTestSeam).onTabDragStart(
         dragEvent() as DragEvent,
         component['tabs']()[1],
         1,
       );
-      (component as any).dropIndicatorIndex.set(1);
-      (component as any).onTabDrop(
+      (component as unknown as EditableTabsTestSeam).dropIndicatorIndex.set(1);
+      (component as unknown as EditableTabsTestSeam).onTabDrop(
         dragEvent() as DragEvent,
         component['tabs']()[1],
         1,
@@ -1210,14 +1437,18 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(EventsTestHost);
       fixture.detectChanges();
       const component = getComponent(fixture);
-      (component as any).onTabDragStart(
+      (component as unknown as EditableTabsTestSeam).onTabDragStart(
         dragEvent() as DragEvent,
         component['tabs']()[0],
         0,
       );
-      (component as any).onTabDragEnd();
-      expect((component as any).draggingTabIndex()).toBeNull();
-      expect((component as any).dropIndicatorIndex()).toBeNull();
+      (component as unknown as EditableTabsTestSeam).onTabDragEnd();
+      expect(
+        (component as unknown as EditableTabsTestSeam).draggingTabIndex(),
+      ).toBeNull();
+      expect(
+        (component as unknown as EditableTabsTestSeam).dropIndicatorIndex(),
+      ).toBeNull();
     });
   });
 

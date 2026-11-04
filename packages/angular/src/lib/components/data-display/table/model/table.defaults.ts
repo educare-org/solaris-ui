@@ -4,6 +4,7 @@ import {
   SOLARIS_TABLE_EXPAND_MODES,
   SOLARIS_TABLE_LAYOUTS,
   SOLARIS_TABLE_RADII,
+  SOLARIS_TABLE_RESPONSIVES,
   SOLARIS_TABLE_SELECTION_MODES,
   SOLARIS_TABLE_STRIPED_MODES,
   type SolarisTableAppearance,
@@ -12,6 +13,7 @@ import {
   type SolarisTableIconPosition,
   type SolarisTableLayout,
   type SolarisTableRadius,
+  type SolarisTableResponsive,
   type SolarisTableSelectionMode,
   type SolarisTableSort,
   type SolarisTableStripedMode,
@@ -89,6 +91,7 @@ export const DEFAULT_SOLARIS_TABLE_APPEARANCE: SolarisTableAppearance =
 export const DEFAULT_SOLARIS_TABLE_STRIPED_MODE: SolarisTableStripedMode =
   'even';
 export const DEFAULT_SOLARIS_TABLE_LAYOUT: SolarisTableLayout = 'auto';
+export const DEFAULT_SOLARIS_TABLE_RESPONSIVE: SolarisTableResponsive = 'auto';
 export const DEFAULT_SOLARIS_TABLE_EXPAND_MODE: SolarisTableExpandMode = 'row';
 export const DEFAULT_SOLARIS_TABLE_RADIUS: SolarisTableRadius = 'md';
 export const DEFAULT_SOLARIS_TABLE_ICON_POSITION: SolarisTableIconPosition =
@@ -100,6 +103,7 @@ const stripedModes = new Set<SolarisTableStripedMode>(
   SOLARIS_TABLE_STRIPED_MODES,
 );
 const layouts = new Set<SolarisTableLayout>(SOLARIS_TABLE_LAYOUTS);
+const responsives = new Set<SolarisTableResponsive>(SOLARIS_TABLE_RESPONSIVES);
 const expandModes = new Set<SolarisTableExpandMode>(SOLARIS_TABLE_EXPAND_MODES);
 
 export function normalizeTableAppearance(
@@ -124,6 +128,14 @@ export function normalizeTableLayout(
   return layouts.has(value as SolarisTableLayout)
     ? (value as SolarisTableLayout)
     : DEFAULT_SOLARIS_TABLE_LAYOUT;
+}
+
+export function normalizeTableResponsive(
+  value: string | null | undefined,
+): SolarisTableResponsive {
+  return responsives.has(value as SolarisTableResponsive)
+    ? (value as SolarisTableResponsive)
+    : DEFAULT_SOLARIS_TABLE_RESPONSIVE;
 }
 
 export function normalizeTableExpandMode(

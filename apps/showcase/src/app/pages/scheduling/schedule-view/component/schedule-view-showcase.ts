@@ -92,7 +92,7 @@ function buildStressEvents(total: number): SolarisCalendarEvent[] {
   });
 }
 
-type DemoLocale = 'pt-BR' | 'en-US' | 'es';
+type DemoLocale = 'pt-BR' | 'en-US' | 'es-419';
 type DemoWindow = '7' | '14';
 type DemoDataset = 'sample' | 'stress';
 
@@ -168,7 +168,7 @@ export class ScheduleViewShowcasePage implements OnInit {
   }
 
   protected async selectLocale(locale: unknown): Promise<void> {
-    if (locale !== 'pt-BR' && locale !== 'en-US' && locale !== 'es') return;
+    if (locale !== 'pt-BR' && locale !== 'en-US' && locale !== 'es-419') return;
     this.demoLocale.set(locale);
     await this.refreshHolidays();
   }

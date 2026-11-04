@@ -2,9 +2,9 @@
 
 ## Purpose
 
-Solaris must be developed safely on Windows, Linux, and macOS.
-
-All scripts, commands, generators, schematics, validation tools, and documentation examples must be cross-platform by default.
+Solaris is developed on Windows, Linux, and macOS. Every script, command,
+generator, schematic, validation flow, and documentation example must run
+on all three.
 
 ## Core rule
 
@@ -12,76 +12,46 @@ All scripts, commands, generators, schematics, validation tools, and documentati
 If a command does not run on Windows, Linux, and macOS, it is not a valid Solaris command.
 ```
 
-Exceptions are allowed only when they are:
-
-- technically justified;
-- isolated behind a documented wrapper;
-- not placed directly in general-purpose package scripts;
-- accompanied by a cross-platform alternative when possible.
+Exceptions are allowed only when technically justified, isolated behind a
+documented wrapper, never placed directly in a general-purpose package
+script, and accompanied by a cross-platform alternative when possible.
 
 ## Scope
 
-This policy applies to:
-
-- `package.json` scripts;
-- Nx targets;
-- local validation scripts;
-- CI commands;
-- Git hooks;
-- generators;
-- schematics;
-- documentation examples;
-- AI-generated commands;
-- setup instructions;
-- maintenance scripts.
+This policy covers `package.json` scripts, Nx targets, validation scripts,
+CI commands, Git hooks, generators, schematics, documentation examples,
+AI-generated commands, setup instructions, and maintenance scripts.
 
 ## Forbidden by default
 
-Do not use Unix-only command syntax in general-purpose scripts:
+Unix-only syntax in general-purpose scripts:
 
 ```txt
 rm -rf dist
 cp -r src dist
 mkdir -p tools/tmp
 NODE_ENV=production nx build
-VAR=value pnpm start
 cat file.txt
 grep "pattern" file.txt
-find ./src -name "*.ts"
 ```
 
-Do not use Windows-only command syntax in general-purpose scripts:
+Windows-only syntax in general-purpose scripts:
 
 ```txt
 rmdir /s /q dist
 copy src dist
 set NODE_ENV=production && nx build
 type file.txt
-dir /s
 ```
 
-Do not hardcode path assumptions:
+Hardcoded path assumptions:
 
 ```txt
 tools/scripts/clean.sh
 src\styles\solaris.scss
-packages/angular/src/lib\core
 ```
 
-## Preferred approaches
-
-Prefer:
-
-```txt
-Node scripts
-Nx executors
-pnpm scripts with portable commands
-cross-platform utilities
-documented wrappers
-portable path handling
-```
-
-Examples:
+## Preferred
 
 ```txt
 node ./tools/scripts/clean.mjs
@@ -90,298 +60,32 @@ node ./tools/scripts/verify.mjs
 cross-env NODE_ENV=production nx build showcase
 ```
 
-## Node script rule
+Prefer Node scripts (`.mjs` under `tools/scripts/`), Nx executors, and
+portable path handling (`node:path`, never string-concatenated
+separators). Inline Unix-style env vars are forbidden; use `cross-env` or
+a Node wrapper. Shell-specific hooks are allowed only as internal wrappers
+with a documented portable alternative.
 
-For non-trivial automation, prefer Node scripts over shell scripts.
-
-Recommended location:
-
-```txt
-tools/scripts/
-```
-
-Recommended extension:
+## Roles
 
 ```txt
-.mjs
-```
-
-Node scripts must use portable APIs:
-
-```txt
-node:path
-node:fs/promises
-node:process
-```
-
-They must avoid shell-specific assumptions.
-
-## Environment variables
-
-Inline Unix-style environment variables are forbidden in portable scripts.
-
-Forbidden:
-
-```txt
-NODE_ENV=production nx build
-```
-
-Allowed:
-
-```txt
-cross-env NODE_ENV=production nx build
-```
-
-Preferred when logic grows:
-
-```txt
-node ./tools/scripts/build-production.mjs
-```
-
-## File system operations
-
-Use Node scripts or cross-platform utilities for:
-
-- removing directories;
-- copying files;
-- creating directories;
-- scanning files;
-- reading files;
-- replacing text;
-- validating paths.
-
-Preferred:
-
-```txt
-node ./tools/scripts/clean.mjs
-```
-
-Acceptable when justified:
-
-```txt
-rimraf dist
-shx cp -r src dist
-```
-
-## Path handling
-
-Scripts must use portable path handling.
-
-Preferred in Node:
-
-```txt
-import path from 'node:path';
-
-const filePath = path.join(workspaceRoot, 'src', 'styles', 'solaris.scss');
-```
-
-Forbidden:
-
-```txt
-const filePath = workspaceRoot + '/src/styles/solaris.scss';
-const filePath = workspaceRoot + '\\src\\styles\\solaris.scss';
-```
-
-## Git hooks
-
-Git hooks must be cross-platform.
-
-Hooks must call portable package scripts or Node scripts.
-
-Preferred:
-
-```txt
-pnpm check:staged
-pnpm commitlint
-node ./tools/scripts/pre-push.mjs
-```
-
-Forbidden:
-
-```txt
-bash ./tools/hooks/pre-commit.sh
-powershell ./tools/hooks/pre-commit.ps1
-```
-
-Shell-specific hooks are allowed only as internal wrappers with documented alternatives.
-
-## CI
-
-CI commands must follow the same rules as local commands.
-
-A command that only works in Linux CI but fails on Windows development environments is not acceptable for general Solaris documentation or package scripts.
-
-## Script taxonomy
-
-Scripts are part of the architecture.
-
-They must be explicit, predictable, portable, and clear when they fail.
-
-Main rule:
-
-```txt
-start validates minimum health
-verify validates everything
+start validates minimum health, then serves the showcase
+verify runs the full quality gate (format, lint, typecheck, tests, build, a11y, package, API, audit)
 commit validates changed files
 CI validates the whole project
 ```
 
-### Development scripts
-
-```txt
-start
-dev
-showcase
-```
-
-### Fast validation scripts
-
-```txt
-check
-check:workspace
-check:format
-check:lint
-check:types
-```
-
-### Full validation scripts
-
-```txt
-verify
-verify:ci
-test
-test:unit
-test:component
-test:a11y
-test:e2e
-test:visual
-```
-
-### Build scripts
-
-```txt
-build
-build:lib
-build:showcase
-```
-
-### Security scripts
-
-```txt
-security:audit
-security:dependencies
-security:secrets
-security:licenses
-```
-
-### Release scripts
-
-```txt
-changeset
-version
-release
-release:dry-run
-package:check
-```
-
-### Maintenance scripts
-
-```txt
-format
-format:check
-lint
-lint:fix
-clean
-doctor
-```
-
-### `pnpm start`
-
-`pnpm start` must not simply run the application.
-
-It should validate minimum project health first:
-
-- package manager;
-- dependency installation;
-- workspace shape;
-- light format check;
-- affected lint;
-- affected typecheck.
-
-Then it may run the showcase.
-
-### `pnpm verify`
-
-`pnpm verify` must run the full quality gate:
-
-- format check;
-- lint;
-- typecheck;
-- tests;
-- build;
-- accessibility checks;
-- package validation;
-- public API validation;
-- dependency audit.
-
-## Documentation examples
-
-Documentation must prefer portable commands.
-
-Examples should use:
-
-```txt
-pnpm
-nx
-node
-cross-platform scripts
-```
-
-Avoid examples that assume Bash, zsh, PowerShell, or CMD unless the section is explicitly OS-specific.
+`pnpm doctor` diagnoses portability and workspace health (OS, Node, pnpm,
+lockfile, Nx, boundaries, required configs). A failing script must explain
+what failed and what to do next.
 
 ## AI command generation
 
-AI-generated commands must follow this document.
-
-AI must not assume Unix-like shells by default.
-
-If an OS-specific command is unavoidable, AI must explain why and provide a portable alternative when possible.
-
-## `pnpm doctor` responsibility
-
-`pnpm doctor` must help detect portability issues when feasible.
-
-It should validate:
-
-- operating system;
-- Node version;
-- pnpm version;
-- package manager correctness;
-- path handling assumptions;
-- required tools;
-- shell-specific commands in package scripts when detectable;
-- missing cross-platform wrappers.
-
-`pnpm doctor` must also diagnose the workspace:
-
-- lockfile integrity;
-- dependency installation;
-- Nx health;
-- Angular buildability;
-- import boundaries;
-- required config files.
-
-## Error message rule
-
-A failing script must explain what failed and what the developer should do next.
-
-A script that fails without useful guidance is considered incomplete.
-
-Cross-platform validation failures must explain:
-
-1. what command or file is not portable;
-2. why it is not portable;
-3. what portable alternative should be used.
+AI must assume Windows, Linux, and macOS. Prefer `pnpm`, Nx commands,
+Node scripts, and portable paths. Never assume Bash, zsh, PowerShell, or
+CMD. If an OS-specific command is unavoidable, explain why, isolate it
+behind a documented wrapper, and provide a portable alternative when
+possible.
 
 ## Final rule
 

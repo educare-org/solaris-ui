@@ -15,6 +15,11 @@ export interface SolarisPieChartSliceEvent {
   readonly id: string;
 }
 
+export interface SolarisPieChartFocusMark {
+  readonly id: string;
+  readonly position: number;
+}
+
 export interface SolarisPieChartSliceGeometry {
   readonly id: string;
   readonly label: string;

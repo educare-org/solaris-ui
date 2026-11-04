@@ -1,6 +1,7 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { SolarisFormErrorComponent } from '../component/form-error.component';
+import { assertPresent } from '../../../../testing/solaris-test-utilities';
 
 @Component({
   standalone: true,
@@ -28,21 +29,30 @@ describe('SolarisFormErrorComponent', () => {
   });
 
   it('should have host class solaris-form-error', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector(
-      'solaris-form-error',
-    )!;
+    const el = assertPresent(
+      (fixture.nativeElement as HTMLElement).querySelector(
+        'solaris-form-error',
+      ),
+      'solaris-form-error element',
+    );
     expect(el.classList.contains('solaris-form-error')).toBe(true);
   });
 
   it('should have role alert', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector(
-      'solaris-form-error',
-    )!;
+    const el = assertPresent(
+      (fixture.nativeElement as HTMLElement).querySelector(
+        'solaris-form-error',
+      ),
+      'solaris-form-error element',
+    );
     expect(el.getAttribute('role')).toBe('alert');
   });
 
   it('should transclude content', () => {
-    const msg = (fixture.nativeElement as HTMLElement).querySelector('.msg')!;
+    const msg = assertPresent(
+      (fixture.nativeElement as HTMLElement).querySelector('.msg'),
+      'error message element',
+    );
     expect(msg.textContent?.trim()).toBe('Error text');
   });
 });

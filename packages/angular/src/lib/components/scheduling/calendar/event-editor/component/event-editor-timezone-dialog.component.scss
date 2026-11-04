@@ -19,8 +19,6 @@
 
 .solaris-event-editor-timezone-dialog__swap {
   flex: 0 0 auto;
-  /* Offsets the field label height so the icon sits at the visual center
-     of the two selects. Scoped to the class: never target bare `button`. */
   margin-top: var(--solaris-spacing-7);
 }
 

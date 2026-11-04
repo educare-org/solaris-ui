@@ -1,10 +1,24 @@
 import { By } from '@angular/platform-browser';
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
+import type { Signal } from '@angular/core';
 
-import { configureSolarisTesting } from '../../../../../testing/solaris-test-utilities';
+import {
+  assertPresent,
+  configureSolarisTesting,
+} from '../../../../../testing/solaris-test-utilities';
 import { SolarisTranslateService } from '../../../../../services/translation';
 import { SolarisChartShellComponent } from '../component/chart-shell.component';
 import type { SolarisChartSeries } from '../../model/chart.types';
+import type {
+  SolarisDatePreset,
+  SolarisDateRange,
+} from '../../../../forms/date/model/date.types';
+
+type ChartShellTestSeam = {
+  closeIntervalPicker: () => void;
+  onIntervalPickerChange: (range: SolarisDateRange) => void;
+  intervalPresets: Signal<readonly SolarisDatePreset[]>;
+};
 
 const SERIES: readonly SolarisChartSeries[] = [
   {
@@ -628,7 +642,9 @@ describe('SolarisChartShellComponent', () => {
     ) as HTMLInputElement[];
     expect(inputs).toHaveLength(2);
     expect(inputs.every((input) => !input.disabled)).toBe(true);
-    (fixture.componentInstance as any).closeIntervalPicker();
+    (
+      fixture.componentInstance as unknown as ChartShellTestSeam
+    ).closeIntervalPicker();
     await new Promise((resolve) => setTimeout(resolve, 350));
   });
 
@@ -658,7 +674,9 @@ describe('SolarisChartShellComponent', () => {
     fixture.componentInstance.rangeChange.subscribe((range) =>
       ranges.push(range),
     );
-    (fixture.componentInstance as any).onIntervalPickerChange({
+    (
+      fixture.componentInstance as unknown as ChartShellTestSeam
+    ).onIntervalPickerChange({
       start: '2026-04-28',
       end: '2026-05-10',
     });
@@ -674,7 +692,9 @@ describe('SolarisChartShellComponent', () => {
     fixture.componentRef.setInput('availablePeriods', [{ value: 'all' }]);
     fixture.componentRef.setInput('period', 'all');
     fixture.detectChanges();
-    (fixture.componentInstance as any).onIntervalPickerChange({
+    (
+      fixture.componentInstance as unknown as ChartShellTestSeam
+    ).onIntervalPickerChange({
       start: '2026-01-01',
       end: '2026-12-31',
     });
@@ -690,7 +710,9 @@ describe('SolarisChartShellComponent', () => {
     ]);
     fixture.componentRef.setInput('period', 'all');
     fixture.detectChanges();
-    (fixture.componentInstance as any).onIntervalPickerChange({
+    (
+      fixture.componentInstance as unknown as ChartShellTestSeam
+    ).onIntervalPickerChange({
       start: '2026-04-28',
       end: '2026-05-28',
     });
@@ -702,7 +724,9 @@ describe('SolarisChartShellComponent', () => {
     fixture.componentRef.setInput('intervalStart', '2026-01-01');
     fixture.componentRef.setInput('intervalEnd', '2026-01-07');
     fixture.detectChanges();
-    (fixture.componentInstance as any).onIntervalPickerChange({
+    (
+      fixture.componentInstance as unknown as ChartShellTestSeam
+    ).onIntervalPickerChange({
       start: '2026-01-01',
       end: '2026-02-01',
     });
@@ -716,7 +740,9 @@ describe('SolarisChartShellComponent', () => {
     fixture.componentRef.setInput('intervalStart', '2026-05-06');
     fixture.componentRef.setInput('intervalEnd', '2026-05-27');
     fixture.detectChanges();
-    (fixture.componentInstance as any).onIntervalPickerChange({
+    (
+      fixture.componentInstance as unknown as ChartShellTestSeam
+    ).onIntervalPickerChange({
       start: '2026-05-06',
       end: '2026-05-27',
     });
@@ -735,13 +761,18 @@ describe('SolarisChartShellComponent', () => {
     fixture.componentRef.setInput('intervalStart', '2026-04-28');
     fixture.componentRef.setInput('intervalEnd', '2026-05-04');
     fixture.detectChanges();
-    const presets = (fixture.componentInstance as any).intervalPresets();
-    const ids = presets.map((preset: { id: string }) => preset.id);
+    const presets = (
+      fixture.componentInstance as unknown as ChartShellTestSeam
+    ).intervalPresets();
+    const ids = presets.map((preset) => preset.id);
     expect(ids).toContain('week');
     expect(ids).toContain('month');
     expect(ids).not.toContain('all');
     expect(
-      presets.find((preset: { id: string }) => preset.id === 'week').range,
+      assertPresent(
+        presets.find((preset) => preset.id === 'week'),
+        'week preset',
+      ).range,
     ).toEqual({ start: '2026-04-28', end: '2026-05-04' });
   });
 
@@ -782,7 +813,6 @@ describe('SolarisChartShellComponent', () => {
     shell.componentRef.setInput('intervalStart', '2026-04-28');
     shell.componentRef.setInput('intervalEnd', '2026-05-04');
     shell.detectChanges();
-    const el = shell.nativeElement as HTMLElement;
     const items = shell.debugElement.queryAll(
       By.css('.solaris-chart-shell__periods solaris-segmented-item'),
     );
@@ -824,7 +854,9 @@ describe('SolarisChartShellComponent', () => {
         'solaris-date-range-picker .solaris-date-range-picker__panel',
       ),
     ).toBeTruthy();
-    (shell.componentInstance as any).closeIntervalPicker();
+    (
+      shell.componentInstance as unknown as ChartShellTestSeam
+    ).closeIntervalPicker();
     await new Promise((resolve) => setTimeout(resolve, 350));
   });
 
@@ -848,6 +880,8 @@ describe('SolarisChartShellComponent', () => {
         'solaris-date-range-picker .solaris-date-range-picker__panel',
       ),
     ).toBeNull();
-    (fixture.componentInstance as any).closeIntervalPicker();
+    (
+      fixture.componentInstance as unknown as ChartShellTestSeam
+    ).closeIntervalPicker();
   });
 });

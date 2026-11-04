@@ -1,0 +1,10 @@
+{
+  "maxIdenticalLength": 30,
+  "identicalExceptions": [
+    {
+      "dir": "apps/showcase/src/app/pages/overlay/dialog/translation",
+      "key": "dialog.examples.scroll.item-text",
+      "reason": "Lorem ipsum filler is identical by nature in every locale"
+    }
+  ]
+}

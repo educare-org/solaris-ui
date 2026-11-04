@@ -8,8 +8,8 @@ export const OPTION_SHOWCASE_SLUG = 'option';
 export const OPTION_TRANSLATION_PREFIX = 'option';
 
 export const OPTION_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] = [
-  { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-  { labelKey: 'shell.sidebar.group.forms', route: '/configuration' },
+  { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+  { labelKey: 'shell.sidebar.group.forms', route: '/introduction' },
   { labelKey: 'shell.sidebar.item.option' },
 ];
 

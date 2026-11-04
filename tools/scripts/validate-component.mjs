@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
-import { join, dirname, sep } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join, sep } from 'node:path';
+import {
+  workspaceRoot,
+  hasExceptionNearby,
+  walkFilesByExtension as walk,
+} from './shared.mjs';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
 const COMPONENTS_BASE = join(
-  __dirname,
-  '..',
-  '..',
+  workspaceRoot,
   'packages',
   'angular',
   'src',
@@ -35,19 +36,6 @@ const CSS_HEADING = /^##+ .*(css|custom|customiz|styling|variables).*/i;
 
 const errors = [];
 const warnings = [];
-
-function walk(dir, ext, out = []) {
-  if (!existsSync(dir)) return out;
-  for (const entry of readdirSync(dir)) {
-    const full = join(dir, entry);
-    if (statSync(full).isDirectory()) {
-      walk(full, ext, out);
-    } else if (entry.endsWith(ext)) {
-      out.push(full);
-    }
-  }
-  return out;
-}
 
 function baseName(filePath) {
   return filePath.split(/[/\\]/).pop();
@@ -95,18 +83,93 @@ function checkStructure(compDir, name) {
   const hasModel = walk(compDir, '.ts').some((f) =>
     f.includes(`${sep}model${sep}`),
   );
+  const hasFunctions = existsSync(join(compDir, 'functions'));
+  const hasTranslation = existsSync(join(compDir, 'translation'));
   const hasDocs = existsSync(join(compDir, 'docs'));
   const hasIndex = existsSync(join(compDir, 'index.ts'));
 
   if (!hasSourceDir)
-    warnings.push(
+    errors.push(
       `${name}: missing component/ (or directives/ or components/) directory`,
     );
-  if (!hasModel) warnings.push(`${name}: missing model/ directory`);
+  if (!hasModel) errors.push(`${name}: missing model/ directory`);
+  if (!hasFunctions)
+    warnings.push(
+      `${name}: missing functions/ directory (required for new components; existing components migrate opportunistically)`,
+    );
+  if (!hasTranslation)
+    warnings.push(
+      `${name}: missing translation/ directory (required when the component exposes text)`,
+    );
   if (!hasDocs) errors.push(`${name}: missing docs/ directory`);
   if (!hasIndex) errors.push(`${name}: missing index.ts`);
 
   return { hasSourceDir, hasDocs };
+}
+
+function modelImportsAngularValues(content) {
+  return content.split(';').some((stmt) => {
+    const trimmed = stmt.trim();
+    return (
+      trimmed.startsWith('import') &&
+      !trimmed.startsWith('import type') &&
+      trimmed.includes('@angular/')
+    );
+  });
+}
+
+function checkComponentDirContract(filePath, content, normalized) {
+  if (!normalized.includes('/component/') || !filePath.endsWith('.ts')) return;
+  if (/export\s+(type|interface)\s+\w+/.test(content)) {
+    warnings.push(
+      `${filePath}: component/ exports types or interfaces (move them to model/)`,
+    );
+  }
+  if (/^export\s+function/m.test(content)) {
+    warnings.push(
+      `${filePath}: component/ exports standalone functions (move them to functions/)`,
+    );
+  }
+}
+
+function checkModelDirContract(filePath, content, normalized) {
+  if (!normalized.includes('/model/') || !filePath.endsWith('.ts')) return;
+  const fileName = normalized.split('/').pop() ?? '';
+  if (
+    /\.tokens?\.ts$|\.contract\.ts$/.test(fileName) ||
+    /new\s+InjectionToken/.test(content)
+  )
+    return;
+  if (modelImportsAngularValues(content)) {
+    warnings.push(
+      `${filePath}: model/ imports Angular values (keep data-only; move logic to functions/)`,
+    );
+  }
+}
+
+function checkFunctionsDirContract(filePath, content, normalized) {
+  if (!normalized.includes('/functions/') || !filePath.endsWith('.ts')) return;
+  if (content.includes('@angular/')) {
+    errors.push(
+      `${filePath}: functions/ must not import Angular (pure logic only)`,
+    );
+  }
+  if (
+    /\b(document|window|localStorage|sessionStorage|navigator)\b/.test(content)
+  ) {
+    errors.push(
+      `${filePath}: functions/ must not touch browser globals directly`,
+    );
+  }
+}
+
+function checkFolderContract(filePath) {
+  const content = readFileSync(filePath, 'utf-8');
+  const normalized = filePath.split(sep).join('/');
+
+  checkComponentDirContract(filePath, content, normalized);
+  checkModelDirContract(filePath, content, normalized);
+  checkFunctionsDirContract(filePath, content, normalized);
 }
 
 function checkInlineTemplate(tsFile, content) {
@@ -119,16 +182,12 @@ function checkInlineTemplate(tsFile, content) {
 }
 
 function checkRawColors(tsFile, content) {
-  // Honors SOLARIS_TOKEN_EXCEPTION, e.g. Canvas2D colors that cannot read
-  // CSS vars — see 03-standards-decision.
   const lines = content.split('\n');
   const hasUnexceptedColor = lines.some((line, i) => {
     if (!/#[0-9a-fA-F]{3,8}/.test(line) && !/rgba?\(/.test(line)) {
       return false;
     }
-    return !lines
-      .slice(Math.max(0, i - 3), i + 1)
-      .some((l) => l.includes('SOLARIS_TOKEN_EXCEPTION'));
+    return !hasExceptionNearby(lines, i, 'SOLARIS_TOKEN_EXCEPTION', 3);
   });
   if (hasUnexceptedColor) {
     warnings.push(
@@ -180,6 +239,7 @@ function validateComponent(compDir) {
 
     for (const filePath of tsFiles) {
       checkTsFile(filePath);
+      checkFolderContract(filePath);
     }
   }
 

@@ -208,6 +208,16 @@ export class SolarisSegmentedControlComponent
 
     this.setupIndicatorMeasurement();
 
+    if (typeof document !== 'undefined' && document.fonts) {
+      document.fonts.ready
+        .then(() => {
+          this.ngZone.runOutsideAngular(() => {
+            requestAnimationFrame(() => this.measureIndicator());
+          });
+        })
+        .catch(() => undefined);
+    }
+
     effect(
       () => {
         this.value();
@@ -216,6 +226,8 @@ export class SolarisSegmentedControlComponent
         this.size();
         this.effectiveDensity();
         this.radius();
+        this.items();
+        this.observeIndicatorTargets();
         this.ngZone.runOutsideAngular(() => {
           requestAnimationFrame(() => this.measureIndicator());
         });
@@ -324,8 +336,7 @@ export class SolarisSegmentedControlComponent
           requestAnimationFrame(() => this.measureIndicator());
         });
       });
-      const nativeEl = this.elementRef.nativeElement as HTMLElement;
-      this.resizeObserver.observe(nativeEl);
+      this.observeIndicatorTargets();
     }
 
     if (typeof MutationObserver !== 'undefined') {
@@ -347,6 +358,19 @@ export class SolarisSegmentedControlComponent
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => this.measureIndicator());
     });
+  }
+
+  private observeIndicatorTargets(): void {
+    const observer = this.resizeObserver;
+    if (!observer) {
+      return;
+    }
+    observer.disconnect();
+    const nativeEl = this.elementRef.nativeElement as HTMLElement;
+    observer.observe(nativeEl);
+    nativeEl
+      .querySelectorAll('solaris-segmented-item')
+      .forEach((item) => observer.observe(item));
   }
 
   private disconnectObserver(): void {

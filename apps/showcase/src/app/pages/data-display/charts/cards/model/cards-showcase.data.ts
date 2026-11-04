@@ -10,7 +10,7 @@ export const CHART_CARDS_TRANSLATION_PREFIX = 'chart-cards-view';
 
 export const CHART_CARDS_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.charts' },
     { labelKey: 'shell.sidebar.item.chart-cards' },
   ];

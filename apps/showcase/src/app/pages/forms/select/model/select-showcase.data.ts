@@ -8,8 +8,8 @@ export const SELECT_SHOWCASE_SLUG = 'select';
 export const SELECT_TRANSLATION_PREFIX = 'select';
 
 export const SELECT_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] = [
-  { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-  { labelKey: 'shell.sidebar.group.forms', route: '/configuration' },
+  { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+  { labelKey: 'shell.sidebar.group.forms', route: '/introduction' },
   { labelKey: 'shell.sidebar.item.select' },
 ];
 

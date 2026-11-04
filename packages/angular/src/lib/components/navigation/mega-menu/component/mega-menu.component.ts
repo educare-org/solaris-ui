@@ -235,7 +235,6 @@ export class SolarisMegaMenuComponent implements SolarisMegaMenuControl {
 
   protected onPanelPointerEnter(): void {
     this.cancelScheduledClose();
-    // Revive a panel caught mid-exit: reopening cancels the delayed detach.
     if (!this.isOpen() && this.overlayRef?.hasAttached()) {
       this.openState.set(true);
     }
@@ -296,8 +295,6 @@ export class SolarisMegaMenuComponent implements SolarisMegaMenuControl {
       return;
     }
 
-    // State stays synchronous (openState is already false); only the overlay
-    // detach is delayed so the [data-closing] exit animation can play.
     this.markPanelClosing();
     this.closeTimeout = scheduleMotionClose(() => {
       this.closeTimeout = null;

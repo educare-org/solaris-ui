@@ -38,6 +38,8 @@
   --solaris-select-value-color: var(--solaris-pagination-range-color);
   --solaris-select-trigger-gap: var(--solaris-spacing-3);
   --solaris-select-dropdown-icon-size: var(--solaris-font-size-md);
+
+  // SOLARIS_TOKEN_EXCEPTION: value width must track digit glyphs, not root px, so 1-3 digit page sizes stay stable across densities.
   --solaris-select-value-min-width: 3ch;
   --solaris-select-value-flex: none;
   --solaris-select-actions-margin-inline-start: var(--solaris-spacing-0);
@@ -119,14 +121,38 @@
   }
 }
 
+:host([data-density='compact']) {
+  --solaris-pagination-gap: var(--solaris-spacing-4);
+  --solaris-pagination-min-height: var(--solaris-spacing-10);
+  --solaris-pagination-button-size: var(--solaris-spacing-9);
+}
+
+:host([data-density='comfortable']) {
+  --solaris-pagination-gap: var(--solaris-spacing-7);
+  --solaris-pagination-min-height: var(--solaris-spacing-12);
+  --solaris-pagination-button-size: var(--solaris-spacing-11);
+}
+
 @media (width <= 1023px) {
   .solaris-pagination__nav {
     flex-wrap: wrap;
-    align-items: stretch;
+    align-items: center;
+    justify-content: flex-start;
+    row-gap: var(--solaris-spacing-4);
   }
 
   .solaris-pagination__trailing {
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    row-gap: var(--solaris-spacing-3);
+  }
+}
+
+@media (width <= 720px) {
+  .solaris-pagination__nav {
+    justify-content: space-between;
+    row-gap: var(--solaris-spacing-3);
   }
 }
 
@@ -140,9 +166,6 @@
   display: none;
 }
 
-// The table card layout can be forced on wide viewports (e.g. layout="card"
-// showcase tab), where the viewport query never matches. Hide the label
-// whenever pagination renders inside a card/mobile table footer.
 :host-context(solaris-table[data-card-layout])
   .solaris-pagination__page-size-label,
 :host-context(solaris-table[data-mobile]) .solaris-pagination__page-size-label {

@@ -1,0 +1,18 @@
+@use '../../../../shared/showcase-layout' as layout;
+
+.range-slider-showcase__note {
+  @include layout.note;
+
+  margin-bottom: var(--solaris-spacing-4);
+}
+
+.range-slider-showcase__stack {
+  display: grid;
+  gap: var(--solaris-spacing-4);
+  width: 100%;
+}
+
+.range-slider-showcase__props-values {
+  overflow-wrap: anywhere;
+  white-space: normal;
+}

@@ -112,7 +112,7 @@ accordion barrel, to avoid a circular module dependency.
 ```html
 <solaris-accordion [(value)]="openValue">
   <solaris-collapsible value="a" label="What is Solaris?">
-    <p>A design system for Educare.</p>
+    <p>A design system for institutional products.</p>
   </solaris-collapsible>
   <solaris-collapsible-input value="ask" [(query)]="faqQuery" [loading]="isAsking" (submitted)="askAi($event)" (cancelled)="cancelAi()">
     @if (aiAnswer) {

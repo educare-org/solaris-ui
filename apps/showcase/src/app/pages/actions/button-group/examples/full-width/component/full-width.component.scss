@@ -1,0 +1,6 @@
+.full-width-button-group-example__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-3);
+  max-width: calc(var(--solaris-spacing-18) * 4);
+}

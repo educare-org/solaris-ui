@@ -3,12 +3,8 @@
     "accessible-name": "Nome Acessível",
     "accessible-name-note": "Tanto aria-label quanto aria-labelledby fornecem um nome acessível para leitores de tela. Use aria-label diretamente no botão, ou aria-labelledby para referenciar um elemento com o texto do rótulo em outro lugar no DOM.",
     "anchor": "Link (âncora)",
-    "appearance": {
-      "ghost": "Ghost",
-      "outline": "Contorno",
-      "solid": "Sólido",
-      "surface": "Superfície",
-      "tonal": "Tonal"
+    "async": {
+      "note": "Execute uma ação assíncrona com pending, busy e disabled automáticos. Cliques durante o pending são ignorados."
     },
     "appearances": {
       "label": "Aparências",
@@ -21,41 +17,44 @@
     "chromeless": {
       "note": "Chromeless mantém a caixa do size, remove fundo e borda, e amplia o ícone (60% da caixa). O conjunto escala com size × density. Passe o mouse ou pressione para ver a micro-interação."
     },
-    "color": {
-      "danger": "Perigo",
-      "info": "Informação",
-      "neutral": "Neutra",
-      "primary": "Primária",
-      "success": "Sucesso",
-      "warning": "Alerta"
-    },
     "colors": "Cores",
     "custom": {
       "label": "Cor Personalizada (variáveis CSS)",
       "note": "Custom não é um input arbitrário. Defina os tokens de cor personalizada no CSS."
     },
-    "density": {
-      "comfortable": "Confortável",
-      "compact": "Compacta",
-      "label": "Densidade",
-      "normal": "Normal"
-    },
     "description": "Diretiva de atributo que transforma botões e links em botões de ação do Solaris representados apenas por ícone.",
+    "example": {
+      "async": {
+        "failure": "Falha. Tente novamente.",
+        "success": "Atualizado com sucesso."
+      }
+    },
     "installation": {
       "note": "Instale o pacote único do Solaris e importe a diretiva."
     },
+    "motion": {
+      "note": "O press usa scale sutil de 0.99 e o spinner de loading entra com pop-in. Alterne loading e badge para ver a micro-interação.",
+      "toggle-badge": "Alternar badge",
+      "toggle-loading": "Alternar loading"
+    },
     "props": {
-      "note": "Tabela de props em breve, com o componente tabela."
+      "note": "Todos os inputs aceitos pela diretiva, com tipos, valores e padrões.",
+      "colProp": "Prop",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Padrão"
     },
     "radius": "Arredondamento",
     "section": {
       "appearances": "Aparência e cor",
+      "async": "Ação assíncrona",
       "badge": "Badge",
       "chromeless": "Sem cromo (chromeless)",
       "colors": "Cores",
       "custom": "Cor personalizada",
       "density": "Densidade",
       "installation": "Instalação",
+      "motion": "Movimento",
       "props": "Props",
       "radius": "Arredondamento",
       "shape": "Formato",
@@ -64,28 +63,14 @@
       "sizes": "Tamanhos",
       "states": "Estados"
     },
-    "shape": {
-      "label": "Formato",
-      "normal": "Normal",
-      "wide": "Largo"
-    },
     "shape-radius": {
       "note": "Radius controla o arredondamento dos cantos; o formato wide alonga o botão horizontalmente."
-    },
-    "size": {
-      "lg": "Grande",
-      "md": "Médio",
-      "sm": "Pequeno"
     },
     "size-density": {
       "note": "Tamanho e densidade combinam em uma matriz 3×3, igual à do botão padrão. A altura externa é sempre igual ao token control-height da combinação."
     },
     "states": {
       "label": "Estados",
-      "tab": {
-        "disabled": "Desabilitado",
-        "loading": "Loading"
-      },
       "toggle": {
         "disabled": {
           "off": "Habilitar",

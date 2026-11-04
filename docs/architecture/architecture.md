@@ -52,86 +52,69 @@ Examples:
 ```txt
 packages/angular/src/lib/
   components/
-    actions/
-      button/
-      button-group/
-      icon-button/
-
-    forms/
-      checkbox/
-      checkbox-group/
-      email-field/
-      form-field/
-      input/
-      multi-select/
-      option/
-      option-group/
-      password-field/
-      radio/
-      radio-group/
-      select/
-      switch/
-      switch-group/
-      textarea/
-
-    feedback/
-      alert/
-      skeleton/
-      toast/
-
-    overlay/
-      dialog/
-
-    navigation/
-      editable-tabs/
-      segmented-control/
-      stepper/
-      tabs/
-
-    data-display/
-      badge/
-      card/
-      divider/
-
-    interaction/
-      dropdown-menu/
-      popover/
-      tooltip/
-
+    actions/            button, button-group, icon-button
+    forms/              input, textarea, select, multi-select, checkbox,
+                        radio, switch (+groups), date/time pickers,
+                        email/password/phone fields, form-field, option
+    feedback/           alert, skeleton, toast, spinner, progress,
+                        loading-text, announcement
+    overlay/            dialog
+    navigation/         tabs, editable-tabs, segmented-control, stepper,
+                        breadcrumb, pagination, mega-menu
+    data-display/       badge, card, divider, table (+filter), charts,
+                        gradebook, record-grid, code-block, preview-code
+    interaction/        dropdown-menu, popover, tooltip, accordion,
+                        collapsible, carousel
     icon/
-      component/
-      testing/
-
+    scheduling/         calendar (month/week/year/schedule views,
+                        event-editor, shell)
   services/
-    accessibility/
-    icon/
-    theme/
-    translation/
+    accessibility/ icon/ theme/ translation/ export/
   testing/
-
-packages/angular/src/
-  styles/
 ```
+
+New categories and components follow the same contract; this list tracks
+the folder layout and may lag new additions. The folder is the source of
+truth, not this list.
 
 ## Internal component structure
 
-A component may use this structure when needed:
+A component uses this structure:
 
 ```txt
 component-name/
-  component/
-  directives/
-  model/
-  service/
-  token/
-  testing/
-  docs/
-  index.ts
+  component/      .ts, .html, .scss (wiring only)
+  model/          types, defaults, consts (no Angular imports)
+  functions/      pure logic, utils (no Angular imports)
+  translation/    pt-BR.json, en-US.json, es-419.json + index.ts
+  testing/        specs, harnesses
+  docs/           component docs
+  token/          optional — only when the component owns tokens
+  service/        optional — only when the component owns a service
+  directives/     optional — only when the component owns directives
+  index.ts        barrel export
 ```
 
-Not every component needs every folder.
+`component/` never exports types or utils. `model/` never imports Angular
+values (`import type` and DI token files `*.tokens.ts` / `*.contract.ts`
+are exempt). `functions/` never imports Angular or browser globals.
+`validate-component.mjs` enforces `functions/` purity as errors and reports
+contract drift in existing code as warnings until migration completes.
 
-A structure is required only when it serves the component.
+## Showcase page structure
+
+Showcase pages mirror the same separation:
+
+```txt
+pages/<category>/<name>/
+  component/      showcase .ts/.html/.scss (wiring only)
+  model/          breadcrumbs, TOC, snippets, page data
+  functions/      page actions, markdown serialization, formatting
+  translation/    pt-BR.json, en-US.json, es-419.json + index.ts
+```
+
+Showcase `component/` files must not define data tables, translation maps,
+or markdown builders inline — those live in `model/` and `functions/`.
 
 ## Forbidden folder
 
@@ -149,15 +132,11 @@ If something is reusable, it must have a clear architectural name:
 
 ## Dependency rules
 
-Allowed:
+Allowed (every component category depends only on shared foundations):
 
 ```txt
-actions -> primitives/core/a11y/theme/i18n
-forms -> primitives/core/a11y/theme/i18n
-feedback -> primitives/core/a11y/theme/i18n
-overlay -> primitives/core/a11y/theme/i18n
-navigation -> primitives/core/a11y/theme/i18n
-data-display -> primitives/core/a11y/theme/i18n
+actions, forms, feedback, overlay, navigation, data-display,
+interaction, icon, scheduling -> primitives/core/a11y/theme/i18n
 ```
 
 Forbidden:

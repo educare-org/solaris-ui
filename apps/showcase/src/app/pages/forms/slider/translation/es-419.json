@@ -1,0 +1,87 @@
+{
+  "slider": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarlo. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "color": {
+      "danger": "Peligro",
+      "info": "Información",
+      "neutral": "Neutro",
+      "primary": "Primario",
+      "success": "Éxito",
+      "warning": "Advertencia"
+    },
+    "color-size": {
+      "note": "Tamaño y color actualizan el ejemplo en vivo a continuación."
+    },
+    "current-value": "Valor actual:",
+    "description": {
+      "label": "Control de formulario para elegir un único valor numérico en un rango continuo, con teclado, Angular Forms e i18n completos."
+    },
+    "display": {
+      "none": "Ninguno",
+      "note": "Inline muestra etiqueta más valor en el encabezado. Tooltip es opt-in sobre el pulgar. Thumb muestra el valor bajo el pulgar.",
+      "thumb": "Pulgar",
+      "tooltip": "Tooltip"
+    },
+    "examples": {
+      "balance": "Balance",
+      "brightness": "Brillo",
+      "frequency": "Frecuencia",
+      "note": "Arrastra el pulgar, haz clic en la pista o usa el teclado.",
+      "opacity": "Opacidad",
+      "risk": "Riesgo",
+      "volume": "Volumen"
+    },
+    "form-field-hint": "Estas opciones afectan tus altavoces.",
+    "icons": {
+      "note": "Los iconos decorativos de borde enmarcan el rango; el icono del pulgar es libre para cualquier icono Solaris y nunca afecta el nombre accesible."
+    },
+    "installation": {
+      "note": "Instala el paquete Solaris UI e importa el componente slider."
+    },
+    "props": {
+      "note": "Todos los inputs que acepta el slider, con tipos, valores y valores predeterminados.",
+      "colProp": "Prop",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Predeterminado"
+    },
+    "section": {
+      "color": "Color",
+      "color-size": "Tamaño & color",
+      "display": "Visualización del valor",
+      "examples": "Ejemplos",
+      "form": "Integración con formularios",
+      "icons": "Iconos",
+      "installation": "Instalación",
+      "props": "Props",
+      "scale": "Escala",
+      "sizes": "Tamaños",
+      "states": "Estados",
+      "ticks": "Marcas",
+      "vertical": "Vertical"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "states": {
+      "disabled": "Deshabilitado",
+      "invalid": "Inválido",
+      "readonly": "Solo lectura"
+    },
+    "ticks": {
+      "note": "Las marcas son decorativas (aria-hidden) y derivan de showTicks más tickStep o tickValues explícitos."
+    },
+    "title": "Slider",
+    "scale": {
+      "note": "Los límites estáticos marcan el mínimo y el máximo de la pista.",
+      "scales-note": "Las escalas log necesitan tickValues explícitos; las zones recolorean el relleno por valor."
+    },
+    "vertical": {
+      "note": "Vertical rellena de abajo hacia arriba. El teclado es idéntico en ambos ejes: ArrowUp y ArrowRight aumentan."
+    }
+  }
+}

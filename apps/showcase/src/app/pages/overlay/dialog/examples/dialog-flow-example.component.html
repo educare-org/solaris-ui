@@ -1,8 +1,4 @@
 <div class="dialog-flow-example">
-  <h2 class="dialog-flow-example__title">
-    {{ 'dialog.examples.flow.title' | translate }}
-  </h2>
-
   <solaris-dialog-flow [(activeIndex)]="activeStep" transition="slide">
     <solaris-dialog-step>
       <div class="dialog-flow-example__step">
@@ -41,28 +37,42 @@
     </solaris-dialog-step>
 
     <div solaris-dialog-flow-footer class="dialog-flow-example__footer">
-      @if (activeStep() > 0) {
-        <button
-          type="button"
-          solaris-button
-          appearance="ghost"
-          (click)="previous()"
-        >
-          {{ 'dialog.common.previous' | translate }}
-        </button>
-      }
+      <span class="dialog-flow-example__counter">
+        {{
+          'dialog.examples.flow.step-counter'
+            | translate: { current: activeStep() + 1, total: 3 }
+        }}
+      </span>
 
-      @if (activeStep() < 2) {
-        <button type="button" solaris-button color="primary" (click)="next()">
-          {{ 'dialog.common.next' | translate }}
-        </button>
-      }
+      <div class="dialog-flow-example__actions">
+        @if (activeStep() > 0) {
+          <button
+            type="button"
+            solaris-button
+            appearance="ghost"
+            (click)="previous()"
+          >
+            {{ 'dialog.common.previous' | translate }}
+          </button>
+        }
 
-      @if (activeStep() === 2) {
-        <button type="button" solaris-button color="primary" (click)="close()">
-          {{ 'dialog.common.finish' | translate }}
-        </button>
-      }
+        @if (activeStep() < 2) {
+          <button type="button" solaris-button color="primary" (click)="next()">
+            {{ 'dialog.common.next' | translate }}
+          </button>
+        }
+
+        @if (activeStep() === 2) {
+          <button
+            type="button"
+            solaris-button
+            color="primary"
+            (click)="close()"
+          >
+            {{ 'dialog.common.finish' | translate }}
+          </button>
+        }
+      </div>
     </div>
   </solaris-dialog-flow>
 </div>

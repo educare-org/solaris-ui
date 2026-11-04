@@ -111,6 +111,74 @@ describe('ShowcaseThemeToggle', () => {
     expect(document.documentElement.dataset['theme']).toBe('dark');
   });
 
+  it('should render text labels instead of icons in labels mode', () => {
+    fixture.componentRef.setInput('schemeDisplay', 'labels');
+    fixture.detectChanges();
+
+    const items = fixture.debugElement.queryAll(
+      By.css('solaris-segmented-item'),
+    );
+    expect(items.map((item) => item.attributes['value'])).toEqual([
+      'light',
+      'dark',
+      'system',
+    ]);
+    const labels = fixture.debugElement
+      .queryAll(By.css('.solaris-segmented-item__label'))
+      .map((el) => el.nativeElement.textContent.trim());
+    expect(labels).toEqual(['Light', 'Dark', 'System']);
+    expect(
+      fixture.debugElement.queryAll(
+        By.css('solaris-segmented-item solaris-icon'),
+      ),
+    ).toHaveLength(0);
+  });
+
+  it('should stretch the segmented control in fullWidth mode', () => {
+    fixture.componentRef.setInput('fullWidth', true);
+    fixture.detectChanges();
+
+    expect(
+      fixture.debugElement.query(By.css('.theme-toggle[data-full-width]')),
+    ).toBeTruthy();
+  });
+
+  it('should forward size and density to the scheme control', () => {
+    fixture.componentRef.setInput('size', 'lg');
+    fixture.componentRef.setInput('density', 'comfortable');
+    fixture.detectChanges();
+
+    const control = fixture.debugElement.query(
+      By.css('solaris-segmented-control'),
+    );
+    expect(control.attributes['data-size']).toBe('lg');
+    expect(control.attributes['data-density']).toBe('comfortable');
+  });
+
+  it('should hide the scheme control when showScheme is false', () => {
+    fixture.componentRef.setInput('showScheme', false);
+    fixture.detectChanges();
+
+    expect(
+      fixture.debugElement.query(By.css('solaris-segmented-control')),
+    ).toBeNull();
+    expect(
+      fixture.debugElement.query(By.css('.theme-toggle button')),
+    ).toBeTruthy();
+  });
+
+  it('should hide the high-contrast toggle when showHighContrast is false', () => {
+    fixture.componentRef.setInput('showHighContrast', false);
+    fixture.detectChanges();
+
+    expect(
+      fixture.debugElement.query(By.css('solaris-segmented-control')),
+    ).toBeTruthy();
+    expect(
+      fixture.debugElement.query(By.css('.theme-toggle button')),
+    ).toBeNull();
+  });
+
   it('should enable high-contrast on top of the light theme', () => {
     const light = fixture.debugElement.query(
       By.css('solaris-segmented-item[value="light"]'),
@@ -186,5 +254,39 @@ describe('ShowcaseThemeToggle', () => {
       By.css('.theme-toggle button'),
     );
     expect(hcButton.nativeElement.getAttribute('aria-pressed')).toBe('true');
+  });
+
+  it('should sync scheme and high-contrast across instances (mobile layout)', () => {
+    const schemeOnly = TestBed.createComponent(ShowcaseThemeToggle);
+    schemeOnly.componentRef.setInput('showHighContrast', false);
+    schemeOnly.detectChanges();
+
+    const contrastOnly = TestBed.createComponent(ShowcaseThemeToggle);
+    contrastOnly.componentRef.setInput('showScheme', false);
+    contrastOnly.detectChanges();
+
+    schemeOnly.debugElement
+      .query(By.css('solaris-segmented-item[value="light"]'))
+      .nativeElement.click();
+    schemeOnly.detectChanges();
+    contrastOnly.detectChanges();
+
+    contrastOnly.debugElement
+      .query(By.css('.theme-toggle button'))
+      .nativeElement.click();
+    schemeOnly.detectChanges();
+    contrastOnly.detectChanges();
+
+    expect(document.documentElement.dataset['theme']).toBe('high-contrast');
+    expect(localStorage.getItem('solaris-theme')).toBe('light');
+    expect(localStorage.getItem('solaris-high-contrast')).toBe('true');
+    expect(
+      contrastOnly.debugElement
+        .query(By.css('.theme-toggle button'))
+        .nativeElement.getAttribute('aria-pressed'),
+    ).toBe('true');
+
+    schemeOnly.destroy();
+    contrastOnly.destroy();
   });
 });

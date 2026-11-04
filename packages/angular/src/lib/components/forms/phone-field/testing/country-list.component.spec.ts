@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { Component, provideZonelessChangeDetection } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
@@ -29,7 +29,7 @@ class TestHost {
 
 describe('SolarisPhoneCountryListComponent', () => {
   async function setup(): Promise<{
-    fixture: any;
+    fixture: ComponentFixture<TestHost>;
     component: SolarisPhoneCountryListComponent;
     list: HTMLElement;
   }> {

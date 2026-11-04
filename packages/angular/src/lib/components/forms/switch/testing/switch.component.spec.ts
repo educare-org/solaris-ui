@@ -3,7 +3,10 @@ import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
-import { configureSolarisTesting } from '../../../../testing/solaris-test-utilities';
+import {
+  configureSolarisTesting,
+  assertPresent,
+} from '../../../../testing/solaris-test-utilities';
 import { SolarisIconComponent } from '../../../icon/component/solaris-icon.component';
 import { SolarisSwitchComponent } from '../component/switch.component';
 import { SolarisSwitchGroupComponent } from '../../switch-group/component/switch-group.component';
@@ -576,46 +579,46 @@ describe('SolarisSwitchComponent thumb visual', () => {
 
   it('should render the thumb inside the track', () => {
     createFixture();
-    const track = getTrack();
-    const thumb = getThumb();
+    const track = assertPresent(getTrack(), 'track element');
+    const thumb = assertPresent(getThumb(), 'thumb element');
     expect(track).toBeTruthy();
     expect(thumb).toBeTruthy();
-    expect(track!.contains(thumb)).toBe(true);
+    expect(track.contains(thumb)).toBe(true);
   });
 
   it('should have thumb with border-radius 50% (circular)', () => {
     createFixture();
-    const thumb = getThumb();
+    const thumb = assertPresent(getThumb(), 'thumb element');
     const borderRadius =
-      thumb!.style.borderRadius || getComputedStyle(thumb!).borderRadius;
+      thumb.style.borderRadius || getComputedStyle(thumb).borderRadius;
     expect(borderRadius).toBe('50%');
   });
 
   it('should have thumb with content z-index', () => {
     createFixture();
-    const thumb = getThumb();
-    const zIndex = thumb!.style.zIndex || getComputedStyle(thumb!).zIndex;
+    const thumb = assertPresent(getThumb(), 'thumb element');
+    const zIndex = thumb.style.zIndex || getComputedStyle(thumb).zIndex;
     expect(zIndex).toBe('var(--solaris-z-index-content)');
   });
 
   it('should move thumb position when checked', () => {
     createFixture();
-    const thumb = getThumb();
-    const uncheckedLeft = thumb!.style.left || getComputedStyle(thumb!).left;
+    const thumb = assertPresent(getThumb(), 'thumb element');
+    const uncheckedLeft = thumb.style.left || getComputedStyle(thumb).left;
     fixture.componentRef.setInput('checked', true);
     fixture.detectChanges();
-    const checkedLeft = thumb!.style.left || getComputedStyle(thumb!).left;
+    const checkedLeft = thumb.style.left || getComputedStyle(thumb).left;
     expect(checkedLeft).not.toBe(uncheckedLeft);
   });
 
   it('should have thumb background color set (not transparent)', () => {
     createFixture();
     const el = fixture.nativeElement;
-    const thumb = getThumb();
+    const thumb = assertPresent(getThumb(), 'thumb element');
     el.setAttribute('data-appearance', 'surface');
     el.setAttribute('data-color', 'primary');
     fixture.detectChanges();
-    const bgColor = getComputedStyle(thumb!).backgroundColor;
+    const bgColor = getComputedStyle(thumb).backgroundColor;
     expect(bgColor).toBeTruthy();
     expect(bgColor).not.toBe('transparent');
     expect(bgColor).not.toBe('rgba(0, 0, 0, 0)');
@@ -627,8 +630,8 @@ describe('SolarisSwitchComponent thumb visual', () => {
     fixture.detectChanges();
     const el = fixture.nativeElement;
     expect(el.getAttribute('data-appearance')).toBe('outline');
-    const thumb = getThumb();
-    const bgColor = getComputedStyle(thumb!).backgroundColor;
+    const thumb = assertPresent(getThumb(), 'thumb element');
+    const bgColor = getComputedStyle(thumb).backgroundColor;
     expect(bgColor).toBeTruthy();
     expect(bgColor).not.toBe('transparent');
     expect(bgColor).not.toBe('rgba(0, 0, 0, 0)');

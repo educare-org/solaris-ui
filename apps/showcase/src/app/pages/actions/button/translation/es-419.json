@@ -3,23 +3,11 @@
     "ai": {
       "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
     },
-    "appearance": {
-      "ghost": "Ghost",
-      "outline": "Outline",
-      "solid": "Sólido",
-      "surface": "Surface",
-      "tonal": "Tonal"
-    },
     "appearances": {
       "note": "Combina una apariencia con un color. Las apariencias cubren todos los niveles de énfasis, desde CTA sólidos hasta acciones Ghost sutiles."
     },
-    "color": {
-      "danger": "Peligro",
-      "info": "Info",
-      "neutral": "Neutro",
-      "primary": "Primario",
-      "success": "Éxito",
-      "warning": "Advertencia"
+    "async": {
+      "note": "Ejecuta una acción asíncrona con estados pending, busy y disabled automáticos. Los clics durante el pending se ignoran."
     },
     "custom": {
       "note": "Personalizado no es una entrada arbitraria. Define los tokens de color personalizado en el CSS.",
@@ -28,16 +16,12 @@
         "violet": "Violeta"
       }
     },
-    "density": {
-      "comfortable": "Cómodo",
-      "compact": "Compacto",
-      "normal": "Normal"
-    },
     "description": "Directiva de atributo que convierte botones y enlaces en botones con el tema de Solaris.",
     "example": {
-      "anchor": {
-        "disabled": "Anclaje deshabilitado",
-        "link": "Enlace de anclaje"
+      "async": {
+        "failure": "Falló. Inténtalo de nuevo.",
+        "save": "Guardar",
+        "success": "Guardado correctamente."
       },
       "basic": {
         "default": "Predeterminado",
@@ -47,15 +31,16 @@
       "custom": {
         "label": "Personalizado"
       },
-      "full-width": {
-        "primary": "Iniciar sesión con correo electrónico",
-        "social": "Iniciar sesión con Google"
-      },
       "icons": {
         "after": "Continuar",
         "before": "Confirmar",
         "input-end": "Icono Input al final",
         "input-start": "Icono Input al inicio"
+      },
+      "motion": {
+        "long": "Guardar cambios",
+        "short": "Guardar",
+        "swap": "Cambiar etiqueta"
       },
       "loading": {
         "save": "Guardar"
@@ -87,17 +72,25 @@
     "installation": {
       "note": "Instala el paquete único de Solaris y luego importa la directiva."
     },
+    "motion": {
+      "note": "Press usa una escala sutil de 0.99. Ancho, padding y gap se animan, así loading, badge y cambio de etiqueta crecen suave sin parpadeo."
+    },
     "props": {
-      "note": "Tabla de Props próximamente con el componente de tabla."
+      "note": "Todos los inputs que acepta la directiva, con tipos, valores y valores predeterminados.",
+      "colProp": "Prop",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Predeterminado"
     },
     "section": {
       "appearances": "Apariencia y color",
+      "async": "Acción asíncrona",
       "custom": "Color personalizado",
       "density": "Densidad",
       "examples": "Ejemplos",
       "icons": "Iconos",
       "installation": "Instalación",
-      "layout": "Layout",
+      "motion": "Movimiento",
       "props": "Props",
       "providers": "Iconos de marca",
       "radius": "Radio",
@@ -107,27 +100,13 @@
       "sizes": "Tamaños",
       "states": "Estados"
     },
-    "shape": {
-      "normal": "Normal",
-      "wide": "Ancho"
-    },
     "shape-radius": {
       "note": "Radio controla el redondeo de las esquinas; la forma Ancho alarga el botón horizontalmente."
-    },
-    "size": {
-      "lg": "Grande",
-      "md": "Mediano",
-      "sm": "Pequeño"
     },
     "size-density": {
       "note": "Tamaño y densidad se combinan en una matriz de 3×3. La altura externa siempre equivale al token control-height de la combinación."
     },
     "states": {
-      "tab": {
-        "disabled": "Deshabilitado",
-        "loading": "Cargando",
-        "pressed": "Presionado"
-      },
       "toggle": {
         "off": "Desactivar",
         "on": "Activar"

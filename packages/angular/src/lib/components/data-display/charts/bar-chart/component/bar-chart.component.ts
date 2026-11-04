@@ -1,7 +1,3 @@
-// target to measure content size for x-label thinning and as a scoped query
-// root to move focus between SVG bars. No innerHTML is used; style writes
-// target only presentation attributes of the component's own SVG. SSR-safe
-// via isPlatformBrowser and typeof guards.
 import { isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
@@ -136,13 +132,6 @@ export class SolarisBarChartComponent implements AfterViewInit, OnDestroy {
     position: number;
   } | null>(null);
 
-  // Collapses every bar onto its own base (without transition) on layout or
-  // orientation switches, then releases them so the `d` transition regrows
-  // each bar from zero directly at its new position instead of sliding
-  // across the chart. Stacked segments grow strictly inside their final
-  // span, so they never cross over each other mid-morph. The collapsed state
-  // is painted for one frame through a double requestAnimationFrame before
-  // growing.
   private readonly layoutMorphEffect = effect(() => {
     const state = `${this.layout()}:${this.orientation()}`;
     const previous = this.previousLayoutState;
@@ -151,7 +140,6 @@ export class SolarisBarChartComponent implements AfterViewInit, OnDestroy {
     this.startLayoutMorph();
   });
 
-  // Parses a CSS motion duration (e.g. "300ms", "0.3s") into milliseconds.
   private parseMotionDurationMs(raw: string): number | null {
     const match = /^\s*([\d.]+)\s*(ms|s)?\s*$/i.exec(raw);
     if (!match) return null;
@@ -420,9 +408,6 @@ export class SolarisBarChartComponent implements AfterViewInit, OnDestroy {
 
   protected barPath(bar: SolarisBarChartBarGeometry): string {
     if (this.morphing()) {
-      // Collapses onto the bar's own base (the edge nearest the baseline)
-      // instead of the chart baseline, so stacked segments regrow strictly
-      // inside their final span and never cross over each other mid-morph.
       if (this.orientation() === 'horizontal') {
         const anchorX = bar.value < 0 ? bar.x + bar.width : bar.x;
         return roundedBarPath(anchorX, bar.y, 0, bar.height, 0, bar);
@@ -658,8 +643,6 @@ export class SolarisBarChartComponent implements AfterViewInit, OnDestroy {
       this.guideIndex.set(index);
       return;
     }
-    // Pre-position the hidden guide on the target column first so the
-    // reveal grows in height only, instead of sliding from the old spot.
     this.guideIndex.set(index);
     if (typeof requestAnimationFrame === 'undefined') {
       this.guideVisible.set(true);
@@ -688,9 +671,6 @@ export class SolarisBarChartComponent implements AfterViewInit, OnDestroy {
       this.morphRaf = requestAnimationFrame(() => {
         this.morphRaf = null;
         this.morphing.set(false);
-        // Regrows bottom-up in chained per-series phases: each phase lasts
-        // one motion duration, so a series only starts after the previous
-        // one finished instead of growing simultaneously.
         const phase = this.readMotionPhase();
         if (phase === null) return;
         this.morphPhaseMs = phase;

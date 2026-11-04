@@ -1,0 +1,63 @@
+{
+  "media-carousel": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI de {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "description": "Vista giratoria de pancartas e imágenes con flechas, navegación por puntos y soporte de teclado.",
+    "autoplay": {
+      "note": "Con reproducción automática, el punto activo se llena durante la duración y se pausa con hover, foco, pestaña oculta y movimiento reducido. El botón pausa y reanuda."
+    },
+    "dots-outside": {
+      "note": "Los puntos aparecen debajo de la vista en lugar de sobre la imagen."
+    },
+    "chrome": {
+      "arrows": "Solo flechas",
+      "dots": "Solo puntos",
+      "minimal": "Mínimo",
+      "note": "Elige cuánto chrome muestra el carrusel: nada, solo flechas o solo puntos. El teclado sigue funcionando siempre."
+    },
+    "examples": {
+      "label": "Historias destacadas",
+      "note": "Una diapositiva visible a la vez. Usa las flechas o los puntos para moverte, o enfoca la vista y usa las flechas del teclado."
+    },
+    "installation": {
+      "note": "Instala el paquete único de Solaris e importa el componente."
+    },
+    "loop": {
+      "note": "Sin repetición, las flechas se detienen en la primera y la última diapositiva y exponen aria-disabled."
+    },
+    "preview": {
+      "note": "Con vista previa, una franja sobre la imagen muestra la diapositiva actual más las dos siguientes miniaturas. Las miniaturas de video traen la insignia Reproducir; hacer clic en una diapositiva o miniatura emite slideActivate para el reproductor del consumidor."
+    },
+    "minimal": {
+      "note": "Sin flechas ni puntos, el carrusel es un rotador discreto controlado solo por reproducción automática o teclado."
+    },
+    "peek": {
+      "note": "Con peek, la diapositiva activa se centra al 80% con vecinas asomando en los bordes. Las laterales se ven más pequeñas y atenuadas; el teclado y los puntos siguen funcionando."
+    },
+    "progress": {
+      "note": "Con navegación de progreso y reproducción automática, el punto activo se llena durante la duración y el carrusel avanza."
+    },
+    "ratios": {
+      "note": "La vista mantiene cualquier proporción válida. Elige una pestaña para comparar panorámico, estándar y cuadrado."
+    },
+    "props": {
+      "note": "Tabla de props próximamente, con el componente de tabla."
+    },
+    "section": {
+      "autoplay": "Reproducción automática",
+      "chrome": "Controles",
+      "dots-outside": "Puntos fuera",
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "loop": "Repetición",
+      "minimal": "Mínimo",
+      "peek": "Vista parcial",
+      "preview": "Vista previa",
+      "progress": "Progreso",
+      "props": "Props",
+      "ratios": "Proporciones"
+    },
+    "title": "Carrusel multimedia"
+  }
+}

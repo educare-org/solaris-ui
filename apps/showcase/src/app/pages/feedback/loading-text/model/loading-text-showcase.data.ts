@@ -9,8 +9,8 @@ export const LOADING_TEXT_TRANSLATION_PREFIX = 'loading-text';
 
 export const LOADING_TEXT_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-    { labelKey: 'shell.sidebar.group.feedback', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+    { labelKey: 'shell.sidebar.group.feedback', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.loading-text' },
   ];
 

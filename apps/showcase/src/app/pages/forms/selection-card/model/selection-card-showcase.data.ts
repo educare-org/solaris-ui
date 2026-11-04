@@ -9,14 +9,14 @@ export const SELECTION_CARD_TRANSLATION_PREFIX = 'selection-card';
 
 export const SELECTION_CARD_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-    { labelKey: 'shell.sidebar.group.forms', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+    { labelKey: 'shell.sidebar.group.forms', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.selection-card' },
   ];
 
 export const SELECTION_CARD_SHOWCASE_PREV: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.switch-group',
-  route: '/forms/switch-group',
+  labelKey: 'shell.sidebar.item.range-slider',
+  route: '/forms/range-slider',
 };
 
 export const SELECTION_CARD_SHOWCASE_NEXT: ShowcaseDocsPageNav = {

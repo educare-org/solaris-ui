@@ -146,7 +146,7 @@ describe('SolarisAccessibilityService', () => {
           ],
         });
 
-        const service = TestBed.inject(SolarisAccessibilityService);
+        TestBed.inject(SolarisAccessibilityService);
         const mockMql = mockMatchMedia.mock.results[0].value;
         expect(mockMql.addEventListener).toHaveBeenCalled();
 

@@ -13,6 +13,8 @@ import {
   SolarisDialogRef,
   SolarisDialogStepComponent,
   SOLARIS_DIALOG_REF,
+  SolarisFormFieldComponent,
+  SolarisInputDirective,
   SolarisTranslatePipe,
 } from '@solaris-ui/angular';
 
@@ -22,9 +24,12 @@ import {
     SolarisButtonDirective,
     SolarisDialogFlowComponent,
     SolarisDialogStepComponent,
+    SolarisFormFieldComponent,
+    SolarisInputDirective,
     SolarisTranslatePipe,
   ],
   templateUrl: './validated-flow.component.html',
+  styleUrls: ['./validated-flow.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ValidatedFlowExampleComponent {

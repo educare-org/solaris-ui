@@ -1,0 +1,454 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="content-carousel.title"
+    descriptionKey="content-carousel.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section
+    anchor="examples"
+    titleKey="content-carousel.section.examples"
+  >
+    <p class="content-carousel-showcase__note">
+      {{ 'content-carousel.examples.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <div class="content-carousel-showcase__split">
+        <div class="content-carousel-showcase__static">
+          <p class="content-carousel-showcase__kicker">
+            {{ 'content-carousel.login.kicker' | translate }}
+          </p>
+          <h3 class="content-carousel-showcase__title">
+            {{ 'content-carousel.login.title' | translate }}
+          </h3>
+          <p class="content-carousel-showcase__text">
+            {{ 'content-carousel.login.text' | translate }}
+          </p>
+          <div
+            class="content-carousel-showcase__qr"
+            role="img"
+            [attr.aria-label]="'content-carousel.login.qr' | translate"
+          ></div>
+        </div>
+        <div
+          class="content-carousel-showcase__frame content-carousel-showcase__frame--split"
+        >
+          <solaris-content-carousel
+            align="end"
+            [showDivider]="true"
+            [(activeIndex)]="current"
+            [ariaLabel]="'content-carousel.examples.label' | translate"
+          >
+            <ng-template solaris-carousel-slide>
+              <div
+                class="content-carousel-showcase__panel content-carousel-showcase__panel--scan"
+              >
+                <p class="content-carousel-showcase__kicker">
+                  {{ 'content-carousel.slides.scan.kicker' | translate }}
+                </p>
+                <h3 class="content-carousel-showcase__title">
+                  {{ 'content-carousel.slides.scan.title' | translate }}
+                </h3>
+                <p class="content-carousel-showcase__text">
+                  {{ 'content-carousel.slides.scan.text' | translate }}
+                </p>
+              </div>
+            </ng-template>
+            <ng-template solaris-carousel-slide>
+              <div
+                class="content-carousel-showcase__panel content-carousel-showcase__panel--early"
+              >
+                <p class="content-carousel-showcase__kicker">
+                  {{ 'content-carousel.slides.early.kicker' | translate }}
+                </p>
+                <h3 class="content-carousel-showcase__title">
+                  {{ 'content-carousel.slides.early.title' | translate }}
+                </h3>
+                <p class="content-carousel-showcase__text">
+                  {{ 'content-carousel.slides.early.text' | translate }}
+                </p>
+              </div>
+            </ng-template>
+          </solaris-content-carousel>
+        </div>
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="promo" titleKey="content-carousel.section.promo">
+    <p class="content-carousel-showcase__note">
+      {{ 'content-carousel.promo.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="promoCode" language="html">
+      <div
+        class="content-carousel-showcase__frame content-carousel-showcase__frame--promo"
+      >
+        <solaris-content-carousel
+          align="end"
+          [showDivider]="true"
+          [ariaLabel]="'content-carousel.promo.label' | translate"
+        >
+          <ng-template solaris-carousel-slide>
+            <div
+              class="content-carousel-showcase__panel content-carousel-showcase__panel--cashback"
+            >
+              <p class="content-carousel-showcase__kicker">
+                {{ 'content-carousel.slides.cashback.kicker' | translate }}
+              </p>
+              <h3 class="content-carousel-showcase__title">
+                {{ 'content-carousel.slides.cashback.title' | translate }}
+              </h3>
+              <p class="content-carousel-showcase__text">
+                {{ 'content-carousel.slides.cashback.text' | translate }}
+              </p>
+            </div>
+          </ng-template>
+          <ng-template solaris-carousel-slide>
+            <div
+              class="content-carousel-showcase__panel content-carousel-showcase__panel--travel"
+            >
+              <p class="content-carousel-showcase__kicker">
+                {{ 'content-carousel.slides.travel.kicker' | translate }}
+              </p>
+              <h3 class="content-carousel-showcase__title">
+                {{ 'content-carousel.slides.travel.title' | translate }}
+              </h3>
+              <p class="content-carousel-showcase__text">
+                {{ 'content-carousel.slides.travel.text' | translate }}
+              </p>
+            </div>
+          </ng-template>
+        </solaris-content-carousel>
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="mega-panel"
+    titleKey="content-carousel.section.mega-panel"
+  >
+    <p class="content-carousel-showcase__note">
+      {{ 'content-carousel.mega-panel.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="megaCode" language="html">
+      <div
+        class="content-carousel-showcase__frame content-carousel-showcase__frame--mega"
+      >
+        <solaris-content-carousel
+          align="none"
+          [ariaLabel]="'content-carousel.mega-panel.label' | translate"
+        >
+          <ng-template solaris-carousel-slide>
+            <div
+              class="content-carousel-showcase__panel content-carousel-showcase__panel--wellness"
+            >
+              <p class="content-carousel-showcase__kicker">
+                {{ 'content-carousel.slides.wellness.kicker' | translate }}
+              </p>
+              <h3 class="content-carousel-showcase__title">
+                {{ 'content-carousel.slides.wellness.title' | translate }}
+              </h3>
+              <p class="content-carousel-showcase__text">
+                {{ 'content-carousel.slides.wellness.text' | translate }}
+              </p>
+            </div>
+          </ng-template>
+          <ng-template solaris-carousel-slide>
+            <div
+              class="content-carousel-showcase__panel content-carousel-showcase__panel--founders"
+            >
+              <p class="content-carousel-showcase__kicker">
+                {{ 'content-carousel.slides.founders.kicker' | translate }}
+              </p>
+              <h3 class="content-carousel-showcase__title">
+                {{ 'content-carousel.slides.founders.title' | translate }}
+              </h3>
+              <p class="content-carousel-showcase__text">
+                {{ 'content-carousel.slides.founders.text' | translate }}
+              </p>
+            </div>
+          </ng-template>
+        </solaris-content-carousel>
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="dividers"
+    titleKey="content-carousel.section.dividers"
+  >
+    <p class="content-carousel-showcase__note">
+      {{ 'content-carousel.dividers.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="dividersCode" language="html">
+      <div
+        class="content-carousel-showcase__frame content-carousel-showcase__frame--flat"
+      >
+        <solaris-content-carousel
+          align="center"
+          [showDivider]="true"
+          [ariaLabel]="'content-carousel.dividers.center' | translate"
+        >
+          <ng-template solaris-carousel-slide>
+            <div
+              class="content-carousel-showcase__panel content-carousel-showcase__panel--centered"
+            >
+              <p class="content-carousel-showcase__kicker">
+                {{ 'content-carousel.slides.centered.kicker' | translate }}
+              </p>
+              <h3 class="content-carousel-showcase__title">
+                {{ 'content-carousel.slides.centered.title' | translate }}
+              </h3>
+              <p class="content-carousel-showcase__text">
+                {{ 'content-carousel.slides.centered.text' | translate }}
+              </p>
+            </div>
+          </ng-template>
+          <ng-template solaris-carousel-slide>
+            <div
+              class="content-carousel-showcase__panel content-carousel-showcase__panel--stacked"
+            >
+              <p class="content-carousel-showcase__kicker">
+                {{ 'content-carousel.slides.stacked.kicker' | translate }}
+              </p>
+              <h3 class="content-carousel-showcase__title">
+                {{ 'content-carousel.slides.stacked.title' | translate }}
+              </h3>
+              <p class="content-carousel-showcase__text">
+                {{ 'content-carousel.slides.stacked.text' | translate }}
+              </p>
+            </div>
+          </ng-template>
+        </solaris-content-carousel>
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="progress"
+    titleKey="content-carousel.section.progress"
+  >
+    <p class="content-carousel-showcase__note">
+      {{ 'content-carousel.progress.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="progressCode" language="html">
+      <div
+        class="content-carousel-showcase__frame content-carousel-showcase__frame--flat"
+      >
+        <solaris-content-carousel
+          navigation="progress"
+          [autoplay]="true"
+          [duration]="4000"
+          [ariaLabel]="'content-carousel.progress.label' | translate"
+        >
+          <ng-template solaris-carousel-slide>
+            <div
+              class="content-carousel-showcase__panel content-carousel-showcase__panel--announce"
+            >
+              <p class="content-carousel-showcase__kicker">
+                {{ 'content-carousel.slides.announce.kicker' | translate }}
+              </p>
+              <h3 class="content-carousel-showcase__title">
+                {{ 'content-carousel.slides.announce.title' | translate }}
+              </h3>
+              <p class="content-carousel-showcase__text">
+                {{ 'content-carousel.slides.announce.text' | translate }}
+              </p>
+            </div>
+          </ng-template>
+          <ng-template solaris-carousel-slide>
+            <div
+              class="content-carousel-showcase__panel content-carousel-showcase__panel--quiet"
+            >
+              <p class="content-carousel-showcase__kicker">
+                {{ 'content-carousel.slides.quiet.kicker' | translate }}
+              </p>
+              <h3 class="content-carousel-showcase__title">
+                {{ 'content-carousel.slides.quiet.title' | translate }}
+              </h3>
+              <p class="content-carousel-showcase__text">
+                {{ 'content-carousel.slides.quiet.text' | translate }}
+              </p>
+            </div>
+          </ng-template>
+        </solaris-content-carousel>
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="chrome" titleKey="content-carousel.section.chrome">
+    <p class="content-carousel-showcase__note">
+      {{ 'content-carousel.chrome.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedChrome"
+      [ariaLabel]="'content-carousel.section.chrome' | translate"
+    >
+      <solaris-tab value="minimal"
+        >{{ 'content-carousel.chrome.minimal' | translate }}</solaris-tab
+      >
+      <solaris-tab value="arrows"
+        >{{ 'content-carousel.chrome.arrows' | translate }}</solaris-tab
+      >
+      <solaris-tab value="dots"
+        >{{ 'content-carousel.chrome.dots' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="minimal">
+        <solaris-preview-code [code]="chromeMinimalCode" language="html">
+          <div
+            class="content-carousel-showcase__frame content-carousel-showcase__frame--flat"
+          >
+            <solaris-content-carousel
+              navigation="none"
+              [showArrows]="false"
+              [ariaLabel]="'content-carousel.chrome.minimal' | translate"
+            >
+              <ng-template solaris-carousel-slide>
+                <div
+                  class="content-carousel-showcase__panel content-carousel-showcase__panel--announce"
+                >
+                  <p class="content-carousel-showcase__kicker">
+                    {{ 'content-carousel.slides.announce.kicker' | translate }}
+                  </p>
+                  <h3 class="content-carousel-showcase__title">
+                    {{ 'content-carousel.slides.announce.title' | translate }}
+                  </h3>
+                  <p class="content-carousel-showcase__text">
+                    {{ 'content-carousel.slides.announce.text' | translate }}
+                  </p>
+                </div>
+              </ng-template>
+              <ng-template solaris-carousel-slide>
+                <div
+                  class="content-carousel-showcase__panel content-carousel-showcase__panel--quiet"
+                >
+                  <p class="content-carousel-showcase__kicker">
+                    {{ 'content-carousel.slides.quiet.kicker' | translate }}
+                  </p>
+                  <h3 class="content-carousel-showcase__title">
+                    {{ 'content-carousel.slides.quiet.title' | translate }}
+                  </h3>
+                  <p class="content-carousel-showcase__text">
+                    {{ 'content-carousel.slides.quiet.text' | translate }}
+                  </p>
+                </div>
+              </ng-template>
+            </solaris-content-carousel>
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="arrows">
+        <solaris-preview-code [code]="chromeArrowsCode" language="html">
+          <div
+            class="content-carousel-showcase__frame content-carousel-showcase__frame--flat"
+          >
+            <solaris-content-carousel
+              navigation="none"
+              [ariaLabel]="'content-carousel.chrome.arrows' | translate"
+            >
+              <ng-template solaris-carousel-slide>
+                <div
+                  class="content-carousel-showcase__panel content-carousel-showcase__panel--announce"
+                >
+                  <p class="content-carousel-showcase__kicker">
+                    {{ 'content-carousel.slides.announce.kicker' | translate }}
+                  </p>
+                  <h3 class="content-carousel-showcase__title">
+                    {{ 'content-carousel.slides.announce.title' | translate }}
+                  </h3>
+                  <p class="content-carousel-showcase__text">
+                    {{ 'content-carousel.slides.announce.text' | translate }}
+                  </p>
+                </div>
+              </ng-template>
+              <ng-template solaris-carousel-slide>
+                <div
+                  class="content-carousel-showcase__panel content-carousel-showcase__panel--quiet"
+                >
+                  <p class="content-carousel-showcase__kicker">
+                    {{ 'content-carousel.slides.quiet.kicker' | translate }}
+                  </p>
+                  <h3 class="content-carousel-showcase__title">
+                    {{ 'content-carousel.slides.quiet.title' | translate }}
+                  </h3>
+                  <p class="content-carousel-showcase__text">
+                    {{ 'content-carousel.slides.quiet.text' | translate }}
+                  </p>
+                </div>
+              </ng-template>
+            </solaris-content-carousel>
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="dots">
+        <solaris-preview-code [code]="chromeDotsCode" language="html">
+          <div
+            class="content-carousel-showcase__frame content-carousel-showcase__frame--flat"
+          >
+            <solaris-content-carousel
+              [showArrows]="false"
+              [ariaLabel]="'content-carousel.chrome.dots' | translate"
+            >
+              <ng-template solaris-carousel-slide>
+                <div
+                  class="content-carousel-showcase__panel content-carousel-showcase__panel--announce"
+                >
+                  <p class="content-carousel-showcase__kicker">
+                    {{ 'content-carousel.slides.announce.kicker' | translate }}
+                  </p>
+                  <h3 class="content-carousel-showcase__title">
+                    {{ 'content-carousel.slides.announce.title' | translate }}
+                  </h3>
+                  <p class="content-carousel-showcase__text">
+                    {{ 'content-carousel.slides.announce.text' | translate }}
+                  </p>
+                </div>
+              </ng-template>
+              <ng-template solaris-carousel-slide>
+                <div
+                  class="content-carousel-showcase__panel content-carousel-showcase__panel--quiet"
+                >
+                  <p class="content-carousel-showcase__kicker">
+                    {{ 'content-carousel.slides.quiet.kicker' | translate }}
+                  </p>
+                  <h3 class="content-carousel-showcase__title">
+                    {{ 'content-carousel.slides.quiet.title' | translate }}
+                  </h3>
+                  <p class="content-carousel-showcase__text">
+                    {{ 'content-carousel.slides.quiet.text' | translate }}
+                  </p>
+                </div>
+              </ng-template>
+            </solaris-content-carousel>
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="content-carousel.section.installation"
+  >
+    <p class="content-carousel-showcase__note">
+      {{ 'content-carousel.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="content-carousel.section.props">
+    <p class="content-carousel-showcase__note">
+      {{ 'content-carousel.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

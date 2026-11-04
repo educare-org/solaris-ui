@@ -1,5 +1,3 @@
-// root to move focus between SVG vertices. No innerHTML is used; style writes
-// target only presentation attributes of the component's own SVG.
 import { isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectionStrategy,

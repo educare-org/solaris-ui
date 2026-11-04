@@ -10,7 +10,7 @@ export const LINE_CHART_TRANSLATION_PREFIX = 'line-chart-view';
 
 export const LINE_CHART_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.charts' },
     { labelKey: 'shell.sidebar.item.line-chart' },
   ];

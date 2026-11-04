@@ -8,8 +8,8 @@ export const STEPPER_SHOWCASE_SLUG = 'stepper';
 export const STEPPER_TRANSLATION_PREFIX = 'stepper';
 
 export const STEPPER_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] = [
-  { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-  { labelKey: 'shell.sidebar.group.navigation', route: '/configuration' },
+  { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+  { labelKey: 'shell.sidebar.group.navigation', route: '/introduction' },
   { labelKey: 'shell.sidebar.item.stepper' },
 ];
 

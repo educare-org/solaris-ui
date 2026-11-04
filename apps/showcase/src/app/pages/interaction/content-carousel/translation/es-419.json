@@ -1,0 +1,109 @@
+{
+  "content-carousel": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI de {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "description": "Panel giratorio para contenido proyectado arbitrario, con lados de alineación/divisor y soporte de teclado.",
+    "chrome": {
+      "arrows": "Solo flechas",
+      "dots": "Solo puntos",
+      "minimal": "Mínimo",
+      "note": "Elige cuánto chrome muestra el panel: nada, solo flechas o solo puntos. El teclado sigue funcionando siempre."
+    },
+    "dividers": {
+      "center": "Destacados centrados",
+      "note": "El contenido centrado gana un divisor a ambos lados. Las alineaciones superior e inferior llevan el divisor al borde opuesto."
+    },
+    "examples": {
+      "label": "Aspectos destacados",
+      "note": "Formulario de acceso estático a la izquierda, destacados giratorios a la derecha con un divisor entre ellos. Usa las flechas o los puntos para moverte, o enfoca la vista y usa las flechas del teclado."
+    },
+    "installation": {
+      "note": "Instala el paquete único de Solaris e importa el componente y la directiva de diapositiva."
+    },
+    "login": {
+      "kicker": "Acceder",
+      "qr": "Marcador del código QR para acceder con la app",
+      "text": "Usa tu teléfono para aprobar esta sesión o sigue explorando los destacados.",
+      "title": "Bienvenido de nuevo"
+    },
+    "mega-panel": {
+      "label": "Contenido destacado",
+      "note": "Espacio destacado sin divisor: el carrusel cabe en cualquier caja y nunca se dimensiona solo."
+    },
+    "progress": {
+      "label": "Avisos giratorios",
+      "note": "Con navegación de progreso y reproducción automática, el punto activo se llena durante la duración y el carrusel avanza. El llenado se pausa con hover, foco, pestaña oculta y movimiento reducido."
+    },
+    "promo": {
+      "label": "Promociones",
+      "note": "Mismo espacio, distintos componentes de promoción. Debajo de 360px el divisor vertical pasa abajo para mantener legible la separación en el panel apilado."
+    },
+    "props": {
+      "note": "Tabla de props próximamente, con el componente de tabla."
+    },
+    "section": {
+      "chrome": "Controles",
+      "dividers": "Divisores",
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "mega-panel": "Panel destacado",
+      "progress": "Progreso",
+      "promo": "Promoción",
+      "props": "Props"
+    },
+    "slides": {
+      "announce": {
+        "kicker": "Aviso",
+        "text": "El mantenimiento programado ocurre el domingo de madrugada.",
+        "title": "Aviso de inactividad"
+      },
+      "cashback": {
+        "kicker": "Tiempo limitado",
+        "text": "Gana puntos dobles en cada compra con tarjeta.",
+        "title": "Fin de semana de cashback"
+      },
+      "centered": {
+        "kicker": "Escenario central",
+        "text": "Los divisores enmarcan ambos lados del contenido centrado.",
+        "title": "Destacado enmarcado"
+      },
+      "early": {
+        "kicker": "Nuevo",
+        "text": "Invita a tu equipo y desbloquea controles de gasto hoy.",
+        "title": "Acceso anticipado disponible"
+      },
+      "founders": {
+        "kicker": "Clientes",
+        "text": "Cómo tres startups escalaron el gasto.",
+        "title": "Historias de fundadores"
+      },
+      "quiet": {
+        "kicker": "Recordatorio",
+        "text": "El teclado mueve las diapositivas aun sin controles visibles.",
+        "title": "Rotación silenciosa"
+      },
+      "scan": {
+        "kicker": "Paso uno",
+        "text": "Apunta la app del banco al código para acceder en este dispositivo.",
+        "title": "Escanea para continuar"
+      },
+      "stacked": {
+        "kicker": "Segundo acto",
+        "text": "El divisor se queda quieto mientras las diapositivas pasan.",
+        "title": "Aún enmarcado"
+      },
+      "travel": {
+        "kicker": "Exclusivo",
+        "text": "Acceso a salas VIP incluido en planes premium.",
+        "title": "Ventajas de viaje"
+      },
+      "wellness": {
+        "kicker": "Beneficios",
+        "text": "Nueva guía de beneficios para equipos en crecimiento.",
+        "title": "Apoyo de bienestar"
+      }
+    },
+    "title": "Carrusel de contenido"
+  }
+}

@@ -1,0 +1,15 @@
+<button
+  solaris-icon-button
+  color="primary"
+  aria-label="Refresh"
+  [action]="refresh"
+  (actionSuccess)="onSuccess()"
+  (actionError)="onFailure()"
+>
+  <solaris-icon name="refresh" [decorative]="true" />
+</button>
+@if (status() === 'success') {
+  <p>{{ 'icon-button.example.async.success' | translate }}</p>
+} @else if (status() === 'failure') {
+  <p>{{ 'icon-button.example.async.failure' | translate }}</p>
+}

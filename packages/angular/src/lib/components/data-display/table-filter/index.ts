@@ -1,4 +1,5 @@
 export { SolarisTableToolbarComponent } from './component/table-toolbar/table-toolbar.component';
+export { SolarisTableToolbarSheetComponent } from './component/table-toolbar-sheet/table-toolbar-sheet.component';
 export {
   SolarisTableToolbarLeadingDirective,
   SolarisTableToolbarTrailingDirective,
@@ -19,6 +20,7 @@ export {
   type SolarisTableFilterState,
   type SolarisTableFilterableColumn,
   type SolarisTableToolbarExportDisplay,
+  type SolarisTableToolbarSheetData,
   type SolarisTableView,
 } from './model/filter.types';
 export {

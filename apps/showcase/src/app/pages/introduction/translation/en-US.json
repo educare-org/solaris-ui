@@ -1,0 +1,45 @@
+{
+  "introduction": {
+    "title": "Introduction",
+    "description": "Solaris UI is an institutional Angular UI framework: strict for maintainers, simple for consumers. Start here to understand the principles before installing.",
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "section": {
+      "principles": "Principles",
+      "contracts": "Contracts",
+      "next": "Where to go next"
+    },
+    "principles": {
+      "note": "Consistency by default — every product starts credible.",
+      "trustTitle": "Design builds trust",
+      "trustDesc": "Visitors judge in seconds; Solaris components sweat the details.",
+      "contractTitle": "Strict inside, simple outside",
+      "contractDesc": "Rigid contracts for maintainers, a small stable API for consumers.",
+      "docsTitle": "Documentation is the product",
+      "docsDesc": "Live examples and guidance in three languages."
+    },
+    "contracts": {
+      "note": "Six rules, enforced in CI.",
+      "standaloneTitle": "Standalone only",
+      "standaloneDesc": "No NgModules; import only what you use.",
+      "signalsTitle": "Signals and OnPush",
+      "signalsDesc": "Signals with OnPush for predictable rendering.",
+      "tokensTitle": "Token-driven styling",
+      "tokensDesc": "No raw values — everything resolves through --solaris-* tokens.",
+      "a11yTitle": "Accessible by default",
+      "a11yDesc": "ARIA semantics, keyboard support, and visible focus.",
+      "motionTitle": "Motion with respect",
+      "motionDesc": "Honors prefers-reduced-motion; motion is never the only signal.",
+      "i18nTitle": "Trilingual",
+      "i18nDesc": "Every string in pt-BR, en-US, and es-419."
+    },
+    "next": {
+      "note": "Two paths from here.",
+      "installTitle": "Install Solaris",
+      "installDesc": "Add the package, wire styles and providers.",
+      "iconsTitle": "Browse icons",
+      "iconsDesc": "Searchable icon registry with usage guidance."
+    }
+  }
+}

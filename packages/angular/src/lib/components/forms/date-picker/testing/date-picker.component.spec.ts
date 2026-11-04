@@ -1,5 +1,5 @@
-import { TestBed } from '@angular/core/testing';
-import { Component } from '@angular/core';
+import { TestBed, type ComponentFixture } from '@angular/core/testing';
+import { Component, type WritableSignal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
@@ -8,6 +8,12 @@ import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisDatePickerComponent } from '../component/date-picker.component';
 import { SolarisFormSuffixDirective } from '../../form-field/directives/form-suffix.directive';
 import { SolarisFormSuffixActionDirective } from '../../form-field/directives/form-suffix-action.directive';
+import type { SolarisDateValue } from '../../date/model/date.types';
+
+type DatePickerTestSeam = SolarisDatePickerComponent & {
+  value: WritableSignal<SolarisDateValue | null>;
+  parseError: WritableSignal<boolean>;
+};
 
 describe('SolarisDatePickerComponent', () => {
   it('exists', () => expect(SolarisDatePickerComponent).toBeDefined());
@@ -50,7 +56,7 @@ describe('SolarisDatePickerComponent', () => {
     })
     class LoadingHost {}
 
-    function getInnerField(fixture: any): HTMLElement {
+    function getInnerField(fixture: ComponentFixture<unknown>): HTMLElement {
       return fixture.nativeElement.querySelector(
         'solaris-date-picker solaris-form-field',
       );
@@ -129,7 +135,7 @@ describe('SolarisDatePickerComponent', () => {
     }
 
     function setupClearable(value: string | null): {
-      fixture: any;
+      fixture: ComponentFixture<ClearableHost>;
       host: ClearableHost;
     } {
       TestBed.configureTestingModule({});
@@ -163,7 +169,7 @@ describe('SolarisDatePickerComponent', () => {
       const picker = fixture.debugElement.query(
         By.directive(SolarisDatePickerComponent),
       ).componentInstance as SolarisDatePickerComponent;
-      expect((picker as any).value()).toBeNull();
+      expect((picker as unknown as DatePickerTestSeam).value()).toBeNull();
       expect(host.clearedCount).toBe(1);
       expect(button.hasAttribute('hidden')).toBe(true);
     });
@@ -309,8 +315,12 @@ describe('SolarisDatePickerComponent', () => {
       input.dispatchEvent(new Event('input'));
       fixture.detectChanges();
       expect(input.value).toBe('16/10/2026');
-      expect((picker as any).value()).toBe('2026-10-16');
-      expect((picker as any).parseError()).toBe(false);
+      expect((picker as unknown as DatePickerTestSeam).value()).toBe(
+        '2026-10-16',
+      );
+      expect((picker as unknown as DatePickerTestSeam).parseError()).toBe(
+        false,
+      );
     });
 
     it('masks progressively while typing', () => {

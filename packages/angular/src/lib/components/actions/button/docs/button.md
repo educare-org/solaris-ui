@@ -59,6 +59,7 @@ Not:
 | `shape`           | `SolarisButtonShape`      | `'normal'`              | Button proportions (`normal` \| `wide`) |
 | `loading`         | `boolean`                 | `false`                 | Loading state                           |
 | `disabled`        | `boolean`                 | `false`                 | Disabled state                          |
+| `action`          | `() => Promise<unknown>`  | —                       | Async action (pending disables + loads) |
 | `pressed`         | `boolean \| undefined`    | `undefined`             | Toggle state (`aria-pressed` when set)  |
 | `fullWidth`       | `boolean`                 | `false`                 | Full width                              |
 | `loadingLabel`    | `string`                  | —                       | Accessible label during loading         |
@@ -67,6 +68,13 @@ Not:
 | `ariaLabelKey`    | `string`                  | —                       | i18n key for accessible label           |
 | `icon`            | `SolarisIconName`         | —                       | Icon rendered inside the button         |
 | `iconPosition`    | `'start' \| 'end'`        | `'start'`               | Whether the icon sits before or after   |
+
+### Outputs
+
+| Output          | Type      | Description                       |
+| --------------- | --------- | --------------------------------- |
+| `actionSuccess` | `unknown` | Emitted with the `action` result  |
+| `actionError`   | `unknown` | Emitted with the `action` failure |
 
 ### Types
 
@@ -82,13 +90,14 @@ type SolarisButtonIconPosition = 'start' | 'end';
 
 ## Appearances
 
-| Appearance | Use case                                  | Visual                                 |
-| ---------- | ----------------------------------------- | -------------------------------------- |
-| `solid`    | Primary action, CTA, destructive action   | Filled background, high weight         |
-| `outline`  | Secondary action                          | Transparent background, visible border |
-| `ghost`    | Toolbar, dense context, low-weight action | No background or border, subtle hover  |
-| `tonal`    | Action with semantics, medium emphasis    | Soft background, subtle border         |
-| `surface`  | Low emphasis, inline with content         | Muted background, no border            |
+| Appearance | Use case                                  | Visual                                                             |
+| ---------- | ----------------------------------------- | ------------------------------------------------------------------ |
+| `solid`    | Primary action, CTA, destructive action   | Filled background, high weight                                     |
+| `outline`  | Secondary action                          | Transparent background, visible border                             |
+| `ghost`    | Toolbar, dense context, low-weight action | No background or border, subtle hover                              |
+| `tonal`    | Action with semantics, medium emphasis    | Soft background, subtle border                                     |
+| `surface`  | Low emphasis, inline with content         | Muted background, no border                                        |
+| `gradient` | Hero CTA, highest emphasis                | `135deg` ramp (duotone where it stays accessible, depth otherwise) |
 
 ### Hover and active
 
@@ -100,6 +109,64 @@ clicks never flash an inverted fill. Only `solid` and `outline` commit to the
 solid `active` background on press (`:active`, `data-pressed`). Only `neutral`
 `solid`/`outline` invert on hover/active, keeping docs
 and dense headers quiet.
+
+### Gradient
+
+`appearance="gradient"` crosses with every `color`: the background is
+`linear-gradient(135deg, from, to)` where `from` is the `solid` stop of the
+color family. `to` is either the `solid` stop of a partner hue
+(`primary` → `violet`, `success` → `info`) or the deepest same-hue stop
+that keeps text contrast (`warning` → `solid-active`,
+`danger` → `solid-deep`, `info` → `foreground`,
+`neutral`: `inverse` → `text-secondary`). Same-hue depth is used where a
+cross-hue partner would shift identity (red turning pink, yellow turning
+green) or break text contrast (dark warning text over orange). Text, border, and focus-ring mirror `solid`, so the accessible name
+channel is unchanged. Hover shifts the first stop toward press
+(`solid-hover` → deepest stop); press holds the deepest pair under the
+standard `0.99` press scale. The angle is a single
+documented constant (`135deg`); per-color choice of partner is documented
+below. Gradient never animates its stops (no `background-image` transition),
+so reduced motion needs no extra guard beyond the shared press-scale rule.
+Inside an attached `solaris-button-group`, gradient follows the P1 group rule
+(`transform: none` press, no own border).
+
+| Color     | `from` (rest)     | `to` (partner rest)      | Text (`on-solid`)      | Contrast text×from | Contrast text×to |
+| --------- | ----------------- | ------------------------ | ---------------------- | ------------------ | ---------------- |
+| `neutral` | `neutral-inverse` | `neutral-text-secondary` | `neutral-text-inverse` | 17.62              | 6.41             |
+| `primary` | `primary-solid`   | `violet-solid`           | `primary-on-solid`     | 5.79               | 5.71             |
+| `success` | `success-solid`   | `info-solid`             | `success-on-solid`     | 3.20               | 5.34             |
+| `warning` | `warning-solid`   | `warning-solid-active`   | `warning-on-solid`     | 11.53              | 7.39             |
+| `danger`  | `danger-solid`    | `danger-solid-deep`      | `danger-on-solid`      | 4.83               | 10.37            |
+| `info`    | `info-solid`      | `info-foreground`        | `info-on-solid`        | 5.34               | 9.08             |
+
+Ratios measured on the light theme. Every idle pair meets 4.5:1 for text
+except `success` rest (3.20), which inherits the existing `solid` pairing
+verbatim — the gradient is never worse than `solid` at rest because `from` is
+`solid` and `to` is a partner of equal or darker weight. `neutral` and
+`warning`/`danger`/`info` gradients are monochrome by design (same-hue depth
+instead of a hue shift), so the button keeps its semantic color: red stays
+red, yellow stays yellow, blue stays blue.
+
+#### Custom gradient
+
+```css
+.my-gradient-button {
+  --solaris-button-gradient-from: var(--solaris-violet-solid);
+  --solaris-button-gradient-to: var(--solaris-primary-solid-active);
+  --solaris-button-gradient-hover-from: var(--solaris-violet-solid-hover);
+  --solaris-button-gradient-hover-to: var(--solaris-primary-solid-active);
+  --solaris-button-gradient-active-from: var(--solaris-violet-solid-active);
+  --solaris-button-gradient-active-to: var(--solaris-violet-solid-active);
+}
+```
+
+```html
+<button solaris-button appearance="gradient" color="custom" class="my-gradient-button">Custom</button>
+```
+
+Without these variables, `gradient` + `custom` falls back to the flat
+`custom` solid (both stops default to the `custom` backgrounds), so the
+button stays readable instead of rendering a broken gradient.
 
 ## Colors
 
@@ -187,6 +254,30 @@ When `data-size` is present but `data-density` has not resolved yet (theme
 CSS still loading, group context attaching), normal-density geometry is
 assumed so the resolved density lands without a jump.
 
+### Press and width motion
+
+Press feedback uses dedicated tokens (`--solaris-button-scale-active` /
+`--solaris-icon-button-scale-active`, `0.99`) — subtler than the global
+`--solaris-motion-scale-active` (`0.97`).
+
+Width-affecting content changes (loading spinner, badge slot, label swap)
+animate fluidly via FLIP in `SolarisButtonHostBase`: a `MutationObserver`
+(`childList` + `characterData`) flags content edits and a `ResizeObserver`
+interpolates the resulting width delta with WAAPI (`motion-normal` /
+`standard` easing, read from the tokens at runtime). The host sets
+`data-width-animating` for the animation and removes it on `finish`/`cancel`.
+While present, the host clips with `overflow: hidden` + `nowrap`, keeps
+children at `flex-shrink: 0`, and fades content via `opacity` on the same
+duration/easing. `width` layout animation is intentional here: the computed
+`width` stays `auto`, so CSS `transition: width` never fires and WAAPI is the
+only way to interpolate the used width. Container-driven changes (window
+resize, font load, density switch) only re-sync the baseline, and `fullWidth`
+buttons plus attached `solaris-button-group` members skip the animation. The
+loading spinner additionally enters with `solaris-motion-pop-in`
+(`normal` / `decelerate`). Reduced motion (`prefers-reduced-motion` or
+`data-reduced-motion="true"`) disables the width animation, the content fade,
+the spinner animation, and the press scale.
+
 Inside an attached `solaris-button-group`, the button carries
 `data-group="horizontal"` (or `"vertical"`, from the group context). That
 attribute scopes the attached styling (square middle, flush edge radius,
@@ -250,6 +341,28 @@ When `loading` is `true`:
 
 ```html
 <button solaris-button [loading]="true">Salvar</button>
+```
+
+## Async action
+
+Pass an async function via `action`. While it runs, the button enters an
+internal `pending` state: effective loading is `manual || pending`, the
+effective disabled state includes `pending`, `aria-busy="true"` is set, and a
+second click is discarded. On success the button emits `actionSuccess` with
+the result; on failure it resets, restores focus to the button, and emits
+`actionError` with the error. A manual `loading="true"` still wins and is not
+cleared when the action settles. The action never runs on the server and the
+initial pending state is always `false`.
+
+```html
+<button solaris-button [action]="save" (actionSuccess)="onSaved($event)" (actionError)="onFailed($event)">Save</button>
+```
+
+On `<a>` with `href`, the directive calls `preventDefault()` before running
+the action, so the navigation does not race the async work:
+
+```html
+<a solaris-button href="/report" [action]="exportReport">Export</a>
 ```
 
 ## Disabled
@@ -380,6 +493,17 @@ The following CSS variables can be customized:
 --solaris-button-custom-hover-border-color
 --solaris-button-custom-active-background
 --solaris-button-custom-active-border-color
+```
+
+### Gradient tokens
+
+```css
+--solaris-button-gradient-from
+--solaris-button-gradient-to
+--solaris-button-gradient-hover-from
+--solaris-button-gradient-hover-to
+--solaris-button-gradient-active-from
+--solaris-button-gradient-active-to
 ```
 
 ## Limitations (v1)

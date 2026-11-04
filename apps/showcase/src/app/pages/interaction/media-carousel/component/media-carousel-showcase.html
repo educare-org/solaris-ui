@@ -1,0 +1,248 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="media-carousel.title"
+    descriptionKey="media-carousel.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section
+    anchor="examples"
+    titleKey="media-carousel.section.examples"
+  >
+    <p class="media-carousel-showcase__note">
+      {{ 'media-carousel.examples.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <solaris-media-carousel
+        [slides]="slides"
+        [(activeIndex)]="current"
+        [ariaLabel]="'media-carousel.examples.label' | translate"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="dots-outside"
+    titleKey="media-carousel.section.dots-outside"
+  >
+    <p class="media-carousel-showcase__note">
+      {{ 'media-carousel.dots-outside.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="outsideCode" language="html">
+      <solaris-media-carousel
+        [slides]="slides"
+        dotsPosition="outside"
+        [ariaLabel]="'media-carousel.examples.label' | translate"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="loop" titleKey="media-carousel.section.loop">
+    <p class="media-carousel-showcase__note">
+      {{ 'media-carousel.loop.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="loopCode" language="html">
+      <solaris-media-carousel
+        [slides]="slides"
+        [loop]="false"
+        [ariaLabel]="'media-carousel.examples.label' | translate"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="autoplay"
+    titleKey="media-carousel.section.autoplay"
+  >
+    <p class="media-carousel-showcase__note">
+      {{ 'media-carousel.autoplay.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="autoplayCode" language="html">
+      <solaris-media-carousel
+        [slides]="slides"
+        [autoplay]="true"
+        [duration]="4000"
+        [ariaLabel]="'media-carousel.examples.label' | translate"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="preview" titleKey="media-carousel.section.preview">
+    <p class="media-carousel-showcase__note">
+      {{ 'media-carousel.preview.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="previewCode" language="html">
+      <solaris-media-carousel
+        [slides]="previewSlides"
+        navigation="preview"
+        [ariaLabel]="'media-carousel.examples.label' | translate"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="chrome" titleKey="media-carousel.section.chrome">
+    <p class="media-carousel-showcase__note">
+      {{ 'media-carousel.chrome.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedChrome"
+      [ariaLabel]="'media-carousel.section.chrome' | translate"
+    >
+      <solaris-tab value="minimal"
+        >{{ 'media-carousel.chrome.minimal' | translate }}</solaris-tab
+      >
+      <solaris-tab value="arrows"
+        >{{ 'media-carousel.chrome.arrows' | translate }}</solaris-tab
+      >
+      <solaris-tab value="dots"
+        >{{ 'media-carousel.chrome.dots' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="minimal">
+        <solaris-preview-code [code]="minimalCode" language="html">
+          <solaris-media-carousel
+            [slides]="slides"
+            navigation="none"
+            [showArrows]="false"
+            [ariaLabel]="'media-carousel.chrome.minimal' | translate"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="arrows">
+        <solaris-preview-code [code]="arrowsOnlyCode" language="html">
+          <solaris-media-carousel
+            [slides]="slides"
+            navigation="none"
+            [ariaLabel]="'media-carousel.chrome.arrows' | translate"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="dots">
+        <solaris-preview-code [code]="dotsOnlyCode" language="html">
+          <solaris-media-carousel
+            [slides]="slides"
+            [showArrows]="false"
+            [ariaLabel]="'media-carousel.chrome.dots' | translate"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="progress"
+    titleKey="media-carousel.section.progress"
+  >
+    <p class="media-carousel-showcase__note">
+      {{ 'media-carousel.progress.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="progressCode" language="html">
+      <solaris-media-carousel
+        [slides]="slides"
+        navigation="progress"
+        [autoplay]="true"
+        [duration]="4000"
+        [ariaLabel]="'media-carousel.examples.label' | translate"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="ratios" titleKey="media-carousel.section.ratios">
+    <p class="media-carousel-showcase__note">
+      {{ 'media-carousel.ratios.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedRatio"
+      [ariaLabel]="'media-carousel.section.ratios' | translate"
+    >
+      <solaris-tab value="16 / 9">16 / 9</solaris-tab>
+      <solaris-tab value="4 / 3">4 / 3</solaris-tab>
+      <solaris-tab value="1 / 1">1 / 1</solaris-tab>
+      <solaris-tab value="3 / 4">3 / 4</solaris-tab>
+      <solaris-tab value="9 / 16">9 / 16</solaris-tab>
+      <solaris-tab-panel value="16 / 9">
+        <solaris-preview-code [code]="ratioWideCode" language="html">
+          <solaris-media-carousel
+            [slides]="slides"
+            aspectRatio="16 / 9"
+            [ariaLabel]="'media-carousel.examples.label' | translate"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="4 / 3">
+        <solaris-preview-code [code]="ratioStandardCode" language="html">
+          <solaris-media-carousel
+            [slides]="slides"
+            aspectRatio="4 / 3"
+            [ariaLabel]="'media-carousel.examples.label' | translate"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="1 / 1">
+        <solaris-preview-code [code]="ratioSquareCode" language="html">
+          <solaris-media-carousel
+            [slides]="slides"
+            aspectRatio="1 / 1"
+            [ariaLabel]="'media-carousel.examples.label' | translate"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="3 / 4">
+        <solaris-preview-code [code]="ratioPortraitCode" language="html">
+          <solaris-media-carousel
+            [slides]="slides"
+            aspectRatio="3 / 4"
+            [ariaLabel]="'media-carousel.examples.label' | translate"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="9 / 16">
+        <solaris-preview-code [code]="ratioTallCode" language="html">
+          <solaris-media-carousel
+            [slides]="slides"
+            aspectRatio="9 / 16"
+            [ariaLabel]="'media-carousel.examples.label' | translate"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="peek" titleKey="media-carousel.section.peek">
+    <p class="media-carousel-showcase__note">
+      {{ 'media-carousel.peek.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="peekCode" language="html">
+      <solaris-media-carousel
+        [slides]="slides"
+        visibleCount="peek"
+        [ariaLabel]="'media-carousel.examples.label' | translate"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="media-carousel.section.installation"
+  >
+    <p class="media-carousel-showcase__note">
+      {{ 'media-carousel.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="media-carousel.section.props">
+    <p class="media-carousel-showcase__note">
+      {{ 'media-carousel.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

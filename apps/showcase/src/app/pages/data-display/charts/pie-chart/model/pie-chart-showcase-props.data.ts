@@ -30,7 +30,7 @@ export const PROP_ROWS: readonly PieChartPropRow[] = [
     prop: 'centerLabel',
     type: 'string',
     values: '—',
-    default: 'solaris.chart.total',
+    default: '—',
   },
   {
     prop: 'minSlicePercent',

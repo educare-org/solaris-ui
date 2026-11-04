@@ -30,6 +30,7 @@ import type {
     '[attr.data-separator]': "separator() ? '' : null",
     '[attr.data-density]': 'density()',
     '[attr.data-scrolled]': "effectiveScrolled() ? '' : null",
+    '[attr.data-flat]': "flat() ? '' : null",
   },
 })
 export class SolarisDialogFooterComponent implements AfterViewInit {
@@ -44,6 +45,9 @@ export class SolarisDialogFooterComponent implements AfterViewInit {
   });
   readonly density = input<SolarisDialogDensity>();
   readonly scrolled = input<boolean>();
+  readonly flat = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
+  });
 
   protected readonly internalScrolled = signal(false);
   protected readonly effectiveScrolled = computed(

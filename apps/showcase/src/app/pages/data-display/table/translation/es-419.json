@@ -6,6 +6,9 @@
     "add-row": {
       "note": "Fila de creación Inline. Solo emite addRowRequest; los botones de acción en la barra de herramientas permanecen separados."
     },
+    "advanced": {
+      "note": "Paginación y barra de herramientas proyectadas en los slots de la tabla."
+    },
     "ai": {
       "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
     },
@@ -40,9 +43,15 @@
     "composition": {
       "note": "Las columnas de Avatar y Badge componen componentes existentes mediante plantillas de celda. Usa column.icon para iconos de encabezado simples sin plantilla."
     },
+    "data": {
+      "note": "Estados asíncronos y datos paginados del servidor."
+    },
     "description": "Tabla de datos ligera con ordenamiento, selección y estados conectables.",
     "examples": {
       "note": "Empieza con la tabla predeterminada y luego explora ordenamiento, selección y estados a continuación."
+    },
+    "expansion": {
+      "note": "Detalles expandibles por fila en Mobile o por celda. Las tablas plain se vuelven cards en 720px o menos; priority con expandable mantiene el detalle colapsable, layout card o mobile fuerza cards en todo viewport, y responsive scroll mantiene el scroll anterior."
     },
     "footer": {
       "average": "Promedio",
@@ -53,6 +62,9 @@
     },
     "header-groups": {
       "note": "Las columnas consecutivas se fusionan bajo una etiqueta de grupo; las columnas no agrupadas abarcan ambas filas."
+    },
+    "interaction": {
+      "note": "Ordenamiento, selección, edición en el lugar y creación de filas."
     },
     "installation": {
       "note": "Instala el paquete único de Solaris y luego importa el componente."
@@ -68,7 +80,11 @@
       "note": "Tarjetas de ancho de teléfono que componen Avatar, Badge y acciones sin arrastre horizontal."
     },
     "props": {
-      "note": "Tabla de Props próximamente."
+      "note": "Todos los inputs que acepta la tabla, con tipos, valores y valores predeterminados.",
+      "colProp": "Prop",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Predeterminado"
     },
     "responsive": {
       "note": "En Mobile (720px o menos) las columnas prioritarias se contraen en una fila de detalle expandible en la columna Acciones. Las columnas también pueden incluir su propia plantilla de detalle con información adicional."
@@ -78,16 +94,18 @@
     },
     "section": {
       "add-row": "Añadir fila",
+      "advanced": "Avanzado",
       "appearance": "Apariencia",
-      "basic": "Básico",
       "cell-editing": "Edición de celda",
       "cell-expand": "Expansión de celda",
       "composition": "Composición",
+      "data": "Datos",
       "examples": "Ejemplos",
+      "expansion": "Expansión",
       "footer": "Agregados de pie de página",
       "header-groups": "Grupos de encabezado",
       "installation": "Instalación",
-      "layout": "Layout",
+      "interaction": "Interacción",
       "mobile": "Mobile",
       "props": "Props",
       "responsive": "Adaptable",
@@ -97,9 +115,8 @@
       "sorting": "Ordenamiento",
       "states": "Estados",
       "sticky-column": "Columna fija",
-      "wide": "Muchas columnas",
+      "structure": "Estructura",
       "with-pagination": "Con paginación",
-      "with-tabs": "Con pestañas",
       "with-toolbar": "Con barra de herramientas"
     },
     "selection": {
@@ -111,7 +128,8 @@
       }
     },
     "server": {
-      "note": "Un servidor simulado gestiona las filas, el total y Cargando a través de SolarisTableDataSource."
+      "note": "Un servidor simulado gestiona las filas, el total y Cargando a través de SolarisTableDataSource.",
+      "reload": "Recargar"
     },
     "sorting": {
       "note": "Haz clic en un encabezado de columna para alternar nulo, ascendente, descendente. Los cambios se anuncian a lectores de pantalla."
@@ -131,6 +149,9 @@
         "on": "Fijado"
       }
     },
+    "structure": {
+      "note": "Desplazamiento horizontal con columna fija, grupos de encabezado y agregados de pie."
+    },
     "title": "Tabla",
     "wide": {
       "note": "Las tablas Anchas se desplazan horizontalmente dentro del viewport. Usa fullWidth para distribuir las columnas."
@@ -141,13 +162,6 @@
         "default": "Predeterminado",
         "description": "Con descripción",
         "mobile": "Mobile"
-      }
-    },
-    "with-tabs": {
-      "note": "Las pestañas cambian conjuntos de datos mientras cada tabla mantiene su propio orden.",
-      "tab": {
-        "all": "Todos",
-        "recent": "Reciente"
       }
     },
     "with-toolbar": {

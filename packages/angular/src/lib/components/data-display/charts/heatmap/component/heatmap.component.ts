@@ -1,5 +1,3 @@
-// root to move focus between SVG cells. No innerHTML is used; style writes
-// target only presentation attributes of the component's own SVG.
 import {
   ChangeDetectionStrategy,
   Component,

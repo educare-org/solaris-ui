@@ -1,0 +1,73 @@
+{
+  "range-slider": {
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usá-lo. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "current-value": "Valor atual:",
+    "description": {
+      "label": "Controle de formulário para escolher dois ou mais valores ordenados em um intervalo contínuo, com teclado por polegar, Angular Forms e i18n completos."
+    },
+    "examples": {
+      "brightness": "Brilho",
+      "budget": "Orçamento",
+      "frequency": "Faixa de frequência",
+      "gap": "Intervalo mínimo",
+      "note": "Arraste qualquer polegar ou clique na trilha para mover o mais próximo. Os polegares nunca se cruzam.",
+      "price": "Preço",
+      "range": "Intervalo",
+      "risk": "Faixa de risco",
+      "segments": "Segmentos",
+      "stops": "Paradas",
+      "temperature": "Temperatura"
+    },
+    "form-field-hint": "Estas opções afetam sua busca.",
+    "installation": {
+      "note": "Instale o pacote Solaris UI e importe o componente range slider."
+    },
+    "props": {
+      "note": "Todos os inputs aceitos pelo range slider, com tipos, valores e padrões.",
+      "colProp": "Prop",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Padrão"
+    },
+    "section": {
+      "examples": "Exemplos",
+      "form": "Integração com formulários",
+      "installation": "Instalação",
+      "props": "Props",
+      "scale": "Escala",
+      "states": "Estados",
+      "thumbs": "Polegares",
+      "ticks": "Marcas",
+      "types": "Tipos",
+      "vertical": "Vertical"
+    },
+    "scale": {
+      "note": "Limites estáticos marcam o mínimo e o máximo da trilha.",
+      "scales-note": "Escalas log precisam de tickValues explícitos; zonas recolorem o preenchimento pelo primeiro polegar."
+    },
+    "states": {
+      "disabled": "Desabilitado",
+      "invalid": "Inválido",
+      "readonly": "Somente leitura"
+    },
+    "thumbs": {
+      "note": "Dois polegares se nomeiam mínimo e máximo; três ou mais usam nomes posicionais. Um intervalo mínimo mantém os polegares separados.",
+      "tab": {
+        "five": "Cinco polegares",
+        "three": "Três polegares"
+      }
+    },
+    "ticks": {
+      "note": "Marcas são decorativas (aria-hidden) e derivam de showTicks mais tickStep."
+    },
+    "title": "Range Slider",
+    "types": {
+      "note": "Cada formato usa o pipeline de exibição: temperatura em graus e limites estáticos da escala para o intervalo."
+    },
+    "vertical": {
+      "note": "Vertical preenche de baixo para cima entre os polegares extremos. O teclado é idêntico nos dois eixos."
+    }
+  }
+}

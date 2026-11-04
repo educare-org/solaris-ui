@@ -415,8 +415,6 @@ export class SolarisCalendarComponent implements OnInit, OnDestroy {
     this.announcement.set(this.titleLabel());
   }
 
-  // Why: window-level parity with Google Calendar (N/T/1-5/[/]) without stealing
-  // keystrokes from form controls or the editor dialog.
   @HostListener('window:keydown', ['$event'])
   protected onWindowKeydown(event: KeyboardEvent): void {
     if (this.isShortcutGuarded(event)) return;
@@ -455,8 +453,6 @@ export class SolarisCalendarComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Why: typing in inputs/selects/contenteditable or interacting with an open
-  // dialog must never trigger shell navigation or creation.
   private isShortcutGuarded(event: KeyboardEvent): boolean {
     if (event.defaultPrevented) return true;
     if (event.ctrlKey || event.metaKey || event.altKey) return true;
@@ -476,8 +472,6 @@ export class SolarisCalendarComponent implements OnInit, OnDestroy {
     return target.closest('[role="dialog"]') !== null;
   }
 
-  // Why: N creates an all-day draft anchored at the visible date; the shell
-  // emits the proposal first so non-editable consumers keep working.
   private openCreateAtFocusedDate(): void {
     if (!this.editable() || this.editorDisabled()) return;
     const focused = this.focusedDate();

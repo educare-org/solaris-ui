@@ -1,5 +1,12 @@
-import { TestBed } from '@angular/core/testing';
-import { Component } from '@angular/core';
+import { TestBed, type ComponentFixture } from '@angular/core/testing';
+import {
+  Component,
+  type ElementRef,
+  type InputSignal,
+  type OutputEmitterRef,
+  type Signal,
+  type WritableSignal,
+} from '@angular/core';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
@@ -11,6 +18,93 @@ import { SolarisOptionGroupComponent } from '../../option-group/component/option
 import { SolarisFormSuffixDirective } from '../../form-field/directives/form-suffix.directive';
 import { SolarisFormSuffixActionDirective } from '../../form-field/directives/form-suffix-action.directive';
 import type { SolarisMultiSelectDisplayMode } from '../model/multi-select.types';
+import { assertPresent } from '../../../../testing/solaris-test-utilities';
+import type { SolarisPopoverTriggerDirective } from '../../../interaction/popover';
+
+type MultiSelectTestSeam = Omit<
+  SolarisMultiSelectComponent,
+  | 'triggerWidth'
+  | 'markAsTouched'
+  | 'selectActiveOption'
+  | 'focusNextOption'
+  | 'getFirstEnabledOptionIndex'
+  | 'getLastEnabledOptionIndex'
+  | 'translateService'
+> & {
+  internalValue: WritableSignal<unknown[]>;
+  searchQuery: WritableSignal<string>;
+  activeOptionIndex: WritableSignal<number>;
+  panelOpen: WritableSignal<boolean>;
+  triggerWidth: WritableSignal<number>;
+  internalFocused: WritableSignal<boolean>;
+  showCountOnly: Signal<boolean>;
+  autoChipCount: Signal<number>;
+  autoOverflowCount: Signal<number>;
+  autoVisibleChips: Signal<SolarisOptionComponent[]>;
+  autoShowOverflow: Signal<boolean>;
+  autoOverflowTooltipText: Signal<string>;
+  countTooltipText: Signal<string>;
+  canClear: Signal<boolean>;
+  canOpen: Signal<boolean>;
+  contentMinWidth: Signal<number>;
+  effectivePanelMinWidth: Signal<string | number | undefined>;
+  isPartialSelected: Signal<boolean>;
+  isAllSelected: Signal<boolean>;
+  isEffectivelyDisabled: Signal<boolean>;
+  isEffectivelyReadonly: Signal<boolean>;
+  isEffectivelyInvalid: Signal<boolean>;
+  options: Signal<readonly SolarisOptionComponent[]>;
+  optionGroups: Signal<readonly SolarisOptionGroupComponent[]>;
+  triggerElement: Signal<ElementRef<HTMLElement> | undefined>;
+  popoverTrigger:
+    | Signal<SolarisPopoverTriggerDirective | undefined>
+    | (() => {
+        open: (...args: never[]) => unknown;
+        close: (...args: never[]) => unknown;
+      });
+  activeDescendantId: Signal<string | null>;
+  emptyTextValue: Signal<string>;
+  loadingTextValue: Signal<string>;
+  noResultsTextValue: Signal<string>;
+  searchPlaceholderText: Signal<string>;
+  clearAriaLabel: Signal<string>;
+  showNoResults: Signal<boolean>;
+  value: InputSignal<unknown[]>;
+  displayMode: InputSignal<SolarisMultiSelectDisplayMode>;
+  opened: OutputEmitterRef<void>;
+  closed: OutputEmitterRef<void>;
+  cleared: OutputEmitterRef<void>;
+  openChange: OutputEmitterRef<boolean>;
+  searchChange: OutputEmitterRef<string>;
+  valueChange: OutputEmitterRef<unknown[]>;
+  writeValue: (safe: unknown) => void;
+  registerOnChange: (fn: (value: unknown[]) => void) => void;
+  registerOnTouched: (fn: () => void) => void;
+  setDisabledState: (isDisabled: boolean) => void;
+  setDescribedByIds: (ids: string[]) => void;
+  focus: () => void;
+  toggleOption: (option: SolarisOptionComponent) => void;
+  clearValue: () => void;
+  handleSelectAll: () => void;
+  markAsTouched: () => void;
+  selectActiveOption: () => void;
+  focusNextOption: (direction: 1 | -1) => void;
+  getFirstEnabledOptionIndex: () => number;
+  getLastEnabledOptionIndex: () => number;
+  getOptionDisplayLabel: (option: SolarisOptionComponent) => string;
+  optionMatchesSearch: (
+    option: SolarisOptionComponent,
+    query: string,
+  ) => boolean;
+  onSearchInput: (event: Event) => void;
+  onSearchKeydown: (event: KeyboardEvent) => void;
+  onTriggerKeydown: (event: KeyboardEvent) => void;
+  onPanelKeydown: (event: KeyboardEvent) => void;
+  onPanelClick: (event: MouseEvent) => void;
+  onPanelOpened: () => void;
+  onPanelClosed: () => void;
+  translateService: SolarisTranslateService;
+};
 
 function getTestProviders() {
   return provideSolarisTesting({
@@ -64,7 +158,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       expect(multiSelect.writeValue).toBeDefined();
       expect(multiSelect.registerOnChange).toBeDefined();
       expect(multiSelect.registerOnTouched).toBeDefined();
@@ -77,7 +171,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       expect(multiSelect.internalValue()).toEqual(['a']);
     });
 
@@ -87,7 +181,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(null);
       fixture.detectChanges();
       expect(multiSelect.internalValue()).toEqual([]);
@@ -99,7 +193,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(undefined);
       fixture.detectChanges();
       expect(multiSelect.internalValue()).toEqual([]);
@@ -111,7 +205,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       let emitted: unknown[] | undefined;
       multiSelect.registerOnChange((v: unknown[]) => {
         emitted = v;
@@ -127,7 +221,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       let touched = false;
       multiSelect.registerOnTouched(() => {
         touched = true;
@@ -142,7 +236,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.setDisabledState(true);
       fixture.detectChanges();
       expect(multiSelect.isEffectivelyDisabled()).toBe(true);
@@ -180,7 +274,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.toggleOption(multiSelect.options()[1]);
       fixture.detectChanges();
       expect(multiSelect.internalValue()).toEqual(['a', 'b']);
@@ -192,7 +286,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.toggleOption(multiSelect.options()[0]);
       fixture.detectChanges();
       expect(multiSelect.internalValue()).toEqual([]);
@@ -204,7 +298,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.toggleOption(multiSelect.options()[2]);
       fixture.detectChanges();
       expect(multiSelect.internalValue()).toEqual(['a']);
@@ -216,7 +310,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       let emitted: unknown[] | undefined;
       multiSelect.valueChange.subscribe((v: unknown[]) => {
         emitted = v;
@@ -232,7 +326,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       const original = ['a'];
       multiSelect.writeValue(original);
       fixture.detectChanges();
@@ -264,7 +358,7 @@ describe('SolarisMultiSelectComponent', () => {
       ],
     })
     class TestHost {
-      displayMode = 'summary' as any;
+      displayMode: SolarisMultiSelectDisplayMode = 'summary';
       maxChips = 3;
     }
 
@@ -288,7 +382,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['a', 'b']);
       fixture.detectChanges();
       const chipLabel = fixture.nativeElement.querySelector(
@@ -305,7 +399,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['a', 'b']);
       fixture.detectChanges();
       const valueText = fixture.nativeElement.querySelector(
@@ -323,7 +417,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['a', 'b']);
       fixture.detectChanges();
       const chips = fixture.nativeElement.querySelectorAll(
@@ -339,7 +433,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['a', 'b']);
       fixture.detectChanges();
       const removeBtn = fixture.nativeElement.querySelector(
@@ -359,7 +453,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['a', 'b', 'c']);
       fixture.detectChanges();
       const chips = fixture.nativeElement.querySelectorAll(
@@ -405,7 +499,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       expect(multiSelect.displayMode()).toBe('auto');
     });
 
@@ -415,7 +509,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['a', 'b', 'c']);
       fixture.detectChanges();
       expect(multiSelect.showCountOnly()).toBe(true);
@@ -429,7 +523,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.triggerWidth.set(500);
       multiSelect.writeValue(['a', 'b']);
       fixture.detectChanges();
@@ -446,7 +540,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.triggerWidth.set(100);
       multiSelect.writeValue(['a', 'b', 'c', 'd']);
       fixture.detectChanges();
@@ -463,7 +557,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.triggerWidth.set(100);
       multiSelect.writeValue(['a', 'b', 'c', 'd']);
       fixture.detectChanges();
@@ -480,7 +574,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['a', 'b', 'c']);
       fixture.detectChanges();
       expect(multiSelect.countTooltipText()).toBe(
@@ -494,12 +588,12 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['a', 'b', 'c']);
       fixture.detectChanges();
       expect(multiSelect.internalValue().length).toBe(3);
       const event = { key: 'Backspace', preventDefault: vi.fn() };
-      multiSelect.onSearchKeydown(event as any);
+      multiSelect.onSearchKeydown(event as unknown as KeyboardEvent);
       fixture.detectChanges();
       expect(multiSelect.internalValue()).toEqual(['a', 'b']);
     });
@@ -510,14 +604,14 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['a', 'b', 'c']);
       multiSelect.searchQuery.set('x');
       fixture.detectChanges();
       multiSelect.onSearchKeydown({
         key: 'Backspace',
         preventDefault: vi.fn(),
-      } as any);
+      } as unknown as KeyboardEvent);
       fixture.detectChanges();
       expect(multiSelect.internalValue()).toEqual(['a', 'b', 'c']);
     });
@@ -548,9 +642,9 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       const opts = multiSelect.options();
-      const filtered = opts.filter((o: any) =>
+      const filtered = opts.filter((o: SolarisOptionComponent) =>
         multiSelect.optionMatchesSearch(o, 'app'),
       );
       expect(filtered.length).toBe(1);
@@ -563,12 +657,14 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       let emitted = '';
       multiSelect.searchChange.subscribe((v: string) => {
         emitted = v;
       });
-      multiSelect.onSearchInput({ target: { value: 'test' } } as any);
+      multiSelect.onSearchInput({
+        target: { value: 'test' },
+      } as unknown as Event);
       fixture.detectChanges();
       expect(emitted).toBe('test');
     });
@@ -579,7 +675,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.searchQuery.set('zzzzz');
       fixture.detectChanges();
       expect(multiSelect.showNoResults()).toBe(true);
@@ -591,7 +687,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['a']);
       fixture.detectChanges();
       multiSelect.searchQuery.set('banana');
@@ -624,7 +720,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['a', 'b']);
       fixture.detectChanges();
       multiSelect.clearValue();
@@ -671,7 +767,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['a']);
       fixture.detectChanges();
       const clearBtn = fixture.nativeElement.querySelector(
@@ -687,7 +783,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       const clearBefore = fixture.nativeElement.querySelector(
         '.solaris-multi-select__clear',
       ) as HTMLButtonElement;
@@ -718,7 +814,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['a']);
       multiSelect.setDisabledState(true);
       fixture.detectChanges();
@@ -731,7 +827,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['a']);
       fixture.detectChanges();
       let cleared = false;
@@ -768,7 +864,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.handleSelectAll();
       fixture.detectChanges();
       expect(multiSelect.internalValue()).toEqual(['a', 'b']);
@@ -780,7 +876,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.handleSelectAll();
       fixture.detectChanges();
       multiSelect.handleSelectAll();
@@ -794,7 +890,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['a']);
       fixture.detectChanges();
       expect(multiSelect.isPartialSelected()).toBe(true);
@@ -807,7 +903,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.handleSelectAll();
       fixture.detectChanges();
       expect(multiSelect.internalValue()).toEqual(['a', 'b']);
@@ -855,7 +951,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.markAsTouched();
       fixture.detectChanges();
       expect(multiSelect.isEffectivelyInvalid()).toBe(true);
@@ -868,7 +964,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['a']);
       multiSelect.markAsTouched();
       fixture.detectChanges();
@@ -882,7 +978,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['a']);
       multiSelect.markAsTouched();
       fixture.detectChanges();
@@ -896,7 +992,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['a', 'b']);
       multiSelect.markAsTouched();
       fixture.detectChanges();
@@ -961,9 +1057,12 @@ describe('SolarisMultiSelectComponent', () => {
       trigger.click();
       fixture.detectChanges();
       await fixture.whenStable();
-      const panel = document.querySelector('[role="listbox"]');
+      const panel = assertPresent(
+        document.querySelector('[role="listbox"]'),
+        'listbox panel',
+      );
       expect(panel).toBeTruthy();
-      expect(panel!.getAttribute('aria-multiselectable')).toBe('true');
+      expect(panel.getAttribute('aria-multiselectable')).toBe('true');
     });
   });
 
@@ -1162,7 +1261,7 @@ describe('SolarisMultiSelectComponent', () => {
       ],
     })
     class UnsafeRenderingHost {
-      unsafeDisplay(_value: unknown): string {
+      unsafeDisplay(): string {
         return '<b>Admin</b>';
       }
     }
@@ -1184,7 +1283,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       expect(multiSelect.emptyTextValue()).toContain(
         '<script>alert(1)</script>',
       );
@@ -1196,7 +1295,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['x']);
       fixture.detectChanges();
       const label = multiSelect.getOptionDisplayLabel(multiSelect.options()[0]);
@@ -1228,9 +1327,9 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       const opts = multiSelect.options();
-      const filtered = opts.filter((opt: any) =>
+      const filtered = opts.filter((opt: SolarisOptionComponent) =>
         multiSelect.optionMatchesSearch(opt, '['),
       );
       expect(Array.isArray(filtered)).toBe(true);
@@ -1242,7 +1341,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       const aOpt = multiSelect.options()[0];
       expect(multiSelect.optionMatchesSearch(aOpt, 'option')).toBe(true);
     });
@@ -1284,10 +1383,10 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       const disabledOpt = multiSelect
         .options()
-        .find((o: any) => o.isEffectivelyDisabled());
+        .find((o: SolarisOptionComponent) => o.isEffectivelyDisabled());
       multiSelect.writeValue([]);
       fixture.detectChanges();
       if (disabledOpt) {
@@ -1303,8 +1402,13 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
-      const disabledOpt = multiSelect.options()[1] as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
+      const disabledOpt = assertPresent(
+        multiSelect.options()[1],
+        'disabled option',
+      ) as unknown as {
+        elementRef: ElementRef<HTMLElement>;
+      };
       const optEl = disabledOpt.elementRef.nativeElement;
       expect(optEl.getAttribute('aria-disabled')).toBe('true');
     });
@@ -1316,7 +1420,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       expect(multiSelect.canOpen()).toBe(false);
     });
 
@@ -1327,7 +1431,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       expect(multiSelect.canOpen()).toBe(false);
     });
 
@@ -1338,7 +1442,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['a']);
       fixture.detectChanges();
       expect(multiSelect.canClear()).toBe(false);
@@ -1499,7 +1603,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['a', 'b']);
       multiSelect.searchQuery.set('text');
       fixture.detectChanges();
@@ -1516,7 +1620,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['a', 'b']);
       multiSelect.searchQuery.set('');
       fixture.detectChanges();
@@ -1552,7 +1656,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.setDisabledState(true);
       fixture.detectChanges();
       const event = new KeyboardEvent('keydown', { key: 'Enter' });
@@ -1567,7 +1671,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.panelOpen.set(true);
       multiSelect.activeOptionIndex.set(1);
       fixture.detectChanges();
@@ -1602,7 +1706,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       expect(multiSelect.displayMode()).toBe('auto');
     });
 
@@ -1612,7 +1716,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue([]);
       fixture.detectChanges();
       const placeholder = fixture.nativeElement.querySelector(
@@ -1649,7 +1753,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       expect(multiSelect.contentMinWidth()).toBe(215);
     });
 
@@ -1669,7 +1773,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       expect(multiSelect.effectivePanelMinWidth()).toBe(215);
     });
 
@@ -1680,7 +1784,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       expect(multiSelect.effectivePanelMinWidth()).toBe(300);
     });
 
@@ -1690,7 +1794,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['br', 'us']);
       multiSelect.triggerWidth.set(215);
       fixture.detectChanges();
@@ -1715,7 +1819,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       expect(multiSelect.contentMinWidth()).toBe(0);
       expect(multiSelect.effectivePanelMinWidth()).toBeUndefined();
     });
@@ -1745,8 +1849,8 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
-      const spy = vi.spyOn(multiSelect, 'handleSelectAll');
+      ).componentInstance as unknown as MultiSelectTestSeam;
+      vi.spyOn(multiSelect, 'handleSelectAll');
       multiSelect.handleSelectAll();
       expect(multiSelect.isEffectivelyReadonly()).toBe(true);
       expect(multiSelect.internalValue()).toEqual([]);
@@ -1785,7 +1889,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       expect(multiSelect.optionGroups().length).toBe(2);
     });
 
@@ -1795,7 +1899,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       expect(multiSelect.options().length).toBe(2);
     });
 
@@ -1805,7 +1909,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       const groupBOpt = multiSelect.options()[1];
       expect(groupBOpt.isEffectivelyDisabled()).toBe(true);
     });
@@ -1837,7 +1941,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       expect(multiSelect.loadingTextValue()).toBe('Loading fallback');
       expect(multiSelect.emptyTextValue()).toBe('Empty fallback');
       expect(multiSelect.noResultsTextValue()).toBe('No results fallback');
@@ -1862,7 +1966,7 @@ describe('SolarisMultiSelectComponent', () => {
       const fixture = TestBed.createComponent(DefaultFallbackHost);
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       const withDefaults = multiSelect['translateService'] as {
         translate: (key: string) => string;
       };
@@ -1896,11 +2000,11 @@ describe('SolarisMultiSelectComponent', () => {
     })
     class ApiSurfaceHost {}
 
-    function getMultiSelect(): any {
+    function getMultiSelect(): MultiSelectTestSeam {
       const fixture = TestBed.createComponent(ApiSurfaceHost);
       fixture.detectChanges();
       return fixture.debugElement.query(By.css('solaris-multi-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as MultiSelectTestSeam;
     }
 
     it('should expose state getters', () => {
@@ -1925,7 +2029,8 @@ describe('SolarisMultiSelectComponent', () => {
       TestBed.configureTestingModule({});
       const multiSelect = getMultiSelect();
       const focusSpy = vi.spyOn(
-        multiSelect.triggerElement().nativeElement,
+        assertPresent(multiSelect.triggerElement(), 'trigger element')
+          .nativeElement,
         'focus',
       );
       multiSelect.focus();
@@ -1964,7 +2069,7 @@ describe('SolarisMultiSelectComponent', () => {
     })
     class RepasseHost {}
 
-    function getInnerField(fixture: any): HTMLElement {
+    function getInnerField(fixture: ComponentFixture<unknown>): HTMLElement {
       return fixture.nativeElement.querySelector(
         'solaris-multi-select solaris-form-field',
       );
@@ -2059,7 +2164,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['br']);
       multiSelect.panelOpen.set(true);
       fixture.detectChanges();
@@ -2075,7 +2180,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.writeValue(['br']);
       multiSelect.panelOpen.set(true);
       fixture.detectChanges();
@@ -2113,7 +2218,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       return { fixture, multiSelect };
     }
 
@@ -2202,7 +2307,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       const fake = { open: vi.fn(), close: vi.fn() };
       multiSelect.popoverTrigger = () => fake;
       const trigger = fixture.nativeElement.querySelector(
@@ -2373,7 +2478,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.popoverTrigger = () => ({ open: vi.fn(), close: vi.fn() });
       multiSelect.panelOpen.set(true);
       fixture.detectChanges();
@@ -2470,7 +2575,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.panelOpen.set(true);
       fixture.detectChanges();
       return { fixture, multiSelect };
@@ -2566,13 +2671,13 @@ describe('SolarisMultiSelectComponent', () => {
     })
     class AllDisabledHost {}
 
-    function setupOpen(host: object): any {
+    function setupOpen(host: object): MultiSelectTestSeam {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(host as never);
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       multiSelect.panelOpen.set(true);
       fixture.detectChanges();
       return multiSelect;
@@ -2628,7 +2733,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       const fake = { open: vi.fn(), close: vi.fn() };
       multiSelect.popoverTrigger = () => fake;
       multiSelect.panelOpen.set(true);
@@ -2731,7 +2836,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       const fake = { open: vi.fn(), close: vi.fn() };
       multiSelect.popoverTrigger = () => fake;
       multiSelect.panelOpen.set(true);
@@ -2816,7 +2921,7 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
-      ).componentInstance as any;
+      ).componentInstance as unknown as MultiSelectTestSeam;
       const trigger = fixture.nativeElement.querySelector(
         '.solaris-multi-select__trigger',
       ) as HTMLElement;

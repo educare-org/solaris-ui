@@ -29,26 +29,63 @@ describe('ShowcaseShellHeader', () => {
     fixture.detectChanges();
   });
 
-  it('should create with brand, search and theme controls', () => {
+  it('should create with brand, search, icon theme toggle and high-contrast on desktop', () => {
     expect(
       fixture.debugElement.query(By.css('.shell-header__brand')),
     ).toBeTruthy();
     expect(
-      fixture.debugElement.query(By.css('input[type="search"]')),
+      fixture.debugElement.query(By.css('.shell-header__menu-button')),
+    ).toBeNull();
+    expect(
+      fixture.debugElement.query(
+        By.css('.shell-header__actions input[type="search"]'),
+      ),
     ).toBeTruthy();
-    expect(fixture.debugElement.query(By.css('app-theme-toggle'))).toBeTruthy();
+    const schemeToggle = fixture.debugElement.query(
+      By.css('.shell-header__actions app-theme-toggle'),
+    );
+    expect(schemeToggle).toBeTruthy();
+    expect(
+      schemeToggle.queryAll(By.css('solaris-segmented-item')),
+    ).toHaveLength(3);
+    expect(schemeToggle.query(By.css('button'))).toBeNull();
+    const contrastToggle = fixture.debugElement.query(
+      By.css('app-theme-toggle.shell-header__contrast'),
+    );
+    expect(contrastToggle).toBeTruthy();
+    expect(
+      contrastToggle.query(By.css('solaris-segmented-control')),
+    ).toBeNull();
+  });
+
+  it('should hide search, scheme toggle and contrast on mobile, keeping spacers', () => {
+    fixture.componentRef.setInput('isMobile', true);
+    fixture.detectChanges();
+
+    expect(
+      fixture.debugElement.query(By.css('.shell-header__actions')),
+    ).toBeNull();
+    expect(fixture.debugElement.query(By.css('app-theme-toggle'))).toBeNull();
+    expect(
+      fixture.debugElement.query(By.css('.shell-header__menu-spacer')),
+    ).toBeTruthy();
+    expect(
+      fixture.debugElement.query(By.css('.shell-header__contrast-spacer')),
+    ).toBeTruthy();
   });
 
   it('should label the search field for assistive technology', () => {
-    const input = fixture.debugElement.query(By.css('input[type="search"]'))
-      .nativeElement as HTMLInputElement;
+    const input = fixture.debugElement.query(
+      By.css('.shell-header__actions input[type="search"]'),
+    ).nativeElement as HTMLInputElement;
     expect(input.getAttribute('aria-label')).toBe('Filter documentation pages');
     expect(input.placeholder).toBe('Filter pages…');
   });
 
   it('should update the search model as the user types', () => {
-    const input = fixture.debugElement.query(By.css('input[type="search"]'))
-      .nativeElement as HTMLInputElement;
+    const input = fixture.debugElement.query(
+      By.css('.shell-header__actions input[type="search"]'),
+    ).nativeElement as HTMLInputElement;
     input.value = 'button';
     input.dispatchEvent(new Event('input'));
     fixture.detectChanges();
@@ -60,38 +97,28 @@ describe('ShowcaseShellHeader', () => {
     fixture.componentRef.setInput('searchQuery', 'button');
     fixture.detectChanges();
 
-    const input = fixture.debugElement.query(By.css('input[type="search"]'));
+    const input = fixture.debugElement.query(
+      By.css('.shell-header__actions input[type="search"]'),
+    );
     input.triggerEventHandler('keydown.escape', new KeyboardEvent('Escape'));
     fixture.detectChanges();
 
     expect(fixture.componentInstance.searchQuery()).toBe('');
   });
 
-  it('should expose the mobile menu state and emit toggles', () => {
-    fixture.componentRef.setInput('menuExpanded', false);
+  it('should reserve the fixed toggle slot with a spacer on mobile', () => {
+    expect(
+      fixture.debugElement.query(By.css('.shell-header__menu-spacer')),
+    ).toBeNull();
+
+    fixture.componentRef.setInput('isMobile', true);
     fixture.detectChanges();
 
-    const button = fixture.debugElement.query(
-      By.css('.shell-header__menu-button'),
-    );
-    expect(button.attributes['aria-expanded']).toBe('false');
-    expect(button.attributes['aria-controls']).toBe('showcase-sidebar-nav');
-    expect(button.nativeElement.getAttribute('aria-label')).toBe(
-      'Open navigation menu',
-    );
-
-    let toggles = 0;
-    fixture.componentInstance.menuToggle.subscribe(() => {
-      toggles += 1;
-    });
-    button.nativeElement.click();
-    expect(toggles).toBe(1);
-
-    fixture.componentRef.setInput('menuExpanded', true);
-    fixture.detectChanges();
-    expect(button.attributes['aria-expanded']).toBe('true');
-    expect(button.nativeElement.getAttribute('aria-label')).toBe(
-      'Close navigation menu',
-    );
+    expect(
+      fixture.debugElement.query(By.css('.shell-header__menu-spacer')),
+    ).toBeTruthy();
+    expect(
+      fixture.debugElement.query(By.css('.shell-header__menu-button')),
+    ).toBeNull();
   });
 });

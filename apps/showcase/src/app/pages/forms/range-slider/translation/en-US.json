@@ -1,0 +1,73 @@
+{
+  "range-slider": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "current-value": "Current value:",
+    "description": {
+      "label": "Form control for choosing two or more ordered values from one continuous range, with per-thumb keyboard, Angular Forms, and i18n support."
+    },
+    "examples": {
+      "brightness": "Brightness range",
+      "budget": "Budget",
+      "frequency": "Frequency range",
+      "gap": "Minimum gap",
+      "note": "Drag any thumb or click the track to move the nearest one. Thumbs never cross.",
+      "price": "Price",
+      "range": "Range",
+      "risk": "Risk band",
+      "segments": "Segments",
+      "stops": "Stops",
+      "temperature": "Temperature"
+    },
+    "form-field-hint": "These options affect your search.",
+    "installation": {
+      "note": "Install the Solaris UI package and import the range slider component."
+    },
+    "props": {
+      "note": "Every input the range slider accepts, with types, values, and defaults.",
+      "colProp": "Prop",
+      "colType": "Type",
+      "colValues": "Values",
+      "colDefault": "Default"
+    },
+    "section": {
+      "examples": "Examples",
+      "form": "Form integration",
+      "installation": "Installation",
+      "props": "Props",
+      "scale": "Scale",
+      "states": "States",
+      "thumbs": "Thumbs",
+      "ticks": "Ticks",
+      "types": "Types",
+      "vertical": "Vertical"
+    },
+    "scale": {
+      "note": "Static scale bounds mark the minimum and maximum of the track.",
+      "scales-note": "Log scales need explicit tickValues; zones recolor the fill from the first thumb."
+    },
+    "states": {
+      "disabled": "Disabled",
+      "invalid": "Invalid",
+      "readonly": "Readonly"
+    },
+    "thumbs": {
+      "note": "Two thumbs name themselves minimum and maximum; three or more use positional names. A minimum step gap keeps thumbs apart.",
+      "tab": {
+        "five": "Five thumbs",
+        "three": "Three thumbs"
+      }
+    },
+    "ticks": {
+      "note": "Tick marks are decorative (aria-hidden) and derive from showTicks plus tickStep."
+    },
+    "title": "Range Slider",
+    "types": {
+      "note": "Each format uses the display pipeline: temperature in degrees, and static scale bounds for the range."
+    },
+    "vertical": {
+      "note": "Vertical fills bottom-to-top between the outermost thumbs. Keyboard is identical on both axes."
+    }
+  }
+}

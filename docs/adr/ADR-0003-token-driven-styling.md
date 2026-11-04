@@ -39,4 +39,4 @@ Negative:
 
 ## Compliance
 
-Enforced by `check-token-references.mjs` (validates token usage) and `check-tokens.mjs` (validates token definitions).
+Enforced by `check-token-references.mjs` (validates token usage) and the `solaris/no-raw-design-values` stylelint rule (validates token definitions, see `tools/stylelint-plugin-solaris`).

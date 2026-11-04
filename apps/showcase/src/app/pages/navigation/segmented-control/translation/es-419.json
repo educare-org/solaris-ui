@@ -140,6 +140,7 @@
       "label": "Radio",
       "lg": "Grande",
       "md": "Mediano",
+      "none": "Ninguno",
       "sm": "Pequeño"
     },
     "reactive-forms": "Reactive Forms",

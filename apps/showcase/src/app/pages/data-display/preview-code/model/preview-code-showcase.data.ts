@@ -11,8 +11,8 @@ export const PREVIEW_CODE_TRANSLATION_PREFIX = 'preview-code';
 
 export const PREVIEW_CODE_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-    { labelKey: 'shell.sidebar.group.data-display', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+    { labelKey: 'shell.sidebar.group.data-display', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.preview-code' },
   ];
 
@@ -64,7 +64,7 @@ export const PREVIEW_CODE_SHOWCASE_LONG_CODE = [
   '  return `Hello ${name}`;',
   '}',
   "console.log(greet('Solaris'));",
-  "console.log(greet('Educare'));",
+  "console.log(greet('Solaris'));",
   "console.log(greet('Docs'));",
 ].join('\n');
 

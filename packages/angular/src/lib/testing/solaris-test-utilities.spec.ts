@@ -83,7 +83,7 @@ describe('configureSolarisTesting', () => {
   });
 
   it('should accept extraConfig with imports', () => {
-    configureSolarisTesting(undefined, { imports: [] } as any);
+    configureSolarisTesting(undefined, { imports: [] });
 
     const accessConfig = TestBed.inject(SOLARIS_ACCESSIBILITY_CONFIG);
     expect(accessConfig).toBeDefined();

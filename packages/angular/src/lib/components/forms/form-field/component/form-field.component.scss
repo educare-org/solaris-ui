@@ -468,12 +468,12 @@
 }
 
 :host([data-appearance='outline']) {
-  --solaris-form-field-control-background: var(--solaris-neutral-default);
   --solaris-form-field-readonly-background: var(--solaris-neutral-sunken);
+  --solaris-form-field-control-border-width: var(--solaris-border-width-sm);
+  --solaris-form-field-control-background: var(--solaris-neutral-default);
   --solaris-form-field-control-border-color: var(
     --solaris-neutral-border-subtle
   );
-  --solaris-form-field-control-border-width: var(--solaris-border-width-sm);
 }
 
 :host([data-appearance='surface']) {

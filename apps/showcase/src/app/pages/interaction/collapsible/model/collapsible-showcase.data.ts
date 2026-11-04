@@ -9,8 +9,8 @@ export const COLLAPSIBLE_TRANSLATION_PREFIX = 'collapsible';
 
 export const COLLAPSIBLE_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-    { labelKey: 'shell.sidebar.group.interaction', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+    { labelKey: 'shell.sidebar.group.interaction', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.collapsible' },
   ];
 

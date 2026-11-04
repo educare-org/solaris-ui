@@ -5,20 +5,24 @@ import {
   fileExists,
   readJson,
   printSummary,
+  findForbiddenLockfiles,
+  lockfileErrorMessage,
 } from './shared.mjs';
 
 const errors = [];
 const warnings = [];
 
-if (fileExists('package-lock.json')) {
-  errors.push('package-lock.json found — use pnpm, not npm. Delete this file.');
+for (const lock of findForbiddenLockfiles()) {
+  errors.push(lockfileErrorMessage(lock));
 }
-if (fileExists('yarn.lock')) {
-  errors.push('yarn.lock found — use pnpm, not Yarn. Delete this file.');
-}
-if (fileExists('bun.lockb')) {
-  errors.push('bun.lockb found — use pnpm, not Bun. Delete this file.');
-}
+
+const rulesPath = path.join(
+  workspaceRoot,
+  'tools',
+  'config',
+  'dependency-rules.json',
+);
+const depRules = JSON.parse(fs.readFileSync(rulesPath, 'utf-8'));
 
 if (fileExists('packages/angular/package.json')) {
   const libPkg = readJson('packages/angular/package.json');
@@ -28,41 +32,9 @@ if (fileExists('packages/angular/package.json')) {
     ...(libPkg.peerDependencies || {}),
   };
 
-  const forbiddenDeps = [
-    {
-      pattern: /^tailwind/,
-      name: 'Tailwind',
-      reason: 'Tailwind is forbidden inside the library per dependency policy',
-    },
-    {
-      pattern: /^@ngrx\/store/,
-      name: 'State management',
-      reason:
-        'State management frameworks are not allowed in core per dependency policy',
-    },
-    {
-      pattern: /^moment/,
-      name: 'Moment.js',
-      reason:
-        'Heavy date libraries are not allowed in core; use Intl or date adapters',
-    },
-    {
-      pattern: /^date-fns/,
-      name: 'date-fns',
-      reason:
-        'Heavy date libraries are not allowed in core; use Intl or date adapters',
-    },
-    {
-      pattern: /^dayjs/,
-      name: 'Day.js',
-      reason:
-        'Date libraries should be evaluated only when datepicker/calendar components require them',
-    },
-  ];
-
   for (const [depName] of Object.entries(deps)) {
-    for (const rule of forbiddenDeps) {
-      if (rule.pattern.test(depName)) {
+    for (const rule of depRules.forbiddenLibDeps) {
+      if (new RegExp(rule.pattern).test(depName)) {
         errors.push(
           `Forbidden dependency "${depName}" in packages/angular: ${rule.reason}`,
         );
@@ -91,8 +63,7 @@ if (fileExists('package.json')) {
     ...(rootPkg.dependencies || {}),
     ...(rootPkg.devDependencies || {}),
   };
-  const heavyDevDeps = ['tailwindcss', 'postcss', 'autoprefixer'];
-  for (const dep of heavyDevDeps) {
+  for (const dep of depRules.heavyRootDeps) {
     if (rootDeps[dep]) {
       warnings.push(
         `"${dep}" found in root dependencies — verify it is needed and justified per dependency policy`,

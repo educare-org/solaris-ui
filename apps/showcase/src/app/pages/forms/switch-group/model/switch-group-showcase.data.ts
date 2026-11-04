@@ -9,8 +9,8 @@ export const SWITCH_GROUP_TRANSLATION_PREFIX = 'switch-group';
 
 export const SWITCH_GROUP_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-    { labelKey: 'shell.sidebar.group.forms', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+    { labelKey: 'shell.sidebar.group.forms', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.switch-group' },
   ];
 
@@ -20,8 +20,8 @@ export const SWITCH_GROUP_SHOWCASE_PREV: ShowcaseDocsPageNav = {
 };
 
 export const SWITCH_GROUP_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.selection-card',
-  route: '/forms/selection-card',
+  labelKey: 'shell.sidebar.item.slider',
+  route: '/forms/slider',
 };
 
 export const SWITCH_GROUP_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [

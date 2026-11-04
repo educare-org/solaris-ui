@@ -17,6 +17,7 @@
         <span class="solaris-code-block__selector">
           <solaris-segmented-control
             size="sm"
+            radius="none"
             density="compact"
             [value]="currentCommand()?.id"
             [ariaLabel]="resolvedCommandSelectorAriaLabel()"
@@ -90,6 +91,7 @@
           <span class="solaris-code-block__selector">
             <solaris-segmented-control
               size="sm"
+              radius="none"
               density="compact"
               [value]="currentCommand()?.id"
               (valueChange)="handleCommandChange($event)"

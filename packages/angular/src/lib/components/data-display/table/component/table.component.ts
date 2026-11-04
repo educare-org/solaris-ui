@@ -75,6 +75,7 @@ import {
   normalizeTableIconPosition,
   normalizeTableLayout,
   normalizeTableRadius,
+  normalizeTableResponsive,
   normalizeTableSelectionMode,
   normalizeTableSort,
   normalizeTableStripedMode,
@@ -104,6 +105,7 @@ import type {
   SolarisTableLayout,
   SolarisTableRadius,
   SolarisTableResolvedRow,
+  SolarisTableResponsive,
   SolarisTableRowClickEvent,
   SolarisTableSelectionChange,
   SolarisTableSelectionMode,
@@ -152,6 +154,7 @@ import {
     '[attr.data-expand-mode]': 'normalizedExpandMode()',
     '[attr.data-mobile]': 'isMobileLayout() || undefined',
     '[attr.data-layout]': 'normalizedLayout()',
+    '[attr.data-responsive]': 'normalizedResponsive()',
     '[attr.data-card-layout]': 'isCardLayout() || undefined',
     '[attr.data-fullwidth]': 'fullWidth() || undefined',
     '[attr.data-cell-padding]': 'cellPadding()',
@@ -216,6 +219,7 @@ export class SolarisTableComponent<T = unknown> {
   readonly addRowLabelKey = input<string | null>(null);
   readonly mobile = input(false, { transform: booleanAttribute });
   readonly layout = input<SolarisTableLayout>('auto');
+  readonly responsive = input<SolarisTableResponsive>('auto');
   readonly cardTitleOf = input<((row: T) => string | null) | undefined>(
     undefined,
   );
@@ -265,6 +269,10 @@ export class SolarisTableComponent<T = unknown> {
     return normalizeTableLayout(this.layout());
   });
 
+  protected readonly normalizedResponsive = computed(() =>
+    normalizeTableResponsive(this.responsive()),
+  );
+
   protected readonly isMobileLayout = computed(
     () => this.normalizedLayout() === 'card',
   );
@@ -284,12 +292,35 @@ export class SolarisTableComponent<T = unknown> {
   });
 
   protected readonly isCardLayout = computed(
-    () => this.expandable() && (this.isMobileLayout() || this.narrowViewport()),
+    () =>
+      this.normalizedResponsive() !== 'scroll' &&
+      (this.isMobileLayout() || this.narrowViewport()),
   );
 
   protected readonly cardColumns = computed(() =>
     this.userColumns().filter((column) => column.type !== 'checkbox'),
   );
+
+  protected readonly cardDetailColumns = computed(() =>
+    this.isRowExpandable() ? this.detailColumns() : [],
+  );
+
+  protected readonly cardPrimaryColumns = computed(() => {
+    if (!this.isRowExpandable()) {
+      return this.cardColumns();
+    }
+    const detailIds = new Set(
+      this.cardDetailColumns().map((column) => column.id),
+    );
+    const primary = this.cardColumns().filter(
+      (column) => !detailIds.has(column.id),
+    );
+    return primary.length > 0 ? primary : this.cardColumns();
+  });
+
+  protected cardDetailId(row: SolarisTableViewRow<T>): string {
+    return `${this.hostId}-card-detail-${row.rowId}`;
+  }
 
   private readonly narrowViewport = signal(false);
   private readonly expandedRowIds = signal<readonly string[]>([]);
@@ -590,6 +621,16 @@ export class SolarisTableComponent<T = unknown> {
       return false;
     }
     return visibleRows.every((row) => row.selected);
+  });
+
+  protected readonly selectedVisibleCount = computed(
+    () => this.visibleRows().filter((row) => row.selected).length,
+  );
+
+  protected readonly loadingCardFields = computed(() => {
+    const count = this.cardPrimaryColumns().length;
+    const fields = count > 0 ? count : 3;
+    return Array.from({ length: fields }, (_, index) => index);
   });
 
   protected readonly someVisibleRowsSelected = computed(() => {

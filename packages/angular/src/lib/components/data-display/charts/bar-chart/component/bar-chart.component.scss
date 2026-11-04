@@ -79,9 +79,6 @@
 
 .solaris-bar-chart__bar {
   cursor: pointer;
-
-  // NOTE: the per-bar transition-delay bound in the template lists delays in
-  // this same property order so that only the `d` transition is staggered.
   transition:
     fill var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard),
@@ -115,9 +112,6 @@
   filter: brightness(0.72);
 }
 
-// While collapsing bars to the baseline on layout/orientation switches,
-// transitions are disabled so the zero state applies instantly; the regrow
-// to the new geometry then animates through the regular `d` transition.
 :host([data-morphing]) .solaris-bar-chart__bar {
   transition: none;
 }

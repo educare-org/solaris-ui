@@ -163,6 +163,9 @@
       <solaris-tab value="full"
         >{{ 'segmented-control.radius.full' | translate }}</solaris-tab
       >
+      <solaris-tab value="none"
+        >{{ 'segmented-control.radius.none' | translate }}</solaris-tab
+      >
       <solaris-tab-panel value="sm">
         <solaris-preview-code [code]="radiusSmCode" language="html">
           <solaris-segmented-control
@@ -235,6 +238,24 @@
           </solaris-segmented-control>
         </solaris-preview-code>
       </solaris-tab-panel>
+      <solaris-tab-panel value="none">
+        <solaris-preview-code [code]="radiusNoneCode" language="html">
+          <solaris-segmented-control
+            radius="none"
+            defaultValue="a"
+            ariaLabel="Radius none"
+          >
+            <solaris-segmented-item value="a"
+              >{{ 'segmented-control.example.radius.sm' | translate
+              }}</solaris-segmented-item
+            >
+            <solaris-segmented-item value="b"
+              >{{ 'segmented-control.example.radius.full' | translate
+              }}</solaris-segmented-item
+            >
+          </solaris-segmented-control>
+        </solaris-preview-code>
+      </solaris-tab-panel>
     </solaris-tabs>
   </app-docs-section>
 
@@ -248,57 +269,126 @@
   </app-docs-section>
 
   <app-docs-section anchor="layout" titleKey="segmented-control.section.layout">
-    <div class="segmented-control-showcase__stack">
-      <solaris-preview-code [code]="fullWidthCode" language="html">
-        <app-segmented-full-width-example />
-      </solaris-preview-code>
-      <solaris-preview-code [code]="equalWidthCode" language="html">
-        <app-segmented-equal-width-example />
-      </solaris-preview-code>
-      <solaris-preview-code [code]="manyOptionsCode" language="html">
-        <app-segmented-many-options-example />
-      </solaris-preview-code>
-      <solaris-preview-code [code]="longLabelsCode" language="html">
-        <app-segmented-long-labels-example />
-      </solaris-preview-code>
-    </div>
+    <solaris-tabs
+      [(value)]="selectedLayout"
+      [ariaLabel]="'segmented-control.section.layout' | translate"
+    >
+      <solaris-tab value="full-width"
+        >{{ 'segmented-control.full-width' | translate }}</solaris-tab
+      >
+      <solaris-tab value="equal-width"
+        >{{ 'segmented-control.equal-width' | translate }}</solaris-tab
+      >
+      <solaris-tab value="many-options"
+        >{{ 'segmented-control.many-options' | translate }}</solaris-tab
+      >
+      <solaris-tab value="long-labels"
+        >{{ 'segmented-control.long-labels' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="full-width">
+        <solaris-preview-code [code]="fullWidthCode" language="html">
+          <app-segmented-full-width-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="equal-width">
+        <solaris-preview-code [code]="equalWidthCode" language="html">
+          <app-segmented-equal-width-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="many-options">
+        <solaris-preview-code [code]="manyOptionsCode" language="html">
+          <app-segmented-many-options-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="long-labels">
+        <solaris-preview-code [code]="longLabelsCode" language="html">
+          <app-segmented-long-labels-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
   </app-docs-section>
 
   <app-docs-section
     anchor="features"
     titleKey="segmented-control.section.features"
   >
-    <div class="segmented-control-showcase__stack">
-      <solaris-preview-code [code]="withIconsCode" language="html">
-        <app-segmented-with-icons-example />
-      </solaris-preview-code>
-      <solaris-preview-code [code]="withBadgeCode" language="html">
-        <app-segmented-with-badge-example />
-      </solaris-preview-code>
-      <solaris-preview-code [code]="iconOnlyCode" language="html">
-        <app-segmented-icon-only-example />
-      </solaris-preview-code>
-      <solaris-preview-code [code]="noIndicatorCode" language="html">
-        <app-segmented-no-indicator-example />
-      </solaris-preview-code>
-    </div>
+    <solaris-tabs
+      [(value)]="selectedFeature"
+      [ariaLabel]="'segmented-control.section.features' | translate"
+    >
+      <solaris-tab value="with-icons"
+        >{{ 'segmented-control.with-icons' | translate }}</solaris-tab
+      >
+      <solaris-tab value="with-badge"
+        >{{ 'segmented-control.with-badge' | translate }}</solaris-tab
+      >
+      <solaris-tab value="icon-only"
+        >{{ 'segmented-control.icon-only' | translate }}</solaris-tab
+      >
+      <solaris-tab value="no-indicator"
+        >{{ 'segmented-control.no-indicator' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="with-icons">
+        <solaris-preview-code [code]="withIconsCode" language="html">
+          <app-segmented-with-icons-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="with-badge">
+        <solaris-preview-code [code]="withBadgeCode" language="html">
+          <app-segmented-with-badge-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="icon-only">
+        <solaris-preview-code [code]="iconOnlyCode" language="html">
+          <app-segmented-icon-only-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="no-indicator">
+        <solaris-preview-code [code]="noIndicatorCode" language="html">
+          <app-segmented-no-indicator-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
   </app-docs-section>
 
   <app-docs-section anchor="states" titleKey="segmented-control.section.states">
-    <div class="segmented-control-showcase__stack">
-      <solaris-preview-code [code]="disabledGroupCode" language="html">
-        <app-segmented-disabled-group-example />
-      </solaris-preview-code>
-      <solaris-preview-code [code]="disabledItemCode" language="html">
-        <app-segmented-disabled-item-example />
-      </solaris-preview-code>
-      <solaris-preview-code [code]="readonlyCode" language="html">
-        <app-segmented-readonly-example />
-      </solaris-preview-code>
-      <solaris-preview-code [code]="invalidCode" language="html">
-        <app-segmented-invalid-example />
-      </solaris-preview-code>
-    </div>
+    <solaris-tabs
+      [(value)]="selectedState"
+      [ariaLabel]="'segmented-control.section.states' | translate"
+    >
+      <solaris-tab value="disabled-group"
+        >{{ 'segmented-control.disabled-group' | translate }}</solaris-tab
+      >
+      <solaris-tab value="disabled-item"
+        >{{ 'segmented-control.disabled-item' | translate }}</solaris-tab
+      >
+      <solaris-tab value="readonly"
+        >{{ 'segmented-control.readonly' | translate }}</solaris-tab
+      >
+      <solaris-tab value="invalid"
+        >{{ 'segmented-control.invalid' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="disabled-group">
+        <solaris-preview-code [code]="disabledGroupCode" language="html">
+          <app-segmented-disabled-group-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="disabled-item">
+        <solaris-preview-code [code]="disabledItemCode" language="html">
+          <app-segmented-disabled-item-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="readonly">
+        <solaris-preview-code [code]="readonlyCode" language="html">
+          <app-segmented-readonly-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="invalid">
+        <solaris-preview-code [code]="invalidCode" language="html">
+          <app-segmented-invalid-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
   </app-docs-section>
 
   <app-docs-section anchor="forms" titleKey="segmented-control.section.forms">

@@ -49,8 +49,8 @@
       "description": "Testing strategy"
     },
     {
-      "path": "docs/roadmap/project-roadmap.md",
-      "description": "Project roadmap (primary reference)"
+      "path": "docs/workflow-and-release/release.md",
+      "description": "Release policy and runbook"
     },
     {
       "path": "docs/standards/accessibility-standard.md",
@@ -59,6 +59,14 @@
     {
       "path": "docs/standards/component-standard.md",
       "description": "Component standard"
+    },
+    {
+      "path": "docs/standards/motion-standard.md",
+      "description": "Motion standard (minimal guards)"
+    },
+    {
+      "path": "docs/standards/showcase-content-standard.md",
+      "description": "Showcase content standard"
     },
     {
       "path": "docs/standards/directive-standard.md",
@@ -79,10 +87,6 @@
     {
       "path": "docs/workflow-and-release/branching-and-commits.md",
       "description": "Branching and commits standard"
-    },
-    {
-      "path": "docs/workflow-and-release/release-policy.md",
-      "description": "Release policy"
     }
   ]
 }

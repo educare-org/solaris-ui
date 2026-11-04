@@ -22,6 +22,7 @@ The following are not allowed without technical justification:
 - unsafe non-null assertions;
 - raw values in component styles;
 - hardcoded internal user-facing text;
+- explanatory code comments (only `// Exception:` comments are allowed);
 - direct DOM access;
 - direct browser globals;
 - undocumented public APIs;
@@ -34,44 +35,9 @@ The following are not allowed without technical justification:
 
 ## Cross-platform engineering
 
-Solaris must support Windows, Linux, and macOS development environments.
-
-All commands, scripts, generators, schematics, and validation flows must follow `CROSS_PLATFORM_COMMANDS.md`.
-
-Maintainers must not introduce shell-specific assumptions into:
-
-- `package.json`;
-- Nx targets;
-- generators;
-- schematics;
-- Git hooks;
-- CI commands;
-- documentation examples;
-- AI-generated task instructions.
-
-Forbidden by default:
-
-```txt
-rm -rf
-cp -r
-mkdir -p
-NODE_ENV=value command
-Bash-only scripts
-PowerShell-only scripts
-CMD-only scripts
-shell-specific path separators
-```
-
-Preferred:
-
-```txt
-Node scripts
-Nx executors
-cross-platform utilities
-portable package scripts
-documented wrappers
-```
-
+Solaris supports Windows, Linux, and macOS. All commands, scripts, and
+examples must run on all three. The full policy lives in
+`docs/quality-and-validation/cross-platform-commands.md` — follow it.
 Developer convenience must not reduce portability.
 
 ## API design rules

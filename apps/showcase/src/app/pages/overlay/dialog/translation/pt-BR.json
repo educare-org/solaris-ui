@@ -11,7 +11,7 @@
     "align-space-between": "Espaço entre",
     "align-start": "Alinhar início",
     "appearance": "Aparência",
-    "appearance-desc": "Outline (padrão) tem fundo surface com borda visível. Surface não tem borda e tem sombra.",
+    "appearance-desc": "Outline (padrão) tem fundo surface com borda visível. Surface não tem borda e tem sombra. Flat mantém a borda e usa o mesmo background no header, no conteúdo e no footer.",
     "basic": "Dialogs básicos",
     "basic-desc": "Dialogs simples criados via configuração open().",
     "behavior": "Comportamento",
@@ -43,7 +43,7 @@
       "open-placement": "Abrir dialog posicionado",
       "open-sheet": "Abrir bottom sheet",
       "open-validated-flow": "Abrir fluxo validado",
-      "open-variant": "Abrir dialog da variante"
+      "open-split": "Abrir dialog de ações divididas"
     },
     "density": {
       "comfortable": "Confortável",
@@ -107,7 +107,9 @@
       },
       "density": {
         "desc": "O espaçamento das seções segue a densidade {{density}}.",
-        "title": "Dialog de densidade"
+        "title": "Dialog de densidade",
+        "item-title": "Seção {{index}}",
+        "item-text": "A densidade muda o padding do conteúdo e a escala do header. Troque a densidade para comparar."
       },
       "flow": {
         "step1-desc": "Preencha suas informações básicas para começar.",
@@ -125,7 +127,8 @@
         "step3-list2": "Confirme os dados da instituição",
         "step3-list3": "Aceite os termos e condições",
         "step3-title": "Passo 3: Revisão",
-        "title": "Dialog Multi-etapas"
+        "title": "Dialog Multi-etapas",
+        "step-counter": "Passo {{current}} de {{total}}"
       },
       "fullscreen": {
         "desc": "Dialog em tela cheia preenche toda a viewport.",
@@ -136,7 +139,8 @@
         "inner-title": "Descartar alterações?",
         "open-inner": "Abrir dialog aninhado",
         "outer-desc": "Este é o dialog externo. Abrir outro dialog o empilha por cima.",
-        "outer-title": "Configurações do projeto"
+        "outer-title": "Configurações do projeto",
+        "outer-hint": "Abre um dialog de aviso por cima. Só o do topo reage ao Escape."
       },
       "no-backdrop-close": {
         "desc": "Clicar fora não fechará este dialog. Use o botão abaixo.",
@@ -178,9 +182,24 @@
         "step2-title": "Passo 2: Revisão",
         "title": "Fluxo validado"
       },
-      "variant": {
-        "desc": "Este dialog usa a variante {{variant}}.",
-        "title": "Variante {{variant}}"
+      "appearance-flat": {
+        "title": "Aparência flat",
+        "desc": "Flat usa o mesmo background no header, no conteúdo e no footer: sem faixas. Separadores e sombras de rolagem ficam desligados."
+      },
+      "actions-split": {
+        "title": "Ações divididas",
+        "desc": "A primeira ação fixa no início; as demais ficam no fim.",
+        "back": "Voltar",
+        "help": "Ajuda",
+        "verify": "Verificar"
+      },
+      "tabs": {
+        "basic": "Básico",
+        "confirmation": "Confirmação",
+        "danger": "Perigo",
+        "component": "Componente",
+        "chrome": "Com chrome",
+        "scroll": "Rolável"
       }
     },
     "flow": "Dialog Flow",
@@ -236,20 +255,13 @@
       "nested": "Dialogs aninhados",
       "placement": "Posicionamento",
       "props": "Propriedades",
-      "sheet": "Sheets",
-      "variants": "Variantes"
+      "sheet": "Sheets"
     },
     "sheet": {
       "note": "Sheets ancoram o painel a uma borda com largura total. Só posicionamentos de borda suportam sheet."
     },
     "surface": "Superfície",
     "title": "Dialog",
-    "variant-danger": "perigo",
-    "variant-info": "informativo",
-    "variant-neutral": "neutro",
-    "variant-success": "sucesso",
-    "variant-warning": "aviso",
-    "variants": "Variantes",
-    "variants-desc": "Variantes afetam o ícone e a cor de destaque."
+    "flat": "Flat"
   }
 }

@@ -140,6 +140,7 @@
       "label": "Radius",
       "lg": "Large",
       "md": "Medium",
+      "none": "None",
       "sm": "Small"
     },
     "reactive-forms": "Reactive Forms",

@@ -11,7 +11,7 @@ test.describe('Dialog', () => {
   });
 
   test('opens basic dialog and closes via Cancel', async () => {
-    await dialog.open('Open basic dialog');
+    await dialog.openInSection('examples', 'Open dialog');
     await dialog.assertTitle('Dialog Title');
 
     await dialog.closeViaButton('Cancel');
@@ -19,58 +19,61 @@ test.describe('Dialog', () => {
   });
 
   test('opens basic dialog and closes via Confirm', async () => {
-    await dialog.open('Open basic dialog');
+    await dialog.openInSection('examples', 'Open dialog');
     await dialog.closeViaButton('Confirm');
     await dialog.assertNotVisible();
   });
 
   test('opens and closes via Escape', async () => {
-    await dialog.open('Open basic dialog');
+    await dialog.openInSection('examples', 'Open dialog');
     await dialog.closeViaEscape();
     await dialog.assertNotVisible();
   });
 
-  test('opens confirmation dialog', async () => {
-    await dialog.open('Open confirmation dialog');
+  test('opens confirmation dialog', async ({ page }) => {
+    await page.getByRole('tab', { name: 'Confirmation' }).click();
+    await dialog.openInSection('examples', 'Open dialog');
+    await dialog.assertTitle('Discard changes?');
     await dialog.closeViaButton('Discard');
     await dialog.assertNotVisible();
   });
 
-  test('opens danger alert dialog', async () => {
-    await dialog.open('Open danger/alert dialog');
+  test('opens danger alert dialog', async ({ page }) => {
+    await page.getByRole('tab', { name: 'Danger' }).click();
+    await dialog.openInSection('examples', 'Open dialog');
     await expect(dialog.panel()).toHaveAttribute('role', 'alertdialog');
+    await dialog.assertTitle('Delete account');
     await dialog.closeViaButton('Delete');
     await dialog.assertNotVisible();
   });
 
   test('renders actions with different aligns', async ({ page }) => {
-    await page.getByRole('tab', { name: 'Align start' }).click();
-    await dialog.open('Open actions dialog');
-    await expect(dialog.actions()).toHaveAttribute('data-align', 'start');
-    await dialog.closeViaEscape();
-
-    await page.getByRole('tab', { name: 'Align center' }).click();
-    await dialog.open('Open actions dialog');
-    await expect(dialog.actions()).toHaveAttribute('data-align', 'center');
-    await dialog.closeViaEscape();
-
-    await page.getByRole('tab', { name: 'Space between' }).click();
-    await dialog.open('Open actions dialog');
-    await expect(dialog.actions()).toHaveAttribute(
-      'data-align',
-      'space-between',
-    );
-    await dialog.closeViaEscape();
+    const cases: Array<[string, string]> = [
+      ['Align start', 'start'],
+      ['Align center', 'center'],
+      ['Align end', 'end'],
+      ['Space between', 'space-between'],
+    ];
+    for (const [tab, align] of cases) {
+      await page.getByRole('tab', { name: tab }).click();
+      await expect(
+        page.locator('#actions solaris-tab-panel[data-active="true"]'),
+      ).toBeVisible();
+      await dialog.openInSection('actions', 'Open actions dialog');
+      await expect(dialog.actions()).toHaveAttribute('data-align', align);
+      await dialog.closeViaEscape();
+    }
   });
 
-  test('renders header variant attribute', async () => {
-    await dialog.open('Open danger/alert dialog');
+  test('renders header variant attribute', async ({ page }) => {
+    await page.getByRole('tab', { name: 'Danger' }).click();
+    await dialog.openInSection('examples', 'Open dialog');
     await expect(dialog.header()).toHaveAttribute('data-variant', 'danger');
     await dialog.closeViaEscape();
   });
 
   test('closes via container close button', async () => {
-    await dialog.open('Open basic dialog');
+    await dialog.openInSection('examples', 'Open dialog');
     await expect(dialog.closeButton()).toBeVisible();
     const iconBox = await dialog.closeButton().locator('svg').boundingBox();
     expect(iconBox?.width).toBeGreaterThan(12);
@@ -80,7 +83,7 @@ test.describe('Dialog', () => {
   });
 
   test('moves initial focus to the first action', async () => {
-    await dialog.open('Open basic dialog');
+    await dialog.openInSection('examples', 'Open dialog');
     await expect(
       dialog.panel().getByRole('button', { name: 'Cancel' }),
     ).toBeFocused();
@@ -89,7 +92,10 @@ test.describe('Dialog', () => {
 
   test('anchors dialog to bottom-left placement', async ({ page }) => {
     await page.getByRole('tab', { name: 'Placement bottom-left' }).click();
-    await dialog.open('Open placement dialog');
+    await expect(
+      page.locator('#placement solaris-tab-panel[data-active="true"]'),
+    ).toBeVisible();
+    await dialog.openInSection('placement', 'Open placement dialog');
     await expect(dialog.container()).toHaveAttribute(
       'data-placement',
       'bottom-left',
@@ -97,15 +103,20 @@ test.describe('Dialog', () => {
     await dialog.closeViaEscape();
   });
 
-  test('renders dialog without separators when disabled', async () => {
-    await dialog.open('No separators');
+  test('renders dialog without separators when disabled', async ({ page }) => {
+    await page.getByRole('tab', { name: 'No separators' }).click();
+    await dialog.openInSection('behavior', 'Open dialog');
     await expect(dialog.header()).not.toHaveAttribute('data-separator', '');
     await expect(dialog.actions()).not.toHaveAttribute('data-separator', '');
     await dialog.closeViaEscape();
   });
 
-  test('keeps header pinned with elevation while scrolling long content', async () => {
-    await dialog.open('Open scrollable dialog');
+  test('keeps header pinned with elevation while scrolling long content', async ({
+    page,
+  }) => {
+    await page.getByRole('tab', { name: 'Scrollable' }).click();
+    await dialog.openInSection('component', 'Open dialog');
+    await dialog.assertTitle('Terms and conditions');
     await expect(dialog.header()).toBeVisible();
     await expect(dialog.header()).not.toHaveAttribute('data-scrolled', '');
 
@@ -123,8 +134,11 @@ test.describe('Dialog', () => {
     await dialog.assertNotVisible();
   });
 
-  test('keeps footer pinned with elevation while content remains below', async () => {
-    await dialog.open('Open scrollable dialog');
+  test('keeps footer pinned with elevation while content remains below', async ({
+    page,
+  }) => {
+    await page.getByRole('tab', { name: 'Scrollable' }).click();
+    await dialog.openInSection('component', 'Open dialog');
     await expect(dialog.footer()).toBeVisible();
 
     await dialog.body().evaluate((el) => {
@@ -145,8 +159,11 @@ test.describe('Dialog', () => {
     await dialog.assertNotVisible();
   });
 
-  test('renders chrome header and actions for component dialog', async () => {
-    await dialog.open('Open with header/footer');
+  test('renders chrome header and actions for component dialog', async ({
+    page,
+  }) => {
+    await page.getByRole('tab', { name: 'With chrome' }).click();
+    await dialog.openInSection('component', 'Open dialog');
     await dialog.assertTitle('Component with chrome');
     await expect(dialog.header()).toBeVisible();
     await expect(dialog.actions()).toBeVisible();
@@ -155,7 +172,7 @@ test.describe('Dialog', () => {
   });
 
   test('docks bottom sheet with data-sheet', async () => {
-    await dialog.open('Open bottom sheet');
+    await dialog.openInSection('sheet', 'Open bottom sheet');
     await expect(dialog.container()).toHaveAttribute('data-sheet', '');
     await expect(dialog.container()).toHaveAttribute(
       'data-placement',
@@ -168,7 +185,7 @@ test.describe('Dialog', () => {
   test('stacks nested dialogs and Escape closes only the topmost', async ({
     page,
   }) => {
-    await dialog.open('Open outer dialog');
+    await dialog.openInSection('nested', 'Open outer dialog');
     await dialog.assertTitle('Project settings');
 
     await page.getByRole('button', { name: 'Open nested dialog' }).click();

@@ -59,6 +59,17 @@ action group. The active-filter count uses `solaris-badge`. Condition editors us
 standalone `solaris-select` / `solaris-multi-select` label API (never nested in a
 `form-field`); plain text/number/date/range editors use `solaris-form-field`.
 
+### Narrow viewport (720px and below)
+
+At 720px and below the bar collapses to one row: a larger search plus icon-only
+`solaris-icon-button` filter and export buttons (the host exposes `data-narrow`). Saved views, view creation, column
+management and the `leading` / `trailing` slots move into a centered modal
+dialog opened by the filter button; `Customize columns` opens a second centered
+dialog without fullscreen. Multi-exporter keeps its dropdown menu on the icon-only button, and
+the active-filter count badge stays on the filter button. Active-filter chips stay
+visible below the bar and wrap. Desktop popovers and dropdowns are unchanged, and
+no `solaris-drawer` is used.
+
 ### Custom actions (`leading` / `trailing` slots)
 
 Standard zones stay input-driven; extra buttons project through slots so the toolbar

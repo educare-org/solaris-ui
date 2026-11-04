@@ -9,8 +9,8 @@ export const CODE_BLOCK_TRANSLATION_PREFIX = 'code-block';
 
 export const CODE_BLOCK_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-    { labelKey: 'shell.sidebar.group.data-display', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+    { labelKey: 'shell.sidebar.group.data-display', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.code-block' },
   ];
 
@@ -51,7 +51,7 @@ export const CODE_BLOCK_SHOWCASE_LONG_CODE = [
   '  return `Hello ${name}`;',
   '}',
   "console.log(greet('Solaris'));",
-  "console.log(greet('Educare'));",
+  "console.log(greet('Solaris'));",
   "console.log(greet('Docs'));",
   "console.log(greet('Tokens'));",
   "console.log(greet('Signals'));",

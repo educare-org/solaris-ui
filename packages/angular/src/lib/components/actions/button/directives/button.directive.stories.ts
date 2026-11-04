@@ -11,7 +11,7 @@ const meta: Meta<SolarisButtonDirective> = {
   argTypes: {
     appearance: {
       control: 'select',
-      options: ['solid', 'outline', 'ghost', 'tonal', 'surface'],
+      options: ['solid', 'outline', 'ghost', 'tonal', 'surface', 'gradient'],
     },
     color: {
       control: 'select',
@@ -36,11 +36,14 @@ const meta: Meta<SolarisButtonDirective> = {
     pressed: { control: 'boolean' },
     disabled: { control: 'boolean' },
     loading: { control: 'boolean' },
+    action: { control: false },
   },
 };
 export default meta;
 
-type Story = StoryObj<SolarisButtonDirective>;
+type Story = StoryObj<
+  SolarisButtonDirective & { action?: () => Promise<unknown> }
+>;
 
 export const Solid: Story = {
   args: { appearance: 'solid', color: 'primary', size: 'md' },
@@ -89,4 +92,17 @@ export const Comfortable: Story = {
 };
 export const Danger: Story = {
   args: { appearance: 'solid', color: 'danger', density: 'normal' },
+};
+export const Gradient: Story = {
+  args: { appearance: 'gradient', color: 'primary', size: 'md' },
+};
+export const Async: Story = {
+  args: { appearance: 'solid', color: 'primary', size: 'md' },
+  render: (args) => ({
+    props: {
+      ...args,
+      action: () => new Promise((resolve) => setTimeout(resolve, 1200)),
+    },
+    template: `<button solaris-button [appearance]="appearance" [color]="color" [size]="size" [action]="action">Save</button>`,
+  }),
 };

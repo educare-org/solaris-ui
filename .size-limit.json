@@ -1,0 +1,7 @@
+[
+  {
+    "name": "Solaris UI FESM bundle",
+    "path": "dist/packages/angular/fesm2022/educarehq-solaris-ui.mjs",
+    "limit": "420 KB"
+  }
+]

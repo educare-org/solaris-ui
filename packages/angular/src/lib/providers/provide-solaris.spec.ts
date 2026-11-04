@@ -18,7 +18,6 @@ import type { SolarisToastConfig } from '../components/feedback/toast/model/toas
 import { SOLARIS_DIALOG_CONFIG } from '../components/overlay/dialog/token/dialog.tokens';
 import type { SolarisDialogConfig } from '../components/overlay/dialog/components/root/model/dialog.types';
 import { provideSolaris } from './provide-solaris';
-import type { SolarisSetupConfig } from './solaris-setup-config.interface';
 
 describe('provideSolaris', () => {
   it('provides theme config', () => {

@@ -62,6 +62,22 @@
   }
 }
 
+:host([data-narrow]) {
+  .solaris-table-toolbar__controls {
+    flex-wrap: nowrap;
+  }
+
+  .solaris-table-toolbar__search {
+    flex: 1 1 auto;
+    min-width: var(--solaris-spacing-0);
+    max-width: none;
+  }
+
+  .solaris-table-toolbar__actions {
+    flex: none;
+  }
+}
+
 .solaris-table-toolbar__count {
   display: grid;
   grid-template-columns: 0fr;

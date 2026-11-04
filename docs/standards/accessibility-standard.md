@@ -209,8 +209,10 @@ Every public component must include:
 
 ### Tooling
 
-Use `@testing-library/angular` queries and `axe-core` for automated
-accessibility audits where possible.
+Cover ARIA, keyboard, and focus with component specs (see
+`docs/quality-and-validation/testing-strategy.md`). Automated audit
+libraries (e.g. `axe-core`) are not installed — do not prescribe them
+until a runner is configured and enforced in CI.
 
 ---
 

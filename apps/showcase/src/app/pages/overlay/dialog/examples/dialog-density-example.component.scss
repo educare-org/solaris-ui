@@ -1,0 +1,30 @@
+.dialog-density-example {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-4);
+}
+
+.dialog-density-example__section {
+  padding-block-end: var(--solaris-spacing-4);
+  border-bottom: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
+}
+
+.dialog-density-example__section:last-child {
+  padding-block-end: var(--solaris-spacing-0);
+  border-bottom: none;
+}
+
+.dialog-density-example__heading {
+  margin: 0 0 var(--solaris-spacing-1);
+  color: var(--solaris-neutral-text-heading);
+  font-size: var(--solaris-font-size-sm);
+  line-height: var(--solaris-line-height-md);
+}
+
+.dialog-density-example__text {
+  margin: 0;
+  font-size: var(--solaris-font-size-sm);
+  line-height: var(--solaris-line-height-md);
+  color: var(--solaris-neutral-text-secondary);
+}

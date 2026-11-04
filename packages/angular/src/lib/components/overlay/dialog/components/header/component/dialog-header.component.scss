@@ -9,11 +9,30 @@
 
   --solaris-dialog-icon-color: var(--solaris-neutral-text-secondary);
   --solaris-dialog-media-size: var(--solaris-spacing-8);
-  --solaris-dialog-icon-size: var(--solaris-font-size-2xl);
+  --solaris-dialog-icon-size: var(--solaris-font-size-lg);
+  --solaris-dialog-title-size: var(--solaris-font-size-lg);
   --solaris-dialog-close-icon-size: var(--solaris-font-size-md);
   --solaris-dialog-header-border-color: var(--solaris-neutral-border-default);
   --solaris-dialog-header-z-index: var(--solaris-z-index-raised);
   --solaris-dialog-header-scrolled-shadow: var(--solaris-shadow-md);
+}
+
+:host([data-density='compact']) {
+  --solaris-dialog-media-size: var(--solaris-spacing-7);
+  --solaris-dialog-icon-size: var(--solaris-font-size-md);
+  --solaris-dialog-title-size: var(--solaris-font-size-md);
+}
+
+:host([data-density='normal']) {
+  --solaris-dialog-media-size: var(--solaris-spacing-8);
+  --solaris-dialog-icon-size: var(--solaris-font-size-lg);
+  --solaris-dialog-title-size: var(--solaris-font-size-lg);
+}
+
+:host([data-density='comfortable']) {
+  --solaris-dialog-media-size: var(--solaris-spacing-9);
+  --solaris-dialog-icon-size: var(--solaris-font-size-xl);
+  --solaris-dialog-title-size: var(--solaris-font-size-xl);
 }
 
 :host([data-separator]) {
@@ -23,6 +42,18 @@
 
 :host([data-scrolled]) {
   box-shadow: var(--solaris-dialog-header-scrolled-shadow);
+}
+
+:host([data-flat]) {
+  background: transparent;
+}
+
+:host([data-flat][data-separator]) {
+  border-bottom: none;
+}
+
+:host([data-flat][data-scrolled]) {
+  box-shadow: none;
 }
 
 :host([data-variant='info']) {
@@ -73,7 +104,7 @@
   min-width: 0;
   margin: 0;
   color: var(--solaris-neutral-text-heading);
-  font: var(--solaris-font-weight-semibold) var(--solaris-font-size-lg) /
+  font: var(--solaris-font-weight-semibold) var(--solaris-dialog-title-size) /
     var(--solaris-line-height-sm) var(--solaris-font-family-sans);
 }
 

@@ -25,23 +25,22 @@ test.describe('Button', () => {
   });
 
   test('wide shape renders wider than normal', async ({ page }) => {
-    const shapeTabs = page.locator('solaris-tabs', {
-      has: page.locator('solaris-tab[value="wide"]'),
-    });
-    const normalButton = page.locator(
-      'solaris-tab-panel[value="normal"] button[solaris-button]',
-    );
-    const wideButton = page.locator(
-      'solaris-tab-panel[value="wide"] button[solaris-button]',
-    );
+    const section = page.locator('#shape-radius');
+    const previewButton = section
+      .locator('solaris-preview-code button[solaris-button]')
+      .nth(1);
 
-    await shapeTabs.locator('solaris-tab[value="normal"]').click();
-    await expect(normalButton).toBeVisible();
-    const normalWidth = (await normalButton.boundingBox())!.width;
+    await section.getByRole('tab', { name: 'normal' }).click();
+    await expect(previewButton).toBeVisible();
+    const normalBox = await previewButton.boundingBox();
+    if (!normalBox) throw new Error('expected preview button to be measurable');
+    const normalWidth = normalBox.width;
 
-    await shapeTabs.locator('solaris-tab[value="wide"]').click();
-    await expect(wideButton).toBeVisible();
-    const wideWidth = (await wideButton.boundingBox())!.width;
+    await section.getByRole('tab', { name: 'wide' }).click();
+    await expect(previewButton).toBeVisible();
+    const wideBox = await previewButton.boundingBox();
+    if (!wideBox) throw new Error('expected preview button to be measurable');
+    const wideWidth = wideBox.width;
 
     expect(wideWidth).toBeGreaterThan(normalWidth + 8);
   });
@@ -65,14 +64,18 @@ test.describe('Button', () => {
       .not.toBe(googleHtml);
   });
 
-  test('full-width button occupies available width', async ({ page }) => {
-    const example = page.locator('app-full-width-button-example').first();
-    const fullBtn = example
-      .locator('button[solaris-button][data-full-width]')
-      .first();
-    await expect(fullBtn).toBeVisible();
-    const exampleBox = (await example.boundingBox())!;
-    const btnBox = (await fullBtn.boundingBox())!;
-    expect(Math.abs(btnBox.width - exampleBox.width)).toBeLessThan(4);
+  test('async action shows busy state then succeeds', async ({ page }) => {
+    const example = page.locator('#async app-async-button-example');
+    const actionButton = example.locator('button[solaris-button]').first();
+    await expect(actionButton).toBeVisible();
+
+    await actionButton.click();
+    await expect(actionButton).toHaveAttribute('aria-busy', 'true');
+
+    await expect(
+      example.getByText('Saved successfully.'),
+      'async action should resolve and show the success message',
+    ).toBeVisible({ timeout: 8000 });
+    await expect(actionButton).not.toHaveAttribute('aria-busy', 'true');
   });
 });

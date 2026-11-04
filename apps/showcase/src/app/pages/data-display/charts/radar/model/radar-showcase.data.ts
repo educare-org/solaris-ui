@@ -9,7 +9,7 @@ export const RADAR_SHOWCASE_SLUG = 'radar';
 export const RADAR_TRANSLATION_PREFIX = 'radar-view';
 
 export const RADAR_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] = [
-  { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
+  { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
   { labelKey: 'shell.sidebar.item.charts' },
   { labelKey: 'shell.sidebar.item.radar' },
 ];

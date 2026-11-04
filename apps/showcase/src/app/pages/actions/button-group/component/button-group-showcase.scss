@@ -18,9 +18,7 @@
   margin-bottom: var(--solaris-spacing-4);
 }
 
-.button-group-showcase__full-width-row {
-  display: flex;
-  flex-direction: column;
-  gap: var(--solaris-spacing-3);
-  max-width: calc(var(--solaris-spacing-18) * 4);
+.button-group-showcase__props-values {
+  overflow-wrap: anywhere;
+  white-space: normal;
 }

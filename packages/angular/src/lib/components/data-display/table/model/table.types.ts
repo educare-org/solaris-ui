@@ -56,6 +56,10 @@ export const SOLARIS_TABLE_LAYOUTS = ['auto', 'card'] as const;
 
 export type SolarisTableLayout = (typeof SOLARIS_TABLE_LAYOUTS)[number];
 
+export const SOLARIS_TABLE_RESPONSIVES = ['auto', 'scroll'] as const;
+
+export type SolarisTableResponsive = (typeof SOLARIS_TABLE_RESPONSIVES)[number];
+
 export const SOLARIS_TABLE_EXPAND_MODES = ['row', 'cell', 'both'] as const;
 
 export type SolarisTableExpandMode =

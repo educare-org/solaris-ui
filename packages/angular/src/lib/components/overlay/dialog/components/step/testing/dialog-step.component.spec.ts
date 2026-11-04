@@ -1,6 +1,8 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { Component, TemplateRef } from '@angular/core';
+import { By } from '@angular/platform-browser';
 import { SolarisDialogStepComponent } from '../component/dialog-step.component';
+import { assertPresent } from '../../../../../../testing/solaris-test-utilities';
 
 @Component({
   standalone: true,
@@ -27,12 +29,11 @@ describe('SolarisDialogStepComponent', () => {
   });
 
   it('should have a TemplateRef via viewChild', () => {
-    const stepEl = (fixture.nativeElement as HTMLElement).querySelector(
-      'solaris-dialog-step',
+    const step = assertPresent(
+      fixture.debugElement.query(By.directive(SolarisDialogStepComponent)),
+      'dialog step',
     );
-    const stepComponent = (stepEl as any)?.__ngContext__;
-    const cmpInstance = (fixture.debugElement.children[0] as any)
-      .componentInstance as SolarisDialogStepComponent;
+    const cmpInstance = step.componentInstance as SolarisDialogStepComponent;
     expect(cmpInstance.templateRef()).toBeInstanceOf(TemplateRef);
   });
 });

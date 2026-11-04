@@ -696,6 +696,23 @@ export type {
   SolarisSwitchDensity,
 } from './lib/components/forms/switch/model/switch.types';
 
+export { SolarisSliderComponent } from './lib/components/forms/slider/component/slider.component';
+export { SolarisSliderHarness } from './lib/components/forms/slider/testing/slider.harness';
+
+export { SolarisRangeSliderComponent } from './lib/components/forms/range-slider/component/range-slider.component';
+export { SolarisRangeSliderHarness } from './lib/components/forms/range-slider/testing/range-slider.harness';
+export type { SolarisRangeSliderValues } from './lib/components/forms/range-slider/model/range-slider.types';
+export type {
+  SolarisSliderSize,
+  SolarisSliderColor,
+  SolarisSliderOrientation,
+  SolarisSliderValueDisplay,
+  SolarisSliderValueFormatter,
+  SolarisSliderScale,
+  SolarisSliderScaleKind,
+  SolarisSliderZone,
+} from './lib/components/forms/slider/model/slider.types';
+
 export { SolarisSwitchGroupComponent } from './lib/components/forms/switch-group/component/switch-group.component';
 export type {
   SolarisSwitchGroupOrientation,
@@ -1205,6 +1222,25 @@ export type {
   SolarisAccordionModel,
   SolarisAccordionConfig,
 } from './lib/components/interaction/accordion/model/accordion.types';
+
+export { SolarisMediaCarouselComponent } from './lib/components/interaction/carousel/media-carousel/component/media-carousel.component';
+export type { SolarisMediaCarouselDirection } from './lib/components/interaction/carousel/media-carousel/model/media-carousel-direction';
+export type { SolarisMediaSlide } from './lib/components/interaction/carousel/media-carousel/model/solaris-media-slide';
+export type { SolarisMediaImageSlide } from './lib/components/interaction/carousel/media-carousel/model/solaris-media-image-slide';
+export type { SolarisMediaVideoSlide } from './lib/components/interaction/carousel/media-carousel/model/solaris-media-video-slide';
+export type { SolarisMediaCarouselNavigation } from './lib/components/interaction/carousel/media-carousel/model/media-carousel-navigation';
+export type { SolarisMediaCarouselVisibleCount } from './lib/components/interaction/carousel/media-carousel/model/media-carousel-visible-count';
+export type { SolarisMediaCarouselDotsPosition } from './lib/components/interaction/carousel/media-carousel/model/media-carousel-dots-position';
+export type { SolarisMediaCarouselObjectFit } from './lib/components/interaction/carousel/media-carousel/model/media-carousel-object-fit';
+export type { SolarisMediaCarouselRadius } from './lib/components/interaction/carousel/media-carousel/model/media-carousel-radius';
+export { SolarisMediaCarouselHarness } from './lib/components/interaction/carousel/media-carousel/testing/media-carousel.harness';
+
+export { SolarisContentCarouselComponent } from './lib/components/interaction/carousel/content-carousel/component/content-carousel.component';
+export { SolarisCarouselSlideDirective } from './lib/components/interaction/carousel/content-carousel/directives/carousel-slide.directive';
+export type { SolarisContentCarouselAlign } from './lib/components/interaction/carousel/content-carousel/model/content-carousel-align';
+export type { SolarisContentCarouselDividerSide } from './lib/components/interaction/carousel/content-carousel/model/content-carousel-divider-side';
+export type { SolarisContentCarouselNavigation } from './lib/components/interaction/carousel/content-carousel/model/content-carousel-navigation';
+export { SolarisContentCarouselHarness } from './lib/components/interaction/carousel/content-carousel/testing/content-carousel.harness';
 
 export { SolarisEditableTabsComponent } from './lib/components/navigation/editable-tabs/component/editable-tabs.component';
 export { SolarisEditableTabComponent } from './lib/components/navigation/editable-tabs/editable-tab/editable-tab.component';

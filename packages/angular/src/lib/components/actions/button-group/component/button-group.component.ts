@@ -5,6 +5,7 @@ import {
   computed,
   inject,
   ChangeDetectionStrategy,
+  OnInit,
 } from '@angular/core';
 
 import { SolarisThemeService } from '../../../../services/theme';
@@ -37,7 +38,7 @@ import type {
     '[attr.data-full-width]': 'fullWidth() ? "" : null',
   },
 })
-export class SolarisButtonGroupComponent {
+export class SolarisButtonGroupComponent implements OnInit {
   readonly orientation = input<SolarisButtonGroupOrientation>('horizontal');
   readonly size = input<SolarisButtonGroupSize>('md');
   readonly density = input<SolarisButtonGroupDensity | undefined>(undefined);
@@ -52,9 +53,6 @@ export class SolarisButtonGroupComponent {
   });
 
   ngOnInit(): void {
-    // Pre-stamp host attributes before first paint so attached styling
-    // (border, orientation) never flashes from the unstyled base. Host
-    // bindings remain the source of truth afterwards.
     // SECURITY_EXCEPTION: write-only hasAttribute/setAttribute on the own host element to pre-stamp data-* variant attributes before host bindings apply on first change detection; no Angular abstraction runs earlier; covered by button-group component specs.
     const el = this.elementRef.nativeElement;
     if (!el.hasAttribute('data-orientation')) {

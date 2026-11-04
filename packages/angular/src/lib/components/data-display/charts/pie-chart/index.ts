@@ -1,6 +1,7 @@
 export { SolarisPieChartComponent } from './component/pie-chart.component';
 export type {
   SolarisPieChartDensity,
+  SolarisPieChartFocusMark,
   SolarisPieChartFrame,
   SolarisPieChartFrameOptions,
   SolarisPieChartGaugeGeometry,

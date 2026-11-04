@@ -4,7 +4,7 @@ import { SolarisAnnouncementComponent } from './announcement.component';
 const meta: Meta<SolarisAnnouncementComponent> = {
   component: SolarisAnnouncementComponent,
   title: 'Feedback/Announcement',
-  render: (args: any) => ({
+  render: (args: AnnouncementStoryArgs) => ({
     props: args,
     template: `
       <solaris-announcement
@@ -24,18 +24,20 @@ const meta: Meta<SolarisAnnouncementComponent> = {
 };
 export default meta;
 
+type AnnouncementStoryArgs = Partial<SolarisAnnouncementComponent>;
+
 type Story = StoryObj<SolarisAnnouncementComponent>;
 
 export const Center: Story = {
-  args: { align: 'center' } as any,
+  args: { align: 'center' } as AnnouncementStoryArgs,
 };
 
 export const Left: Story = {
-  args: { align: 'left' } as any,
+  args: { align: 'left' } as AnnouncementStoryArgs,
 };
 
 export const WithIcon: Story = {
-  args: { showIcon: true, variant: 'info' } as any,
+  args: { showIcon: true, variant: 'info' } as AnnouncementStoryArgs,
 };
 
 export const ImageBackground: Story = {

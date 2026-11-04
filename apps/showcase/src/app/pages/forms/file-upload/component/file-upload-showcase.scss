@@ -13,10 +13,6 @@
   margin-bottom: var(--solaris-spacing-4);
 }
 
-// Demo wrappers are projected as flex items into the centered preview
-// surface: without full width they size to content, and swapping to the
-// shorter drop-active text visibly shrinks the panel. Inline
-// <solaris-file-upload> demos are already full width via the host rule.
 app-basic-file-upload-example,
 app-upload-auto-file-upload-example,
 app-upload-manual-file-upload-example {

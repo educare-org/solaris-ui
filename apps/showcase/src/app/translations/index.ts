@@ -1,4 +1,5 @@
-import { CONFIGURATION_TRANSLATIONS } from '../pages/configuration/translation';
+import { INTRODUCTION_TRANSLATIONS } from '../pages/introduction/translation';
+import { INSTALLATION_TRANSLATIONS } from '../pages/installation/translation';
 import { SHELL_TRANSLATIONS } from '../shell/translation';
 import { BADGE_TRANSLATIONS } from '../pages/data-display/badge/translation';
 import { AVATAR_TRANSLATIONS } from '../pages/data-display/avatar/translation';
@@ -47,6 +48,8 @@ import { HOLIDAYS_VIEW_TRANSLATIONS } from '../pages/scheduling/holidays/transla
 import { PRINT_VIEW_TRANSLATIONS } from '../pages/scheduling/print/translation';
 import { EVENT_EDITOR_TRANSLATIONS } from '../pages/scheduling/event-editor/translation';
 import { SWITCH_TRANSLATIONS } from '../pages/forms/switch/translation';
+import { SLIDER_TRANSLATIONS } from '../pages/forms/slider/translation';
+import { RANGE_SLIDER_TRANSLATIONS } from '../pages/forms/range-slider/translation';
 import { SWITCH_GROUP_TRANSLATIONS } from '../pages/forms/switch-group/translation';
 import { OPTION_TRANSLATIONS } from '../pages/forms/option/translation';
 import { SELECT_TRANSLATIONS } from '../pages/forms/select/translation';
@@ -62,6 +65,8 @@ import { SEGMENTED_CONTROL_TRANSLATIONS } from '../pages/navigation/segmented-co
 import { DIVIDER_TRANSLATIONS } from '../pages/content/divider/translation';
 import { DROPDOWN_MENU_TRANSLATIONS } from '../pages/interaction/dropdown-menu/translation';
 import { COLLAPSIBLE_TRANSLATIONS } from '../pages/interaction/collapsible/translation';
+import { MEDIA_CAROUSEL_TRANSLATIONS } from '../pages/interaction/media-carousel/translation';
+import { CONTENT_CAROUSEL_TRANSLATIONS } from '../pages/interaction/content-carousel/translation';
 import { ACCORDION_TRANSLATIONS } from '../pages/interaction/accordion/translation';
 import { EDITABLE_TABS_TRANSLATIONS } from '../pages/navigation/editable-tabs/translation';
 import { PAGINATION_TRANSLATIONS } from '../pages/navigation/pagination/translation';
@@ -107,7 +112,8 @@ function flattenTranslations(
 
 const PAGE_MODULES = [
   SHELL_TRANSLATIONS,
-  CONFIGURATION_TRANSLATIONS,
+  INTRODUCTION_TRANSLATIONS,
+  INSTALLATION_TRANSLATIONS,
   AVATAR_TRANSLATIONS,
   BADGE_TRANSLATIONS,
   SKELETON_TRANSLATIONS,
@@ -155,6 +161,8 @@ const PAGE_MODULES = [
   PRINT_VIEW_TRANSLATIONS,
   EVENT_EDITOR_TRANSLATIONS,
   SWITCH_TRANSLATIONS,
+  SLIDER_TRANSLATIONS,
+  RANGE_SLIDER_TRANSLATIONS,
   SWITCH_GROUP_TRANSLATIONS,
   OPTION_TRANSLATIONS,
   SELECT_TRANSLATIONS,
@@ -170,6 +178,8 @@ const PAGE_MODULES = [
   DIVIDER_TRANSLATIONS,
   DROPDOWN_MENU_TRANSLATIONS,
   COLLAPSIBLE_TRANSLATIONS,
+  MEDIA_CAROUSEL_TRANSLATIONS,
+  CONTENT_CAROUSEL_TRANSLATIONS,
   ACCORDION_TRANSLATIONS,
   EDITABLE_TABS_TRANSLATIONS,
   PAGINATION_TRANSLATIONS,

@@ -5,7 +5,8 @@ export type SolarisButtonAppearance =
   | 'outline'
   | 'ghost'
   | 'tonal'
-  | 'surface';
+  | 'surface'
+  | 'gradient';
 
 export type SolarisButtonColor =
   | 'neutral'

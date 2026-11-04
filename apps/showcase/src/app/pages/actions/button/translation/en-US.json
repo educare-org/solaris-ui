@@ -3,23 +3,11 @@
     "ai": {
       "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
     },
-    "appearance": {
-      "ghost": "Ghost",
-      "outline": "Outline",
-      "solid": "Solid",
-      "surface": "Surface",
-      "tonal": "Tonal"
-    },
     "appearances": {
       "note": "Combine an appearance with a color. Appearances cover every emphasis level, from solid CTAs to low-weight ghost actions."
     },
-    "color": {
-      "danger": "Danger",
-      "info": "Info",
-      "neutral": "Neutral",
-      "primary": "Primary",
-      "success": "Success",
-      "warning": "Warning"
+    "async": {
+      "note": "Run an async action with automatic pending, busy, and disabled states. Clicks during pending are ignored."
     },
     "custom": {
       "note": "Custom is not an arbitrary input. Define the custom color tokens in CSS.",
@@ -28,16 +16,12 @@
         "violet": "Violet"
       }
     },
-    "density": {
-      "comfortable": "Comfortable",
-      "compact": "Compact",
-      "normal": "Normal"
-    },
     "description": "Attribute directive that turns buttons and anchors into Solaris-themed buttons.",
     "example": {
-      "anchor": {
-        "disabled": "Anchor disabled",
-        "link": "Anchor link"
+      "async": {
+        "failure": "Failed. Try again.",
+        "save": "Save",
+        "success": "Saved successfully."
       },
       "basic": {
         "default": "Default",
@@ -47,15 +31,16 @@
       "custom": {
         "label": "Custom"
       },
-      "full-width": {
-        "primary": "Sign in with email",
-        "social": "Sign in with Google"
-      },
       "icons": {
         "after": "Continue",
         "before": "Confirm",
         "input-end": "Icon input end",
         "input-start": "Icon input start"
+      },
+      "motion": {
+        "long": "Save changes",
+        "short": "Save",
+        "swap": "Swap label"
       },
       "loading": {
         "save": "Save"
@@ -87,17 +72,25 @@
     "installation": {
       "note": "Install the single Solaris package, then import the directive."
     },
+    "motion": {
+      "note": "Press uses a subtle 0.99 scale. Width, padding and gap animate, so loading, badge and label swaps grow smoothly instead of flicking."
+    },
     "props": {
-      "note": "Props table coming soon with the table component."
+      "note": "Every input the directive accepts, with types, values, and defaults.",
+      "colProp": "Prop",
+      "colType": "Type",
+      "colValues": "Values",
+      "colDefault": "Default"
     },
     "section": {
       "appearances": "Appearance & color",
+      "async": "Async action",
       "custom": "Custom color",
       "density": "Density",
       "examples": "Examples",
       "icons": "Icons",
       "installation": "Installation",
-      "layout": "Layout",
+      "motion": "Motion",
       "props": "Props",
       "providers": "Brand icons",
       "radius": "Radius",
@@ -107,27 +100,13 @@
       "sizes": "Sizes",
       "states": "States"
     },
-    "shape": {
-      "normal": "Normal",
-      "wide": "Wide"
-    },
     "shape-radius": {
       "note": "Radius controls corner rounding; wide shape elongates the button horizontally."
-    },
-    "size": {
-      "lg": "Large",
-      "md": "Medium",
-      "sm": "Small"
     },
     "size-density": {
       "note": "Size and density combine into a 3×3 matrix. The outer height always equals the control-height token of the combination."
     },
     "states": {
-      "tab": {
-        "disabled": "Disabled",
-        "loading": "Loading",
-        "pressed": "Pressed"
-      },
       "toggle": {
         "off": "Deactivate",
         "on": "Activate"

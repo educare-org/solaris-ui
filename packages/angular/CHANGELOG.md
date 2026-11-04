@@ -1,5 +1,174 @@
 # @educarehq/solaris-ui
 
+## 2.1.0
+
+### Minor Changes
+
+- 4ca6ee7: feature(dialog): add flat appearance, split footer actions and backdrop blur
+
+  `appearance` accepts `'flat'`: bordered panel like `outline`, but header, footer and actions share the same background as the content (no bands) — forwarded from `appearance: 'flat'` to the chrome header and actions, or per-piece `[flat]` in manual composition. Actions accept `position: 'start'` to pin an action to the row start while the rest stays at the end (two-group `data-split` footer, e.g. Back | Help + Verify). The backdrop now blurs slightly by default (`--solaris-dialog-backdrop-filter: blur(2px)`, still overridable). Sheets always dock with straight edges (`radius` ignored on sheets). The dialog showcase was restructured: single-tab Examples and Behavior sections with the correct snippet per demo, variants section removed, density demo opens a component dialog with real content, flat-appearance and split-actions demos, richer nested/flow dialogs, and the validated flow rebuilt on form-field.
+
+- ba58f81: feature(button): add async action support for button and icon-button
+
+  New `action` input (`() => Promise<unknown>`) on `SolarisButtonHostBase` (both `[solaris-button]` and `[solaris-icon-button]`) with internal `pending` state: effective loading is `manual || pending`, effective disabled includes `pending`, `aria-busy="true"` while pending, and clicks during pending are discarded. Emits `actionSuccess` with the result or `actionError` with the failure (resetting pending, restoring focus on error). On `<a>` with `href`, the directive calls `preventDefault()` before running the action. Promise-only; the action never runs on the server and initial pending is always `false`.
+
+- 32854d5: feature(button): add appearance="gradient" for button and icon-button
+
+  New `gradient` appearance crosses with every color: `linear-gradient(135deg, solid, solid-active)` with text, border, and focus-ring mirroring `solid`, hover darkening the first stop, and press holding the darkest pair. Custom gradients via `--solaris-button-gradient-from/to` and `--solaris-icon-button-gradient-from/to` (+ hover/active pairs); without them, gradient + custom falls back to the flat custom solid. Shared `solaris-button-gradient` SCSS mixin keeps button and icon-button in parity, including attached group press behavior.
+
+- df28a26: feature(content-carousel): projected content carousel with align/divider matrix (F4)
+
+  New `solaris-content-carousel` with `<ng-template solaris-carousel-slide>` projection (`contentChildren`, DOM order), reusing the shared carousel engine (arrows, dots/progress/none navigation, autoplay with play/pause, loop clamp, keyboard). New `align` (`start/end/center/top/bottom/none`) + `showDivider` matrix (`end→left`, `start→right`, `center→both`, `top→bottom`, `bottom→top`, `none→none`, opt-in default off) and a fixed-height contract (`height: 100%` of the parent, never self-measured).
+
+- 4ca6ee7: feature(dialog): add content padding variable and density-scaled header
+
+  `solaris-dialog-content` exposes `--solaris-dialog-content-padding` (`spacing-0/2/4/6` for default/compact/normal/comfortable, consumer-overridable without `::ng-deep`, default identical to before). `solaris-dialog-header` accepts `density` (input > theme > `normal`, forwarded by the container chrome and by `solaris-dialog` in simple mode) and pairs icon with title per density (`md/md`, `lg/lg`, `xl/xl` with `media-size` `spacing-7/8/9`), correcting the previous `2xl` icon vs `lg` title mismatch.
+
+- e8dc11f: feature(showcase): split Configuration into Introduction and Installation guides
+
+  Replaces the legacy `/configuration` showcase page with two Getting Started
+  pages following the docs-page standard (`ShowcaseDocsPageLayout`, header,
+  sections, TOC, footer) and the Magic UI Introduction/Installation split:
+  - `/introduction` (new default route): principles, the six component
+    contracts, and where to go next. No live token/icon demos; it links to
+    `/installation` and `/icons`.
+  - `/installation`: prerequisites, package install, `ng add` schematic and Nx
+    generator, `solaris.scss` styles, `provideSolaris()` providers (with
+    basic/theme/translate tabs), optional translation setup, and verify.
+
+  Removes the old token/typography/icon galleries (superseded by Foundation
+  pages), updates all breadcrumb docs-index links to `/introduction`, moves
+  dialog next-link to `/introduction`, and refreshes mega-menu demo links,
+  sidebar translations (`introduction`/`installation` in pt-BR, en-US, es-419),
+  and the e2e smoke routes.
+
+- 8c5da75: feature(media-carousel): add solaris-media-carousel core (F1)
+
+  Single-slide media rotation with arrows, dot navigation (`overlay`/`outside`), `activeIndex` two-way binding, `loop` wrap/clamp with `aria-disabled` ends, `aspectRatio`/`objectFit`/`radius` variants, translated labels (`carousel.*` in `en-US`/`pt-BR`/`es-419`), empty state, keyboard (arrows/Home/End), and SSR-safe rendering. Progress, preview, autoplay controls, and peek arrive in F2/F3/F5.
+
+- f481864: feature(media-carousel): peek visible count with side scale/dim and print baseline (F5)
+
+  New `visibleCount="peek"` centers the active slide at 80% of the viewport with a gap gutter so both neighbors peek at the edges (first/last positions show a gutter without clones — the v1 limit). Side slides render at `scale(0.92)` + 70% opacity and glide on the shared `normal` + `standard` track transition with the doubled reduced-motion guard. New `@media print` baseline renders a static first slide: arrows, dots, preview strip, and the play/pause toggle hide, the track transform resets, and only the first slide displays.
+
+- 9f2d5e2: feature(media-carousel): preview navigation with video badge and slideActivate (F3)
+
+  New `navigation="preview"` overlay strip with the current slide plus the next two thumbnails (wrapping with `loop`, truncated when clamped, never more thumbs than slides). Thumbs are buttons named `carousel.goToSlide` with `aria-current` on the active one; video thumbs carry a centered semi-transparent Play badge. New `previewCount` (clamped 1–3) and `previewPosition` (v1 overlay only) inputs plus the `slideActivate` output emitting the clicked slide — the consumer owns the player, the lib never plays video.
+
+- 8c5da75: feature(media-carousel): autoplay with progress dots, play/pause toggle, and always-visible arrows (F2)
+
+  Arrows are now always legible: a larger chevron over a translucent backdrop disc on every image. Dots grow slightly, the active dot stretches into a pill, and with `autoplay` it fills over `duration` (linear), pausing in sync with hover/focus/hidden-tab/offscreen/reduced-motion pauses. New `autoplay`/`duration`/`showPlayPause`/`pauseOnHover`/`playLabel`/`pauseLabel` (+Key) inputs, `autoplayChange` output, `carousel.play`/`carousel.pause` strings (`en-US`/`pt-BR`/`es-419`), and keyboard support (arrows/Home/End) when focus is inside the carousel.
+
+- f1e065f: feature(range-slider): add solaris-range-slider multi-thumb form control
+
+  New `solaris-range-slider` with `values` model (ordered 2..N, v1 cap of 5 with dev warning), `minThumbs/maxThumbs/minStepsBetweenThumbs`, per-thumb WAI-APG keyboard with neighbor collision clamp (crossing is structurally impossible), `thumbFocus` emit, per-thumb `aria-valuemin/max/now/text` with translated min/max/positional names, inter-thumb fill via transform-only positioning, `thumb`-default value display with tooltip opt-in, vertical orientation, shared ticks, and `ControlValueAccessor` over the array with `valueCommit`. Reuses the F0 pure-math foundation, shares the `--solaris-slider-*` token language, ships harness, stories, showcase page, and triple-locale coverage.
+
+- f1e065f: feature(slider): add solaris-slider single-thumb form control
+
+  New `solaris-slider` with `value` model, `min/max/step/pageStep`, horizontal and vertical orientation, `valueDisplay` inline/tooltip/thumb/none, `formatValue/valueText/unit` formatting, `startIcon/endIcon/thumbIcon`, `showTicks/tickStep`, full WAI-APG keyboard (arrows, Home/End, PageUp/Down), `ControlValueAccessor` with `valueCommit` on pointer-up and blur-after-key, triple-locale dictionaries, harness, stories, showcase page, and token-driven styling with doubled reduced-motion guards. Pure math ships in `forms/slider/functions` and is shared with the upcoming range slider.
+
+- f1e065f: feature(slider): add showMinMax static scale bounds to solaris-slider and solaris-range-slider
+
+  New `showMinMax` input (default `false`) on both sliders renders the static scale bounds — minimum at the start, maximum at the end — as `aria-hidden` decoration, formatted through the existing `formatValue`/`unit` pipeline. Horizontal places them on either side of the track; vertical stacks them above and below. No new i18n keys, no new CSS variables, no motion; values print as-is.
+
+- f1e065f: feature(slider): default both sliders to the neutral color
+
+  `solaris-slider` and `solaris-range-slider` now default `color` to `neutral` instead of `primary`. Demos without an explicit color render the neutral fill; the remaining colors stay opt-in via `color`.
+
+- fe6a1b6: Add `scale`, `tickValues`, `zones` and `distribution` inputs to `solaris-slider`: non-linear positioning (log/pow/time/custom) with value-space keyboard and snapping, explicit tick positions, value-driven fill color and a decorative density strip.
+
+  Add the same four inputs to `solaris-range-slider`: per-thumb positioning through `thumbRatios`, inter-thumb fill through the active scale, explicit ticks, host `data-color` resolved from the first thumb (per-thumb colors stay a non-goal) and a decorative density strip. Keyboard, snapping and `minStepsBetweenThumbs` gaps stay in value space.
+
+  Zone switches on both components play an overlay fade: the previous color lingers on an `aria-hidden` layer that fades out (`opacity`, `normal + standard`) over the new color — no muddy midpoint; instant under reduced motion, hidden in print.
+
+- 0db32ff: feature(table): render cards by default on narrow viewports with responsive opt-out
+
+  `solaris-table` now renders the card layout on viewports of 720px and below (or anywhere with `layout="card"`) without requiring `expandable`. Without `expandable`, cards render every field plainly with no chevron; `expandable` keeps controlling row and cell accordions. The new `responsive` input (`'auto' | 'scroll'`, default `'auto'`) preserves the previous behavior: `responsive="scroll"` keeps the scrollable table in every viewport. Exposed as `data-responsive` alongside the existing `data-card-layout` hook.
+
+- eb38f1a: feature(table-filter): collapse the toolbar into a dialog on narrow viewports
+
+  `solaris-table-toolbar` now collapses at 720px and below to one row of a larger search plus icon-only `solaris-icon-button` filter and export buttons; saved views, view creation, column management and the `leading`/`trailing` slots move into a centered modal dialog opened by the filter button, with `Customize columns` in a second tall bottom sheet. The host exposes `data-narrow` while the bar collapses. Sheet content follows the standard dialog content padding. Card-layout table toolbar/footer slots regain lateral padding, and pagination keeps `space-between` at 720px and below. Desktop popovers and dropdowns are unchanged.
+
+### Patch Changes
+
+- 326c199: docs(standards): slim documentation, minimal motion guards, free identical translations, folder contract and test tiers
+
+  Removes stale planning docs, merges release policy and runbook, relaxes motion to blocking guards only, allows English terms identical to en-US without allowlist, standardizes es-419, documents the component/functions/model/translation contract with validation, and adds scoped test tiers.
+
+- fd953ec: feature(button): subtler press scale and fluid width for loader, badge and label swaps
+
+  Press feedback on `button` and `icon-button` used the global `--solaris-motion-scale-active` (`0.97`), which reads as a hard shrink on small buttons. They now use dedicated `--solaris-button-scale-active` / `--solaris-icon-button-scale-active` tokens (`0.99`). Width-affecting content changes (loading spinner insert, badge slot, label swap) jumped instantly because CSS `transition: width` never fires when the computed `width` stays `auto` — the shared `SolarisButtonHostBase` now animates them fluidly with FLIP (`MutationObserver` + `ResizeObserver` + WAAPI, `motion-normal` / `standard` easing from the tokens). Container-driven changes only re-sync the baseline, `fullWidth` buttons are skipped, and the loading spinner enters with `solaris-motion-pop-in`. Reduced motion disables the width animation, spinner animation, and press scale.
+
+- f481864: feature(content-carousel): print baseline with static first slide (F5)
+
+  New `@media print` baseline renders a static first slide: arrows, dots, and the play/pause toggle hide, the track transform resets, and only the first slide displays. Autoplay, hover, and motion do not run on paper. Print from any slide — the paper always shows slide one.
+
+- b203b72: fix(button): keep gradient ramps within the same hue family
+
+  The `gradient` appearance ramped `solid` into cross-hue partners (`danger` turned pink toward violet, `warning` turned green toward success, `info` clashed with orange toward accent, `neutral` barely shifted), and the same-hue fallback read as flat `solid` at button sizes. Each color now ramps into the deepest same-hue stop that keeps text contrast (`primary`/`success` keep their partner hues `violet`/`info`; `warning` goes to `solid-active`, `danger` to the new `solid-deep` token, `info` to `foreground`, `neutral` from `inverse` to `text-secondary`) across rest, hover, and active, with text, border, and focus-ring still mirroring `solid`. Shared `solaris-button-gradient` mixin, so `icon-button` inherits the same ramps.
+
+- 32b5b01: fix(button): give tonal and surface appearances a visible hover and active background step
+
+  `tonal` and `surface` mapped `--*-hover-background` and `--*-active-background` back to the rest background (`*-soft` / `neutral-sunken`) in every color, so hover only moved the border and looked dead. They now use new per-theme `*-soft-hover` / `*-soft-active` (and `neutral-sunken-hover` / `neutral-sunken-active`) tokens — one light step above rest for hover, a second step for active, keeping `rest < hover < active` with the existing `*-solid` hover border untouched. Applied identically to `button` and `icon-button` (full parity). Text colors are unchanged by this change; note (owner-accepted debt): the concurrent out-of-scope `danger-foreground` retunes sit below AA on the new hover/active steps — tracked as follow-up, not caused by this ladder.
+
+- 2c3697e: fix(checkbox): hide empty label text and content without description
+- 9a1c4cb: fix(code-block): correct outline appearance docs to surface background with visible border
+- 8ec992e: fix(form-field): align outline appearance background and border tokens
+- 1c988ce: fix(icon-button): size projected animated icons at 1em like regular icons
+
+  `solaris-animated-icon` projected into `solaris-icon-button` was hardcoded to `spacing-5` (8px), rendering the menu/close morph unreadably small next to the 1em `solaris-icon` rule directly above it. Animated icons now inherit the button font size (`1em`), matching regular icons at every size and density.
+
+- 8c5da75: fix(media-carousel): sequence slide and dot animations without shifting the dots row
+
+  The slide track and the dots animated concurrently, producing broken mid-transition states. The dot pill expansion is now delayed until the track finishes (phase one: slide, phase two: dots), and the row itself never moves — only the pill grows and displaces its neighbors. The play/pause toggle lives outside the dots group, so it stays put during navigation.
+
+- 8c5da75: fix(media-carousel): dots spacing, outside position, play/pause toggle, and longer active pill
+
+  Dots no longer reserve the expanded width before activation: buttons hug their content with a symmetric hit padding, so the active pill displaces its neighbors, and the resting layout is identical after every navigation. The directional growth (left-to-right forward, right-to-left back) now comes from a row slide-in animation (`data-direction` + `data-pulse`) instead of a persistent offset. `dotsPosition="outside"` renders the dots after the viewport so clipping no longer hides them. The play/pause toggle shares the arrow inset from the edge and swaps visible text labels with a crossfade instead of swapping CSS-drawn icons. The active dot pill grows from 32px to 48px (`--solaris-spacing-13`).
+
+- c361002: fix(pagination): align mobile layout and apply density modes
+
+  The pagination nav used `align-items: stretch` with `space-between` on narrow viewports, displacing the page-size select, range label and navigation buttons. It now keeps `align-items: center` with `flex-start` justification and wrapping row gaps. `compact`/`comfortable` densities now adjust gap, min-height and button size through `data-density` (previously contract-only).
+
+  fix(tooltip): match close button top spacing to text
+
+  The dismiss button carried an extra `margin-top` offset while the text sat flush on the container padding, so the `x` was lower than the first text line. The button top now aligns with the text top.
+
+  fix(code-block): wrap long lines and keep header actions on one row
+
+  Block/inline code forced `white-space: pre` with `min-inline-size: max-content`, cutting installation snippets (`pnpm add …`, `import { … }`) on narrow screens and letting the page pan sideways. Code now wraps (`pre-wrap` + `overflow-wrap: anywhere`) within `min-inline-size: 0` containers, the mobile header keeps the command selector and copy button on the same row, and the viewport contains horizontal overscroll chaining.
+
+- fdc4c94: fix(pagination, slider): document glyph-relative numeric widths as token exceptions
+
+  The `3ch`/`4ch` minimum widths on tabular numeric readouts are intentional: they track digit glyphs so values never reflow across densities. Marked with `SOLARIS_TOKEN_EXCEPTION`. No visual change.
+
+- d6fdf64: fix(segmented-control): exact ladder heights, square radius, live indicator tracking
+
+  Outer height is pinned exactly to each size x density `control-height` token (content plus vertical padding always stays below the token so nothing clips; the `outline` border is compensated to stay on-token). Item horizontal padding keeps breathing room at or above the vertical padding in every combination, with vertical rhythm untouched. Width stays unconstrained: items only shrink below content in fixed-width (`fullWidth`/`equalWidth`) layouts, where long labels fall back to `nowrap + ellipsis` (projected content is clipped inside the item box, never painting outside the indicator). The host `font: .../1` shorthand is unified on `line-height-sm (1.4)`. The selection indicator re-measures on item resize (not just host resize) and once webfonts settle. Adds the square `radius="none"` (container, indicator and flush edges).
+
+- d9f5454: fix(table): align card layout with desktop chrome
+
+  Card layout no longer paints the host background between cards, selection uses an integrated checkbox gutter plus a labeled select-all bar with selected/total count, and `appearance`, `striped`/`stripedMode`, and `radius` now apply to cards. Loading renders per-field skeleton cards instead of a single collapsed skeleton.
+
+- d9f5454: fix(table): use neutral selection wash on cards and expand priority columns in card layout
+
+  Selected cards now use the neutral hover background instead of the primary tint so field dividers keep contrast, and `expandable` tables collapse `priority`/`detailTemplateId` columns into a per-card details toggle in card layout. Card checkboxes align with the select-all bar (same leading gutter, first-row offset), per-field detail accordions render full-bleed without gaps, long values truncate instead of widening cards, and the row-expansion toggle sits flush with the card edge. Also stacks the filter sheet sections full-width on narrow viewports so views, the save-view form, conditions, columns, and leading/trailing actions read as separate blocks. Showcase gains a toolbar + multiple-selection card example.
+
+- ef15529: fix(button): emit async action result in the same task as the state reset
+
+  fix(forms): use the defined neutral background token for the outline appearance
+
+  fix(table): make the cards select-all toggle focusable with keyboard support
+
+- 7f71e37: refactor(pie-chart): move FocusMark type to model and helpers to functions
+
+  `SolarisPieChartFocusMark` now lives in `model/chart-pie.types.ts` and `nextSolarisPieChartInstanceId`/`clampPercent` in `functions/pie-chart.utils.ts`, per the folder contract. No behavior change.
+
+- d0c5b04: refactor(selection-card): style projected sections without ng-deep
+
+  Projected section styles (`media`, `header`, `content`, `footer`, `title`, `description`) move from `::ng-deep` to the global `selection-card` stylesheet, following the form-field precedent. No visual change.
+
+- eb38f1a: Center the narrow-viewport customize-columns dialog, fix the projected sheet styles pierced through view encapsulation, and tidy the filter sheet layout
+
 ## 2.0.9
 
 ### Patch Changes

@@ -7,6 +7,8 @@
   [iconDecorative]="iconDecorative()"
   [closeable]="closeable()"
   [closeLabel]="resolvedCloseLabel()"
+  [density]="density()"
+  [flat]="flat()"
   [scrolled]="bodyScrolled()"
 />
 
@@ -24,6 +26,7 @@
     [stack]="actionsStack()"
     [separator]="footerSeparator()"
     [density]="density()"
+    [flat]="flat()"
     [scrolled]="bodyHasMoreBelow()"
     [attr.data-adjacent-header]="collapseFooterSeparator() ? '' : null"
   />

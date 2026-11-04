@@ -165,7 +165,7 @@ describe('SolarisColumnManagerComponent', () => {
     fixture.componentRef.setInput('columns', COLUMNS);
     fixture.detectChanges();
     const resetButton = fixture.nativeElement.querySelector(
-      '.solaris-column-manager__header button',
+      '.solaris-column-manager__footer button:first-child',
     ) as HTMLButtonElement;
     expect(resetButton.hasAttribute('disabled')).toBe(true);
     const component = fixture.componentInstance as unknown as {

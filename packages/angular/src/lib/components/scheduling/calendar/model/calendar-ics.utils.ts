@@ -71,8 +71,6 @@ function recurrenceToRrule(recurrence: SolarisRecurrence): string {
   return parts.join(';');
 }
 
-// Why: ERP customers exchange schedules with Outlook/Google via ICS;
-// the lib owns a dependency-free subset writer so consumers never hand-roll it.
 export function exportSolarisToIcs(
   events: readonly SolarisCalendarEvent[],
 ): string {

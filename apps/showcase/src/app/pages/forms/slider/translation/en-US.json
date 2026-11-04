@@ -1,0 +1,87 @@
+{
+  "slider": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "color": {
+      "danger": "Danger",
+      "info": "Info",
+      "neutral": "Neutral",
+      "primary": "Primary",
+      "success": "Success",
+      "warning": "Warning"
+    },
+    "color-size": {
+      "note": "Size and color update the live example below."
+    },
+    "current-value": "Current value:",
+    "description": {
+      "label": "Form control for choosing a single numeric value from a continuous range with full keyboard, Angular Forms, and i18n support."
+    },
+    "display": {
+      "none": "None",
+      "note": "Inline shows label plus value in the header. Tooltip is opt-in above the thumb. Thumb renders the value under the thumb.",
+      "thumb": "Thumb",
+      "tooltip": "Tooltip"
+    },
+    "examples": {
+      "balance": "Balance",
+      "brightness": "Brightness",
+      "frequency": "Frequency",
+      "note": "Drag the thumb, click the track, or use the keyboard.",
+      "opacity": "Opacity",
+      "risk": "Risk",
+      "volume": "Volume"
+    },
+    "form-field-hint": "These options affect your speakers.",
+    "icons": {
+      "note": "Decorative edge icons frame the range; the thumb icon is free for any Solaris icon and never affects the accessible name."
+    },
+    "installation": {
+      "note": "Install the Solaris UI package and import the slider component."
+    },
+    "props": {
+      "note": "Every input the slider accepts, with types, values, and defaults.",
+      "colProp": "Prop",
+      "colType": "Type",
+      "colValues": "Values",
+      "colDefault": "Default"
+    },
+    "section": {
+      "color": "Color",
+      "color-size": "Size & color",
+      "display": "Value display",
+      "examples": "Examples",
+      "form": "Form integration",
+      "icons": "Icons",
+      "installation": "Installation",
+      "props": "Props",
+      "scale": "Scale",
+      "sizes": "Sizes",
+      "states": "States",
+      "ticks": "Ticks",
+      "vertical": "Vertical"
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "states": {
+      "disabled": "Disabled",
+      "invalid": "Invalid",
+      "readonly": "Readonly"
+    },
+    "ticks": {
+      "note": "Tick marks are decorative (aria-hidden) and derive from showTicks plus tickStep or explicit tickValues."
+    },
+    "title": "Slider",
+    "scale": {
+      "note": "Static scale bounds mark the minimum and maximum of the track.",
+      "scales-note": "Log scales need explicit tickValues; zones recolor the fill by value."
+    },
+    "vertical": {
+      "note": "Vertical fills bottom-to-top. Keyboard is identical on both axes: ArrowUp and ArrowRight increase."
+    }
+  }
+}
