@@ -1,0 +1,84 @@
+solaris-selection-card
+  .solaris-selection-card__footer
+  .solaris-selection-card-footer {
+  flex: 1;
+  min-width: 0;
+  margin-top: var(--solaris-spacing-0);
+}
+
+solaris-selection-card .solaris-selection-card-media {
+  margin: 0;
+  display: block;
+  overflow: hidden;
+}
+
+solaris-selection-card .solaris-selection-card-media img,
+solaris-selection-card .solaris-selection-card-media video,
+solaris-selection-card .solaris-selection-card-media picture {
+  width: 100%;
+  display: block;
+}
+
+solaris-selection-card .solaris-selection-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-0);
+}
+
+solaris-selection-card .solaris-selection-card-content {
+  display: block;
+  margin-top: var(--solaris-spacing-0);
+}
+
+solaris-selection-card .solaris-selection-card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--solaris-spacing-0);
+  margin-top: var(--solaris-spacing-0);
+}
+
+solaris-selection-card .solaris-selection-card-title {
+  margin: 0;
+  color: var(--solaris-neutral-text-heading);
+  font: var(--solaris-font-weight-semibold) var(--solaris-font-size-lg) /
+    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
+}
+
+solaris-selection-card .solaris-selection-card-description {
+  margin: 0;
+  color: var(--solaris-neutral-text-secondary);
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+}
+
+solaris-selection-card[data-media-position='start']
+  .solaris-selection-card-media {
+  grid-row: 1 / -1;
+  grid-column: 1;
+  align-self: center;
+  width: var(--solaris-selection-card-media-size);
+  height: var(--solaris-selection-card-media-size);
+  margin: var(--solaris-selection-card-padding);
+  margin-inline-end: var(--solaris-spacing-0);
+  border-radius: var(--solaris-radius-md);
+}
+
+solaris-selection-card[data-media-position='start']
+  .solaris-selection-card-media
+  img,
+solaris-selection-card[data-media-position='start']
+  .solaris-selection-card-media
+  video,
+solaris-selection-card[data-media-position='start']
+  .solaris-selection-card-media
+  picture {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+solaris-selection-card[data-appearance='glass']
+  .solaris-selection-card-description {
+  color: var(--solaris-neutral-text-inverse);
+}
