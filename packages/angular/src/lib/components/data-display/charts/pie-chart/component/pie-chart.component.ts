@@ -1,5 +1,3 @@
-// root to move focus between SVG slices. No innerHTML is used; style writes
-// target only presentation attributes of the component's own SVG.
 import { isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -27,6 +25,10 @@ import type {
   SolarisChartSlice,
 } from '../../model/chart.types';
 import {
+  clampPercent,
+  nextSolarisPieChartInstanceId,
+} from '../functions/pie-chart.utils';
+import {
   SOLARIS_GAUGE_CHART_HEIGHT,
   SOLARIS_GAUGE_CHART_RADIUS,
   SOLARIS_GAUGE_CHART_STROKE,
@@ -50,22 +52,11 @@ import {
 } from '../model/chart-pie.utils';
 import type {
   SolarisPieChartDensity,
+  SolarisPieChartFocusMark,
   SolarisPieChartSize,
   SolarisPieChartValueFormatter,
   SolarisPieChartVariant,
 } from '../model/chart-pie.types';
-
-interface SolarisPieChartFocusMark {
-  readonly id: string;
-  readonly position: number;
-}
-
-let solarisPieChartInstanceCount = 0;
-
-function nextSolarisPieChartInstanceId(): number {
-  solarisPieChartInstanceCount += 1;
-  return solarisPieChartInstanceCount;
-}
 
 @Component({
   selector: 'solaris-pie-chart',
@@ -587,9 +578,4 @@ export class SolarisPieChartComponent implements OnDestroy {
     if (service) return service.translate(key, params);
     return resolveChartFallback(this.locale(), key, params);
   }
-}
-
-function clampPercent(value: number): number {
-  if (!Number.isFinite(value)) return 50;
-  return Math.min(86, Math.max(14, value));
 }
