@@ -101,6 +101,16 @@
   gap: var(--solaris-spacing-1);
 }
 
+.solaris-checkbox__label-text:empty {
+  display: none;
+}
+
+.solaris-checkbox__content:not(:has(> .solaris-checkbox__description)):has(
+    > .solaris-checkbox__label-text:empty
+  ) {
+  display: none;
+}
+
 .solaris-checkbox__description {
   color: var(--solaris-checkbox-description-color);
   font-size: var(--solaris-checkbox-description-font-size);
