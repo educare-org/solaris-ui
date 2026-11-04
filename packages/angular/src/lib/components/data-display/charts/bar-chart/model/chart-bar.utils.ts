@@ -204,10 +204,6 @@ export function roundedBarPath(
   radius: number,
   corners: SolarisBarCornerFlags,
 ): string {
-  // Always emits the same segment structure (M H A V A H A V A Z) so CSS
-  // `d` transitions can interpolate between any two bar geometries, e.g.
-  // grouped <-> stacked or collapsed <-> grown. Square corners use
-  // zero-radius arcs, which render as straight lines.
   const w = Math.max(0, width);
   const h = Math.max(0, height);
   const r = radius > 0 ? Math.min(radius, w / 2, h / 2) : 0;

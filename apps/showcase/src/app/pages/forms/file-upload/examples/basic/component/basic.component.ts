@@ -19,8 +19,6 @@ export class BasicFileUploadExample {
   private readonly toastService = inject(SolarisToastService);
   private readonly translateService = inject(SolarisTranslateService);
 
-  // Para alterar o limite, mude este valor (em bytes) — ex.: 5 * 1024 * 1024 = 5 MB.
-  // `undefined` = sem limite. O mesmo valor é usado no `[maxSize]` e no toast.
   protected readonly maxSize = SOLARIS_FILE_UPLOAD_DEFAULT_MAX_SIZE;
   protected readonly maxFiles = SOLARIS_FILE_UPLOAD_DEFAULT_MAX_FILES;
 

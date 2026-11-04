@@ -250,15 +250,9 @@ export class SolarisDialogService {
     this.updateTopmost();
 
     ref.afterClosed().subscribe(() => {
-      // API-level close stays synchronous (counts, topmost, focus).
-      // Only the overlay detach is delayed for the exit animation.
       this.openDialogs.delete(entry);
       this.updateTopmost();
       this.restoreFocus(focus, overlayRef);
-      // Mark closing synchronously (same tick as the detach timer) so the CSS
-      // exit starts immediately. The `closing` input mirrors the state for
-      // bindings/tests, but it only lands after change detection — too late
-      // to start the animation without a visible snap.
       overlayRef.overlayElement
         .querySelector('solaris-dialog-container')
         ?.setAttribute('data-closing', '');
@@ -286,8 +280,6 @@ export class SolarisDialogService {
     if (!target || typeof target.focus !== 'function') return;
     if (!this.document.contains(target)) return;
     const activeElement = this.document.activeElement as HTMLElement | null;
-    // The closing panel is still mounted (detach is delayed for the exit
-    // animation), so focus inside it must count as reclaimable.
     const focusInClosingOverlay =
       !!activeElement && overlayRef.overlayElement.contains(activeElement);
     if (

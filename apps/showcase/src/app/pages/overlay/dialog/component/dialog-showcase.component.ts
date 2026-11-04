@@ -475,8 +475,6 @@ export class DialogShowcaseComponent {
 
   openNestedDemo(): void {
     import('../examples/nested/component/nested-outer.component').then((m) => {
-      // Manual composition: the component renders its own header with
-      // title/description and anchors the inner-dialog button in a footer.
       this.dialogService.openComponent(m.NestedOuterExampleComponent, {
         width: '500px',
       });

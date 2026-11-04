@@ -31,7 +31,6 @@ function removeOldComponentImports(content: string): string {
   for (const line of lines) {
     const trimmed = line.trim();
 
-    // Remove @use of individual component stylesheets
     const componentMatch = trimmed.match(
       /^@use\s+['"]@educarehq\/solaris-ui\/styles\/(\w+)['"]\s*;?\s*$/,
     );
@@ -39,7 +38,6 @@ function removeOldComponentImports(content: string): string {
       continue;
     }
 
-    // Remove @use of the old _components shortcut
     if (
       /^@use\s+['"]@educarehq\/solaris-ui\/styles\/components['"]\s*;?\s*$/.test(
         trimmed,
@@ -82,7 +80,6 @@ export function ngAdd(options: NgAddOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const project = getProject(tree, options.project);
 
-    // Clean up legacy individual component style imports before delegating.
     cleanLegacyStyleImports(tree, context, project.root);
 
     const initOptions: InitOptions = {

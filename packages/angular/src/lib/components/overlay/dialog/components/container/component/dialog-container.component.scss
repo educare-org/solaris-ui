@@ -189,7 +189,6 @@
     var(--solaris-motion-easing-accelerate) both;
 }
 
-// Edge placements slide from their own side instead of scaling.
 :host([data-placement='top']) .solaris-dialog-panel,
 :host([data-placement='top-left']) .solaris-dialog-panel,
 :host([data-placement='top-right']) .solaris-dialog-panel {
@@ -299,7 +298,6 @@
     var(--solaris-dialog-panel-border);
 }
 
-// Fullscreen fades only; scale/slide would flash the viewport edges.
 :host([data-fullscreen]) .solaris-dialog-panel {
   width: 100vw;
   height: 100dvh;
@@ -361,9 +359,6 @@
     var(--solaris-radius-none) var(--solaris-dialog-panel-radius);
 }
 
-// Sheets always dock flush: straight edges on every side, regardless of
-// the radius input. The per-placement selectors below repeat the full
-// attribute list so this rule ties their specificity and wins by order.
 :host([data-sheet][data-placement='bottom']) .solaris-dialog-panel,
 :host([data-sheet][data-placement='top']) .solaris-dialog-panel,
 :host([data-sheet][data-placement='left']) .solaris-dialog-panel,

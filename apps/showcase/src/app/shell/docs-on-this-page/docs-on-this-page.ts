@@ -21,16 +21,10 @@ interface ShowcaseDisplayTocItem extends ShowcaseTocItem {
   readonly active: boolean;
 }
 
-/**
- * Distância do topo usada para eleger a seção ativa durante o scroll.
- * Compensa o header sticky do shell + respiro visual.
- */
 const SCROLLSPY_ACTIVATION_OFFSET_PX = 128;
 
-/** Limite da viewport que define a faixa observada (desconta header e rodapé). */
 const SCROLLSPY_ROOT_MARGIN = '-96px 0px -70% 0px';
 
-/** Tentativas de re-observação para seções renderizadas com atraso. */
 const SCROLLSPY_MAX_RETRIES = 10;
 
 @Component({

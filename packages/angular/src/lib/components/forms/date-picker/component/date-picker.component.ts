@@ -150,7 +150,6 @@ export class SolarisDatePickerComponent
   protected readonly parseError = signal(false);
   protected readonly panelOpen = signal(false);
   protected readonly displayedMonth = signal<SolarisCalendarMonth>(
-    // todaySolarisDate() is always parseable; the fallback only satisfies the type checker.
     monthForSolarisDate(todaySolarisDate()) ?? {
       year: new Date().getFullYear(),
       month: new Date().getMonth(),

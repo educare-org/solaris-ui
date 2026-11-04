@@ -335,10 +335,6 @@ export class SolarisMultiSelectComponent
     const tw = this.triggerWidth();
     if (tw <= 0) return 0;
     const searchWidth = this.searchable() && this.panelOpen() ? 80 : 0;
-    // Reserve space for trigger gap + actions (chevron + optional clear) so
-    // chip calculation uses the same stable outer width regardless of whether
-    // the clear button is currently rendered. Prevents layout-shift flicker
-    // in clearable mode when the clear button appears/disappears.
     const triggerGap = 6;
     const chevronWidth = 20;
     const clearReserve = this.canClear() ? 24 : 0;
@@ -781,9 +777,6 @@ export class SolarisMultiSelectComponent
   }
 
   private setupResizeObserver(): void {
-    // Observe the outer trigger (stable flex width) instead of the inner content
-    // so chip/count swaps and clear-button appearance don't feed back into the
-    // measurement and cause flicker loops in clearable mode.
     // SECURITY_EXCEPTION: measuring trigger width for auto display mode requires nativeElement offsetWidth; Renderer2 has no layout-measurement alternative; ResizeObserver is SSR-safe guarded. Read-only, covered by multi-select resize tests.
     const outer = this.triggerElement()?.nativeElement;
     // SECURITY_EXCEPTION: same justification as above — inner fallback width measurement is read-only via offsetWidth; Renderer2 has no alternative; SSR-safe guarded; covered by multi-select resize tests.
@@ -798,7 +791,6 @@ export class SolarisMultiSelectComponent
       this.resizeObserver = new ResizeObserver((entries) => {
         for (const entry of entries) {
           const next = entry.contentRect.width;
-          // Ignore subpixel jitter to avoid signal churn -> flicker.
           if (Math.abs(next - this.triggerWidth()) < 1) continue;
           this.triggerWidth.set(next);
         }

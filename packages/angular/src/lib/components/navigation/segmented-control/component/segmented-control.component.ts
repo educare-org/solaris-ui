@@ -208,9 +208,6 @@ export class SolarisSegmentedControlComponent
 
     this.setupIndicatorMeasurement();
 
-    // Webfont swaps change glyph widths without touching the DOM or the
-    // host box (fixed-width layouts), so neither observer below fires.
-    // Re-measure once fonts settle.
     if (typeof document !== 'undefined' && document.fonts) {
       document.fonts.ready
         .then(() => {
@@ -364,9 +361,6 @@ export class SolarisSegmentedControlComponent
   }
 
   private observeIndicatorTargets(): void {
-    // Observe the host AND every item: in fixed-width layouts (fullWidth,
-    // equalWidth) an item can resize while the host box stays put, and the
-    // host-only observation would miss it.
     const observer = this.resizeObserver;
     if (!observer) {
       return;

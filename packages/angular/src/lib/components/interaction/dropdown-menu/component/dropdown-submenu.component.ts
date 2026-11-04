@@ -26,10 +26,7 @@ import {
   SOLARIS_POPOVER_PANEL_DATA,
   type SolarisPopoverPanelData,
 } from '../../popover/token/popover.tokens';
-import {
-  scheduleMotionClose,
-  cancelMotionClose,
-} from '../../../../core/utils/motion-close';
+import { scheduleMotionClose, cancelMotionClose } from '../../../../core';
 
 import { SolarisDropdownMenuComponent } from './dropdown-menu.component';
 import { SolarisDropdownSubmenuTriggerComponent } from './dropdown-submenu-trigger.component';
@@ -142,9 +139,6 @@ export class SolarisDropdownSubmenuComponent {
     if (!this.isOpen()) {
       return;
     }
-    // State, focus and parent notification stay synchronous; only the overlay
-    // detach is delayed so the [data-closing] exit animation can play.
-    // It composes with closeDelay (hover intent) instead of replacing it.
     this.markPanelClosing();
     this.isOpen.set(false);
     this.triggerChild()?.focus();

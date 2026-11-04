@@ -1,8 +1,3 @@
-// to measure content width for x-label thinning and as a scoped query root for
-// transition animations and dot focus moves. document.createElementNS creates
-// only the component's own SVG pen-dot (static tag/attrs, no user markup).
-// Style writes target only presentation attributes of the component's own SVG.
-// SSR-safe via isPlatformBrowser and typeof guards.
 import { isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,

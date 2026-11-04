@@ -14,8 +14,6 @@ export class CurrencyRangeSliderExample {
   readonly budget = signal([500, 2000]);
 
   protected formatBRL(value: number): string {
-    // Why: the locale is pinned (not the visitor's) so SSR and the client
-    // render byte-identical strings and hydration never mismatches.
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL',

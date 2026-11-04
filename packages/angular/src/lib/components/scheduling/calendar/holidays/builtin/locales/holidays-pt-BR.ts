@@ -57,8 +57,6 @@ export const localeHolidays: BuiltInLocaleHolidays = {
       name: 'Natal',
       nameKey: 'solaris.calendar.holidays.christmas',
     },
-    // School observances (non-statutory): the primary consumers are
-    // educational institutions, so these dates render as holiday chips.
     {
       month: 3,
       day: 15,

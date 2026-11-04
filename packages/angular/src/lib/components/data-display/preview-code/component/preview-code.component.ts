@@ -320,9 +320,6 @@ export class SolarisPreviewCodeComponent implements OnDestroy {
     }
     const nextTab = normalizePreviewCodeTab(value);
     if (nextTab === this.resolvedActiveTab() || this.activeTab() !== null) {
-      // Same tab, or controlled mode (the parent owns the state, so the new
-      // content arrives in a later cycle and cannot be measured here):
-      // keep today's exact behavior — state/outputs only, fade-only visuals.
       if (this.activeTab() === null) {
         this.activeTabState.set(nextTab);
       }
@@ -338,8 +335,6 @@ export class SolarisPreviewCodeComponent implements OnDestroy {
         ?.getBoundingClientRect().height ?? 0;
     this.activeTabState.set(nextTab);
     this.activeTabChange.emit(nextTab);
-    // Render the incoming panel synchronously so the tween below measures
-    // the new content (not the outgoing one mid-flight).
     this.changeDetectorRef.detectChanges();
     this.animateTabHeight(startHeight, startPanelHeight);
   }
@@ -389,13 +384,6 @@ export class SolarisPreviewCodeComponent implements OnDestroy {
     frame.classList.add(FRAME_SIZING_CLASS);
     frame.style.height = `${endHeight}px`;
     if (tweenBox && boxElement !== null) {
-      // Inline styles (not a CSS class): the box may live inside another
-      // component's template (code frame), where this stylesheet cannot
-      // reach through view encapsulation. Custom properties inherit through
-      // the DOM, so the tween stays token-driven. Reverted below.
-      // minBlockSize 0: the preview surface enforces a min-height that would
-      // otherwise clamp the locked height and kill the transition; boxSizing
-      // keeps the measured border-box height exact on boxes without it.
       boxElement.style.height = `${startPanelHeight}px`;
       boxElement.style.minBlockSize = '0px';
       boxElement.style.boxSizing = 'border-box';

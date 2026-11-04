@@ -41,10 +41,7 @@ import {
   getTooltipArrowClass,
   derivePlacementFromConnectionPair,
 } from '../model/tooltip-position';
-import {
-  scheduleMotionClose,
-  cancelMotionClose,
-} from '../../../../core/utils/motion-close';
+import { scheduleMotionClose, cancelMotionClose } from '../../../../core';
 
 import type {
   SolarisTooltipPlacement,
@@ -317,8 +314,6 @@ export class SolarisTooltipDirective implements AfterViewInit {
     }
 
     this.clearHoverTimeout();
-    // State and outputs stay synchronous; only the overlay detach is delayed
-    // so the [data-closing] exit animation can play (motion-standard).
     this.markPanelClosing();
     this.restoreFocus();
     this.isOpen.set(false);

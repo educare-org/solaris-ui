@@ -34,10 +34,7 @@ import {
   getPrimaryPosition,
   getFallbackPositions,
 } from '../model/popover-position';
-import {
-  scheduleMotionClose,
-  cancelMotionClose,
-} from '../../../../core/utils/motion-close';
+import { scheduleMotionClose, cancelMotionClose } from '../../../../core';
 
 import type {
   SolarisPopoverPlacement,
@@ -255,8 +252,6 @@ export class SolarisPopoverTriggerDirective {
       return;
     }
 
-    // State and outputs stay synchronous; only the overlay detach is delayed
-    // so the [data-closing] exit animation can play (motion-standard).
     this.markPanelClosing();
     this.restoreFocus();
     this.isOpen.set(false);

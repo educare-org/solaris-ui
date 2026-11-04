@@ -520,9 +520,6 @@
   transform: none;
 }
 
-// WHY print shows the first slide static: paper has no autoplay, hover, or
-// motion — chrome (arrows/dots/preview/toggle) hides, the track snaps back to
-// the first slide, and only the first slide renders. Screen rendering untouched.
 @media print {
   .solaris-media-carousel__track {
     gap: var(--solaris-spacing-0);

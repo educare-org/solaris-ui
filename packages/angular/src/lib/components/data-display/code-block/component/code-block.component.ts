@@ -470,19 +470,10 @@ export class SolarisCodeBlockComponent implements OnDestroy {
     if (previous === value) {
       return;
     }
-    // Render the new command synchronously so the swap fade below replays
-    // on the incoming content (not on the outgoing one mid-flight).
     this.changeDetectorRef.detectChanges();
     this.replayContentSwap();
   }
 
-  /**
-   * Replays a short fade on the incoming command content. The swap rewrites
-   * text in place (no node is recreated), so the animation class is removed,
-   * the frame forced, and re-added — the same replay technique used by
-   * `animateViewportHeight`. Skipped under reduced motion (state still swaps
-   * instantly).
-   */
   private replayContentSwap(): void {
     if (
       !isPlatformBrowser(this.platformId) ||
@@ -531,14 +522,6 @@ export class SolarisCodeBlockComponent implements OnDestroy {
     this.animateViewportHeight(viewport, next, startHeight);
   }
 
-  /**
-   * Animates the viewport between its collapsed `max-height` and the full
-   * content height with explicit pixel values. A pure CSS `max-height`
-   * transition cannot interpolate to `none`, so an inline pixel `max-height`
-   * stays present from the first paint until the finish cleanup — both
-   * directions therefore interpolate length-to-length and glide instead of
-   * jumping.
-   */
   private animateViewportHeight(
     viewport: HTMLElement | null,
     expanded: boolean,
@@ -603,12 +586,6 @@ export class SolarisCodeBlockComponent implements OnDestroy {
     });
   }
 
-  /**
-   * Mirrors `--solaris-code-block-collapsed-max-height` in pixels without
-   * clearing the inline lock, so the collapse animation never routes through
-   * `max-height: none` (which is what made collapsing jump while expanding
-   * glided).
-   */
   private collapsedViewportHeight(viewport: HTMLElement): number {
     const style = getComputedStyle(viewport);
     const lineHeight = Number.parseFloat(style.lineHeight);

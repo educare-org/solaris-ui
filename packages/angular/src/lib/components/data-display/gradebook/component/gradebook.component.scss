@@ -107,8 +107,6 @@
     color: #000;
   }
 
-  // Status dots are never color-only on screen (title + SR label carry the
-  // meaning); in print they render as ink outlines so the row still scans.
   // SOLARIS_TOKEN_EXCEPTION(print): paper/ink dot for print.
   .solaris-gradebook__status-dot {
     background: #fff;

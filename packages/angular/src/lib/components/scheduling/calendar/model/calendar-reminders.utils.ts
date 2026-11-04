@@ -9,8 +9,6 @@ export interface SolarisDueReminder {
   readonly triggerMs: number;
 }
 
-// Why: the lib computes due reminders as pure data; the consumer owns
-// delivery (toast/push), so no timers or Notification API live in the lib.
 export function getSolarisDueReminders(
   events: readonly SolarisCalendarEvent[],
   nowMs: number,

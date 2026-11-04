@@ -49,7 +49,6 @@ export function init(options: InitOptions): Rule {
     const projectRoot = project.root;
 
     if (!options.skipStyles) {
-      // 1. Create editable src/styles/solaris.scss
       const solarisStylePath = createSolarisStyleFile(
         tree,
         projectRoot,
@@ -57,7 +56,6 @@ export function init(options: InitOptions): Rule {
       );
       logChange(context, `Created style setup file: ${solarisStylePath}`);
 
-      // 2. Import it from the global styles entry
       const globalStylesPath = getGlobalStylesPath(tree, projectRoot);
       if (globalStylesPath) {
         const changed = importSolarisStyleFromGlobal(
@@ -87,7 +85,6 @@ export function init(options: InitOptions): Rule {
     }
 
     if (!options.skipProviders) {
-      // 3. Add provideSolaris(...) to the application config
       const appConfigPath = getAppConfigPath(tree, projectRoot);
       if (appConfigPath) {
         const changed = updateAppConfig(

@@ -184,12 +184,6 @@ export abstract class SolarisButtonHostBase implements OnInit {
       el.setAttribute('type', 'button');
     }
 
-    // Post-hydration transition gate (Phase 6 flash fix). `data-hydrated`
-    // is stamped browser-only AFTER the first render, so the initial paint
-    // (CSR pre-boot, SSR HTML, or density late-resolution) applies variant
-    // styles with `transition: none` and never animates from the neutral
-    // base. `afterNextRender` never runs on the server, so SSR HTML matches
-    // the first client render and hydration never diverges on this marker.
     // SECURITY_EXCEPTION: write-only setAttribute on the own host element for the post-hydration marker; direct DOM is required because host bindings would render on the server and diverge during hydration.
     if (isPlatformBrowser(this.platformId)) {
       afterNextRender(() => {

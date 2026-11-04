@@ -433,9 +433,6 @@
   border-radius: var(--solaris-avatar-radius);
   pointer-events: none;
   padding: var(--solaris-avatar-ring-width);
-
-  // Ring shape cut out of a filled box via mask compositing; the mask color
-  // only needs full opacity, so a text token is reused (never rendered).
   -webkit-mask:
     linear-gradient(var(--solaris-neutral-text-body) 0 0) content-box,
     linear-gradient(var(--solaris-neutral-text-body) 0 0);

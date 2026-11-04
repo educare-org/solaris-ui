@@ -24,7 +24,6 @@ function sortServerRows(
   return rows
     .map((row, stableIndex) => ({ row, stableIndex }))
     .sort((left, right) => {
-      // Identity column sorts by subject name; grade columns sort by score.
       if (!(sort.columnId in left.row.scores)) {
         const comparison = left.row.name.localeCompare(
           right.row.name,

@@ -25,9 +25,6 @@ function isHolidayList(value: unknown): value is SolarisHoliday[] {
   );
 }
 
-// Why: municipalities have thousands of local holidays that cannot ship in the
-// bundle; consumers point this loader at their ERP endpoint and the lib caches
-// per range+locale so year navigation does not refetch.
 export async function fetchSolarisHolidays(
   url: string,
   range: SolarisHolidayRange,
@@ -57,8 +54,6 @@ export function clearSolarisHolidayCache(): void {
   asyncCache.clear();
 }
 
-// Why: state/municipal lists are consumer data; this merges them over the
-// built-in nationals without mutating either input array.
 export function mergeSolarisHolidays(
   base: readonly SolarisHoliday[],
   extra: readonly SolarisHoliday[],
