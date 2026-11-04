@@ -1,6 +1,7 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { SolarisFormFieldTriggerDirective } from '../directives/form-field-trigger.directive';
+import { assertPresent } from '../../../../testing/solaris-test-utilities';
 
 @Component({
   standalone: true,
@@ -27,9 +28,10 @@ describe('SolarisFormFieldTriggerDirective', () => {
   });
 
   it('should have solaris-form-field-trigger attribute', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector(
-      '.test-trigger',
-    )!;
+    const el = assertPresent(
+      (fixture.nativeElement as HTMLElement).querySelector('.test-trigger'),
+      'trigger element',
+    );
     expect(el.hasAttribute('solaris-form-field-trigger')).toBe(true);
   });
 });

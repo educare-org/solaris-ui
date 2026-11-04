@@ -1,9 +1,47 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
+import type { Signal, WritableSignal } from '@angular/core';
 
 import { configureSolarisTesting } from '../../../../testing/solaris-test-utilities';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisDateRangePickerComponent } from '../component/date-range-picker.component';
+import type {
+  SolarisCalendarMonth,
+  SolarisDateRange,
+  SolarisDateValue,
+} from '../../date/model/date.types';
+
+type DateRangePickerTestSeam = SolarisDateRangePickerComponent & {
+  value: WritableSignal<SolarisDateRange>;
+  pending: WritableSignal<SolarisDateRange>;
+  startDisplay: WritableSignal<string>;
+  focusedState: WritableSignal<boolean>;
+  touched: WritableSignal<boolean>;
+  parseError: WritableSignal<boolean>;
+  panelOpen: WritableSignal<boolean>;
+  activePresetId: WritableSignal<string>;
+  displayedMonth: WritableSignal<SolarisCalendarMonth>;
+  errorText: Signal<string>;
+  clearButtonLabel: Signal<string>;
+  clearAriaLabel: Signal<string>;
+  focus: () => void;
+  writeValue: (value: SolarisDateRange | null) => void;
+  registerOnChange: (fn: (value: SolarisDateRange) => void) => void;
+  registerOnTouched: (fn: () => void) => void;
+  setDisabledState: (isDisabled: boolean) => void;
+  onInput: (part: 'start' | 'end', event: Event) => void;
+  onFocus: () => void;
+  onBlur: () => void;
+  onInputClick: (event: MouseEvent) => void;
+  onInputKeydown: (event: KeyboardEvent) => void;
+  onPanelInputKeydown: (event: KeyboardEvent) => void;
+  setDisplayedMonth: (month: SolarisCalendarMonth) => void;
+  selectDate: (value: SolarisDateValue) => void;
+  selectCustom: () => void;
+  clearPending: () => void;
+  cancel: () => void;
+  apply: () => void;
+};
 
 describe('SolarisDateRangePickerComponent', () => {
   let fixture: ComponentFixture<SolarisDateRangePickerComponent>;
@@ -180,7 +218,11 @@ describe('SolarisDateRangePickerComponent', () => {
       button.click();
       fixture.detectChanges();
 
-      expect((fixture.componentInstance as any).value()).toEqual({
+      expect(
+        (
+          fixture.componentInstance as unknown as DateRangePickerTestSeam
+        ).value(),
+      ).toEqual({
         start: null,
         end: null,
       });
@@ -214,9 +256,11 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('keeps the footer clear action translated (P5 B/C rename)', () => {
       const element = createFixture();
-      expect((fixture.componentInstance as any).clearButtonLabel()).toBe(
-        'Clear',
-      );
+      expect(
+        (
+          fixture.componentInstance as unknown as DateRangePickerTestSeam
+        ).clearButtonLabel(),
+      ).toBe('Clear');
       expect(element).toBeTruthy();
     });
   });
@@ -224,7 +268,8 @@ describe('SolarisDateRangePickerComponent', () => {
   describe('form-control contract + CVA bridge', () => {
     it('exposes focused/disabled/readonly/invalid/required getters', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       expect(fixture.componentInstance.focused).toBe(false);
       expect(fixture.componentInstance.disabled).toBe(false);
       expect(fixture.componentInstance.readonly).toBe(false);
@@ -248,7 +293,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('reflects programmatic disabled state via setDisabledState', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       instance.setDisabledState(true);
       fixture.detectChanges();
       expect(fixture.componentInstance.disabled).toBe(true);
@@ -259,7 +305,7 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('focuses the trigger button via focus()', () => {
       const element = createFixture();
-      (fixture.componentInstance as any).focus();
+      (fixture.componentInstance as unknown as DateRangePickerTestSeam).focus();
       const trigger = element.querySelector(
         '.solaris-date-range-picker__trigger',
       ) as HTMLButtonElement;
@@ -268,7 +314,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('propagates value changes via registerOnChange', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       const seen: unknown[] = [];
       instance.registerOnChange((value: unknown) => {
         seen.push(value);
@@ -283,7 +330,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('notifies touch once via registerOnTouched + onBlur', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       let touches = 0;
       instance.registerOnTouched(() => {
         touches += 1;
@@ -296,7 +344,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('marks required empty range invalid only after touch', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       fixture.componentRef.setInput('required', true);
       fixture.detectChanges();
       expect(fixture.componentInstance.invalid).toBe(false);
@@ -312,7 +361,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('applies a valid start input and marks the preset custom', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       instance.onInput('start', inputEvent('01/12/2025'));
       expect(instance.parseError()).toBe(false);
       expect(instance.pending().start).toBe('2025-01-12');
@@ -322,7 +372,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('applies a valid end input after a start', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       instance.onInput('start', inputEvent('01/12/2025'));
       instance.onInput('end', inputEvent('01/16/2025'));
       expect(instance.parseError()).toBe(false);
@@ -334,7 +385,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('clears the pending part on empty input without parse error', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       instance.onInput('start', inputEvent('01/12/2025'));
       instance.onInput('start', inputEvent('   '));
       expect(instance.pending().start).toBeNull();
@@ -343,14 +395,16 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('flags unparseable text as a parse error', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       instance.onInput('start', inputEvent('not-a-date'));
       expect(instance.parseError()).toBe(true);
     });
 
     it('flags out-of-order manual ranges as a parse error', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       instance.onInput('start', inputEvent('01/16/2025'));
       instance.onInput('end', inputEvent('01/12/2025'));
       expect(instance.parseError()).toBe(true);
@@ -358,7 +412,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('rejects dates below min via isSelectable', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       fixture.componentRef.setInput('min', '2025-01-15');
       fixture.detectChanges();
       instance.onInput('start', inputEvent('01/12/2025'));
@@ -367,7 +422,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('rejects dates above max via isSelectable', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       fixture.componentRef.setInput('max', '2025-01-10');
       fixture.detectChanges();
       instance.onInput('start', inputEvent('01/12/2025'));
@@ -376,7 +432,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('rejects disabled dates via isSelectable', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       fixture.componentRef.setInput('disabledDates', ['2025-01-12']);
       fixture.detectChanges();
       instance.onInput('start', inputEvent('01/12/2025'));
@@ -385,7 +442,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('rejects future dates when disableFuture is set', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       fixture.componentRef.setInput('disableFuture', true);
       fixture.detectChanges();
       instance.onInput('start', inputEvent('01/12/2999'));
@@ -394,7 +452,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('rejects past dates when disablePast is set', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       fixture.componentRef.setInput('disablePast', true);
       fixture.detectChanges();
       instance.onInput('start', inputEvent('01/12/2000'));
@@ -403,7 +462,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('masks continuous digits following the locale order', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       const target = {
         value: '01122025',
         selectionStart: 8,
@@ -419,7 +479,8 @@ describe('SolarisDateRangePickerComponent', () => {
   describe('focus, keyboard and panel inputs', () => {
     it('toggles focused state on onFocus/onBlur', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       instance.onFocus();
       expect(instance.focusedState()).toBe(true);
       instance.onBlur();
@@ -434,13 +495,16 @@ describe('SolarisDateRangePickerComponent', () => {
           stopped += 1;
         },
       } as unknown as MouseEvent;
-      (fixture.componentInstance as any).onInputClick(event);
+      (
+        fixture.componentInstance as unknown as DateRangePickerTestSeam
+      ).onInputClick(event);
       expect(stopped).toBe(1);
     });
 
     it('ignores non-Alt+ArrowDown keys on trigger keydown', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       const event = {
         altKey: false,
         key: 'Enter',
@@ -462,19 +526,24 @@ describe('SolarisDateRangePickerComponent', () => {
           prevented += 1;
         },
       } as unknown as KeyboardEvent;
-      (fixture.componentInstance as any).onInputKeydown(event);
+      (
+        fixture.componentInstance as unknown as DateRangePickerTestSeam
+      ).onInputKeydown(event);
       expect(prevented).toBe(1);
     });
 
     it('resets panel inputs and parse error on Escape', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       instance.onInput('start', {
         target: { value: 'not-a-date' },
       } as unknown as Event);
       expect(instance.parseError()).toBe(true);
       let prevented = 0;
-      (fixture.componentInstance as any).onPanelInputKeydown({
+      (
+        fixture.componentInstance as unknown as DateRangePickerTestSeam
+      ).onPanelInputKeydown({
         key: 'Escape',
         preventDefault: (): void => {
           prevented += 1;
@@ -486,9 +555,12 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('ignores non-Escape keys in panel inputs', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       instance.parseError.set(true);
-      (fixture.componentInstance as any).onPanelInputKeydown({
+      (
+        fixture.componentInstance as unknown as DateRangePickerTestSeam
+      ).onPanelInputKeydown({
         key: 'Enter',
         preventDefault: (): void => {
           throw new Error('should not prevent default');
@@ -501,7 +573,8 @@ describe('SolarisDateRangePickerComponent', () => {
   describe('calendar selection and panel actions', () => {
     it('starts a new pending range on first selectDate', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       instance.selectDate('2025-01-12');
       expect(instance.pending()).toEqual({
         start: '2025-01-12',
@@ -512,7 +585,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('completes the range in order on second selectDate', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       instance.selectDate('2025-01-12');
       instance.selectDate('2025-01-16');
       expect(instance.pending()).toEqual({
@@ -523,7 +597,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('swaps reversed calendar picks so start stays first', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       instance.selectDate('2025-01-16');
       instance.selectDate('2025-01-12');
       expect(instance.pending()).toEqual({
@@ -534,7 +609,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('restarts the range when picking with a complete pending range', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       instance.selectDate('2025-01-12');
       instance.selectDate('2025-01-16');
       instance.selectDate('2025-02-01');
@@ -546,14 +622,16 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('updates the displayed month via setDisplayedMonth', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       instance.setDisplayedMonth({ year: 2025, month: 5 });
       expect(instance.displayedMonth()).toEqual({ year: 2025, month: 5 });
     });
 
     it('marks custom active via selectCustom', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       instance.activePresetId.set('today');
       instance.selectCustom();
       expect(instance.activePresetId()).toBe('custom');
@@ -561,7 +639,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('clears the pending range via clearPending', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       instance.selectDate('2025-01-12');
       instance.clearPending();
       expect(instance.pending()).toEqual({ start: null, end: null });
@@ -571,7 +650,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('restores the applied value via cancel', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       instance.writeValue({ start: '2025-01-12', end: '2025-01-16' });
       instance.selectDate('2025-02-01');
       expect(instance.pending().start).toBe('2025-02-01');
@@ -586,7 +666,8 @@ describe('SolarisDateRangePickerComponent', () => {
   describe('labels and error text branches', () => {
     it('prefers explicit error and errorKey text', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       fixture.componentRef.setInput('error', 'Boom');
       fixture.detectChanges();
       expect(instance.errorText()).toBe('Boom');
@@ -601,7 +682,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('reports the invalid-range message on parse error', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       instance.parseError.set(true);
       fixture.detectChanges();
       expect(instance.errorText()).toBeTruthy();
@@ -609,7 +691,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('reports the required message when required without parse error', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       fixture.componentRef.setInput('required', true);
       fixture.detectChanges();
       expect(instance.errorText()).toBeTruthy();
@@ -617,7 +700,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('resolves the clear aria label from key, text, then default', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       expect(instance.clearAriaLabel()).toBe('Clear');
       fixture.componentRef.setInput('clearLabel', 'Limpar');
       fixture.detectChanges();
@@ -634,7 +718,8 @@ describe('SolarisDateRangePickerComponent', () => {
   describe('inline panel mode', () => {
     it('highlights the preset matching the written value', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       fixture.componentRef.setInput('inline', true);
       fixture.componentRef.setInput('presets', [
         {
@@ -666,7 +751,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('emits cancelled without a popover trigger', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       let cancelled = 0;
       fixture.componentInstance.cancelled.subscribe(() => {
         cancelled += 1;
@@ -681,7 +767,8 @@ describe('SolarisDateRangePickerComponent', () => {
   describe('per-side locks', () => {
     it('keeps the end when the end side is disabled', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       fixture.componentRef.setInput('endDisabled', true);
       fixture.componentInstance.writeValue({
         start: '2026-04-28',
@@ -697,7 +784,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('applies a start-only range when the end side is disabled', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       const seen: unknown[] = [];
       fixture.componentInstance.valueChange.subscribe((value) =>
         seen.push(value),
@@ -729,7 +817,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('updates only the end when the start side is disabled', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       fixture.componentRef.setInput('startDisabled', true);
       fixture.componentInstance.writeValue({
         start: '2026-04-28',
@@ -745,7 +834,8 @@ describe('SolarisDateRangePickerComponent', () => {
 
     it('ignores calendar selection when both sides are disabled', () => {
       createFixture();
-      const instance = fixture.componentInstance as any;
+      const instance =
+        fixture.componentInstance as unknown as DateRangePickerTestSeam;
       fixture.componentRef.setInput('startDisabled', true);
       fixture.componentRef.setInput('endDisabled', true);
       fixture.componentInstance.writeValue({

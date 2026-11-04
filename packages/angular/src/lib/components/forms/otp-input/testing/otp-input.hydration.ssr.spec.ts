@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import '@angular/compiler';
-import { Component, type Type } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   SolarisFileUploadComponent,

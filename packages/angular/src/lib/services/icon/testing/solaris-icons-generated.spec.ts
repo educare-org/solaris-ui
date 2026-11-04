@@ -241,7 +241,7 @@ describe('solaris-icons-generated', () => {
   });
 
   it('should include name tokens in keywords for every icon', () => {
-    for (const [name, meta] of Object.entries(SOLARIS_ICONS_METADATA)) {
+    for (const [, meta] of Object.entries(SOLARIS_ICONS_METADATA)) {
       expect(meta.keywords.length).toBeGreaterThan(0);
     }
     expect(SOLARIS_ICONS_METADATA['message-square'].keywords).toContain(

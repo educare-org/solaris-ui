@@ -1,5 +1,5 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
-import { Component } from '@angular/core';
+import { Component, type Signal } from '@angular/core';
 
 import { SolarisAlertComponent } from '../component/alert.component';
 import { SolarisAlertTitleDirective } from '../directives/alert-title.directive';
@@ -8,6 +8,10 @@ import { SolarisAlertActionsComponent } from '../component/alert-actions.compone
 import { SolarisThemeService } from '../../../../services/theme';
 import { provideSolaris } from '../../../../providers/provide-solaris';
 import { SOLARIS_BUILT_IN_ICONS } from '../../../../services/icon/icons/solaris-built-in-icons';
+
+type AlertIconTestSeam = {
+  iconName: Signal<string>;
+};
 
 describe('SolarisAlertComponent', () => {
   let fixture: ComponentFixture<SolarisAlertComponent>;
@@ -404,37 +408,49 @@ describe('SolarisAlertComponent - Icon', () => {
   it('should use default icon for info variant', () => {
     fixture.componentRef.setInput('variant', 'info');
     fixture.detectChanges();
-    expect((fixture.componentRef.instance as any).iconName()).toBe('info');
+    expect(
+      (fixture.componentInstance as unknown as AlertIconTestSeam).iconName(),
+    ).toBe('info');
   });
 
   it('should use default icon for success variant', () => {
     fixture.componentRef.setInput('variant', 'success');
     fixture.detectChanges();
-    expect((fixture.componentRef.instance as any).iconName()).toBe('success');
+    expect(
+      (fixture.componentInstance as unknown as AlertIconTestSeam).iconName(),
+    ).toBe('success');
   });
 
   it('should use default icon for warning variant', () => {
     fixture.componentRef.setInput('variant', 'warning');
     fixture.detectChanges();
-    expect((fixture.componentRef.instance as any).iconName()).toBe('warning');
+    expect(
+      (fixture.componentInstance as unknown as AlertIconTestSeam).iconName(),
+    ).toBe('warning');
   });
 
   it('should use default icon for danger variant', () => {
     fixture.componentRef.setInput('variant', 'danger');
     fixture.detectChanges();
-    expect((fixture.componentRef.instance as any).iconName()).toBe('danger');
+    expect(
+      (fixture.componentInstance as unknown as AlertIconTestSeam).iconName(),
+    ).toBe('danger');
   });
 
   it('should use default icon for neutral variant', () => {
     fixture.componentRef.setInput('variant', 'neutral');
     fixture.detectChanges();
-    expect((fixture.componentRef.instance as any).iconName()).toBe('info');
+    expect(
+      (fixture.componentInstance as unknown as AlertIconTestSeam).iconName(),
+    ).toBe('info');
   });
 
   it('should use custom icon when provided', () => {
     fixture.componentRef.setInput('icon', 'check');
     fixture.detectChanges();
-    expect((fixture.componentRef.instance as any).iconName()).toBe('check');
+    expect(
+      (fixture.componentInstance as unknown as AlertIconTestSeam).iconName(),
+    ).toBe('check');
   });
 
   it('should render icon element as decorative', () => {

@@ -1,4 +1,6 @@
-## '@educarehq/solaris-ui': patch
+---
+'@educarehq/solaris-ui': patch
+---
 
 fix(button): give tonal and surface appearances a visible hover and active background step
 

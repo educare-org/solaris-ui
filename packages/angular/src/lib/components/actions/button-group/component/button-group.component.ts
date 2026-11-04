@@ -5,6 +5,7 @@ import {
   computed,
   inject,
   ChangeDetectionStrategy,
+  OnInit,
 } from '@angular/core';
 
 import { SolarisThemeService } from '../../../../services/theme';
@@ -37,7 +38,7 @@ import type {
     '[attr.data-full-width]': 'fullWidth() ? "" : null',
   },
 })
-export class SolarisButtonGroupComponent {
+export class SolarisButtonGroupComponent implements OnInit {
   readonly orientation = input<SolarisButtonGroupOrientation>('horizontal');
   readonly size = input<SolarisButtonGroupSize>('md');
   readonly density = input<SolarisButtonGroupDensity | undefined>(undefined);

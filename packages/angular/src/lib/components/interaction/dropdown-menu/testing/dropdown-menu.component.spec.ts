@@ -1,6 +1,7 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Component, ViewChild } from '@angular/core';
 
+import { assertPresent } from '../../../../testing/solaris-test-utilities';
 import { SolarisDropdownMenuComponent } from '../component/dropdown-menu.component';
 import { SolarisDropdownMenuItemComponent } from '../component/dropdown-menu-item.component';
 import type {
@@ -41,9 +42,12 @@ describe('SolarisDropdownMenuComponent', () => {
   });
 
   it('should have role menu', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector(
-      'solaris-dropdown-menu',
-    )!;
+    const el = assertPresent(
+      (fixture.nativeElement as HTMLElement).querySelector(
+        'solaris-dropdown-menu',
+      ),
+      'dropdown menu',
+    );
     expect(el.getAttribute('role')).toBe('menu');
   });
 
@@ -53,16 +57,22 @@ describe('SolarisDropdownMenuComponent', () => {
   });
 
   it('should set data-size host attribute', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector(
-      'solaris-dropdown-menu',
-    )!;
+    const el = assertPresent(
+      (fixture.nativeElement as HTMLElement).querySelector(
+        'solaris-dropdown-menu',
+      ),
+      'dropdown menu',
+    );
     expect(el.getAttribute('data-size')).toBe('md');
   });
 
   it('should set data-density host attribute', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector(
-      'solaris-dropdown-menu',
-    )!;
+    const el = assertPresent(
+      (fixture.nativeElement as HTMLElement).querySelector(
+        'solaris-dropdown-menu',
+      ),
+      'dropdown menu',
+    );
     expect(el.getAttribute('data-density')).toBe('comfortable');
   });
 

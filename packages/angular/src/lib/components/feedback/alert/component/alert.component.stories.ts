@@ -7,7 +7,7 @@ import { SolarisAlertDescriptionDirective } from '../directives/alert-descriptio
 const meta: Meta<SolarisAlertComponent> = {
   component: SolarisAlertComponent,
   title: 'Feedback/Alert',
-  render: (args: any) => ({
+  render: (args: AlertStoryArgs) => ({
     props: args,
     moduleMetadata: {
       imports: [
@@ -35,6 +35,11 @@ const meta: Meta<SolarisAlertComponent> = {
 };
 export default meta;
 
+type AlertStoryArgs = Partial<SolarisAlertComponent> & {
+  title?: string;
+  description?: string;
+};
+
 type Story = StoryObj<SolarisAlertComponent>;
 
 export const Info: Story = {
@@ -42,40 +47,40 @@ export const Info: Story = {
     variant: 'info',
     title: 'Information',
     description: 'Informational alert.',
-  } as any,
+  } as AlertStoryArgs,
 };
 export const Success: Story = {
   args: {
     variant: 'success',
     title: 'Success',
     description: 'Completed.',
-  } as any,
+  } as AlertStoryArgs,
 };
 export const Warning: Story = {
   args: {
     variant: 'warning',
     title: 'Warning',
     description: 'Check input.',
-  } as any,
+  } as AlertStoryArgs,
 };
 export const Danger: Story = {
   args: {
     variant: 'danger',
     title: 'Error',
     description: 'An error occurred.',
-  } as any,
+  } as AlertStoryArgs,
 };
 
 export const Small: Story = {
-  args: { size: 'sm', description: 'Small alert.' } as any,
+  args: { size: 'sm', description: 'Small alert.' } as AlertStoryArgs,
 };
 
 export const Large: Story = {
-  args: { size: 'lg', description: 'Large alert.' } as any,
+  args: { size: 'lg', description: 'Large alert.' } as AlertStoryArgs,
 };
 
 export const Closable: Story = {
-  args: { closable: true, description: 'Dismissible alert.' } as any,
+  args: { closable: true, description: 'Dismissible alert.' } as AlertStoryArgs,
 };
 
 export const TextPositionCenter: Story = {
@@ -83,7 +88,7 @@ export const TextPositionCenter: Story = {
     variant: 'info',
     textPosition: 'center',
     description: 'Text centered.',
-  } as any,
+  } as AlertStoryArgs,
 };
 
 export const TextPositionSpaceBetween: Story = {

@@ -28,7 +28,7 @@ describe('SolarisToastService', () => {
   });
 
   it('success should set variant to success', () => {
-    const ref = service.success({ title: 'OK' });
+    service.success({ title: 'OK' });
     const entry = service.entries()[0];
     expect(entry.resolvedVariant).toBe('success');
   });

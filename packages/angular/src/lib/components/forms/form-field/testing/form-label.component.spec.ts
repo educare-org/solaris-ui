@@ -1,6 +1,7 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { SolarisFormLabelComponent } from '../component/form-label.component';
+import { assertPresent } from '../../../../testing/solaris-test-utilities';
 
 @Component({
   standalone: true,
@@ -27,16 +28,20 @@ describe('SolarisFormLabelComponent', () => {
   });
 
   it('should have host class solaris-form-label', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector(
-      'solaris-form-label',
-    )!;
+    const el = assertPresent(
+      (fixture.nativeElement as HTMLElement).querySelector(
+        'solaris-form-label',
+      ),
+      'solaris-form-label element',
+    );
     expect(el.classList.contains('solaris-form-label')).toBe(true);
   });
 
   it('should transclude content', () => {
-    const label = (fixture.nativeElement as HTMLElement).querySelector(
-      '.label',
-    )!;
+    const label = assertPresent(
+      (fixture.nativeElement as HTMLElement).querySelector('.label'),
+      'label element',
+    );
     expect(label.textContent?.trim()).toBe('Field label');
   });
 });

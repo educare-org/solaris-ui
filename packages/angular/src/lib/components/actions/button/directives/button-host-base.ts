@@ -470,18 +470,9 @@ export abstract class SolarisButtonHostBase implements OnInit {
     }
     this.asyncStatus.set(beginAsync());
     try {
-      const started = await run();
-      void Promise.resolve(started).then(
-        (result) => {
-          this.asyncStatus.set(endAsync());
-          this.actionSuccess.emit(result);
-        },
-        (error) => {
-          this.asyncStatus.set(endAsync());
-          this.actionError.emit(error);
-          this.elementRef.nativeElement.focus();
-        },
-      );
+      const result = await run();
+      this.asyncStatus.set(endAsync());
+      this.actionSuccess.emit(result);
     } catch (error) {
       this.asyncStatus.set(endAsync());
       this.actionError.emit(error);

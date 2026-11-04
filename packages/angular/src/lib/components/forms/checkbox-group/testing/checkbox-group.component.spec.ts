@@ -3,7 +3,10 @@ import { Component, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
-import { configureSolarisTesting } from '../../../../testing/solaris-test-utilities';
+import {
+  configureSolarisTesting,
+  assertPresent,
+} from '../../../../testing/solaris-test-utilities';
 import { SolarisCheckboxGroupComponent } from '../component/checkbox-group.component';
 import { SolarisCheckboxComponent } from '../../checkbox/component/checkbox.component';
 import { SolarisFormFieldComponent } from '../../form-field/component/form-field.component';
@@ -144,7 +147,7 @@ describe('SolarisCheckboxGroupComponent CVA', () => {
   it('writeValue with array should check matching children', () => {
     const { groupComp, checkboxes } = setup();
     groupComp.writeValue(['a']);
-    hostFixture!.detectChanges();
+    assertPresent(hostFixture, 'host fixture').detectChanges();
     expect(
       (checkboxes[0] as unknown as { _checked: () => boolean })._checked(),
     ).toBe(true);
@@ -156,7 +159,7 @@ describe('SolarisCheckboxGroupComponent CVA', () => {
   it('writeValue with multiple values should check multiple children', () => {
     const { groupComp, checkboxes } = setup();
     groupComp.writeValue(['a', 'b']);
-    hostFixture!.detectChanges();
+    assertPresent(hostFixture, 'host fixture').detectChanges();
     expect(
       (checkboxes[0] as unknown as { _checked: () => boolean })._checked(),
     ).toBe(true);
@@ -168,9 +171,9 @@ describe('SolarisCheckboxGroupComponent CVA', () => {
   it('writeValue with empty array should uncheck all', () => {
     const { groupComp, checkboxes } = setup();
     groupComp.writeValue(['a']);
-    hostFixture!.detectChanges();
+    assertPresent(hostFixture, 'host fixture').detectChanges();
     groupComp.writeValue([]);
-    hostFixture!.detectChanges();
+    assertPresent(hostFixture, 'host fixture').detectChanges();
     expect(
       (checkboxes[0] as unknown as { _checked: () => boolean })._checked(),
     ).toBe(false);
@@ -182,7 +185,7 @@ describe('SolarisCheckboxGroupComponent CVA', () => {
   it('writeValue with null should set empty array', () => {
     const { groupComp, checkboxes } = setup();
     groupComp.writeValue(null);
-    hostFixture!.detectChanges();
+    assertPresent(hostFixture, 'host fixture').detectChanges();
     expect(
       (checkboxes[0] as unknown as { _checked: () => boolean })._checked(),
     ).toBe(false);
@@ -195,69 +198,73 @@ describe('SolarisCheckboxGroupComponent CVA', () => {
       emitted = v;
     });
     checkboxes[0].checkedChange.emit(true);
-    hostFixture!.detectChanges();
+    assertPresent(hostFixture, 'host fixture').detectChanges();
     expect(emitted).toEqual(['a']);
   });
 
   it('registerOnChange should emit updated array on uncheck', () => {
     const { groupComp, checkboxes } = setup();
     groupComp.writeValue(['a', 'b']);
-    hostFixture!.detectChanges();
+    assertPresent(hostFixture, 'host fixture').detectChanges();
     let emitted: unknown[] | undefined;
     groupComp.registerOnChange((v: unknown[]) => {
       emitted = v;
     });
     checkboxes[0].checkedChange.emit(false);
-    hostFixture!.detectChanges();
+    assertPresent(hostFixture, 'host fixture').detectChanges();
     expect(emitted).toEqual(['b']);
   });
 
   it('registerOnTouched should be called on focusout', () => {
     const { groupComp } = setup();
-    const groupEl = hostFixture!.nativeElement.querySelector(
-      'solaris-checkbox-group',
-    ) as HTMLElement;
+    const groupEl = assertPresent(
+      hostFixture,
+      'host fixture',
+    ).nativeElement.querySelector('solaris-checkbox-group') as HTMLElement;
     let touched = false;
     groupComp.registerOnTouched(() => {
       touched = true;
     });
     groupEl.dispatchEvent(new FocusEvent('focusout', { relatedTarget: null }));
-    hostFixture!.detectChanges();
+    assertPresent(hostFixture, 'host fixture').detectChanges();
     expect(touched).toBe(true);
   });
 
   it('setDisabledState should disable group', () => {
     const { groupComp } = setup();
     groupComp.setDisabledState(true);
-    hostFixture!.detectChanges();
-    const el = hostFixture!.nativeElement.querySelector(
-      'solaris-checkbox-group',
-    ) as HTMLElement;
+    assertPresent(hostFixture, 'host fixture').detectChanges();
+    const el = assertPresent(
+      hostFixture,
+      'host fixture',
+    ).nativeElement.querySelector('solaris-checkbox-group') as HTMLElement;
     expect(el.hasAttribute('data-disabled')).toBe(true);
   });
 
   it('setDisabledState(false) should enable group', () => {
     const { groupComp } = setup();
     groupComp.setDisabledState(true);
-    hostFixture!.detectChanges();
+    assertPresent(hostFixture, 'host fixture').detectChanges();
     groupComp.setDisabledState(false);
-    hostFixture!.detectChanges();
-    const el = hostFixture!.nativeElement.querySelector(
-      'solaris-checkbox-group',
-    ) as HTMLElement;
+    assertPresent(hostFixture, 'host fixture').detectChanges();
+    const el = assertPresent(
+      hostFixture,
+      'host fixture',
+    ).nativeElement.querySelector('solaris-checkbox-group') as HTMLElement;
     expect(el.hasAttribute('data-disabled')).toBe(false);
   });
 
   it('setCvaReadonlyState should toggle group readonly', () => {
     const { groupComp } = setup();
     groupComp.setCvaReadonlyState(true);
-    hostFixture!.detectChanges();
-    const el = hostFixture!.nativeElement.querySelector(
-      'solaris-checkbox-group',
-    ) as HTMLElement;
+    assertPresent(hostFixture, 'host fixture').detectChanges();
+    const el = assertPresent(
+      hostFixture,
+      'host fixture',
+    ).nativeElement.querySelector('solaris-checkbox-group') as HTMLElement;
     expect(el.hasAttribute('data-readonly')).toBe(true);
     groupComp.setCvaReadonlyState(false);
-    hostFixture!.detectChanges();
+    assertPresent(hostFixture, 'host fixture').detectChanges();
     expect(el.hasAttribute('data-readonly')).toBe(false);
   });
 });
@@ -1008,11 +1015,15 @@ describe('SolarisCheckboxGroupComponent public API surface', () => {
   })
   class ApiHost {}
 
-  function getGroup(): any {
+  type CheckboxGroupTestSeam = SolarisCheckboxGroupComponent & {
+    checkboxes: () => readonly SolarisCheckboxComponent[];
+  };
+
+  function getGroup(): CheckboxGroupTestSeam {
     const f = TestBed.createComponent(ApiHost);
     f.detectChanges();
     return f.debugElement.query(By.css('solaris-checkbox-group'))
-      .componentInstance as any;
+      .componentInstance as unknown as CheckboxGroupTestSeam;
   }
 
   it('should expose state getters', () => {

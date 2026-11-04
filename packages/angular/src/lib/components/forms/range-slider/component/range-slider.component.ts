@@ -15,7 +15,6 @@ import {
   booleanAttribute,
   numberAttribute,
   ChangeDetectionStrategy,
-  type QueryList,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 

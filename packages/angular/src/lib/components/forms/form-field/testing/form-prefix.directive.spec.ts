@@ -1,6 +1,7 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { SolarisFormPrefixDirective } from '../directives/form-prefix.directive';
+import { assertPresent } from '../../../../testing/solaris-test-utilities';
 
 @Component({
   standalone: true,
@@ -26,9 +27,10 @@ describe('SolarisFormPrefixDirective', () => {
   });
 
   it('should have host class solaris-form-prefix', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector(
-      '.test-prefix',
-    )!;
+    const el = assertPresent(
+      (fixture.nativeElement as HTMLElement).querySelector('.test-prefix'),
+      'prefix element',
+    );
     expect(el.classList.contains('solaris-form-prefix')).toBe(true);
   });
 });

@@ -221,7 +221,9 @@ describe('SolarisOptionComponent', () => {
     createFixture();
     const instance = fixture.componentRef.instance;
     expect(instance).toBeTruthy();
-    expect(typeof (instance as any)?.writeValue).not.toBe('function');
+    expect(
+      typeof (instance as unknown as { writeValue?: unknown })?.writeValue,
+    ).not.toBe('function');
   });
 
   it('should emit optionInteraction on click', () => {

@@ -379,7 +379,10 @@ export class SolarisEmailFieldComponent
       if (this.inputElementRef()) {
         try {
           // SECURITY_EXCEPTION: syncing the native value after blur normalization requires a direct write; data binding may not reflect it synchronously.
-          this.inputElementRef()!.nativeElement.value = currentValue;
+          const inputRef = this.inputElementRef();
+          if (inputRef) {
+            inputRef.nativeElement.value = currentValue;
+          }
         } catch {
           if (isDevMode()) {
             console.warn(

@@ -1,8 +1,15 @@
-import { TestBed } from '@angular/core/testing';
-import { Component, signal } from '@angular/core';
+import { TestBed, type ComponentFixture } from '@angular/core/testing';
+import {
+  Component,
+  signal,
+  type ElementRef,
+  type Signal,
+  type WritableSignal,
+} from '@angular/core';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
+import { assertPresent } from '../../../../testing';
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
 import { SolarisTranslateService } from '../../../../services/translation/service/solaris-translate.service';
 import { SolarisSelectComponent } from '../component/select.component';
@@ -11,7 +18,62 @@ import { SolarisOptionGroupComponent } from '../../option-group/component/option
 import { SolarisFormSuffixDirective } from '../../form-field/directives/form-suffix.directive';
 import { SolarisFormSuffixActionDirective } from '../../form-field/directives/form-suffix-action.directive';
 import { SolarisFormFieldComponent } from '../../form-field/component/form-field.component';
-import { SolarisInputDirective } from '../../input/directives/input.directive';
+import type { SolarisPopoverTriggerDirective } from '../../../interaction/popover';
+
+type SelectTestSeam = Omit<SolarisSelectComponent, never> & {
+  options: Signal<readonly SolarisOptionComponent[]>;
+  optionGroups: Signal<readonly SolarisOptionGroupComponent[]>;
+  panelOpen: WritableSignal<boolean>;
+  internalValue: WritableSignal<unknown>;
+  internalFocused: WritableSignal<boolean>;
+  searchQuery: WritableSignal<string>;
+  activeOptionIndex: WritableSignal<number>;
+  touched: WritableSignal<boolean>;
+  triggerElement: Signal<ElementRef<HTMLElement> | undefined>;
+  popoverTrigger: Signal<SolarisPopoverTriggerDirective | undefined>;
+  contentMinWidth: Signal<number>;
+  resolvedTriggerMinWidth: Signal<string | null>;
+  effectivePanelMinWidth: Signal<string | number | undefined>;
+  displayText: Signal<string>;
+  placeholderText: Signal<string>;
+  searchPlaceholderText: Signal<string>;
+  loadingTextValue: Signal<string>;
+  emptyTextValue: Signal<string>;
+  noResultsTextValue: Signal<string>;
+  clearAriaLabel: Signal<string>;
+  ariaLabelText: Signal<string | undefined>;
+  labelText: Signal<string>;
+  hintText: Signal<string>;
+  errorText: Signal<string>;
+  visibleOptions: Signal<readonly SolarisOptionComponent[]>;
+  showNoResults: Signal<boolean>;
+  showEmpty: Signal<boolean>;
+  canOpen: Signal<boolean>;
+  canClear: Signal<boolean>;
+  isEffectivelyInvalid: Signal<boolean>;
+  onPanelOpened: () => void;
+  onPanelClosed: () => void;
+  selectOption: (option: SolarisOptionComponent) => void;
+  onTriggerKeydown: (event: KeyboardEvent) => void;
+  onSearchInput: (event: Event) => void;
+  onSearchKeydown: (event: KeyboardEvent) => void;
+  onPanelKeydown: (event: KeyboardEvent) => void;
+  onPanelClick: (event: MouseEvent) => void;
+  onTriggerFocus: () => void;
+  selectActiveOption: () => void;
+  focusNextOption: (direction: 1 | -1) => void;
+  getFirstEnabledOptionIndex: () => number;
+  getLastEnabledOptionIndex: () => number;
+  maybeClosePanel: (event: KeyboardEvent) => boolean;
+  maybeNavigateToBound: (event: KeyboardEvent) => boolean;
+  optionMatchesSearch: (
+    option: SolarisOptionComponent,
+    query: string,
+  ) => boolean;
+  getOptionNativeText: (option: SolarisOptionComponent) => string;
+  setConnectedSide?: unknown;
+  clearConnectedSide?: unknown;
+};
 
 function getTestTranslations() {
   return {
@@ -83,8 +145,8 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
-      expect((select as any).options().length).toBe(2);
+        .componentInstance as unknown as SelectTestSeam;
+      expect(select.options().length).toBe(2);
     });
 
     it('should setDisabledState block interaction', () => {
@@ -159,7 +221,7 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       expect(select.options().length).toBe(3);
     });
 
@@ -168,7 +230,7 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       expect(select.optionGroups().length).toBe(1);
     });
 
@@ -177,12 +239,14 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       const disabledOpts = select
         .options()
-        .filter((o: any) => o.disabledInput());
+        .filter((o: SolarisOptionComponent) => o.disabledInput());
       expect(disabledOpts.length).toBe(1);
-      expect(disabledOpts[0].value()).toBe('b');
+      expect(assertPresent(disabledOpts[0], 'disabled option').value()).toBe(
+        'b',
+      );
     });
 
     it('should render clear button when clearable and has value', () => {
@@ -234,7 +298,7 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(LoadingHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       expect(select.showEmpty()).toBe(false);
       expect(select.loading()).toBe(true);
     });
@@ -358,7 +422,7 @@ describe('SolarisSelectComponent', () => {
       ],
     })
     class UnsafeRenderingHost {
-      unsafeDisplay(_value: unknown): string {
+      unsafeDisplay(): string {
         return '<b>Admin</b>';
       }
     }
@@ -379,10 +443,8 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(UnsafeRenderingHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      expect((select as any).emptyTextValue()).toContain(
-        '<script>alert(1)</script>',
-      );
+        .componentInstance as unknown as SelectTestSeam;
+      expect(select.emptyTextValue()).toContain('<script>alert(1)</script>');
     });
 
     it('should escape loadingText with HTML-like string', () => {
@@ -390,8 +452,8 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(UnsafeRenderingHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      expect((select as any).loadingTextValue()).toContain('<b>Loading</b>');
+        .componentInstance as unknown as SelectTestSeam;
+      expect(select.loadingTextValue()).toContain('<b>Loading</b>');
     });
 
     it('should escape displayWith returning HTML-like string', () => {
@@ -399,10 +461,10 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(UnsafeRenderingHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       select.writeValue('x');
       fixture.detectChanges();
-      const displayText = (select as any).displayText();
+      const displayText = select.displayText();
       expect(displayText).toContain('<b>Admin</b>');
     });
 
@@ -411,8 +473,8 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(UnsafeRenderingHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      const option = select.options()[0];
+        .componentInstance as unknown as SelectTestSeam;
+      const option = assertPresent(select.options()[0], 'first option');
       const labelText = option.labelText();
       expect(labelText).toContain('<b>XSS</b>');
     });
@@ -442,10 +504,10 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(SearchHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       const query = '[';
-      const opts = (select as any).options();
-      const filtered = opts.filter((opt: any) =>
+      const opts = select.options();
+      const filtered = opts.filter((opt: SolarisOptionComponent) =>
         select.optionMatchesSearch(opt, query),
       );
       expect(Array.isArray(filtered)).toBe(true);
@@ -456,10 +518,10 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(SearchHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       const query = '*';
-      const opts = (select as any).options();
-      const filtered = opts.filter((opt: any) =>
+      const opts = select.options();
+      const filtered = opts.filter((opt: SolarisOptionComponent) =>
         select.optionMatchesSearch(opt, query),
       );
       expect(Array.isArray(filtered)).toBe(true);
@@ -470,10 +532,10 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(SearchHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       const query = '(a+)+';
-      const opts = (select as any).options();
-      const filtered = opts.filter((opt: any) =>
+      const opts = select.options();
+      const filtered = opts.filter((opt: SolarisOptionComponent) =>
         select.optionMatchesSearch(opt, query),
       );
       expect(Array.isArray(filtered)).toBe(true);
@@ -484,8 +546,8 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(SearchHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      const aOpt = (select as any).options()[0];
+        .componentInstance as unknown as SelectTestSeam;
+      const aOpt = assertPresent(select.options()[0], 'first option');
       const query = 'option';
       const matches = select.optionMatchesSearch(aOpt, query);
       expect(matches).toBe(true);
@@ -496,8 +558,8 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(SearchHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      const aOpt = (select as any).options()[0];
+        .componentInstance as unknown as SelectTestSeam;
+      const aOpt = assertPresent(select.options()[0], 'first option');
       const query = 'zzzzz';
       const matches = select.optionMatchesSearch(aOpt, query);
       expect(matches).toBe(false);
@@ -539,15 +601,17 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(DisabledReadonlyHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
-      const opts = (select as any).options();
-      const disabledOpt = opts.find((o: any) => o.isEffectivelyDisabled());
+        .componentInstance as unknown as SelectTestSeam;
+      const opts = select.options();
+      const disabledOpt = opts.find((o: SolarisOptionComponent) =>
+        o.isEffectivelyDisabled(),
+      );
       select.writeValue(null);
       fixture.detectChanges();
       if (disabledOpt) {
-        (select as any).selectOption(disabledOpt);
+        select.selectOption(disabledOpt);
         fixture.detectChanges();
-        const val = (select as any).internalValue();
+        const val = select.internalValue();
         expect(val).toBeNull();
       }
     });
@@ -557,11 +621,17 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(DisabledReadonlyHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      const disabledOpt = select.options().find((o: any) => o.value() === 'b');
+        .componentInstance as unknown as SelectTestSeam;
+      const disabledOpt = select
+        .options()
+        .find((o: SolarisOptionComponent) => o.value() === 'b');
       expect(disabledOpt).toBeDefined();
       expect(
-        disabledOpt.elementRef.nativeElement.getAttribute('aria-disabled'),
+        (
+          disabledOpt as unknown as {
+            elementRef: ElementRef<HTMLElement>;
+          }
+        ).elementRef.nativeElement.getAttribute('aria-disabled'),
       ).toBe('true');
     });
 
@@ -571,8 +641,8 @@ describe('SolarisSelectComponent', () => {
       fixture.componentInstance.isReadonly = true;
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      expect((select as any).canOpen()).toBe(false);
+        .componentInstance as unknown as SelectTestSeam;
+      expect(select.canOpen()).toBe(false);
     });
 
     it('disabled select should not open', () => {
@@ -581,8 +651,8 @@ describe('SolarisSelectComponent', () => {
       fixture.componentInstance.isDisabled = true;
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      expect((select as any).canOpen()).toBe(false);
+        .componentInstance as unknown as SelectTestSeam;
+      expect(select.canOpen()).toBe(false);
     });
 
     it('readonly select clear should not appear', () => {
@@ -591,10 +661,10 @@ describe('SolarisSelectComponent', () => {
       fixture.componentInstance.isReadonly = true;
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       select.writeValue('a');
       fixture.detectChanges();
-      expect((select as any).canClear()).toBe(false);
+      expect(select.canClear()).toBe(false);
     });
 
     it('disabled select clear should not appear', () => {
@@ -603,10 +673,10 @@ describe('SolarisSelectComponent', () => {
       fixture.componentInstance.isDisabled = true;
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       select.writeValue('a');
       fixture.detectChanges();
-      expect((select as any).canClear()).toBe(false);
+      expect(select.canClear()).toBe(false);
     });
   });
 
@@ -804,12 +874,12 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
+        .componentInstance as unknown as SelectTestSeam;
       select.setDisabledState(true);
       fixture.detectChanges();
       const event = new KeyboardEvent('keydown', { key: 'Enter' });
       const spy = vi.spyOn(event, 'preventDefault');
-      (select as any).onTriggerKeydown(event);
+      select.onTriggerKeydown(event);
       expect(spy).toHaveBeenCalled();
     });
 
@@ -835,11 +905,11 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(DisabledOptionHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
-      (select as any).panelOpen.set(true);
-      (select as any).searchQuery.set('bra');
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
+      select.searchQuery.set('bra');
       fixture.detectChanges();
-      const opts = (select as any).visibleOptions();
+      const opts = select.visibleOptions();
       expect(opts.length).toBe(0);
     });
 
@@ -848,11 +918,11 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
-      (select as any).panelOpen.set(true);
-      (select as any).searchQuery.set('zzz');
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
+      select.searchQuery.set('zzz');
       fixture.detectChanges();
-      expect((select as any).showNoResults()).toBe(true);
+      expect(select.showNoResults()).toBe(true);
     });
 
     it('should clear showNoResults when loading is active', () => {
@@ -878,12 +948,12 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(LoadingHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
-      (select as any).panelOpen.set(true);
-      (select as any).searchQuery.set('zzz');
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
+      select.searchQuery.set('zzz');
       fixture.componentInstance.loading = true;
       fixture.detectChanges();
-      expect((select as any).showNoResults()).toBe(false);
+      expect(select.showNoResults()).toBe(false);
     });
 
     it('should have activeDescendantId when panel open', () => {
@@ -891,9 +961,9 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
-      (select as any).panelOpen.set(true);
-      (select as any).activeOptionIndex.set(1);
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
+      select.activeOptionIndex.set(1);
       fixture.detectChanges();
       const trigger = fixture.nativeElement.querySelector(
         '.solaris-select__trigger',
@@ -906,12 +976,12 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
-      (select as any).panelOpen.set(true);
-      (select as any).activeOptionIndex.set(1);
-      (select as any).selectActiveOption();
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
+      select.activeOptionIndex.set(1);
+      select.selectActiveOption();
       fixture.detectChanges();
-      expect((select as any).internalValue()).toBe('b');
+      expect(select.internalValue()).toBe('b');
     });
 
     it('should not select when activeOptionIndex is out of bounds', () => {
@@ -919,10 +989,10 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
-      (select as any).panelOpen.set(true);
-      (select as any).activeOptionIndex.set(99);
-      const opts = (select as any).visibleOptions();
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
+      select.activeOptionIndex.set(99);
+      const opts = select.visibleOptions();
       expect(opts.length).toBeLessThan(99);
     });
 
@@ -931,12 +1001,12 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
-      (select as any).panelOpen.set(true);
-      (select as any).focusNextOption(1);
-      expect((select as any).activeOptionIndex()).toBe(0);
-      (select as any).focusNextOption(1);
-      expect((select as any).activeOptionIndex()).toBe(1);
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
+      select.focusNextOption(1);
+      expect(select.activeOptionIndex()).toBe(0);
+      select.focusNextOption(1);
+      expect(select.activeOptionIndex()).toBe(1);
     });
 
     it('should focus previous option with ArrowUp', () => {
@@ -944,11 +1014,11 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
-      (select as any).panelOpen.set(true);
-      (select as any).activeOptionIndex.set(2);
-      (select as any).focusNextOption(-1);
-      expect((select as any).activeOptionIndex()).toBe(1);
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
+      select.activeOptionIndex.set(2);
+      select.focusNextOption(-1);
+      expect(select.activeOptionIndex()).toBe(1);
     });
 
     it('should wrap from last to first option', () => {
@@ -956,11 +1026,11 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
-      (select as any).panelOpen.set(true);
-      (select as any).activeOptionIndex.set(2);
-      (select as any).focusNextOption(1);
-      const idx = (select as any).activeOptionIndex();
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
+      select.activeOptionIndex.set(2);
+      select.focusNextOption(1);
+      const idx = select.activeOptionIndex();
       expect(idx).toBeGreaterThanOrEqual(0);
     });
 
@@ -969,11 +1039,11 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
-      (select as any).panelOpen.set(false);
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(false);
       expect(() => {
         const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
-        (select as any).onTriggerKeydown(event);
+        select.onTriggerKeydown(event);
       }).not.toThrow();
     });
 
@@ -982,9 +1052,9 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
-      (select as any).panelOpen.set(true);
-      const idx = (select as any).getFirstEnabledOptionIndex();
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
+      const idx = select.getFirstEnabledOptionIndex();
       expect(idx).toBeGreaterThanOrEqual(0);
     });
 
@@ -993,9 +1063,9 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
-      (select as any).panelOpen.set(true);
-      const idx = (select as any).getLastEnabledOptionIndex();
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
+      const idx = select.getLastEnabledOptionIndex();
       expect(idx).toBeGreaterThanOrEqual(0);
     });
 
@@ -1004,12 +1074,12 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
-      (select as any).panelOpen.set(true);
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
       const event = new KeyboardEvent('keydown', { key: 'Escape' });
-      const result = (select as any).maybeClosePanel(event);
+      const result = select.maybeClosePanel(event);
       expect(result).toBe(true);
-      expect((select as any).panelOpen()).toBe(true);
+      expect(select.panelOpen()).toBe(true);
     });
 
     it('should navigate to first option on Home key', () => {
@@ -1017,13 +1087,13 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
-      (select as any).panelOpen.set(true);
-      (select as any).activeOptionIndex.set(2);
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
+      select.activeOptionIndex.set(2);
       const event = new KeyboardEvent('keydown', { key: 'Home' });
-      const result = (select as any).maybeNavigateToBound(event);
+      const result = select.maybeNavigateToBound(event);
       expect(result).toBe(true);
-      expect((select as any).activeOptionIndex()).toBe(0);
+      expect(select.activeOptionIndex()).toBe(0);
     });
 
     it('should navigate to last option on End key', () => {
@@ -1031,13 +1101,13 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
-      (select as any).panelOpen.set(true);
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
       const event = new KeyboardEvent('keydown', { key: 'End' });
-      const result = (select as any).maybeNavigateToBound(event);
+      const result = select.maybeNavigateToBound(event);
       expect(result).toBe(true);
-      const opts = (select as any).visibleOptions();
-      expect((select as any).activeOptionIndex()).toBe(opts.length - 1);
+      const opts = select.visibleOptions();
+      expect(select.activeOptionIndex()).toBe(opts.length - 1);
     });
 
     it('should select active option on Enter via onTriggerKeydown with panel open', () => {
@@ -1045,12 +1115,12 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      (select as any).panelOpen.set(true);
-      (select as any).activeOptionIndex.set(1);
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
+      select.activeOptionIndex.set(1);
       const event = new KeyboardEvent('keydown', { key: 'Enter' });
-      (select as any).onTriggerKeydown(event);
-      expect((select as any).internalValue()).toBe('b');
+      select.onTriggerKeydown(event);
+      expect(select.internalValue()).toBe('b');
     });
 
     it('should navigate options via onTriggerKeydown ArrowDown when panel open', () => {
@@ -1058,11 +1128,11 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      (select as any).panelOpen.set(true);
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
       const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
-      (select as any).onTriggerKeydown(event);
-      expect((select as any).activeOptionIndex()).toBe(0);
+      select.onTriggerKeydown(event);
+      expect(select.activeOptionIndex()).toBe(0);
     });
 
     it('should close panel on Escape via onTriggerKeydown', () => {
@@ -1070,13 +1140,13 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      (select as any).panelOpen.set(true);
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
       const closeSpy = vi
-        .spyOn(select as any, 'popoverTrigger')
+        .spyOn(select, 'popoverTrigger')
         .mockReturnValue(undefined);
       const event = new KeyboardEvent('keydown', { key: 'Escape' });
-      (select as any).onTriggerKeydown(event);
+      select.onTriggerKeydown(event);
       expect(closeSpy).toHaveBeenCalled();
     });
 
@@ -1085,13 +1155,13 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      (select as any).panelOpen.set(true);
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
       const closeSpy = vi
-        .spyOn(select as any, 'popoverTrigger')
+        .spyOn(select, 'popoverTrigger')
         .mockReturnValue(undefined);
       const event = new KeyboardEvent('keydown', { key: 'Tab' });
-      (select as any).onTriggerKeydown(event);
+      select.onTriggerKeydown(event);
       expect(closeSpy).toHaveBeenCalled();
     });
 
@@ -1100,12 +1170,12 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      (select as any).panelOpen.set(true);
-      (select as any).activeOptionIndex.set(2);
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
+      select.activeOptionIndex.set(2);
       const event = new KeyboardEvent('keydown', { key: 'Home' });
-      (select as any).onTriggerKeydown(event);
-      expect((select as any).activeOptionIndex()).toBe(0);
+      select.onTriggerKeydown(event);
+      expect(select.activeOptionIndex()).toBe(0);
     });
 
     it('should clear search query on Escape in search input', () => {
@@ -1113,12 +1183,12 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      (select as any).panelOpen.set(true);
-      (select as any).searchQuery.set('abc');
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
+      select.searchQuery.set('abc');
       const event = new KeyboardEvent('keydown', { key: 'Escape' });
-      (select as any).onSearchKeydown(event);
-      expect((select as any).searchQuery()).toBe('');
+      select.onSearchKeydown(event);
+      expect(select.searchQuery()).toBe('');
     });
 
     it('should navigate search results with ArrowDown and ArrowUp', () => {
@@ -1126,17 +1196,15 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      (select as any).panelOpen.set(true);
-      (select as any).searchQuery.set('a');
-      (select as any).onSearchKeydown(
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
+      select.searchQuery.set('a');
+      select.onSearchKeydown(
         new KeyboardEvent('keydown', { key: 'ArrowDown' }),
       );
-      expect((select as any).activeOptionIndex()).toBe(0);
-      (select as any).onSearchKeydown(
-        new KeyboardEvent('keydown', { key: 'ArrowUp' }),
-      );
-      expect((select as any).activeOptionIndex()).toBeGreaterThanOrEqual(0);
+      expect(select.activeOptionIndex()).toBe(0);
+      select.onSearchKeydown(new KeyboardEvent('keydown', { key: 'ArrowUp' }));
+      expect(select.activeOptionIndex()).toBeGreaterThanOrEqual(0);
     });
 
     it('should select active option on Enter in search input', () => {
@@ -1144,14 +1212,12 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      (select as any).panelOpen.set(true);
-      (select as any).searchQuery.set('b');
-      (select as any).activeOptionIndex.set(0);
-      (select as any).onSearchKeydown(
-        new KeyboardEvent('keydown', { key: 'Enter' }),
-      );
-      expect((select as any).internalValue()).toBe('b');
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
+      select.searchQuery.set('b');
+      select.activeOptionIndex.set(0);
+      select.onSearchKeydown(new KeyboardEvent('keydown', { key: 'Enter' }));
+      expect(select.internalValue()).toBe('b');
     });
 
     it('should close panel on Tab in search input', () => {
@@ -1159,14 +1225,12 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      (select as any).panelOpen.set(true);
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
       const closeSpy = vi
-        .spyOn(select as any, 'popoverTrigger')
+        .spyOn(select, 'popoverTrigger')
         .mockReturnValue(undefined);
-      (select as any).onSearchKeydown(
-        new KeyboardEvent('keydown', { key: 'Tab' }),
-      );
+      select.onSearchKeydown(new KeyboardEvent('keydown', { key: 'Tab' }));
       expect(closeSpy).toHaveBeenCalled();
     });
 
@@ -1175,24 +1239,16 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      (select as any).panelOpen.set(true);
-      (select as any).onPanelKeydown(
-        new KeyboardEvent('keydown', { key: 'ArrowDown' }),
-      );
-      expect((select as any).activeOptionIndex()).toBe(0);
-      (select as any).onPanelKeydown(
-        new KeyboardEvent('keydown', { key: 'ArrowUp' }),
-      );
-      (select as any).onPanelKeydown(
-        new KeyboardEvent('keydown', { key: 'Home' }),
-      );
-      expect((select as any).activeOptionIndex()).toBe(0);
-      (select as any).onPanelKeydown(
-        new KeyboardEvent('keydown', { key: 'End' }),
-      );
-      const opts = (select as any).visibleOptions();
-      expect((select as any).activeOptionIndex()).toBe(opts.length - 1);
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
+      select.onPanelKeydown(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+      expect(select.activeOptionIndex()).toBe(0);
+      select.onPanelKeydown(new KeyboardEvent('keydown', { key: 'ArrowUp' }));
+      select.onPanelKeydown(new KeyboardEvent('keydown', { key: 'Home' }));
+      expect(select.activeOptionIndex()).toBe(0);
+      select.onPanelKeydown(new KeyboardEvent('keydown', { key: 'End' }));
+      const opts = select.visibleOptions();
+      expect(select.activeOptionIndex()).toBe(opts.length - 1);
     });
 
     it('should select active option via onPanelKeydown Enter', () => {
@@ -1200,13 +1256,11 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      (select as any).panelOpen.set(true);
-      (select as any).activeOptionIndex.set(2);
-      (select as any).onPanelKeydown(
-        new KeyboardEvent('keydown', { key: 'Enter' }),
-      );
-      expect((select as any).internalValue()).toBe('c');
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
+      select.activeOptionIndex.set(2);
+      select.onPanelKeydown(new KeyboardEvent('keydown', { key: 'Enter' }));
+      expect(select.internalValue()).toBe('c');
     });
 
     it('should close panel via onPanelKeydown Escape', () => {
@@ -1214,14 +1268,12 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(KeyboardHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      (select as any).panelOpen.set(true);
+        .componentInstance as unknown as SelectTestSeam;
+      select.panelOpen.set(true);
       const closeSpy = vi
-        .spyOn(select as any, 'popoverTrigger')
+        .spyOn(select, 'popoverTrigger')
         .mockReturnValue(undefined);
-      (select as any).onPanelKeydown(
-        new KeyboardEvent('keydown', { key: 'Escape' }),
-      );
+      select.onPanelKeydown(new KeyboardEvent('keydown', { key: 'Escape' }));
       expect(closeSpy).toHaveBeenCalled();
     });
   });
@@ -1258,7 +1310,7 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(PopoverHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       select.onPanelOpened();
       fixture.detectChanges();
       expect(select.panelOpen()).toBe(true);
@@ -1269,7 +1321,7 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(PopoverHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       select.onPanelOpened();
       select.onPanelClosed();
       fixture.detectChanges();
@@ -1281,14 +1333,14 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(PopoverHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
+        .componentInstance as unknown as SelectTestSeam;
       const openedSpy = vi.fn();
       const closedSpy = vi.fn();
       select.opened.subscribe(openedSpy);
       select.closed.subscribe(closedSpy);
-      (select as any).onPanelOpened();
+      select.onPanelOpened();
       expect(openedSpy).toHaveBeenCalledTimes(1);
-      (select as any).onPanelClosed();
+      select.onPanelClosed();
       expect(closedSpy).toHaveBeenCalledTimes(1);
     });
   });
@@ -1443,7 +1495,7 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(TextFallbackHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       expect(select.loadingTextValue()).toBe('Loading fallback');
       expect(select.emptyTextValue()).toBe('Empty fallback');
       expect(select.noResultsTextValue()).toBe('No results fallback');
@@ -1467,10 +1519,8 @@ describe('SolarisSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(DefaultFallbackHost);
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      const withDefaults = select['translateService'] as {
-        translate: (key: string) => string;
-      };
+        .componentInstance as unknown as SelectTestSeam;
+      const withDefaults = TestBed.inject(SolarisTranslateService);
       withDefaults.translate = (key: string) => `T:${key}`;
       fixture.detectChanges();
       expect(select.loadingTextValue()).toBe('T:solaris.select.loading');
@@ -1501,7 +1551,7 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(ObjectValueHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       select.writeValue({ id: 1, name: 'A' });
       fixture.detectChanges();
       expect(warnSpy).toHaveBeenCalledWith(
@@ -1553,7 +1603,7 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(TranslationKeyHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       expect(select.labelText()).toBe('Translated label');
       expect(select.hintText()).toBe('Translated hint');
       expect(select.errorText()).toBe('Translated error');
@@ -1590,11 +1640,11 @@ describe('SolarisSelectComponent', () => {
       TestBed.configureTestingModule({});
       const translateService = TestBed.inject(SolarisTranslateService);
       const original = translateService.translate;
-      translateService.translate = (key: string) => '';
+      translateService.translate = () => '';
       const fixture = TestBed.createComponent(EmptyTranslationHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       expect(select.placeholderText()).toBe('Direct placeholder');
       expect(select.labelText()).toBe('Direct label');
       translateService.translate = original;
@@ -1627,7 +1677,7 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(DefaultStateHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       expect(select.searchPlaceholderText()).toBe('Search...');
       expect(select.loadingTextValue()).toBe('Loading...');
       expect(select.emptyTextValue()).toBe('No options available');
@@ -1657,7 +1707,7 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(DisplayWithHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       select.writeValue('a');
       fixture.detectChanges();
       expect(select.displayText()).toBe('Display:a');
@@ -1680,7 +1730,7 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(ScalarHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       select.writeValue('zzz');
       fixture.detectChanges();
       expect(select.displayText()).toBe('zzz');
@@ -1705,9 +1755,9 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(RequiredHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       expect(select.isEffectivelyInvalid()).toBe(false);
-      (select as any).touched.set(true);
+      select.touched.set(true);
       fixture.detectChanges();
       expect(select.isEffectivelyInvalid()).toBe(true);
     });
@@ -1717,9 +1767,15 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(RequiredHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      const focusSpy = vi.spyOn(select.elementRef.nativeElement, 'focus');
-      vi.spyOn(select as any, 'triggerElement').mockReturnValue(undefined);
+        .componentInstance as unknown as SelectTestSeam;
+      const hostEl = assertPresent(
+        fixture.nativeElement.querySelector(
+          'solaris-select',
+        ) as HTMLElement | null,
+        'select host element',
+      );
+      const focusSpy = vi.spyOn(hostEl, 'focus');
+      vi.spyOn(select, 'triggerElement').mockReturnValue(undefined);
       select.focus();
       expect(focusSpy).toHaveBeenCalled();
     });
@@ -1743,12 +1799,12 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(ConnectedHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      expect((select as any).setConnectedSide).toBeUndefined();
-      expect((select as any).clearConnectedSide).toBeUndefined();
-      (select as any).onPanelOpened();
+        .componentInstance as unknown as SelectTestSeam;
+      expect(select.setConnectedSide).toBeUndefined();
+      expect(select.clearConnectedSide).toBeUndefined();
+      select.onPanelOpened();
       expect(select.panelOpen()).toBe(true);
-      (select as any).onPanelClosed();
+      select.onPanelClosed();
       expect(select.panelOpen()).toBe(false);
     });
 
@@ -1757,9 +1813,9 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(ConnectedHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      const opt = (select as any).options()[0];
-      const text = (select as any).getOptionNativeText(opt);
+        .componentInstance as unknown as SelectTestSeam;
+      const opt = assertPresent(select.options()[0], 'first option');
+      const text = select.getOptionNativeText(opt);
       expect(text).toBe('Apple');
     });
   });
@@ -1781,7 +1837,9 @@ describe('SolarisSelectComponent', () => {
     })
     class RepasseHost {}
 
-    function getInnerField(fixture: any): HTMLElement {
+    function getInnerField(
+      fixture: ComponentFixture<RepasseHost>,
+    ): HTMLElement {
       return fixture.nativeElement.querySelector(
         'solaris-select solaris-form-field',
       );
@@ -1874,7 +1932,7 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(ClearableHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
+        .componentInstance as unknown as SelectTestSeam;
       select.writeValue('a');
       fixture.detectChanges();
       const clearBtn = fixture.nativeElement.querySelector(
@@ -1893,7 +1951,7 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(ClearableHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
+        .componentInstance as unknown as SelectTestSeam;
       const clearBefore = fixture.nativeElement.querySelector(
         '.solaris-select__clear',
       ) as HTMLButtonElement;
@@ -2034,7 +2092,7 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(MinWidthHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       expect(select.contentMinWidth()).toBe(195);
     });
 
@@ -2053,7 +2111,7 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(MinWidthHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       expect(select.effectivePanelMinWidth()).toBe(195);
     });
 
@@ -2063,7 +2121,7 @@ describe('SolarisSelectComponent', () => {
       fixture.componentInstance.triggerMinWidth = 0;
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       expect(select.resolvedTriggerMinWidth()).toBe('0px');
       const trigger = fixture.nativeElement.querySelector(
         '.solaris-select__trigger',
@@ -2077,7 +2135,7 @@ describe('SolarisSelectComponent', () => {
       fixture.componentInstance.panelMinWidth = 300;
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       expect(select.effectivePanelMinWidth()).toBe(300);
     });
 
@@ -2097,7 +2155,7 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(EmptyHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       expect(select.contentMinWidth()).toBe(0);
       expect(select.effectivePanelMinWidth()).toBeUndefined();
     });
@@ -2181,23 +2239,23 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(ContractHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
+        .componentInstance as unknown as SelectTestSeam;
       return { fixture, select };
     }
 
     it('should expose focused state via the getter', () => {
       const { select } = createContract();
       expect(select.focused).toBe(false);
-      (select as any).onTriggerFocus();
+      select.onTriggerFocus();
       expect(select.focused).toBe(true);
-      expect((select as any).internalFocused()).toBe(true);
+      expect(select.internalFocused()).toBe(true);
     });
 
     it('should expose invalid and required via getters', () => {
       const { select } = createContract();
       expect(select.required).toBe(true);
       expect(select.invalid).toBe(false);
-      (select as any).touched.set(true);
+      select.touched.set(true);
       expect(select.invalid).toBe(true);
     });
 
@@ -2215,7 +2273,7 @@ describe('SolarisSelectComponent', () => {
 
     it('should focus the trigger element when present', () => {
       const { select } = createContract();
-      const trigger = (select as any).triggerElement();
+      const trigger = assertPresent(select.triggerElement(), 'trigger element');
       expect(trigger).toBeTruthy();
       const focusSpy = vi
         .spyOn(trigger.nativeElement, 'focus')
@@ -2260,7 +2318,7 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(SearchCoverageHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
+        .componentInstance as unknown as SelectTestSeam;
       return { fixture, select };
     }
 
@@ -2268,25 +2326,23 @@ describe('SolarisSelectComponent', () => {
       const { select } = createSearchCoverage();
       const emitted: string[] = [];
       select.searchChange.subscribe((value) => emitted.push(value));
-      (select as any).activeOptionIndex.set(1);
-      (select as any).onSearchInput({
+      select.activeOptionIndex.set(1);
+      select.onSearchInput({
         target: { value: 'App' },
       } as unknown as Event);
-      expect((select as any).searchQuery()).toBe('App');
+      expect(select.searchQuery()).toBe('App');
       expect(emitted).toEqual(['App']);
-      expect((select as any).activeOptionIndex()).toBe(-1);
+      expect(select.activeOptionIndex()).toBe(-1);
     });
 
     it('should close the panel on Escape with an empty query', () => {
       const { select } = createSearchCoverage();
       const closeSpy = vi.fn();
-      vi.spyOn(select as any, 'popoverTrigger').mockReturnValue({
+      vi.spyOn(select, 'popoverTrigger').mockReturnValue({
         close: closeSpy,
-      });
-      (select as any).searchQuery.set('');
-      (select as any).onSearchKeydown(
-        new KeyboardEvent('keydown', { key: 'Escape' }),
-      );
+      } as unknown as SolarisPopoverTriggerDirective);
+      select.searchQuery.set('');
+      select.onSearchKeydown(new KeyboardEvent('keydown', { key: 'Escape' }));
       expect(closeSpy).toHaveBeenCalledTimes(1);
     });
 
@@ -2294,7 +2350,7 @@ describe('SolarisSelectComponent', () => {
       const { select } = createSearchCoverage();
       const event = new MouseEvent('click', { bubbles: true });
       const stopSpy = vi.spyOn(event, 'stopPropagation');
-      (select as any).onPanelClick(event);
+      select.onPanelClick(event);
       expect(stopSpy).toHaveBeenCalledTimes(1);
     });
   });
@@ -2323,7 +2379,7 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(TriggerKeysHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as SolarisSelectComponent;
+        .componentInstance as unknown as SelectTestSeam;
       return { fixture, select };
     }
 
@@ -2350,24 +2406,22 @@ describe('SolarisSelectComponent', () => {
 
     it('should move to the previous option on ArrowUp with the panel open', () => {
       const { select } = createTriggerKeys();
-      (select as any).panelOpen.set(true);
-      (select as any).activeOptionIndex.set(2);
-      (select as any).onTriggerKeydown(
-        new KeyboardEvent('keydown', { key: 'ArrowUp' }),
-      );
-      expect((select as any).activeOptionIndex()).toBe(1);
+      select.panelOpen.set(true);
+      select.activeOptionIndex.set(2);
+      select.onTriggerKeydown(new KeyboardEvent('keydown', { key: 'ArrowUp' }));
+      expect(select.activeOptionIndex()).toBe(1);
     });
 
     it('should open the panel on Space when closed', () => {
       const { select } = createTriggerKeys();
       const openSpy = vi.fn();
-      vi.spyOn(select as any, 'popoverTrigger').mockReturnValue({
+      vi.spyOn(select, 'popoverTrigger').mockReturnValue({
         open: openSpy,
-      });
-      (select as any).panelOpen.set(false);
+      } as unknown as SolarisPopoverTriggerDirective);
+      select.panelOpen.set(false);
       const event = new KeyboardEvent('keydown', { key: ' ' });
       const preventSpy = vi.spyOn(event, 'preventDefault');
-      (select as any).onTriggerKeydown(event);
+      select.onTriggerKeydown(event);
       expect(preventSpy).toHaveBeenCalled();
       expect(openSpy).toHaveBeenCalledTimes(1);
     });
@@ -2375,13 +2429,13 @@ describe('SolarisSelectComponent', () => {
     it('should open and schedule focus on ArrowDown when closed', () => {
       const { select } = createTriggerKeys();
       const openSpy = vi.fn();
-      vi.spyOn(select as any, 'popoverTrigger').mockReturnValue({
+      vi.spyOn(select, 'popoverTrigger').mockReturnValue({
         open: openSpy,
-      });
-      (select as any).panelOpen.set(false);
+      } as unknown as SolarisPopoverTriggerDirective);
+      select.panelOpen.set(false);
       const raf = stubRafSync();
       try {
-        (select as any).onTriggerKeydown(
+        select.onTriggerKeydown(
           new KeyboardEvent('keydown', { key: 'ArrowDown' }),
         );
         expect(openSpy).toHaveBeenCalledTimes(1);
@@ -2430,8 +2484,8 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(WiringHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      const trigger = select.popoverTrigger();
+        .componentInstance as unknown as SelectTestSeam;
+      const trigger = assertPresent(select.popoverTrigger(), 'popover trigger');
       expect(trigger).toBeTruthy();
       trigger.solarisPopoverOpened.emit();
       expect(select.panelOpen()).toBe(true);
@@ -2444,7 +2498,7 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(SearchableWiringHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       select.panelOpen.set(true);
       fixture.detectChanges();
       const input = fixture.nativeElement.querySelector(
@@ -2505,7 +2559,7 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(GroupVisibilityHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       return { fixture, select };
     }
 
@@ -2513,7 +2567,7 @@ describe('SolarisSelectComponent', () => {
       const { select } = createGroupVisibility();
       const options = select.options();
       expect(options.length).toBe(2);
-      const apple = options[0];
+      const apple = assertPresent(options[0], 'apple option');
       apple.optionInteraction.emit({
         option: apple,
         event: new MouseEvent('click'),
@@ -2529,15 +2583,22 @@ describe('SolarisSelectComponent', () => {
       } as unknown as Event);
       const groups = select.optionGroups();
       expect(groups.length).toBe(2);
-      expect(groups.map((group: any) => group.internalHidden())).toEqual([
-        false,
-        true,
-      ]);
+      expect(
+        groups.map((group: SolarisOptionGroupComponent) =>
+          (
+            group as unknown as {
+              internalHidden: Signal<boolean>;
+            }
+          ).internalHidden(),
+        ),
+      ).toEqual([false, true]);
     });
 
     it('should return an empty string without a native element', () => {
       const { select } = createGroupVisibility();
-      expect(select.getOptionNativeText({} as any)).toBe('');
+      expect(
+        select.getOptionNativeText({} as unknown as SolarisOptionComponent),
+      ).toBe('');
     });
   });
 
@@ -2582,7 +2643,7 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(SkipDisabledHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       select.panelOpen.set(true);
       select.activeOptionIndex.set(0);
       select.focusNextOption(1);
@@ -2594,7 +2655,7 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(AllDisabledHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
+        .componentInstance as unknown as SelectTestSeam;
       select.panelOpen.set(true);
       expect(select.getFirstEnabledOptionIndex()).toBe(-1);
       expect(select.getLastEnabledOptionIndex()).toBe(-1);
@@ -2653,10 +2714,10 @@ describe('SolarisSelectComponent', () => {
       const fixture = TestBed.createComponent(ParentHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
-        .componentInstance as any;
-      const option = select.options()[0];
+        .componentInstance as unknown as SelectTestSeam;
+      const option = assertPresent(select.options()[0], 'first option');
       expect(option).toBeTruthy();
-      expect(option.size()).toBe('lg');
+      expect((option as unknown as { size: Signal<string> }).size()).toBe('lg');
     });
   });
 });

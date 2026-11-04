@@ -97,8 +97,16 @@
           @if (normalizedSelectionMode() === 'multiple') {
             <div
               class="solaris-table__cards-select-all"
+              role="checkbox"
+              tabindex="0"
+              [attr.aria-checked]="allVisibleRowsSelected()"
+              [attr.aria-label]="resolvedSelectAllLabel()"
               [attr.data-selected]="allVisibleRowsSelected() || undefined"
               (click)="toggleSelectAllVisibleRows()"
+              (keydown.enter)="toggleSelectAllVisibleRows()"
+              (keydown.space)="
+                $event.preventDefault(); toggleSelectAllVisibleRows()
+              "
             >
               <solaris-checkbox
                 radius="sm"

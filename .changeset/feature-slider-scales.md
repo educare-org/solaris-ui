@@ -1,5 +1,5 @@
 ---
-'@solaris-ui/angular': minor
+'@educarehq/solaris-ui': minor
 ---
 
 Add `scale`, `tickValues`, `zones` and `distribution` inputs to `solaris-slider`: non-linear positioning (log/pow/time/custom) with value-space keyboard and snapping, explicit tick positions, value-driven fill color and a decorative density strip.

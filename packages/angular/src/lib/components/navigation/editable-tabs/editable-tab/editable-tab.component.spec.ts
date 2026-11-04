@@ -1,5 +1,5 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { Component, TemplateRef } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { SolarisEditableTabComponent } from './editable-tab.component';
 import type { SolarisEditableTabAction } from '../model/editable-tabs.types';

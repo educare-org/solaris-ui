@@ -1,5 +1,10 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
-import { Component, type Type } from '@angular/core';
+import {
+  Component,
+  type Signal,
+  type Type,
+  type WritableSignal,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -18,6 +23,15 @@ import { SolarisFormPrefixDirective } from '../directives/form-prefix.directive'
 import { SolarisFormSuffixDirective } from '../directives/form-suffix.directive';
 import { SolarisFormSuffixActionDirective } from '../directives/form-suffix-action.directive';
 import { SolarisFormLabelActionDirective } from '../directives/form-label-action.directive';
+
+type FormFieldTestSeam = SolarisFormFieldComponent & {
+  characterCounterText: Signal<string>;
+  characterCounterSeverity: Signal<'normal' | 'warning' | 'danger'>;
+  maxLength: WritableSignal<number | undefined>;
+  currentLength: WritableSignal<number>;
+  isFocused: WritableSignal<boolean>;
+  isAutoInvalid: Signal<boolean>;
+};
 
 describe('SolarisFormFieldComponent', () => {
   let fixture: ComponentFixture<SolarisFormFieldComponent>;
@@ -598,7 +612,7 @@ describe('SolarisFormFieldComponent character counter', () => {
     });
     const fixture = TestBed.createComponent(SolarisFormFieldComponent);
     fixture.detectChanges();
-    const f = fixture.componentInstance as any;
+    const f = fixture.componentInstance as unknown as FormFieldTestSeam;
     expect(f.characterCounterText()).toBe('');
     expect(f.characterCounterSeverity()).toBe('normal');
   });
@@ -609,7 +623,7 @@ describe('SolarisFormFieldComponent character counter', () => {
     });
     const fixture = TestBed.createComponent(SolarisFormFieldComponent);
     fixture.detectChanges();
-    const f = fixture.componentInstance as any;
+    const f = fixture.componentInstance as unknown as FormFieldTestSeam;
     f.maxLength.set(10);
     f.currentLength.set(10);
     fixture.detectChanges();
@@ -623,7 +637,7 @@ describe('SolarisFormFieldComponent character counter', () => {
     });
     const fixture = TestBed.createComponent(SolarisFormFieldComponent);
     fixture.detectChanges();
-    const f = fixture.componentInstance as any;
+    const f = fixture.componentInstance as unknown as FormFieldTestSeam;
     f.maxLength.set(10);
     f.currentLength.set(9);
     fixture.detectChanges();
@@ -649,9 +663,11 @@ describe('SolarisFormFieldComponent auto invalid', () => {
     });
   }
 
-  function getField(fixture: ComponentFixture<AutoInvalidHost>): any {
+  function getField(
+    fixture: ComponentFixture<AutoInvalidHost>,
+  ): FormFieldTestSeam {
     return fixture.debugElement.query(By.css('solaris-form-field'))
-      .componentInstance as any;
+      .componentInstance as unknown as FormFieldTestSeam;
   }
 
   it('should not be auto-invalid while focused', () => {

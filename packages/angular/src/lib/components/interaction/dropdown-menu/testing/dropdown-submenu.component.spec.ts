@@ -1,7 +1,9 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Component, ViewChild } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import type { OverlayRef } from '@angular/cdk/overlay';
 
+import { assertPresent } from '../../../../testing/solaris-test-utilities';
 import { SolarisDropdownSubmenuComponent } from '../component/dropdown-submenu.component';
 import { SolarisDropdownSubmenuTriggerComponent } from '../component/dropdown-submenu-trigger.component';
 import { SolarisDropdownMenuComponent } from '../component/dropdown-menu.component';
@@ -206,6 +208,12 @@ class ClickModeTestHost {
   @ViewChild(SolarisDropdownSubmenuComponent)
   submenu!: SolarisDropdownSubmenuComponent;
 }
+
+type DropdownSubmenuTestSeam = {
+  overlayRef: OverlayRef | null;
+  handleOutsideClick: (event: { target: unknown }) => void;
+  handleItemClick: (event: { target: unknown }) => void;
+};
 
 @Component({
   standalone: true,
@@ -702,8 +710,8 @@ describe('SolarisDropdownSubmenuComponent', () => {
       fixture.detectChanges();
       const component = fixture.componentInstance.submenu;
       component.open();
-      expect(component['overlayRef']).toBeTruthy();
-      expect(component['overlayRef']!.getConfig().maxWidth).toBe('400px');
+      const overlayRef = assertPresent(component['overlayRef'], 'overlay ref');
+      expect(overlayRef.getConfig().maxWidth).toBe('400px');
       component.close();
       fixture.destroy();
       TestBed.resetTestingModule();
@@ -730,7 +738,7 @@ describe('SolarisDropdownSubmenuComponent', () => {
     it('should close on outside click', () => {
       component.open();
       expect(component['isOpen']()).toBe(true);
-      (component as any).handleOutsideClick({
+      (component as unknown as DropdownSubmenuTestSeam).handleOutsideClick({
         target: document.createElement('div'),
       });
       expect(component['isOpen']()).toBe(false);
@@ -738,15 +746,20 @@ describe('SolarisDropdownSubmenuComponent', () => {
 
     it('should not close when clicking inside overlay', () => {
       component.open();
-      const overlayEl = component['overlayRef']!.overlayElement;
-      (component as any).handleOutsideClick({ target: overlayEl });
+      const overlayEl = assertPresent(
+        component['overlayRef'],
+        'overlay ref',
+      ).overlayElement;
+      (component as unknown as DropdownSubmenuTestSeam).handleOutsideClick({
+        target: overlayEl,
+      });
       expect(component['isOpen']()).toBe(true);
       component.close();
     });
 
     it('should ignore outside click without overlay', () => {
       expect(() => {
-        (component as any).handleOutsideClick({
+        (component as unknown as DropdownSubmenuTestSeam).handleOutsideClick({
           target: document.createElement('div'),
         });
       }).not.toThrow();
@@ -754,10 +767,15 @@ describe('SolarisDropdownSubmenuComponent', () => {
 
     it('should close on item click', () => {
       component.open();
-      const overlayEl = component['overlayRef']!.overlayElement;
+      const overlayEl = assertPresent(
+        component['overlayRef'],
+        'overlay ref',
+      ).overlayElement;
       const item = document.createElement('solaris-dropdown-menu-item');
       overlayEl.appendChild(item);
-      (component as any).handleItemClick({ target: item });
+      (component as unknown as DropdownSubmenuTestSeam).handleItemClick({
+        target: item,
+      });
       expect(component['isOpen']()).toBe(false);
     });
   });

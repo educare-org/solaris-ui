@@ -1,5 +1,11 @@
-import { TestBed } from '@angular/core/testing';
-import { Component, provideZonelessChangeDetection } from '@angular/core';
+import { TestBed, type ComponentFixture } from '@angular/core/testing';
+import {
+  Component,
+  type InputSignal,
+  type OutputEmitterRef,
+  provideZonelessChangeDetection,
+  type Signal,
+} from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
@@ -7,6 +13,16 @@ import { SolarisOtpInputComponent } from '../component/otp-input.component';
 import { SolarisFormSuffixDirective } from '../../form-field/directives/form-suffix.directive';
 import { SolarisFormSuffixActionDirective } from '../../form-field/directives/form-suffix-action.directive';
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
+import type { SolarisOtpInputRadius } from '../model/otp-input.types';
+
+type OtpInputTestSeam = SolarisOtpInputComponent & {
+  radius: InputSignal<SolarisOtpInputRadius>;
+  valueString: Signal<string>;
+  completed: OutputEmitterRef<void>;
+  onBoxKeydown: (event: KeyboardEvent, index: number) => void;
+  onBoxPaste: (event: ClipboardEvent, index: number) => void;
+  writeValue: (value: string | null | undefined) => void;
+};
 
 @Component({
   standalone: true,
@@ -78,9 +94,9 @@ class SeparatorHost {}
 
 describe('SolarisOtpInputComponent', () => {
   async function setup<T>(hostType: new () => T): Promise<{
-    fixture: any;
+    fixture: ComponentFixture<T>;
     boxes: HTMLInputElement[];
-    component: any;
+    component: OtpInputTestSeam;
   }> {
     await TestBed.configureTestingModule({
       imports: [hostType],
@@ -91,7 +107,7 @@ describe('SolarisOtpInputComponent', () => {
     const debug = fixture.debugElement.query(
       By.directive(SolarisOtpInputComponent),
     );
-    const component = debug.componentInstance as any;
+    const component = debug.componentInstance as unknown as OtpInputTestSeam;
     const boxes = debug
       .queryAll(By.css('.solaris-otp-input__box'))
       .map((d) => d.nativeElement as HTMLInputElement);
@@ -195,7 +211,7 @@ describe('SolarisOtpInputComponent', () => {
         {
           preventDefault: () => undefined,
           clipboardData: { getData: () => '9876' },
-        },
+        } as unknown as ClipboardEvent,
         0,
       );
       fixture.detectChanges();

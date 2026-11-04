@@ -11,6 +11,7 @@ import {
   SOLARIS_DIALOG_DATA,
 } from '../../../token/dialog-data.token';
 import type {
+  SolarisDialogAutoFocus,
   SolarisDialogOptions,
   SolarisDialogComponentConfig,
 } from '../../root/model/dialog.types';
@@ -18,6 +19,13 @@ import type {
 function createDialogRef(): SolarisDialogRef<unknown> {
   return new SolarisDialogRef<unknown>('test-dialog-id');
 }
+
+type DialogContainerTestSeam = {
+  isSimpleMode: boolean;
+  closeOnBackdrop: boolean;
+  closeOnEscapeEnabled: boolean;
+  resolvedAutoFocus: SolarisDialogAutoFocus;
+};
 
 function q(
   fixture: ComponentFixture<unknown>,
@@ -142,12 +150,18 @@ describe('SolarisDialogContainerComponent', () => {
     describe('getters', () => {
       it('should return isSimpleMode true when simpleOptions is set', () => {
         const fixture = createSimpleFixture({ title: 'Test' });
-        expect((fixture.componentInstance as any).isSimpleMode).toBe(true);
+        expect(
+          (fixture.componentInstance as unknown as DialogContainerTestSeam)
+            .isSimpleMode,
+        ).toBe(true);
       });
 
       it('should reflect closeOnBackdrop default', () => {
         const fixture = createSimpleFixture({ title: 'Test' });
-        expect((fixture.componentInstance as any).closeOnBackdrop).toBe(true);
+        expect(
+          (fixture.componentInstance as unknown as DialogContainerTestSeam)
+            .closeOnBackdrop,
+        ).toBe(true);
       });
 
       it('should reflect closeOnBackdrop false', () => {
@@ -155,14 +169,18 @@ describe('SolarisDialogContainerComponent', () => {
           title: 'Test',
           closeOnBackdropClick: false,
         });
-        expect((fixture.componentInstance as any).closeOnBackdrop).toBe(false);
+        expect(
+          (fixture.componentInstance as unknown as DialogContainerTestSeam)
+            .closeOnBackdrop,
+        ).toBe(false);
       });
 
       it('should reflect closeOnEscapeEnabled default', () => {
         const fixture = createSimpleFixture({ title: 'Test' });
-        expect((fixture.componentInstance as any).closeOnEscapeEnabled).toBe(
-          true,
-        );
+        expect(
+          (fixture.componentInstance as unknown as DialogContainerTestSeam)
+            .closeOnEscapeEnabled,
+        ).toBe(true);
       });
 
       it('should reflect closeOnEscapeEnabled false', () => {
@@ -170,9 +188,10 @@ describe('SolarisDialogContainerComponent', () => {
           title: 'Test',
           closeOnEscape: false,
         });
-        expect((fixture.componentInstance as any).closeOnEscapeEnabled).toBe(
-          false,
-        );
+        expect(
+          (fixture.componentInstance as unknown as DialogContainerTestSeam)
+            .closeOnEscapeEnabled,
+        ).toBe(false);
       });
     });
 

@@ -1,5 +1,6 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { DOCUMENT } from '@angular/common';
+import type { Type } from '@angular/core';
 
 import {
   createCsvExporter,
@@ -7,6 +8,7 @@ import {
   SolarisExportService,
 } from '../../../../services/export';
 import { SolarisDialogService } from '../../../overlay/dialog';
+import type { SolarisDialogComponentConfig } from '../../../overlay/dialog/components/root/model/dialog.types';
 import { SolarisTableToolbarComponent } from '../component/table-toolbar/table-toolbar.component';
 import { SolarisTableToolbarSheetComponent } from '../component/table-toolbar-sheet/table-toolbar-sheet.component';
 import { normalizeTableFilterState } from '../model/filter-state';
@@ -901,11 +903,14 @@ describe('SolarisTableToolbarComponent narrow viewport', () => {
   });
 
   it('should open the filter dialog centered', () => {
-    const openComponent = vi.fn(
-      (_component: unknown, _config: unknown): { close: () => void } => ({
-        close: () => undefined,
-      }),
-    );
+    const openComponent = vi.fn<
+      (
+        component: Type<unknown>,
+        config?: SolarisDialogComponentConfig,
+      ) => { close: () => void }
+    >(() => ({
+      close: () => undefined,
+    }));
     TestBed.configureTestingModule({
       providers: [
         { provide: SolarisDialogService, useValue: { openComponent } },
@@ -937,11 +942,14 @@ describe('SolarisTableToolbarComponent narrow viewport', () => {
 
   it('should open the columns dialog centered without fullscreen and close it on save', () => {
     const close = vi.fn();
-    const openComponent = vi.fn(
-      (_component: unknown, _config: unknown): { close: () => void } => ({
-        close,
-      }),
-    );
+    const openComponent = vi.fn<
+      (
+        component: Type<unknown>,
+        config?: SolarisDialogComponentConfig,
+      ) => { close: () => void }
+    >(() => ({
+      close,
+    }));
     TestBed.configureTestingModule({
       providers: [
         { provide: SolarisDialogService, useValue: { openComponent } },

@@ -39,10 +39,14 @@ test.describe('Calendar shell', () => {
 
   test('drills through the mini-month', async ({ page }) => {
     const shell = page.locator('solaris-calendar');
-    await shell
-      .locator('.solaris-calendar__mini-day[data-date="2026-10-20"]')
-      .click();
-    await expect(page.getByTestId('event-log')).toHaveText('day:2026-10-20');
+    const day = shell
+      .locator(
+        '.solaris-calendar__mini-day[data-date]:not([data-outside-month])',
+      )
+      .nth(9);
+    const date = await day.getAttribute('data-date');
+    await day.click();
+    await expect(page.getByTestId('event-log')).toHaveText(`day:${date}`);
   });
 
   test('falls back to schedule at 360px', async ({ page }) => {
