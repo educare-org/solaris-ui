@@ -1,3 +1,4 @@
+import type { TemplateRef } from '@angular/core';
 import type { SolarisTableColumnType } from '../../table/model/table.types';
 import type { SolarisExporter } from '../../../../services/export';
 
@@ -82,4 +83,8 @@ export interface SolarisTableExportEvent<T = unknown> {
   readonly exporter: SolarisExporter<T>;
   readonly filename: string;
   readonly truncated: boolean;
+}
+
+export interface SolarisTableToolbarSheetData {
+  readonly content: TemplateRef<unknown>;
 }

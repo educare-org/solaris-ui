@@ -1,11 +1,14 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
+import { DOCUMENT } from '@angular/common';
 
 import {
   createCsvExporter,
   createJsonExporter,
   SolarisExportService,
 } from '../../../../services/export';
+import { SolarisDialogService } from '../../../overlay/dialog';
 import { SolarisTableToolbarComponent } from '../component/table-toolbar/table-toolbar.component';
+import { SolarisTableToolbarSheetComponent } from '../component/table-toolbar-sheet/table-toolbar-sheet.component';
 import { normalizeTableFilterState } from '../model/filter-state';
 import type {
   SolarisTableFilterableColumn,
@@ -808,5 +811,228 @@ describe('SolarisTableToolbarComponent persistence', () => {
     expect(() => TestBed.flushEffects()).not.toThrow();
     expect(window.localStorage.getItem(`${KEY}:filter`)).toBeNull();
     setItem.mockRestore();
+  });
+});
+
+describe('SolarisTableToolbarComponent narrow viewport', () => {
+  function stubViewportMatches(
+    matches: (query: string) => boolean,
+  ): () => void {
+    const doc = TestBed.inject(DOCUMENT);
+    const view = doc.defaultView as unknown as {
+      matchMedia: unknown;
+    };
+    const original = view.matchMedia;
+    const listeners = new Map<string, (event: { matches: boolean }) => void>();
+    view.matchMedia = ((query: string) => ({
+      matches: matches(query),
+      media: query,
+      addEventListener: (
+        type: string,
+        listener: (event: { matches: boolean }) => void,
+      ): void => {
+        listeners.set(type, listener);
+      },
+      removeEventListener: (type: string): void => {
+        listeners.delete(type);
+      },
+    })) as unknown as typeof view.matchMedia;
+    return () => {
+      view.matchMedia = original;
+    };
+  }
+
+  function createNarrowFixture(
+    configure: (
+      fixture: ComponentFixture<SolarisTableToolbarComponent<Row>>,
+    ) => void = () => undefined,
+  ): {
+    fixture: ComponentFixture<SolarisTableToolbarComponent<Row>>;
+    restore: () => void;
+  } {
+    const restore = stubViewportMatches(
+      (query) => query === '(max-width: 720px)',
+    );
+    const fixture = TestBed.createComponent(SolarisTableToolbarComponent<Row>);
+    fixture.componentRef.setInput('columns', COLUMNS);
+    configure(fixture);
+    fixture.detectChanges();
+    return { fixture, restore };
+  }
+
+  it('should flag the host and collapse the bar to search plus icon-only actions', () => {
+    TestBed.configureTestingModule({});
+    const { fixture, restore } = createNarrowFixture((created) => {
+      created.componentRef.setInput('views', [
+        {
+          id: 'mine',
+          name: 'Mine',
+          filter: normalizeTableFilterState({}),
+        },
+      ]);
+      created.componentRef.setInput('exporters', [createCsvExporter<Row>()]);
+      created.componentRef.setInput('exportDisplay', 'icon-label');
+    });
+    try {
+      const root = fixture.nativeElement as HTMLElement;
+      expect(root.getAttribute('data-narrow')).toBe('true');
+      expect(root.querySelector('.solaris-table-toolbar__views')).toBeNull();
+      expect(
+        root.querySelector('.solaris-table-toolbar__search input'),
+      ).toBeTruthy();
+      expect(
+        root.querySelector(
+          '.solaris-table-toolbar__actions [aria-label="Filters"]',
+        ),
+      ).toBeTruthy();
+      expect(
+        root.querySelectorAll(
+          '.solaris-table-toolbar__actions [solaris-icon-button]',
+        ).length,
+      ).toBe(2);
+      expect(root.textContent).not.toContain('Customize columns');
+      const actions = root.querySelector('.solaris-table-toolbar__actions');
+      expect(actions?.querySelector('[title="Export CSV"]')).toBeTruthy();
+      expect(actions?.textContent).not.toContain('Export');
+      fixture.destroy();
+    } finally {
+      restore();
+    }
+  });
+
+  it('should open the filter dialog centered', () => {
+    const openComponent = vi.fn(
+      (_component: unknown, _config: unknown): { close: () => void } => ({
+        close: () => undefined,
+      }),
+    );
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: SolarisDialogService, useValue: { openComponent } },
+      ],
+    });
+    const { fixture, restore } = createNarrowFixture();
+    try {
+      const root = fixture.nativeElement as HTMLElement;
+      const filterButton = root.querySelector(
+        '.solaris-table-toolbar__actions [aria-label="Filters"]',
+      ) as HTMLButtonElement | null;
+      expect(filterButton).toBeTruthy();
+      filterButton?.click();
+      expect(openComponent).toHaveBeenCalledTimes(1);
+      expect(openComponent.mock.calls[0]?.[0]).toBe(
+        SolarisTableToolbarSheetComponent,
+      );
+      const config = openComponent.mock.calls[0]?.[1] as
+        | { sheet?: boolean; placement?: string; data: { content: unknown } }
+        | undefined;
+      expect(config?.sheet ?? false).toBe(false);
+      expect(config?.placement ?? 'center').toBe('center');
+      expect(config?.data.content).toBeTruthy();
+      fixture.destroy();
+    } finally {
+      restore();
+    }
+  });
+
+  it('should open the columns dialog centered without fullscreen and close it on save', () => {
+    const close = vi.fn();
+    const openComponent = vi.fn(
+      (_component: unknown, _config: unknown): { close: () => void } => ({
+        close,
+      }),
+    );
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: SolarisDialogService, useValue: { openComponent } },
+      ],
+    });
+    const { fixture, restore } = createNarrowFixture();
+    try {
+      const component = fixture.componentInstance as unknown as {
+        openColumnsSheet: () => void;
+        handleColumnSave: (save: {
+          order: readonly string[];
+          visibility: Readonly<Record<string, boolean>>;
+        }) => void;
+      };
+      component.openColumnsSheet();
+      expect(openComponent).toHaveBeenCalledTimes(1);
+      const config = openComponent.mock.calls[0]?.[1] as
+        | { sheet?: boolean; placement?: string; fullscreen?: boolean }
+        | undefined;
+      expect(config?.sheet ?? false).toBe(false);
+      expect(config?.placement ?? 'center').toBe('center');
+      expect(config?.fullscreen ?? false).toBe(false);
+      component.handleColumnSave({ order: ['city'], visibility: {} });
+      expect(close).toHaveBeenCalledTimes(1);
+      expect(fixture.componentInstance.filter().columnOrder).toEqual(['city']);
+      fixture.destroy();
+    } finally {
+      restore();
+    }
+  });
+
+  it('should keep the count badge on the narrow filter button', () => {
+    TestBed.configureTestingModule({});
+    const { fixture, restore } = createNarrowFixture((created) => {
+      created.componentRef.setInput(
+        'filter',
+        normalizeTableFilterState({
+          conditions: [
+            { columnId: 'name', operator: 'contains', value: 'ana' },
+          ],
+        }),
+      );
+    });
+    try {
+      const root = fixture.nativeElement as HTMLElement;
+      const badge = root.querySelector(
+        '.solaris-table-toolbar__actions solaris-badge',
+      );
+      expect(badge?.textContent).toContain('1');
+      fixture.destroy();
+    } finally {
+      restore();
+    }
+  });
+
+  it('should render the desktop bar without data-narrow by default', () => {
+    const fixture = createFixture();
+    fixture.componentRef.setInput('views', [
+      {
+        id: 'mine',
+        name: 'Mine',
+        filter: normalizeTableFilterState({}),
+      },
+    ]);
+    fixture.detectChanges();
+    const root = fixture.nativeElement as HTMLElement;
+    expect(root.hasAttribute('data-narrow')).toBe(false);
+    expect(root.querySelector('.solaris-table-toolbar__views')).toBeTruthy();
+    expect(root.textContent).toContain('Customize columns');
+  });
+
+  it('should tolerate a missing matchMedia implementation', () => {
+    TestBed.configureTestingModule({});
+    const doc = TestBed.inject(DOCUMENT);
+    const view = doc.defaultView as unknown as {
+      matchMedia: unknown;
+    };
+    const original = view.matchMedia;
+    view.matchMedia = undefined;
+    try {
+      const fixture = TestBed.createComponent(
+        SolarisTableToolbarComponent<Row>,
+      );
+      fixture.componentRef.setInput('columns', COLUMNS);
+      expect(() => fixture.detectChanges()).not.toThrow();
+      expect(
+        (fixture.nativeElement as HTMLElement).hasAttribute('data-narrow'),
+      ).toBe(false);
+      fixture.destroy();
+    } finally {
+      view.matchMedia = original;
+    }
   });
 });

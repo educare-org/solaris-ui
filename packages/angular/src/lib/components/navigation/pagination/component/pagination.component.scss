@@ -149,6 +149,7 @@
 
 @media (width <= 720px) {
   .solaris-pagination__nav {
+    justify-content: space-between;
     row-gap: var(--solaris-spacing-3);
   }
 }

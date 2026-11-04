@@ -1,0 +1,122 @@
+.solaris-table-toolbar-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-6);
+  min-width: var(--solaris-spacing-0);
+  padding: var(--solaris-spacing-5) var(--solaris-spacing-0);
+}
+
+.solaris-table-toolbar-sheet ::ng-deep .solaris-table-toolbar__views {
+  margin-bottom: var(--solaris-spacing-0);
+  padding-bottom: var(--solaris-spacing-5);
+  border-bottom: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
+}
+
+.solaris-table-toolbar-sheet ::ng-deep .solaris-table-toolbar__create-view {
+  width: 100%;
+  max-width: none;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-4);
+  padding: var(--solaris-spacing-0);
+}
+
+.solaris-table-toolbar-sheet
+  ::ng-deep
+  .solaris-table-toolbar__create-view
+  > button[solaris-button] {
+  flex: none;
+}
+
+.solaris-table-toolbar-sheet
+  ::ng-deep
+  .solaris-table-toolbar__create-view
+  solaris-form-field {
+  flex: 1 1 200px;
+  min-width: var(--solaris-spacing-0);
+}
+
+.solaris-table-toolbar-sheet ::ng-deep .solaris-table-toolbar__panel {
+  width: 100%;
+  max-width: none;
+  padding: var(--solaris-spacing-0);
+}
+
+.solaris-table-toolbar-sheet ::ng-deep solaris-column-manager {
+  width: 100%;
+}
+
+.solaris-table-toolbar-sheet ::ng-deep .solaris-column-manager__title {
+  position: absolute;
+  overflow: hidden;
+  white-space: nowrap;
+  clip-path: inset(50%);
+  width: var(--solaris-spacing-1);
+  height: var(--solaris-spacing-1);
+}
+
+.solaris-table-toolbar-sheet ::ng-deep .solaris-column-manager__header {
+  padding: var(--solaris-spacing-0);
+}
+
+.solaris-table-toolbar-sheet ::ng-deep .solaris-table-toolbar__condition {
+  flex-wrap: wrap;
+}
+
+.solaris-table-toolbar-sheet
+  ::ng-deep
+  .solaris-table-toolbar__condition
+  solaris-select,
+.solaris-table-toolbar-sheet
+  ::ng-deep
+  .solaris-table-toolbar__condition
+  solaris-multi-select,
+.solaris-table-toolbar-sheet
+  ::ng-deep
+  .solaris-table-toolbar__condition
+  solaris-form-field {
+  flex: 1 1 100%;
+  min-width: var(--solaris-spacing-0);
+}
+
+.solaris-table-toolbar-sheet
+  ::ng-deep
+  .solaris-table-toolbar__panel
+  > button[solaris-button] {
+  align-self: stretch;
+}
+
+.solaris-table-toolbar-sheet ::ng-deep .solaris-table-toolbar__sheet-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--solaris-spacing-4);
+}
+
+.solaris-table-toolbar-sheet
+  ::ng-deep
+  .solaris-table-toolbar__sheet-actions
+  > button[solaris-button] {
+  min-width: var(--solaris-spacing-0);
+}
+
+.solaris-table-toolbar-sheet ::ng-deep .solaris-table-toolbar__leading,
+.solaris-table-toolbar-sheet ::ng-deep .solaris-table-toolbar__trailing {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.solaris-table-toolbar-sheet ::ng-deep .solaris-table-toolbar__leading > *,
+.solaris-table-toolbar-sheet ::ng-deep .solaris-table-toolbar__trailing > * {
+  width: 100%;
+}
+
+.solaris-table-toolbar-sheet ::ng-deep .solaris-table-toolbar__views,
+.solaris-table-toolbar-sheet ::ng-deep .solaris-table-toolbar__create-view,
+.solaris-table-toolbar-sheet ::ng-deep .solaris-table-toolbar__panel,
+.solaris-table-toolbar-sheet ::ng-deep .solaris-table-toolbar__sheet-actions,
+.solaris-table-toolbar-sheet ::ng-deep .solaris-table-toolbar__leading,
+.solaris-table-toolbar-sheet ::ng-deep .solaris-table-toolbar__trailing {
+  box-sizing: border-box;
+  padding-inline: var(--solaris-spacing-4);
+}

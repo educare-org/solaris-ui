@@ -7,16 +7,6 @@
     <span class="solaris-column-manager__title" [attr.id]="titleId">
       {{ resolveTitle() }}
     </span>
-    <button
-      type="button"
-      solaris-button
-      appearance="ghost"
-      size="sm"
-      (click)="handleReset()"
-      [disabled]="isResetDisabled()"
-    >
-      {{ resolveResetLabel() }}
-    </button>
   </header>
   <ul class="solaris-column-manager__list">
     @for (column of orderedColumns(); track column.id; let index = $index) {
@@ -70,6 +60,16 @@
     }
   </ul>
   <footer class="solaris-column-manager__footer">
+    <button
+      type="button"
+      solaris-button
+      appearance="ghost"
+      size="sm"
+      (click)="handleReset()"
+      [disabled]="isResetDisabled()"
+    >
+      {{ resolveResetLabel() }}
+    </button>
     <button
       type="button"
       solaris-button
