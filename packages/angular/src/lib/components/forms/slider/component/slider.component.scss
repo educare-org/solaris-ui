@@ -63,6 +63,8 @@
   font-weight: var(--solaris-font-weight-medium);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
+
+  // SOLARIS_TOKEN_EXCEPTION: readout width must track digit glyphs so the value never reflows the slider row across sizes.
   min-width: 4ch;
   text-align: end;
 }
