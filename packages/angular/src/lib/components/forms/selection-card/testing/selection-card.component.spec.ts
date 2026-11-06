@@ -66,6 +66,22 @@ describe('SolarisSelectionCardComponent', () => {
     expect(element.getAttribute('data-density')).toBe('comfortable');
   });
 
+  it('should not set data-padding by default to preserve density spacing', () => {
+    const element = createFixture();
+
+    expect(element.hasAttribute('data-padding')).toBe(false);
+  });
+
+  it('should apply every padding tier', () => {
+    const element = createFixture();
+    const values = ['none', 'sm', 'md', 'lg'] as const;
+    for (const value of values) {
+      fixture.componentRef.setInput('padding', value);
+      fixture.detectChanges();
+      expect(element.getAttribute('data-padding')).toBe(value);
+    }
+  });
+
   it('should reflect a checked input', () => {
     const element = createFixture();
 

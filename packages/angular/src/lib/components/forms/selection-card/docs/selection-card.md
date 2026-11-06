@@ -28,29 +28,32 @@ description, price, or icon.
 
 **Selector:** `solaris-selection-card`
 
-| Input               | Type                                                                                 | Default              | Description                                                 |
-| ------------------- | ------------------------------------------------------------------------------------ | -------------------- | ----------------------------------------------------------- |
-| `checked`           | `boolean`                                                                            | `false`              | Checked state for standalone use.                           |
-| `value`             | `unknown`                                                                            | `undefined`          | Value managed by `SolarisRadioGroupComponent` (radio mode). |
-| `name`              | `string`                                                                             | generated in a group | Native radio name (radio mode).                             |
-| `selection`         | `'radio' \| 'switch'`                                                                | `'radio'`            | Selection control type.                                     |
-| `selectionPosition` | `'start' \| 'end'`                                                                   | `'start'`            | Control side: before (`start`) or after (`end`) content.    |
-| `mediaPosition`     | `'top' \| 'start'`                                                                   | `'top'`              | Media layout: full-width or side thumb.                     |
-| `disabled`          | `boolean`                                                                            | `false`              | Prevents interaction.                                       |
-| `readonly`          | `boolean`                                                                            | `false`              | Preserves the value and prevents changes.                   |
-| `required`          | `boolean`                                                                            | `false`              | Sets the native required state.                             |
-| `invalid`           | `boolean`                                                                            | `false`              | Applies invalid styling and `aria-invalid`.                 |
-| `appearance`        | `'surface' \| 'outline' \| 'tonal' \| 'glass'`                                       | `'surface'`          | Controls the unselected card surface.                       |
-| `color`             | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'neutral'`          | Semantic selected-state color.                              |
-| `size`              | `'sm' \| 'md' \| 'lg'`                                                               | inherited (`'md'`)   | Controls padding and indicator size (own → group → `'md'`). |
-| `radius`            | `'none' \| 'sm' \| 'lg' \| 'xl'`                                                     | `'lg'`               | Controls card radius.                                       |
-| `density`           | `'compact' \| 'normal' \| 'comfortable'`                                             | inherited            | Controls spacing (own → group → theme).                     |
-| `ariaLabel`         | `string`                                                                             | `undefined`          | Accessible label when projected content is not textual.     |
-| `ariaLabelKey`      | `string`                                                                             | `undefined`          | Translation key for `ariaLabel`.                            |
+| Input               | Type                                                                                 | Default              | Description                                                                 |
+| ------------------- | ------------------------------------------------------------------------------------ | -------------------- | --------------------------------------------------------------------------- |
+| `checked`           | `boolean`                                                                            | `false`              | Checked state for standalone use.                                           |
+| `value`             | `unknown`                                                                            | `undefined`          | Value managed by `SolarisRadioGroupComponent` (radio mode).                 |
+| `name`              | `string`                                                                             | generated in a group | Native radio name (radio mode).                                             |
+| `selection`         | `'radio' \| 'switch'`                                                                | `'radio'`            | Selection control type.                                                     |
+| `selectionPosition` | `'start' \| 'end'`                                                                   | `'start'`            | Control side: before (`start`) or after (`end`) content.                    |
+| `mediaPosition`     | `'top' \| 'start'`                                                                   | `'top'`              | Media layout: full-width or side thumb.                                     |
+| `disabled`          | `boolean`                                                                            | `false`              | Prevents interaction.                                                       |
+| `readonly`          | `boolean`                                                                            | `false`              | Preserves the value and prevents changes.                                   |
+| `required`          | `boolean`                                                                            | `false`              | Sets the native required state.                                             |
+| `invalid`           | `boolean`                                                                            | `false`              | Applies invalid styling and `aria-invalid`.                                 |
+| `appearance`        | `'surface' \| 'outline' \| 'tonal' \| 'glass'`                                       | `'surface'`          | Controls the unselected card surface.                                       |
+| `color`             | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'neutral'`          | Semantic selected-state color.                                              |
+| `size`              | `'sm' \| 'md' \| 'lg'`                                                               | inherited (`'md'`)   | Controls indicator, media thumb and switch geometry (own → group → `'md'`). |
+| `radius`            | `'none' \| 'sm' \| 'lg' \| 'xl'`                                                     | `'lg'`               | Controls card radius.                                                       |
+| `density`           | `'compact' \| 'normal' \| 'comfortable'`                                             | inherited            | Controls spacing (own → group → theme).                                     |
+| `padding`           | `'none' \| 'sm' \| 'md' \| 'lg'`                                                     | inherited            | Overrides density spacing; unset follows `density`.                         |
+| `ariaLabel`         | `string`                                                                             | `undefined`          | Accessible label when projected content is not textual.                     |
+| `ariaLabelKey`      | `string`                                                                             | `undefined`          | Translation key for `ariaLabel`.                                            |
 
-> Selection Card spacing comes from the `size` × `density` matrix:
+> Selection Card spacing comes from the `size` × `density` matrix by default:
 > `density` drives `gap` + `padding`, `size` drives the indicator, dot,
-> media thumb, and the internal switch geometry. Header and footer
+> media thumb, and the internal switch geometry. Set `padding` to override
+> the density spacing with an explicit tier (`sm` ≈ `compact`, `md` ≈
+> `normal`, `lg` ≈ `comfortable`, `none` zeroes both). Header and footer
 > separators default to `true`; set `[separator]="false"` to remove them.
 
 | Output          | Type      | Description                    |
@@ -101,6 +104,32 @@ providing the native name).
 | `compact`     | 2px   | 4px       |
 | `normal`      | 4px   | 6px       |
 | `comfortable` | 6px   | 8px       |
+
+## Padding
+
+`padding` overrides the density spacing with an explicit tier. When unset,
+the card follows `density` (own → group → theme), preserving the legacy
+behavior. This mirrors the `solaris-card` `padding` API on the
+selection-card's compact scale.
+
+| Padding | `gap` | `padding` |
+| ------- | ----- | --------- |
+| `none`  | 0     | 0         |
+| `sm`    | 2px   | 4px       |
+| `md`    | 4px   | 6px       |
+| `lg`    | 6px   | 8px       |
+
+```html
+<!-- Full-bleed media with zero outer spacing -->
+<solaris-selection-card value="express" padding="none">
+  <figure solaris-selection-card-media>
+    <img src="delivery.jpg" alt="Express delivery vehicle" />
+  </figure>
+  <div solaris-selection-card-header>
+    <h3 solaris-selection-card-title>Express delivery</h3>
+  </div>
+</solaris-selection-card>
+```
 
 ## Switch selection
 

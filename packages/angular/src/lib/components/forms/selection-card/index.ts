@@ -10,6 +10,7 @@ export type {
   SolarisSelectionCardAppearance,
   SolarisSelectionCardColor,
   SolarisSelectionCardDensity,
+  SolarisSelectionCardPadding,
   SolarisSelectionCardRadius,
   SolarisSelectionCardSize,
   SolarisSelectionCardSelection,

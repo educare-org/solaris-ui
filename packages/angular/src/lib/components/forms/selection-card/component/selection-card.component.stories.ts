@@ -69,3 +69,15 @@ export const Sizes: Story = {
     density: 'comfortable',
   },
 };
+
+export const WithoutPadding: Story = {
+  args: {
+    padding: 'none',
+  },
+};
+
+export const WithPadding: Story = {
+  args: {
+    padding: 'lg',
+  },
+};

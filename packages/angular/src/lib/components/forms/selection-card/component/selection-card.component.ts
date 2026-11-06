@@ -35,6 +35,7 @@ import type {
   SolarisSelectionCardColor,
   SolarisSelectionCardDensity,
   SolarisSelectionCardMediaPosition,
+  SolarisSelectionCardPadding,
   SolarisSelectionCardRadius,
   SolarisSelectionCardSelection,
   SolarisSelectionCardSelectionPosition,
@@ -69,6 +70,7 @@ import type {
     '[attr.data-size]': 'effectiveSize()',
     '[attr.data-radius]': 'radius()',
     '[attr.data-density]': 'effectiveDensity()',
+    '[attr.data-padding]': 'padding() ?? null',
     '[attr.data-selection]': 'selection()',
     '[attr.data-selection-position]': 'selectionPosition()',
     '[attr.data-media-position]': 'mediaPosition()',
@@ -132,6 +134,7 @@ export class SolarisSelectionCardComponent
   readonly size = input<SolarisSelectionCardSize | undefined>(undefined);
   readonly radius = input<SolarisSelectionCardRadius>('lg');
   readonly density = input<SolarisSelectionCardDensity>();
+  readonly padding = input<SolarisSelectionCardPadding>();
   readonly selection = input<SolarisSelectionCardSelection>('radio');
   readonly selectionPosition =
     input<SolarisSelectionCardSelectionPosition>('start');
