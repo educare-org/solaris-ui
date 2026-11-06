@@ -1,5 +1,11 @@
 # @educarehq/solaris-ui
 
+## 2.2.0
+
+### Minor Changes
+
+- a7688f6: Add `padding` input (`'none' | 'sm' | 'md' | 'lg'`) to `solaris-selection-card`, mirroring the `solaris-card` API. When unset the card keeps the legacy density-driven spacing; when set it overrides `gap` + `padding` (`sm` ≈ compact, `md` ≈ normal, `lg` ≈ comfortable, `none` zeroes both), enabling full-bleed layouts with `padding="none"`.
+
 ## 2.1.0
 
 ### Minor Changes
