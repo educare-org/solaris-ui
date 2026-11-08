@@ -1,6 +1,7 @@
 <div
   class="solaris-popover-panel__container"
   [attr.data-connected-side]="data.connectedSide ?? null"
+  [attr.data-bordered]="data.bordered === false ? 'false' : null"
   [attr.role]="data.role"
   [id]="data.panelId"
   tabindex="-1"

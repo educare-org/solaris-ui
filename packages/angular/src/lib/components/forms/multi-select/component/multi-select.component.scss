@@ -31,12 +31,15 @@
   display: inline-flex;
   flex-direction: column;
   box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
   font-family: var(--solaris-font-family-sans), system-ui;
 }
 
 .solaris-multi-select__trigger {
   flex: 1;
   padding: 0;
+  width: 100%;
   min-width: 0;
   border: none;
   outline: none;
@@ -64,6 +67,12 @@
   .solaris-multi-select--panel-open
   .solaris-form-field__message-row {
   display: none;
+}
+
+:host ::ng-deep .solaris-form-field__label,
+:host ::ng-deep .solaris-form-field__hint,
+:host ::ng-deep .solaris-form-field__error {
+  user-select: text;
 }
 
 .solaris-multi-select__trigger-content {

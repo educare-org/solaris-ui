@@ -11,6 +11,21 @@
   gap: var(--solaris-spacing-4);
 }
 
+.select-showcase__constrained {
+  width: 320px;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: var(--solaris-spacing-4);
+  border: var(--solaris-border-width-sm) dashed
+    var(--solaris-neutral-border-default);
+  border-radius: var(--solaris-radius-md);
+}
+
+.select-showcase__constrained solaris-select {
+  width: 100%;
+}
+
 .select-showcase__controls {
   display: flex;
   flex-wrap: wrap;

@@ -55,29 +55,31 @@ CDK Overlay is an implementation detail. The public API exposes only Solaris con
 
 ### Trigger inputs
 
-| Input                               | Type                                     | Default        | Description                       |
-| ----------------------------------- | ---------------------------------------- | -------------- | --------------------------------- |
-| `solarisPopoverTriggerFor`          | `SolarisPopoverDirective`                | required       | Reference to the popover template |
-| `solarisPopoverOpen`                | `boolean \| undefined`                   | `undefined`    | Programmatic open state           |
-| `solarisPopoverDisabled`            | `boolean`                                | `false`        | Prevents opening                  |
-| `solarisPopoverPlacement`           | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'`     | Preferred placement side          |
-| `solarisPopoverAlign`               | `'start' \| 'center' \| 'end'`           | `'start'`      | Alignment relative to trigger     |
-| `solarisPopoverOffset`              | `number`                                 | `8`            | Offset in pixels from trigger     |
-| `solarisPopoverMatchTriggerWidth`   | `boolean`                                | `false`        | Matches panel width to trigger    |
-| `solarisPopoverFitContent`          | `boolean`                                | `false`        | Sizes panel to its content        |
-| `solarisPopoverMinWidth`            | `string \| number \| undefined`          | `undefined`    | Minimum panel width               |
-| `solarisPopoverMaxWidth`            | `string \| number \| undefined`          | `undefined`    | Maximum panel width               |
-| `solarisPopoverMaxHeight`           | `string \| number \| undefined`          | `undefined`    | Maximum panel height (scrolls)    |
-| `solarisPopoverCloseOnOutsideClick` | `boolean`                                | `true`         | Close when clicking outside       |
-| `solarisPopoverCloseOnEscape`       | `boolean`                                | `true`         | Close on Escape key               |
-| `solarisPopoverRestoreFocus`        | `boolean`                                | `true`         | Restore focus to trigger on close |
-| `solarisPopoverAutoFocus`           | `false \| 'panel' \| 'first-tabbable'`   | `false`        | Auto-focus behavior on open       |
-| `solarisPopoverScrollStrategy`      | `'reposition' \| 'close' \| 'block'`     | `'reposition'` | Behavior during scroll            |
-| `solarisPopoverPanelRole`           | `string \| undefined`                    | `undefined`    | ARIA role for the panel           |
-| `solarisPopoverAriaHasPopup`        | `string \| boolean \| undefined`         | `undefined`    | aria-haspopup value               |
-| `solarisPopoverAppearance`          | `'surface' \| 'outline'`                 | `'outline'`    | Panel visual style                |
-| `solarisPopoverPadding`             | `'none' \| 'sm' \| 'md' \| 'lg'`         | `'none'`       | Panel padding                     |
-| `solarisPopoverRadius`              | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'`         | Panel border radius               |
+| Input                                   | Type                                     | Default        | Description                                                                      |
+| --------------------------------------- | ---------------------------------------- | -------------- | -------------------------------------------------------------------------------- |
+| `solarisPopoverTriggerFor`              | `SolarisPopoverDirective`                | required       | Reference to the popover template                                                |
+| `solarisPopoverOpen`                    | `boolean \| undefined`                   | `undefined`    | Programmatic open state                                                          |
+| `solarisPopoverDisabled`                | `boolean`                                | `false`        | Prevents opening                                                                 |
+| `solarisPopoverPlacement`               | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'`     | Preferred placement side                                                         |
+| `solarisPopoverAlign`                   | `'start' \| 'center' \| 'end'`           | `'start'`      | Alignment relative to trigger                                                    |
+| `solarisPopoverOffset`                  | `number`                                 | `8`            | Offset in pixels from trigger                                                    |
+| `solarisPopoverMatchTriggerWidth`       | `boolean`                                | `false`        | Matches panel width to trigger                                                   |
+| `solarisPopoverFitContent`              | `boolean`                                | `false`        | Sizes panel to its content                                                       |
+| `solarisPopoverMinWidth`                | `string \| number \| undefined`          | `undefined`    | Minimum panel width                                                              |
+| `solarisPopoverMaxWidth`                | `string \| number \| undefined`          | `undefined`    | Maximum panel width                                                              |
+| `solarisPopoverMaxHeight`               | `string \| number \| undefined`          | `undefined`    | Maximum panel height (scrolls)                                                   |
+| `solarisPopoverCloseOnOutsideClick`     | `boolean`                                | `true`         | Close when clicking outside                                                      |
+| `solarisPopoverCloseOnEscape`           | `boolean`                                | `true`         | Close on Escape key                                                              |
+| `solarisPopoverRestoreFocus`            | `boolean`                                | `true`         | Restore focus to trigger on close                                                |
+| `solarisPopoverBordered`                | `boolean`                                | `true`         | Panel draws its own border (`false` mirrors borderless surface/minimal triggers) |
+| `solarisPopoverCloseOnTriggerOutOfView` | `boolean`                                | `false`        | Auto-close (no focus restore) when trigger scrolls fully out of view             |
+| `solarisPopoverAutoFocus`               | `false \| 'panel' \| 'first-tabbable'`   | `false`        | Auto-focus behavior on open                                                      |
+| `solarisPopoverScrollStrategy`          | `'reposition' \| 'close' \| 'block'`     | `'reposition'` | Behavior during scroll                                                           |
+| `solarisPopoverPanelRole`               | `string \| undefined`                    | `undefined`    | ARIA role for the panel                                                          |
+| `solarisPopoverAriaHasPopup`            | `string \| boolean \| undefined`         | `undefined`    | aria-haspopup value                                                              |
+| `solarisPopoverAppearance`              | `'surface' \| 'outline'`                 | `'outline'`    | Panel visual style                                                               |
+| `solarisPopoverPadding`                 | `'none' \| 'sm' \| 'md' \| 'lg'`         | `'none'`       | Panel padding                                                                    |
+| `solarisPopoverRadius`                  | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'`         | Panel border radius                                                              |
 
 ### Trigger outputs
 
@@ -89,12 +91,13 @@ CDK Overlay is an implementation detail. The public API exposes only Solaris con
 
 ### Trigger methods
 
-| Method             | Description              |
-| ------------------ | ------------------------ |
-| `open()`           | Opens the popover        |
-| `close()`          | Closes the popover       |
-| `toggle()`         | Toggles open/close state |
-| `updatePosition()` | Recalculates position    |
+| Method                | Description                                                               |
+| --------------------- | ------------------------------------------------------------------------- |
+| `open()`              | Opens the popover                                                         |
+| `close()`             | Closes the popover (`close({ restoreFocus: false })` skips focus restore) |
+| `toggle()`            | Toggles open/close state                                                  |
+| `updatePosition()`    | Recalculates position                                                     |
+| `updateOverlaySize()` | Re-syncs panel size to the trigger                                        |
 
 ## Positioning
 
@@ -169,7 +172,7 @@ Controls the gap between trigger and panel in pixels. Default is `8`.
 
 ## Width constraints
 
-- `matchTriggerWidth`: sets `minWidth` to the trigger's `offsetWidth`
+- `matchTriggerWidth`: sets `width`, `minWidth` and `maxWidth` to the trigger's width — the panel always renders exactly as wide as the trigger, so no edge step can appear. Long option content wraps inside the panel instead of overflowing it. Explicit `panelMinWidth`/`panelMaxWidth` inputs win over the default, and the viewport always caps the panel via flexible positioning. The size is re-synced on every reposition, so the panel follows the trigger if it resizes while open (font swap, container change).
 - `minWidth`: accepts `number` (treated as `px`) or CSS `string` (e.g. `'10rem'`, `'200px'`)
 - `maxWidth`: same format as `minWidth`
 
@@ -182,8 +185,9 @@ Controls the gap between trigger and panel in pixels. Default is `8`.
 
 ## Close behavior
 
-- `closeOnOutsideClick` (default `true`): closes when user clicks outside both trigger and panel
+- `closeOnOutsideClick` (default `true`): closes when user clicks outside both trigger and panel — without restoring focus, so the clicked element keeps it and the page never scrolls back to the trigger
 - `closeOnEscape` (default `true`): closes on Escape key press
+- `closeOnTriggerOutOfView` (default `false`; enabled by Select/Multi-Select): closes without restoring focus once the trigger scrolls fully out of view, while `reposition` keeps tracking while any part remains visible
 
 ## Focus
 
@@ -208,6 +212,8 @@ For Select/Autocomplete usage, `autoFocus` should be `false` so the component co
 | `outline`           | Surface background with visible border            |
 
 **Important:** `appearance="outline"` uses surface/overlay background with a visible border. It does NOT use transparent background.
+
+When the panel is connected to a form field (`topConnected`, as in Select and Multi-Select), the `outline` panel uses the page background (`--solaris-neutral-page`) instead: trigger and panel read as a single continuous surface, with no color step at the seam. The `surface` panel (used by the `filled` and `surface` appearances) uses the subtle background with a visible border, mirroring the trigger. Connected form-field panels render with no shadow on either side: a shadow would darken the outer fringe of the panel's own side borders (strongly visible in dark theme) and read as a 1px step against the trigger.
 
 ## Padding
 

@@ -115,8 +115,9 @@
 
 .solaris-option__label-text {
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  min-width: 0;
+  overflow-wrap: break-word;
+  white-space: normal;
   color: var(--solaris-option-label-color);
   font-size: var(--solaris-option-label-font-size);
   line-height: var(--solaris-option-label-line-height);
@@ -130,8 +131,9 @@
 
 .solaris-option__description-text {
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  min-width: 0;
+  overflow-wrap: break-word;
+  white-space: normal;
   color: var(--solaris-option-description-color);
   font-size: var(--solaris-option-description-font-size);
   line-height: var(--solaris-option-description-line-height);

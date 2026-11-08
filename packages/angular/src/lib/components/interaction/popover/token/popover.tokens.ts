@@ -17,6 +17,11 @@ export interface SolarisPopoverPanelData {
   autoFocus: SolarisPopoverAutoFocus;
   connectedSide?: 'top' | 'bottom';
   maxHeight?: string;
+  /**
+   * Whether the panel draws its own border. Defaults to true; borderless
+   * triggers (surface/minimal) pass false so the panel mirrors them.
+   */
+  bordered?: boolean;
 }
 
 export const SOLARIS_POPOVER_PANEL_DATA =

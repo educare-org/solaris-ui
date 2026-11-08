@@ -104,8 +104,34 @@
 
 .solaris-popover-panel__container[data-connected-side='bottom'][data-form-field] {
   border-top: none;
+  box-shadow: none;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+:host([data-appearance='outline'])
+  .solaris-popover-panel__container[data-form-field] {
+  background: var(--solaris-neutral-page);
+}
+
+:host([data-appearance='surface'])
+  .solaris-popover-panel__container[data-connected-side='bottom'][data-form-field]:not(
+    [data-bordered='false']
+  ) {
+  background: var(--solaris-neutral-subtle);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
+  border-top: none;
+}
+
+:host([data-appearance='surface'])
+  .solaris-popover-panel__container[data-connected-side='top'][data-form-field]:not(
+    [data-bordered='false']
+  ) {
+  background: var(--solaris-neutral-subtle);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
+  border-bottom: none;
 }
 
 .solaris-popover-panel__container[data-connected-side='top'][data-form-field] {

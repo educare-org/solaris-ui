@@ -35,6 +35,14 @@
       "output": "Eventos de borrado",
       "placeholder": "Selecciona un Status"
     },
+    "constrained": {
+      "independent": "Escuela independiente (unidad propia)",
+      "label": "Tipo de cuenta",
+      "maintainer": "Sostenedora",
+      "network": "Red (2 o más instituciones)",
+      "note": "En contenedores estrechos (tarjetas de auth, 320px, móvil) el disparador llena el contenedor y trunca el texto con ellipsis. El panel siempre tiene el mismo ancho que el disparador; las opciones largas se dividen en líneas en lugar de cortarse o desbordarse.",
+      "placeholder": "Selecciona el tipo de cuenta"
+    },
     "country": {
       "br": "Brasil",
       "pt": "Portugal",
@@ -83,9 +91,8 @@
       "lg": "Grande",
       "md": "Mediano",
       "none": "Ninguno",
-      "note": "Radio se transfiere al Form Field interno. Escala global: md corresponde a 4px, lg a 8px y xl se muestra como Pill.",
-      "sm": "Pequeño",
-      "xl": "Pill"
+      "note": "Radio se transfiere al Form Field interno. Escala: md corresponde a 4px y lg a 8px. El panel sigue el radio del disparador.",
+      "sm": "Pequeño"
     },
     "searchable": {
       "label": "País",
@@ -97,6 +104,7 @@
       "affix": "Afijo",
       "appearance": "Apariencia",
       "clearable": "Con opción de borrado",
+      "constrained": "Contenedor estrecho",
       "density": "Densidad",
       "examples": "Ejemplos",
       "installation": "Instalación",

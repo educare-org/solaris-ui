@@ -33,6 +33,7 @@ import {
   MULTI_SELECT_SHOWCASE_BREADCRUMBS,
   MULTI_SELECT_SHOWCASE_CHIPS_CODE,
   MULTI_SELECT_SHOWCASE_CLEARABLE_CODE,
+  MULTI_SELECT_SHOWCASE_CONSTRAINED_CODE,
   MULTI_SELECT_SHOWCASE_IMPORT_CODE,
   MULTI_SELECT_SHOWCASE_INSTALL_COMMANDS,
   MULTI_SELECT_SHOWCASE_NEXT,
@@ -42,11 +43,15 @@ import {
   MULTI_SELECT_SHOWCASE_RADIUS_MD_CODE,
   MULTI_SELECT_SHOWCASE_RADIUS_NONE_CODE,
   MULTI_SELECT_SHOWCASE_RADIUS_SM_CODE,
-  MULTI_SELECT_SHOWCASE_RADIUS_XL_CODE,
   MULTI_SELECT_SHOWCASE_SEARCHABLE_CODE,
   MULTI_SELECT_SHOWCASE_SELECT_ALL_CODE,
   MULTI_SELECT_SHOWCASE_SLUG,
   MULTI_SELECT_SHOWCASE_STATES_CODE,
+  MULTI_SELECT_SHOWCASE_STATE_DEFAULT_CODE,
+  MULTI_SELECT_SHOWCASE_STATE_DISABLED_CODE,
+  MULTI_SELECT_SHOWCASE_STATE_INVALID_CODE,
+  MULTI_SELECT_SHOWCASE_STATE_LOADING_CODE,
+  MULTI_SELECT_SHOWCASE_STATE_READONLY_CODE,
   MULTI_SELECT_SHOWCASE_SUFFIX_ACTION_CODE,
   MULTI_SELECT_SHOWCASE_SUFFIX_CODE,
   MULTI_SELECT_SHOWCASE_SUFFIX_INPUT_CODE,
@@ -102,8 +107,18 @@ export class MultiSelectShowcasePage {
   protected readonly radiusSmCode = MULTI_SELECT_SHOWCASE_RADIUS_SM_CODE;
   protected readonly radiusMdCode = MULTI_SELECT_SHOWCASE_RADIUS_MD_CODE;
   protected readonly radiusLgCode = MULTI_SELECT_SHOWCASE_RADIUS_LG_CODE;
-  protected readonly radiusXlCode = MULTI_SELECT_SHOWCASE_RADIUS_XL_CODE;
   protected readonly statesCode = MULTI_SELECT_SHOWCASE_STATES_CODE;
+  protected readonly stateDefaultCode =
+    MULTI_SELECT_SHOWCASE_STATE_DEFAULT_CODE;
+  protected readonly stateInvalidCode =
+    MULTI_SELECT_SHOWCASE_STATE_INVALID_CODE;
+  protected readonly stateDisabledCode =
+    MULTI_SELECT_SHOWCASE_STATE_DISABLED_CODE;
+  protected readonly stateReadonlyCode =
+    MULTI_SELECT_SHOWCASE_STATE_READONLY_CODE;
+  protected readonly stateLoadingCode =
+    MULTI_SELECT_SHOWCASE_STATE_LOADING_CODE;
+  protected readonly constrainedCode = MULTI_SELECT_SHOWCASE_CONSTRAINED_CODE;
   protected readonly clearableCode = MULTI_SELECT_SHOWCASE_CLEARABLE_CODE;
   protected readonly prefixCode = MULTI_SELECT_SHOWCASE_PREFIX_CODE;
   protected readonly suffixCode = MULTI_SELECT_SHOWCASE_SUFFIX_CODE;
@@ -128,6 +143,9 @@ export class MultiSelectShowcasePage {
     'outline' | 'surface' | 'filled'
   >('outline');
   protected readonly selectedRadius = signal<string>('sm');
+  protected readonly selectedState = signal<string>('default');
+  protected readonly selectedAffix = signal<string>('prefix');
+  protected readonly selectedSearchable = signal<string>('searchable');
   protected readonly selectedSize = signal<SolarisMultiSelectSize>('md');
   protected readonly selectedDensity =
     signal<SolarisMultiSelectDensity>('normal');

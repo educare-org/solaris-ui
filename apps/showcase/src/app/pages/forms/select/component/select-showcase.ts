@@ -32,6 +32,7 @@ import {
   SELECT_SHOWCASE_BASIC_CODE,
   SELECT_SHOWCASE_BREADCRUMBS,
   SELECT_SHOWCASE_CLEARABLE_CODE,
+  SELECT_SHOWCASE_CONSTRAINED_CODE,
   SELECT_SHOWCASE_IMPORT_CODE,
   SELECT_SHOWCASE_INSTALL_COMMANDS,
   SELECT_SHOWCASE_NEXT,
@@ -42,9 +43,13 @@ import {
   SELECT_SHOWCASE_RADIUS_MD_CODE,
   SELECT_SHOWCASE_RADIUS_NONE_CODE,
   SELECT_SHOWCASE_RADIUS_SM_CODE,
-  SELECT_SHOWCASE_RADIUS_XL_CODE,
   SELECT_SHOWCASE_SEARCHABLE_CODE,
   SELECT_SHOWCASE_SLUG,
+  SELECT_SHOWCASE_STATE_DEFAULT_CODE,
+  SELECT_SHOWCASE_STATE_DISABLED_CODE,
+  SELECT_SHOWCASE_STATE_INVALID_CODE,
+  SELECT_SHOWCASE_STATE_LOADING_CODE,
+  SELECT_SHOWCASE_STATE_READONLY_CODE,
   SELECT_SHOWCASE_STATES_CODE,
   SELECT_SHOWCASE_SUFFIX_ACTION_CODE,
   SELECT_SHOWCASE_SUFFIX_CODE,
@@ -101,8 +106,13 @@ export class SelectShowcasePage {
   protected readonly radiusSmCode = SELECT_SHOWCASE_RADIUS_SM_CODE;
   protected readonly radiusMdCode = SELECT_SHOWCASE_RADIUS_MD_CODE;
   protected readonly radiusLgCode = SELECT_SHOWCASE_RADIUS_LG_CODE;
-  protected readonly radiusXlCode = SELECT_SHOWCASE_RADIUS_XL_CODE;
   protected readonly statesCode = SELECT_SHOWCASE_STATES_CODE;
+  protected readonly stateDefaultCode = SELECT_SHOWCASE_STATE_DEFAULT_CODE;
+  protected readonly stateInvalidCode = SELECT_SHOWCASE_STATE_INVALID_CODE;
+  protected readonly stateDisabledCode = SELECT_SHOWCASE_STATE_DISABLED_CODE;
+  protected readonly stateReadonlyCode = SELECT_SHOWCASE_STATE_READONLY_CODE;
+  protected readonly stateLoadingCode = SELECT_SHOWCASE_STATE_LOADING_CODE;
+  protected readonly constrainedCode = SELECT_SHOWCASE_CONSTRAINED_CODE;
   protected readonly clearableCode = SELECT_SHOWCASE_CLEARABLE_CODE;
   protected readonly prefixCode = SELECT_SHOWCASE_PREFIX_CODE;
   protected readonly suffixCode = SELECT_SHOWCASE_SUFFIX_CODE;
@@ -125,6 +135,9 @@ export class SelectShowcasePage {
     'outline' | 'surface' | 'filled'
   >('outline');
   protected readonly selectedRadius = signal<string>('sm');
+  protected readonly selectedState = signal<string>('default');
+  protected readonly selectedAffix = signal<string>('prefix');
+  protected readonly selectedSearchable = signal<string>('searchable');
   protected readonly selectedSize = signal<SolarisSelectSize>('md');
   protected readonly selectedDensity = signal<SolarisSelectDensity>('normal');
 
