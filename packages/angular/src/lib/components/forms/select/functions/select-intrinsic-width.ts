@@ -7,6 +7,8 @@
  * here, keeping every branch unit-testable without browser layout.
  */
 
+import { ceilToDevicePixels } from '../../../interaction/popover/functions/popover-size';
+
 export const SOLARIS_SELECT_MAX_INTRINSIC_WIDTH = 480;
 
 /** Horizontal safety margin kept against the viewport edge. */
@@ -113,4 +115,48 @@ export function resolveIntrinsicTarget(
   const safeCap = cap > 0 ? cap : contentWidth;
   const desired = Math.max(Math.ceil(contentWidth), Math.ceil(triggerWidth));
   return Math.min(desired, Math.ceil(safeCap));
+}
+
+export interface SolarisDeviceAlignedFloorOptions {
+  /** Measured widest option row, before extras. */
+  contentWidth: number;
+  /** Overlay origin (trigger) width in pixels. */
+  triggerWidth: number;
+  /** Inner width of the direct parent block, when measurable. */
+  parentWidth?: number;
+  /** Viewport inner width, when measurable. */
+  viewportWidth?: number;
+  /** Explicit panelMaxWidth override set by the consumer. */
+  maxWidthOverride?: string | number;
+  /** Device pixel ratio for the device-pixel grid snap. */
+  devicePixelRatio?: number;
+}
+
+/**
+ * Content-driven floor lifted onto the shared device-pixel grid, so the
+ * trigger and the snapped panel land on the same device pixels.
+ */
+export function resolveDeviceAlignedFloor(
+  options: SolarisDeviceAlignedFloorOptions,
+): number {
+  const {
+    contentWidth,
+    triggerWidth,
+    parentWidth,
+    viewportWidth,
+    maxWidthOverride,
+    devicePixelRatio,
+  } = options;
+  return Math.max(
+    resolveIntrinsicTarget({
+      contentWidth: contentWidth + SOLARIS_SELECT_INTRINSIC_EXTRAS,
+      triggerWidth,
+      cap: resolveIntrinsicCap({
+        parentWidth,
+        viewportWidth,
+        maxWidthOverride,
+      }),
+    }),
+    ceilToDevicePixels(triggerWidth, devicePixelRatio),
+  );
 }

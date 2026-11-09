@@ -143,7 +143,6 @@ export class SolarisTranslateService {
     return key;
   }
 
-  /** Alias for `translate()`, matching common i18n service conventions. */
   instant(key: string, params?: SolarisTranslateParams): string {
     return this.translate(key, params);
   }
@@ -252,10 +251,7 @@ export class SolarisTranslateService {
   }
 
   private escapeRegExp(value: string): string {
-    return value.replace(
-      new RegExp(String.raw`[.*+?^\${}()|[\]\\]`, 'g'),
-      String.raw`\$&`,
-    );
+    return value.replace(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`);
   }
 
   private interpolate(value: string, params?: SolarisTranslateParams): string {

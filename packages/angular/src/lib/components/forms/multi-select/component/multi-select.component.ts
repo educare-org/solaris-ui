@@ -37,13 +37,13 @@ import {
   SolarisPopoverTriggerDirective,
 } from '../../../interaction/popover';
 import { SolarisTooltipDirective } from '../../../interaction/tooltip';
-import { nextIdFor, resolveElementId } from '../../../../core';
 import {
-  SOLARIS_SELECT_INTRINSIC_EXTRAS,
-  resolveIntrinsicCap,
-  resolveIntrinsicTarget,
-} from '../../select/functions/select-intrinsic-width';
-import { ceilToDevicePixels } from '../../../interaction/popover/functions/popover-size';
+  nextIdFor,
+  resolveElementId,
+  measureAvailableWidth,
+  measureOptionsContentWidth,
+} from '../../../../core';
+import { resolveDeviceAlignedFloor } from '../../select/functions/select-intrinsic-width';
 
 import type {
   SolarisMultiSelectAppearance,
@@ -865,12 +865,12 @@ export class SolarisMultiSelectComponent
     if (!triggerEl || !panel || !list) {
       return;
     }
-    const contentWidth = this.measureOptionsContentWidth(list);
+    const contentWidth = measureOptionsContentWidth(list);
     if (!(contentWidth > 0)) {
       return;
     }
     const host = this.elementRef.nativeElement;
-    const parentWidth = this.measureAvailableWidth(host);
+    const parentWidth = measureAvailableWidth(host);
     const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 0;
     // SECURITY_EXCEPTION: read-only layout input with no Renderer2
     // alternative; guarded for SSR.
@@ -881,19 +881,14 @@ export class SolarisMultiSelectComponent
     const triggerWidth =
       this.popoverTrigger()?.getOriginWidth() ??
       triggerEl.getBoundingClientRect().width;
-    const cap = resolveIntrinsicCap({
+    const target = resolveDeviceAlignedFloor({
+      contentWidth,
+      triggerWidth,
       parentWidth,
       viewportWidth,
       maxWidthOverride: this.panelMaxWidth(),
+      devicePixelRatio,
     });
-    const target = Math.max(
-      resolveIntrinsicTarget({
-        contentWidth: contentWidth + SOLARIS_SELECT_INTRINSIC_EXTRAS,
-        triggerWidth,
-        cap,
-      }),
-      ceilToDevicePixels(triggerWidth, devicePixelRatio),
-    );
     if (target > this.intrinsicMinWidth()) {
       this.intrinsicMinWidth.set(target);
       this.changeDetectorRef.detectChanges();
@@ -901,61 +896,6 @@ export class SolarisMultiSelectComponent
       trigger?.updateOverlaySize();
       trigger?.updatePosition();
     }
-  }
-
-  private measureOptionsContentWidth(list: HTMLElement): number {
-    // SECURITY_EXCEPTION: intrinsic sizing needs an offscreen clone with real
-    // layout; Renderer2 has no measurement alternative. The clone is removed
-    // in the same task and hidden from assistive tech; guarded for SSR.
-    const measurer = document.createElement('div');
-    measurer.setAttribute('aria-hidden', 'true');
-    measurer.style.cssText =
-      'position:fixed;top:-99999px;left:0;visibility:hidden;pointer-events:none;width:max-content;max-width:none;';
-    const clone = list.cloneNode(true) as HTMLElement;
-    clone.querySelectorAll('[id]').forEach((el) => el.removeAttribute('id'));
-    clone.querySelectorAll('.solaris-option__label-text').forEach((label) => {
-      (label as HTMLElement).style.whiteSpace = 'nowrap';
-    });
-    measurer.appendChild(clone);
-    document.body.appendChild(measurer);
-    try {
-      return measurer.offsetWidth;
-    } finally {
-      measurer.remove();
-    }
-  }
-
-  /**
-   * Narrowest ancestor content width: the room the field may actually fill.
-   * Uses content widths (clientWidth minus horizontal padding) across the
-   * ancestor chain, so the floor respects padded narrow containers — the
-   * panel then always matches the trigger and long options wrap instead of
-   * overflowing. Taking the minimum is safe by construction: a smaller cap
-   * can only turn growth into a no-op, never into an overflow.
-   */
-  private measureAvailableWidth(host: HTMLElement): number {
-    // SECURITY_EXCEPTION: reading ancestor boxes needs native layout;
-    // Renderer2 has no measurement alternative. Read-only, SSR-guarded.
-    let available = 0;
-    let ancestor = host.parentElement;
-    let depth = 0;
-    while (ancestor && depth < 8) {
-      const boxWidth = ancestor.clientWidth ?? 0;
-      if (boxWidth > 0) {
-        const style = getComputedStyle(ancestor);
-        const contentWidth =
-          boxWidth -
-          (Number.parseFloat(style.paddingLeft) || 0) -
-          (Number.parseFloat(style.paddingRight) || 0);
-        if (contentWidth > 0) {
-          available =
-            available > 0 ? Math.min(available, contentWidth) : contentWidth;
-        }
-      }
-      ancestor = ancestor.parentElement;
-      depth++;
-    }
-    return available;
   }
 
   protected onPanelClosed(): void {

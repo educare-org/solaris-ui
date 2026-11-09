@@ -1,6 +1,7 @@
 import {
   SOLARIS_SELECT_MAX_INTRINSIC_WIDTH,
   parseCssPixelDimension,
+  resolveDeviceAlignedFloor,
   resolveIntrinsicCap,
   resolveIntrinsicTarget,
 } from '../functions/select-intrinsic-width';
@@ -92,5 +93,48 @@ describe('resolveIntrinsicTarget', () => {
     expect(
       resolveIntrinsicTarget({ contentWidth: 0, triggerWidth: 160, cap: 480 }),
     ).toBe(160);
+  });
+});
+
+describe('resolveDeviceAlignedFloor', () => {
+  it('should lift a fractional trigger onto whole device pixels', () => {
+    expect(
+      resolveDeviceAlignedFloor({
+        contentWidth: 100,
+        triggerWidth: 189.734375,
+        parentWidth: 480,
+      }),
+    ).toBe(190);
+  });
+
+  it('should keep the content-driven floor when it already covers the snap', () => {
+    expect(
+      resolveDeviceAlignedFloor({
+        contentWidth: 260,
+        triggerWidth: 160,
+        parentWidth: 480,
+      }),
+    ).toBe(276);
+  });
+
+  it('should respect the cap for the content-driven part', () => {
+    expect(
+      resolveDeviceAlignedFloor({
+        contentWidth: 900,
+        triggerWidth: 160,
+        parentWidth: 320,
+      }),
+    ).toBe(320);
+  });
+
+  it('should snap to the caller devicePixelRatio instead of assuming DPR 1', () => {
+    expect(
+      resolveDeviceAlignedFloor({
+        contentWidth: 100,
+        triggerWidth: 189.2,
+        parentWidth: 172,
+        devicePixelRatio: 2,
+      }),
+    ).toBe(189.5);
   });
 });
