@@ -3,21 +3,12 @@ import type {
   ShowcaseSidebarNavSection,
 } from './model/shell-sidebar.model';
 
-/**
- * Normalizes a URL or route path for comparison (strips query, fragment
- * and trailing slashes) so the active page can be matched against the
- * sidebar route table.
- */
 export function normalizePath(url: string): string {
   const withoutQuery = url.split('?')[0].split('#')[0];
   const withoutTrailingSlash = withoutQuery.replace(/\/+$/, '');
   return withoutTrailingSlash.length > 0 ? withoutTrailingSlash : '/';
 }
 
-/**
- * Collects every collapsible node key (group keys plus parent-item keys
- * with children, at any depth) so the sidebar can start fully collapsed.
- */
 export function collectCollapsibleKeys(
   sections: readonly ShowcaseSidebarNavSection[],
 ): string[] {
@@ -41,11 +32,6 @@ export function collectCollapsibleKeys(
   return keys;
 }
 
-/**
- * Finds the collapsible ancestor keys of the given URL at any depth
- * (group key plus the chain of parent-item keys) so only the active
- * page's branch can be expanded.
- */
 export function findAncestorKeys(
   sections: readonly ShowcaseSidebarNavSection[],
   url: string,
@@ -88,11 +74,6 @@ export function findAncestorKeys(
   return [];
 }
 
-/**
- * Finds the collapsible ancestor chain of a toggle key itself (excluding
- * the key) at any depth, so opening a nested toggle can keep its parent
- * chain open while everything else collapses (single-branch accordion).
- */
 export function findToggleAncestors(
   sections: readonly ShowcaseSidebarNavSection[],
   targetKey: string,
@@ -134,10 +115,6 @@ export function findToggleAncestors(
   return [];
 }
 
-/**
- * Finds collapsible descendant keys of a toggle at any depth (nested
- * parent items), so closing a parent also resets its nested toggles.
- */
 export function findToggleDescendants(
   sections: readonly ShowcaseSidebarNavSection[],
   targetKey: string,
@@ -147,8 +124,7 @@ export function findToggleDescendants(
     for (const item of items) {
       const children = item.children ?? [];
       if (children.length > 0) {
-        keys.push(item.labelKey);
-        keys.push(...collectKeys(children));
+        keys.push(item.labelKey, ...collectKeys(children));
       }
     }
     return keys;

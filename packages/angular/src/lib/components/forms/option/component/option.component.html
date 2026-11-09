@@ -27,10 +27,9 @@
       @if (labelSlot()) {
         <ng-content select="[solaris-option-label]" />
       }
-      <ng-content />
-      @if (!labelSlot() && labelText(); as text) {
-        <span class="solaris-option__label-text">{{ text }}</span>
-      }
+      <span class="solaris-option__label-text"
+        ><ng-content />{{ labelText() }}</span
+      >
     </div>
 
     @if (descriptionSlot()) {

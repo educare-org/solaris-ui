@@ -3,24 +3,6 @@ import type {
   SolarisTranslateService,
 } from '@solaris-ui/angular';
 
-/**
- * Utilitários compartilhados das páginas showcase.
- *
- * Centraliza tudo que se repetia (literalmente) nas 7 páginas migradas
- * para o padrão de apresentação (button, segmented-control, tabs,
- * tooltip, popover, preview-code, code-block):
- * - `SHOWCASE_INSTALL_COMMANDS` (pnpm/npm, pacote único)
- * - serialização da página como Markdown (Copy Page / View as Markdown)
- * - abertura do prompt nos assistentes de IA (ChatGPT / Claude)
- * - copy/download via `DOCUMENT`
- *
- * Dados específicos de cada página (breadcrumbs, prev/next, tocItems,
- * importCode e snippets estáticos) continuam em
- * `pages/<categoria>/<nome>/model/<nome>-showcase.data.ts`.
- * O componente mantém apenas signals, computed dinâmicos e as
- * delegações finas para estas factories.
- */
-
 export const SHOWCASE_INSTALL_PACKAGE = '@educarehq/solaris-ui';
 
 export const SHOWCASE_INSTALL_COMMANDS: readonly SolarisCodeBlockCommand[] = [
@@ -39,13 +21,9 @@ export const SHOWCASE_INSTALL_COMMANDS: readonly SolarisCodeBlockCommand[] = [
 ];
 
 export interface ShowcasePageMarkdownOptions {
-  /** Prefixo das chaves i18n, ex: `button`, `tabs`, `code-block`. */
   readonly translationPrefix: string;
-  /** Snippet de import exibido na seção de instalação. */
   readonly importCode: string;
-  /** Snippet do exemplo básico (seção examples). Omitido quando a página não tem um único basic. */
   readonly basicCode?: string;
-  /** Linguagem do bloco do exemplo básico. Padrão: `html`. */
   readonly basicLanguage?: string;
 }
 
@@ -141,7 +119,6 @@ export function openShowcaseAiAssistant(
 
 export interface ShowcasePageActionsOptions
   extends ShowcasePageMarkdownOptions {
-  /** Slug usado no nome do arquivo `.md` (ex: `segmented-control`). */
   readonly slug: string;
 }
 
@@ -152,11 +129,6 @@ export interface ShowcasePageActions {
   openInClaude(): void;
 }
 
-/**
- * Factory das page actions. O componente injeta `SolarisTranslateService`
- * + `DOCUMENT` e delega os handlers do header/footer para o objeto retornado,
- * mantendo no componente apenas wrappers finos (exigidos pelo template).
- */
 export function createShowcasePageActions(
   translateService: SolarisTranslateService,
   document: Document,

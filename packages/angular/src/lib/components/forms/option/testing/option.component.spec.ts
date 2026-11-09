@@ -475,3 +475,56 @@ describe('SolarisOptionComponent i18n', () => {
     expect(hasTranslated || hasFallback).toBe(true);
   });
 });
+
+describe('SolarisOptionComponent text wrapping', () => {
+  function hasWrappingRule(selector: string): boolean {
+    const sheets = Array.from(document.styleSheets);
+    for (const sheet of sheets) {
+      let rules: CSSRuleList | undefined;
+      try {
+        rules = sheet.cssRules;
+      } catch {
+        continue;
+      }
+      if (!rules) continue;
+      for (const rule of Array.from(rules)) {
+        if (!(rule instanceof CSSStyleRule)) continue;
+        if (!rule.selectorText.includes(selector)) continue;
+        const whiteSpace = rule.style.getPropertyValue('white-space');
+        if (whiteSpace === 'normal') return true;
+      }
+    }
+    return false;
+  }
+
+  it('should wrap long labels instead of truncating them', () => {
+    configureSolarisTesting();
+    @Component({
+      standalone: true,
+      imports: [SolarisOptionComponent],
+      template:
+        '<solaris-option value="a" label="Escola independente (unidade própria)"></solaris-option>',
+    })
+    class Host {}
+    const hostFixture = TestBed.createComponent(Host);
+    hostFixture.detectChanges();
+    expect(hostFixture.nativeElement.textContent).toContain(
+      'Escola independente',
+    );
+    expect(hasWrappingRule('.solaris-option__label-text')).toBe(true);
+  });
+
+  it('should wrap long descriptions instead of truncating them', () => {
+    configureSolarisTesting();
+    @Component({
+      standalone: true,
+      imports: [SolarisOptionComponent],
+      template:
+        '<solaris-option value="a" label="Admin" description="A very long description that should wrap"></solaris-option>',
+    })
+    class Host {}
+    const hostFixture = TestBed.createComponent(Host);
+    hostFixture.detectChanges();
+    expect(hasWrappingRule('.solaris-option__description-text')).toBe(true);
+  });
+});

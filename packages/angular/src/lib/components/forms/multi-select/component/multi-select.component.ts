@@ -11,6 +11,7 @@ import {
   contentChildren,
   viewChild,
   ElementRef,
+  ChangeDetectorRef,
   AfterContentInit,
   AfterViewInit,
   DestroyRef,
@@ -36,7 +37,13 @@ import {
   SolarisPopoverTriggerDirective,
 } from '../../../interaction/popover';
 import { SolarisTooltipDirective } from '../../../interaction/tooltip';
-import { nextIdFor, resolveElementId } from '../../../../core';
+import {
+  nextIdFor,
+  resolveElementId,
+  measureAvailableWidth,
+  measureOptionsContentWidth,
+} from '../../../../core';
+import { resolveDeviceAlignedFloor } from '../../select/functions/select-intrinsic-width';
 
 import type {
   SolarisMultiSelectAppearance,
@@ -45,7 +52,7 @@ import type {
   SolarisMultiSelectDisplayMode,
   SolarisMultiSelectSize,
 } from '../model/multi-select.types';
-import type { SolarisIconName } from '../../../icon/model/icon.types';
+import type { SolarisIconName } from '../../../../services/icon';
 
 function normalizeArray(value: unknown): unknown[] {
   if (value === null || value === undefined) return [];
@@ -90,6 +97,7 @@ function normalizeArray(value: unknown): unknown[] {
     '[attr.data-open]': 'panelOpen() ? "" : null',
     '[attr.aria-label]': 'ariaLabelText() ?? null',
     '[attr.data-has-value]': 'hasValue() ? "" : null',
+    '[style.min-width]': 'hostMinWidth()',
   },
 })
 export class SolarisMultiSelectComponent
@@ -155,6 +163,7 @@ export class SolarisMultiSelectComponent
   readonly searchPlaceholderKey = input<string>();
   readonly panelMinWidth = input<string | number>();
   readonly panelMaxWidth = input<string | number>();
+  readonly autoSize = input<boolean>(true);
   readonly density = input<SolarisMultiSelectDensity>();
   readonly size = input<SolarisMultiSelectSize>('md');
   readonly panelMatchTriggerWidth = input<boolean>(true);
@@ -210,6 +219,8 @@ export class SolarisMultiSelectComponent
   private onTouched: () => void = () => undefined;
   private optionInteractionSubscriptions: (() => void)[] = [];
   private readonly popoverSubscriptions: (() => void)[] = [];
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly intrinsicMinWidth = signal(0);
   private readonly triggerWidth = signal(0);
   private resizeObserver: ResizeObserver | null = null;
   private readonly destroyRef = inject(DestroyRef);
@@ -251,6 +262,11 @@ export class SolarisMultiSelectComponent
   protected readonly popoverAppearance = computed(() => {
     const a = this.appearance();
     return a === 'filled' ? 'surface' : a;
+  });
+
+  protected readonly isPanelBordered = computed(() => {
+    const a = this.appearance();
+    return a === 'outline' || a === 'filled';
   });
 
   protected readonly canOpen = computed(() => {
@@ -344,26 +360,27 @@ export class SolarisMultiSelectComponent
     );
   });
 
-  protected readonly contentMinWidth = computed(() => {
-    const opts = this.options();
-    if (!opts || opts.length === 0) return 0;
-    let longest = 0;
-    for (const opt of opts) {
-      longest = Math.max(longest, this.getOptionDisplayLabel(opt).length);
+  /**
+   * Content-driven floor applied to the host (not the inner trigger) so the
+   * whole field — wrapper, trigger and panel — grows together and can never
+   * overflow a narrower container.
+   */
+  protected readonly hostMinWidth = computed(() => {
+    const auto = this.intrinsicMinWidth();
+    if (auto > 0) {
+      return `${auto}px`;
     }
-    const summaryLength = this.summaryText().length;
-    if (longest === 0 && summaryLength === 0) return 0;
-    const charWidth = this.size() === 'sm' ? 8 : this.size() === 'lg' ? 10 : 9;
-    const widestRow = longest * charWidth * 1.15 + 70;
-    const summaryWidth = summaryLength * charWidth + 20;
-    return Math.ceil(Math.max(widestRow, summaryWidth));
+    return null;
   });
 
   protected readonly effectivePanelMinWidth = computed(() => {
     const input = this.panelMinWidth();
     if (input !== undefined) return input;
-    const floor = this.contentMinWidth();
-    return floor > 0 ? floor : undefined;
+    const auto = this.intrinsicMinWidth();
+    if (auto > 0) {
+      return auto;
+    }
+    return undefined;
   });
 
   protected readonly autoChipCount = computed(() => {
@@ -805,6 +822,7 @@ export class SolarisMultiSelectComponent
     this.setOptionsSelectedState();
     this.syncActiveStates();
     this.syncVisibility();
+    this.syncIntrinsicWidth();
     this.opened.emit();
     this.openChange.emit(true);
 
@@ -813,6 +831,70 @@ export class SolarisMultiSelectComponent
         // SECURITY_EXCEPTION: focusing the search input when the panel opens requires the native method.
         this.searchInputRef()?.nativeElement.focus();
       });
+    }
+  }
+
+  private syncIntrinsicWidth(): void {
+    if (!this.autoSize()) {
+      return;
+    }
+    if (this.panelMinWidth() !== undefined) {
+      return;
+    }
+    if (!this.panelMatchTriggerWidth()) {
+      return;
+    }
+    requestAnimationFrame(() => this.measureIntrinsicWidth());
+  }
+
+  private measureIntrinsicWidth(): void {
+    if (!this.panelOpen()) {
+      return;
+    }
+    if (typeof document === 'undefined') {
+      return;
+    }
+    // SECURITY_EXCEPTION: measuring the attached panel rows for content-driven
+    // sizing requires native layout reads (offsetWidth); Renderer2
+    // has no layout-measurement alternative. Read-only, guarded for SSR.
+    const triggerEl = this.triggerElement()?.nativeElement;
+    const panel = document.getElementById(this.panelId);
+    const list = panel?.querySelector(
+      '.solaris-multi-select__options',
+    ) as HTMLElement | null;
+    if (!triggerEl || !panel || !list) {
+      return;
+    }
+    const contentWidth = measureOptionsContentWidth(list);
+    if (!(contentWidth > 0)) {
+      return;
+    }
+    const host = this.elementRef.nativeElement;
+    const parentWidth = measureAvailableWidth(host);
+    const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 0;
+    // SECURITY_EXCEPTION: read-only layout input with no Renderer2
+    // alternative; guarded for SSR.
+    const devicePixelRatio =
+      typeof window !== 'undefined' && window.devicePixelRatio > 0
+        ? window.devicePixelRatio
+        : 1;
+    const triggerWidth =
+      this.popoverTrigger()?.getOriginWidth() ??
+      triggerEl.getBoundingClientRect().width;
+    const target = resolveDeviceAlignedFloor({
+      contentWidth,
+      triggerWidth,
+      parentWidth,
+      viewportWidth,
+      maxWidthOverride: this.panelMaxWidth(),
+      devicePixelRatio,
+    });
+    if (target > this.intrinsicMinWidth()) {
+      this.intrinsicMinWidth.set(target);
+      this.changeDetectorRef.detectChanges();
+      const trigger = this.popoverTrigger();
+      trigger?.updateOverlaySize();
+      trigger?.updatePosition();
     }
   }
 

@@ -132,5 +132,90 @@ describe('SolarisPopoverPanelComponent', () => {
 
       overlayRef.dispose();
     });
+
+    it('should mark the container as unbordered when bordered is false', () => {
+      const templateRef = fixture.componentInstance.contentTemplate;
+
+      const data: SolarisPopoverPanelData = {
+        contentTemplate: templateRef,
+        appearance: 'surface',
+        padding: 'none',
+        radius: 'md',
+        role: undefined,
+        panelId: 'test-panel-3',
+        autoFocus: false,
+        bordered: false,
+      };
+
+      const injector = Injector.create({
+        providers: [{ provide: SOLARIS_POPOVER_PANEL_DATA, useValue: data }],
+      });
+
+      const overlayRef = overlay.create({
+        positionStrategy: overlay
+          .position()
+          .global()
+          .centerHorizontally()
+          .centerVertically(),
+        hasBackdrop: false,
+      });
+
+      const portal = new ComponentPortal(
+        SolarisPopoverPanelComponent,
+        null,
+        injector,
+      );
+      overlayRef.attach(portal);
+      fixture.detectChanges();
+
+      const container = overlayRef.overlayElement.querySelector(
+        '.solaris-popover-panel__container',
+      );
+      expect(container?.getAttribute('data-bordered')).toBe('false');
+
+      overlayRef.dispose();
+    });
+
+    it('should omit the bordered marker by default', () => {
+      const templateRef = fixture.componentInstance.contentTemplate;
+
+      const data: SolarisPopoverPanelData = {
+        contentTemplate: templateRef,
+        appearance: 'surface',
+        padding: 'none',
+        radius: 'md',
+        role: undefined,
+        panelId: 'test-panel-4',
+        autoFocus: false,
+      };
+
+      const injector = Injector.create({
+        providers: [{ provide: SOLARIS_POPOVER_PANEL_DATA, useValue: data }],
+      });
+
+      const overlayRef = overlay.create({
+        positionStrategy: overlay
+          .position()
+          .global()
+          .centerHorizontally()
+          .centerVertically(),
+        hasBackdrop: false,
+      });
+
+      const portal = new ComponentPortal(
+        SolarisPopoverPanelComponent,
+        null,
+        injector,
+      );
+      overlayRef.attach(portal);
+      fixture.detectChanges();
+
+      const container = overlayRef.overlayElement.querySelector(
+        '.solaris-popover-panel__container',
+      );
+      expect(container?.hasAttribute('data-bordered')).toBe(false);
+
+      overlayRef.dispose();
+    });
   });
 });

@@ -289,11 +289,11 @@ directly for loading states.
 
 ## Appearances
 
-| Value     | Description                                                            |
-| --------- | ---------------------------------------------------------------------- |
-| `outline` | Clear border, neutral background. Default, good for traditional forms. |
-| `surface` | Card/panel surface, subtle border.                                     |
-| `filled`  | Subtle filled background, modern style.                                |
+| Value     | Description                                                                   |
+| --------- | ----------------------------------------------------------------------------- |
+| `outline` | Border only on a transparent background. Default, good for traditional forms. |
+| `surface` | Card/panel surface, subtle border.                                            |
+| `filled`  | Subtle filled background, modern style.                                       |
 
 ## Density
 
@@ -344,12 +344,13 @@ wrapper so no second handle appears on the textarea.
 | ------ | ----------------------------- |
 | `none` | Sharp corners                 |
 | `sm`   | Small rounding (2px). Default |
-| `md`   | Medium rounding (8px)         |
-| `lg`   | Pill shape                    |
+| `md`   | Medium rounding (4px)         |
+| `lg`   | Large rounding (8px)          |
+| `xl`   | Pill shape (fully rounded)    |
 
-Fields use their own radius scale (`md` maps to the 8px token, `lg`
-renders as a pill) so `sm` and `md` stay visually distinct. Other
-components keep the global scale.
+Fields use their own radius scale (`md` maps to the 4px token, `lg` to
+8px) so `sm` and `md` stay visually distinct. Other components keep the
+global scale. The dropdown panel of preset fields caps `xl` at `lg`.
 
 ## CSS Variables
 
@@ -505,7 +506,7 @@ Rules:
 - No automatic validation messages by validator type.
 - No global form container.
 - No glass appearance.
-- No `xl` or `full` radius for form fields (use `md` or `lg`).
+- `xl` renders as a pill (fully rounded); prefer `md` or `lg` for rectangular fields.
 - Prefix/suffix action content uses `[solaris-form-suffix-action]` (rectangular variant of the suffix cell).
 - `aria-describedby` does not update dynamically for projected content in all edge cases.
 

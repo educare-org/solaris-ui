@@ -34,6 +34,10 @@ import {
   getPrimaryPosition,
   getFallbackPositions,
 } from '../model/popover-position';
+import {
+  normalizePopoverDimension,
+  resolvePopoverSize,
+} from '../functions/popover-size';
 import { scheduleMotionClose, cancelMotionClose } from '../../../../core';
 
 import type {
@@ -78,6 +82,8 @@ export class SolarisPopoverTriggerDirective {
     null;
   private fitContentSizeTimeout: ReturnType<typeof setTimeout> | null = null;
   private closeTimeout: ReturnType<typeof setTimeout> | null = null;
+  private triggerVisibilityObserver: IntersectionObserver | null = null;
+  private originResizeObserver: ResizeObserver | null = null;
   private connectedSide: 'top' | 'bottom' = 'bottom';
 
   readonly solarisPopoverTriggerFor = input<
@@ -188,6 +194,14 @@ export class SolarisPopoverTriggerDirective {
     alias: 'solarisPopoverTopConnected',
   });
 
+  readonly solarisPopoverCloseOnTriggerOutOfView = input<boolean>(false, {
+    alias: 'solarisPopoverCloseOnTriggerOutOfView',
+  });
+
+  readonly solarisPopoverBordered = input<boolean>(true, {
+    alias: 'solarisPopoverBordered',
+  });
+
   readonly solarisPopoverOpened = output<void>();
   readonly solarisPopoverClosed = output<void>();
   readonly solarisPopoverOpenChange = output<boolean>();
@@ -241,19 +255,23 @@ export class SolarisPopoverTriggerDirective {
     this.createOverlay();
     this.attachPanel();
     this.addOutsideClickHandler();
+    this.startTriggerVisibilityObserver();
+    this.startOriginResizeObserver();
     this.updateOverlaySize();
     this.isOpen.set(true);
     this.solarisPopoverOpened.emit();
     this.solarisPopoverOpenChange.emit(true);
   }
 
-  close(): void {
+  close(options?: { restoreFocus?: boolean }): void {
     if (!this.isOpen()) {
       return;
     }
 
     this.markPanelClosing();
-    this.restoreFocus();
+    this.restoreFocus(options?.restoreFocus ?? true);
+    this.stopTriggerVisibilityObserver();
+    this.stopOriginResizeObserver();
     this.isOpen.set(false);
     this.solarisPopoverClosed.emit();
     this.solarisPopoverOpenChange.emit(false);
@@ -275,6 +293,11 @@ export class SolarisPopoverTriggerDirective {
     if (this.overlayRef) {
       this.overlayRef.updatePosition();
     }
+  }
+
+  /** Origin (trigger) width in CSS pixels. */
+  getOriginWidth(): number {
+    return this.getPositionOrigin().getBoundingClientRect().width;
   }
 
   private createOverlay(): void {
@@ -299,6 +322,7 @@ export class SolarisPopoverTriggerDirective {
         this.panelDataRef.connectedSide = this.connectedSide;
       }
       this.panelComponentRef?.changeDetectorRef.markForCheck();
+      this.updateOverlaySize();
       if (this.panelContainerRef) {
         this.panelContainerRef.setAttribute(
           'data-connected-side',
@@ -419,7 +443,8 @@ export class SolarisPopoverTriggerDirective {
       panelId: this.panelId,
       autoFocus: this.solarisPopoverAutoFocus(),
       connectedSide: initialSide,
-      maxHeight: normalizeCssDimension(this.solarisPopoverMaxHeight()),
+      maxHeight: normalizePopoverDimension(this.solarisPopoverMaxHeight()),
+      bordered: this.solarisPopoverBordered(),
     };
 
     const panelInjector = Injector.create({
@@ -473,6 +498,8 @@ export class SolarisPopoverTriggerDirective {
       this.clearConnectedSideAttributes();
     }
     this.removeOutsideClickHandler();
+    this.stopTriggerVisibilityObserver();
+    this.stopOriginResizeObserver();
   }
 
   private markPanelClosing(): void {
@@ -492,6 +519,8 @@ export class SolarisPopoverTriggerDirective {
       clearTimeout(this.fitContentSizeTimeout);
       this.fitContentSizeTimeout = null;
     }
+    this.stopTriggerVisibilityObserver();
+    this.stopOriginResizeObserver();
     this.panelContainerRef = null;
     this.panelDataRef = null;
     this.panelComponentRef = null;
@@ -551,7 +580,7 @@ export class SolarisPopoverTriggerDirective {
       !overlayElement.contains(target) &&
       !triggerElement.contains(target)
     ) {
-      this.close();
+      this.close({ restoreFocus: false });
     }
   };
 
@@ -566,43 +595,95 @@ export class SolarisPopoverTriggerDirective {
     };
   }
 
-  private updateOverlaySize(): void {
+  updateOverlaySize(): void {
     if (!this.overlayRef) {
       return;
     }
 
-    const size: {
-      width?: number | string;
-      minWidth?: number | string;
-      maxWidth?: number | string;
-      maxHeight?: number | string;
-    } = {};
-
-    const triggerWidth = this.getPositionOrigin().offsetWidth;
-    const matchWidth = this.solarisPopoverMatchTriggerWidth();
-    const minWidth = this.solarisPopoverMinWidth();
-    const maxWidth = this.solarisPopoverMaxWidth();
-    const maxHeight = this.solarisPopoverMaxHeight();
-
-    if (matchWidth) {
-      size.width = triggerWidth;
-      size.minWidth = triggerWidth;
-    }
-
-    if (minWidth !== undefined) {
-      size.minWidth = typeof minWidth === 'number' ? `${minWidth}px` : minWidth;
-    }
-
-    if (maxWidth !== undefined) {
-      size.maxWidth = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
-    }
-
-    if (maxHeight !== undefined) {
-      size.maxHeight =
-        typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight;
-    }
+    // SECURITY_EXCEPTION: read-only layout input with no Renderer2
+    // alternative; guarded for SSR.
+    const devicePixelRatio =
+      typeof window !== 'undefined' && window.devicePixelRatio > 0
+        ? window.devicePixelRatio
+        : 1;
+    const size = resolvePopoverSize({
+      triggerWidth: this.getPositionOrigin().getBoundingClientRect().width,
+      matchTriggerWidth: this.solarisPopoverMatchTriggerWidth(),
+      minWidth: this.solarisPopoverMinWidth(),
+      maxWidth: this.solarisPopoverMaxWidth(),
+      maxHeight: this.solarisPopoverMaxHeight(),
+      devicePixelRatio,
+    });
 
     this.overlayRef.updateSize(size);
+  }
+
+  private startTriggerVisibilityObserver(): void {
+    this.stopTriggerVisibilityObserver();
+    if (!this.solarisPopoverCloseOnTriggerOutOfView()) {
+      return;
+    }
+    if (typeof IntersectionObserver === 'undefined') {
+      return;
+    }
+    // SECURITY_EXCEPTION: observing trigger visibility to auto-close without
+    // stealing focus requires the native element; no Renderer2 alternative.
+    // Read-only observation, SSR-guarded, cleaned up on close/dispose.
+    const target = this.getPositionOrigin();
+    if (!target) {
+      return;
+    }
+    this.triggerVisibilityObserver = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry && !entry.isIntersecting && this.isOpen()) {
+          this.close({ restoreFocus: false });
+        }
+      },
+      { threshold: 0 },
+    );
+    this.triggerVisibilityObserver.observe(target);
+  }
+
+  private stopTriggerVisibilityObserver(): void {
+    if (this.triggerVisibilityObserver) {
+      this.triggerVisibilityObserver.disconnect();
+      this.triggerVisibilityObserver = null;
+    }
+  }
+
+  /**
+   * Keep the overlay glued to its origin while open: font swaps, container
+   * reflows and content-driven growth can move or resize the trigger after
+   * the initial positioning, and nothing else re-syncs it. Observing the
+   * origin (never the pane) makes feedback loops impossible.
+   */
+  private startOriginResizeObserver(): void {
+    this.stopOriginResizeObserver();
+    if (typeof ResizeObserver === 'undefined') {
+      return;
+    }
+    // SECURITY_EXCEPTION: tracking the origin box needs the native element;
+    // no Renderer2 alternative. Read-only, SSR-guarded, cleaned up below.
+    const target = this.getPositionOrigin();
+    if (!target) {
+      return;
+    }
+    this.originResizeObserver = new ResizeObserver(() => {
+      if (!this.isOpen() || !this.overlayRef) {
+        return;
+      }
+      this.updateOverlaySize();
+      this.updatePosition();
+    });
+    this.originResizeObserver.observe(target);
+  }
+
+  private stopOriginResizeObserver(): void {
+    if (this.originResizeObserver) {
+      this.originResizeObserver.disconnect();
+      this.originResizeObserver = null;
+    }
   }
 
   private syncFitContentWidth(content: Element): void {
@@ -613,8 +694,9 @@ export class SolarisPopoverTriggerDirective {
     }
   }
 
-  private restoreFocus(): void {
+  private restoreFocus(restore = true): void {
     if (
+      restore &&
       this.solarisPopoverRestoreFocus() &&
       this.previousActiveElement &&
       this.document.contains(this.previousActiveElement)
@@ -623,13 +705,4 @@ export class SolarisPopoverTriggerDirective {
     }
     this.previousActiveElement = null;
   }
-}
-
-function normalizeCssDimension(
-  value: string | number | undefined,
-): string | undefined {
-  if (value === undefined) {
-    return undefined;
-  }
-  return typeof value === 'number' ? `${value}px` : value;
 }

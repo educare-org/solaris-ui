@@ -26,6 +26,8 @@
   [solarisPopoverPadding]="'none'"
   [solarisPopoverRadius]="radius()"
   [solarisPopoverTopConnected]="true"
+  [solarisPopoverBordered]="isPanelBordered()"
+  [solarisPopoverCloseOnTriggerOutOfView]="true"
   [solarisPopoverMinWidth]="effectivePanelMinWidth()"
   [solarisPopoverMaxWidth]="panelMaxWidth()"
   [solarisPopoverScrollStrategy]="'reposition'"
@@ -53,7 +55,6 @@
     #triggerEl
     class="solaris-multi-select__trigger"
     [id]="elementId() + '--trigger'"
-    [style.min-width.px]="contentMinWidth() || null"
     solaris-form-field-trigger
     role="combobox"
     tabindex="0"

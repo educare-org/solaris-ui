@@ -46,7 +46,6 @@ type MultiSelectTestSeam = Omit<
   countTooltipText: Signal<string>;
   canClear: Signal<boolean>;
   canOpen: Signal<boolean>;
-  contentMinWidth: Signal<number>;
   effectivePanelMinWidth: Signal<string | number | undefined>;
   isPartialSelected: Signal<boolean>;
   isAllSelected: Signal<boolean>;
@@ -1552,12 +1551,12 @@ describe('SolarisMultiSelectComponent', () => {
       ).toBeTruthy();
     });
 
-    it('should accept radius xl (P5 B/C)', () => {
+    it('should accept radius lg (P5 B/C)', () => {
       @Component({
         standalone: true,
         imports: [SolarisMultiSelectComponent, SolarisOptionComponent],
         template: `
-          <solaris-multi-select radius="xl">
+          <solaris-multi-select radius="lg">
             <solaris-option value="a">Option A</solaris-option>
           </solaris-multi-select>
         `,
@@ -1567,15 +1566,15 @@ describe('SolarisMultiSelectComponent', () => {
           }),
         ],
       })
-      class RadiusXlHost {}
+      class RadiusLgHost {}
       TestBed.configureTestingModule({});
-      const fixture = TestBed.createComponent(RadiusXlHost);
+      const fixture = TestBed.createComponent(RadiusLgHost);
       fixture.detectChanges();
       expect(
         fixture.nativeElement
           .querySelector('solaris-multi-select solaris-form-field')
           .getAttribute('data-radius'),
-      ).toBe('xl');
+      ).toBe('lg');
     });
   });
 
@@ -1726,7 +1725,7 @@ describe('SolarisMultiSelectComponent', () => {
     });
   });
 
-  describe('content min width (widest option floor)', () => {
+  describe('width overrides (no automatic content floor)', () => {
     @Component({
       standalone: true,
       imports: [SolarisMultiSelectComponent, SolarisOptionComponent],
@@ -1747,34 +1746,24 @@ describe('SolarisMultiSelectComponent', () => {
       panelMinWidth: string | number | undefined;
     }
 
-    it('should estimate the floor from the longest option label', () => {
-      TestBed.configureTestingModule({});
-      const fixture = TestBed.createComponent(MinWidthHost);
-      fixture.detectChanges();
-      const multiSelect = fixture.debugElement.query(
-        By.css('solaris-multi-select'),
-      ).componentInstance as unknown as MultiSelectTestSeam;
-      expect(multiSelect.contentMinWidth()).toBe(215);
-    });
-
-    it('should apply the floor as trigger min-width', () => {
+    it('should not apply any trigger min-width by default', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(MinWidthHost);
       fixture.detectChanges();
       const trigger = fixture.nativeElement.querySelector(
         '.solaris-multi-select__trigger',
       );
-      expect(trigger.style.minWidth).toBe('215px');
+      expect(trigger.style.minWidth).toBe('');
     });
 
-    it('should fall back to the floor as panel min-width', () => {
+    it('should not apply any panel min-width by default (match trigger width)', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(MinWidthHost);
       fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
       ).componentInstance as unknown as MultiSelectTestSeam;
-      expect(multiSelect.effectivePanelMinWidth()).toBe(215);
+      expect(multiSelect.effectivePanelMinWidth()).toBeUndefined();
     });
 
     it('should prefer an explicit panelMinWidth input', () => {
@@ -1788,7 +1777,7 @@ describe('SolarisMultiSelectComponent', () => {
       expect(multiSelect.effectivePanelMinWidth()).toBe(300);
     });
 
-    it('should not collapse to count-only once the trigger reaches the floor', () => {
+    it('should keep auto display mode stable in narrow containers', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(MinWidthHost);
       fixture.detectChanges();
@@ -1802,7 +1791,7 @@ describe('SolarisMultiSelectComponent', () => {
       expect(multiSelect.showCountOnly()).toBe(false);
     });
 
-    it('should return no floor without options', () => {
+    it('should return no panel min-width without options', () => {
       @Component({
         standalone: true,
         imports: [SolarisMultiSelectComponent],
@@ -1820,7 +1809,78 @@ describe('SolarisMultiSelectComponent', () => {
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
       ).componentInstance as unknown as MultiSelectTestSeam;
-      expect(multiSelect.contentMinWidth()).toBe(0);
+      expect(multiSelect.effectivePanelMinWidth()).toBeUndefined();
+    });
+  });
+
+  describe('multi-select in constrained container (320px regression)', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisMultiSelectComponent, SolarisOptionComponent],
+      template: `
+        <div
+          style="width: 320px; max-width: 320px; overflow: hidden; box-sizing: border-box;"
+        >
+          <solaris-multi-select placeholder="Select account type">
+            <solaris-option
+              value="independent"
+              label="Escola independente (unidade própria)"
+            />
+            <solaris-option
+              value="network"
+              label="Rede (2 ou mais instituições)"
+            />
+            <solaris-option value="maintainer" label="Mantenedora" />
+          </solaris-multi-select>
+        </div>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class ConstrainedHost {}
+
+    it('should not impose a content-based min-width on the trigger', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ConstrainedHost);
+      fixture.detectChanges();
+      const trigger = fixture.nativeElement.querySelector(
+        '.solaris-multi-select__trigger',
+      ) as HTMLElement;
+      expect(trigger.style.minWidth).toBe('');
+      const multiSelect = fixture.debugElement.query(
+        By.css('solaris-multi-select'),
+      ).componentInstance as unknown as MultiSelectTestSeam;
+      expect(multiSelect.effectivePanelMinWidth()).toBeUndefined();
+    });
+
+    it('should keep long content truncated with ellipsis and no horizontal overflow', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ConstrainedHost);
+      fixture.detectChanges();
+      const content = fixture.nativeElement.querySelector(
+        '.solaris-multi-select__trigger-content',
+      ) as HTMLElement;
+      const styles = getComputedStyle(content);
+      expect(styles.overflow).toBe('hidden');
+      expect(
+        fixture.nativeElement.querySelector('div').scrollWidth,
+      ).toBeLessThanOrEqual(321);
+    });
+
+    it('should match the panel to the trigger width by default', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ConstrainedHost);
+      fixture.detectChanges();
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-multi-select solaris-form-field',
+      ) as HTMLElement;
+      expect(formField.hasAttribute('solaris-popover-trigger')).toBe(true);
+      const multiSelect = fixture.debugElement.query(
+        By.css('solaris-multi-select'),
+      ).componentInstance as unknown as MultiSelectTestSeam;
       expect(multiSelect.effectivePanelMinWidth()).toBeUndefined();
     });
   });

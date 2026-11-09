@@ -39,6 +39,14 @@
       "output": "Clear events",
       "placeholder": "Select countries"
     },
+    "constrained": {
+      "independent": "Independent school (own unit)",
+      "label": "Account type",
+      "maintainer": "Maintainer",
+      "network": "Network (2 or more institutions)",
+      "note": "In narrow containers (auth cards, 320px, mobile) the trigger fills the container and truncates content with ellipsis. The panel always matches the trigger width; long options wrap instead of truncating or overflowing.",
+      "placeholder": "Select account types"
+    },
     "country": {
       "br": "Brazil",
       "pt": "Portugal",
@@ -76,9 +84,8 @@
       "lg": "Large",
       "md": "Medium",
       "none": "None",
-      "note": "Radius is forwarded to the inner Form Field. Global scale: md maps to 4px, lg to 8px, and xl renders as a pill.",
-      "sm": "Small",
-      "xl": "Pill"
+      "note": "Radius is forwarded to the inner Form Field. Scale: md maps to 4px and lg to 8px. The panel follows the trigger radius.",
+      "sm": "Small"
     },
     "searchable": {
       "label": "Countries",
@@ -90,6 +97,7 @@
       "affix": "Affix",
       "appearance": "Appearance",
       "clearable": "Clearable",
+      "constrained": "Narrow container",
       "density": "Density",
       "examples": "Examples",
       "installation": "Installation",

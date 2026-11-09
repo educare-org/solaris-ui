@@ -163,9 +163,6 @@
       <solaris-tab value="lg"
         >{{ 'multiSelect.radius.lg' | translate }}</solaris-tab
       >
-      <solaris-tab value="xl"
-        >{{ 'multiSelect.radius.xl' | translate }}</solaris-tab
-      >
       <solaris-tab-panel value="none">
         <solaris-preview-code [code]="radiusNoneCode" language="html">
           <solaris-multi-select
@@ -218,12 +215,90 @@
           </solaris-multi-select>
         </solaris-preview-code>
       </solaris-tab-panel>
-      <solaris-tab-panel value="xl">
-        <solaris-preview-code [code]="radiusXlCode" language="html">
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="states" titleKey="multiSelect.section.states">
+    <solaris-tabs
+      [(value)]="selectedState"
+      [ariaLabel]="'multiSelect.section.states' | translate"
+    >
+      <solaris-tab value="default"
+        >{{ 'multiSelect.states.default' | translate }}</solaris-tab
+      >
+      <solaris-tab value="invalid"
+        >{{ 'multiSelect.states.invalid' | translate }}</solaris-tab
+      >
+      <solaris-tab value="disabled"
+        >{{ 'multiSelect.states.disabled' | translate }}</solaris-tab
+      >
+      <solaris-tab value="readonly"
+        >{{ 'multiSelect.states.readonly' | translate }}</solaris-tab
+      >
+      <solaris-tab value="loading"
+        >{{ 'multiSelect.states.loading' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="default">
+        <solaris-preview-code [code]="stateDefaultCode" language="html">
           <solaris-multi-select
-            [label]="'multiSelect.radius.xl' | translate"
-            radius="xl"
-            [placeholder]="'multiSelect.radius.xl' | translate"
+            [label]="'multiSelect.states.default' | translate"
+            [placeholder]="'multiSelect.states.default' | translate"
+          >
+            <solaris-option value="br"
+              >{{ 'multiSelect.country.br' | translate }}</solaris-option
+            >
+          </solaris-multi-select>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="invalid">
+        <solaris-preview-code [code]="stateInvalidCode" language="html">
+          <solaris-multi-select
+            [label]="'multiSelect.states.invalid' | translate"
+            [invalid]="true"
+            [error]="'multiSelect.error.invalid' | translate"
+            [placeholder]="'multiSelect.states.invalid' | translate"
+          >
+            <solaris-option value="br"
+              >{{ 'multiSelect.country.br' | translate }}</solaris-option
+            >
+          </solaris-multi-select>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="disabled">
+        <solaris-preview-code [code]="stateDisabledCode" language="html">
+          <solaris-multi-select
+            [formControl]="disabledControl"
+            [label]="'multiSelect.states.disabled' | translate"
+            [placeholder]="'multiSelect.states.disabled' | translate"
+          >
+            <solaris-option value="br"
+              >{{ 'multiSelect.country.br' | translate }}</solaris-option
+            >
+          </solaris-multi-select>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="readonly">
+        <solaris-preview-code [code]="stateReadonlyCode" language="html">
+          <solaris-multi-select
+            [formControl]="readonlyControl"
+            [readonly]="true"
+            [label]="'multiSelect.states.readonly' | translate"
+          >
+            <solaris-option value="br"
+              >{{ 'multiSelect.country.br' | translate }}</solaris-option
+            >
+            <solaris-option value="us"
+              >{{ 'multiSelect.country.us' | translate }}</solaris-option
+            >
+          </solaris-multi-select>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="loading">
+        <solaris-preview-code [code]="stateLoadingCode" language="html">
+          <solaris-multi-select
+            [loading]="true"
+            [label]="'multiSelect.states.loading' | translate"
+            [placeholder]="'multiSelect.states.loading' | translate"
           >
             <solaris-option value="br"
               >{{ 'multiSelect.country.br' | translate }}</solaris-option
@@ -234,56 +309,31 @@
     </solaris-tabs>
   </app-docs-section>
 
-  <app-docs-section anchor="states" titleKey="multiSelect.section.states">
-    <solaris-preview-code [code]="statesCode" language="html">
-      <div class="multi-select-showcase__stack">
+  <app-docs-section
+    anchor="constrained"
+    titleKey="multiSelect.section.constrained"
+  >
+    <p class="multi-select-showcase__note">
+      {{ 'multiSelect.constrained.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="constrainedCode" language="html">
+      <div class="multi-select-showcase__constrained">
         <solaris-multi-select
-          [label]="'multiSelect.states.default' | translate"
-          [placeholder]="'multiSelect.states.default' | translate"
+          [label]="'multiSelect.constrained.label' | translate"
+          [placeholder]="'multiSelect.constrained.placeholder' | translate"
         >
-          <solaris-option value="br"
-            >{{ 'multiSelect.country.br' | translate }}</solaris-option
-          >
-        </solaris-multi-select>
-        <solaris-multi-select
-          [label]="'multiSelect.states.invalid' | translate"
-          [invalid]="true"
-          [error]="'multiSelect.error.invalid' | translate"
-          [placeholder]="'multiSelect.states.invalid' | translate"
-        >
-          <solaris-option value="br"
-            >{{ 'multiSelect.country.br' | translate }}</solaris-option
-          >
-        </solaris-multi-select>
-        <solaris-multi-select
-          [formControl]="disabledControl"
-          [label]="'multiSelect.states.disabled' | translate"
-          [placeholder]="'multiSelect.states.disabled' | translate"
-        >
-          <solaris-option value="br"
-            >{{ 'multiSelect.country.br' | translate }}</solaris-option
-          >
-        </solaris-multi-select>
-        <solaris-multi-select
-          [formControl]="readonlyControl"
-          [readonly]="true"
-          [label]="'multiSelect.states.readonly' | translate"
-        >
-          <solaris-option value="br"
-            >{{ 'multiSelect.country.br' | translate }}</solaris-option
-          >
-          <solaris-option value="us"
-            >{{ 'multiSelect.country.us' | translate }}</solaris-option
-          >
-        </solaris-multi-select>
-        <solaris-multi-select
-          [loading]="true"
-          [label]="'multiSelect.states.loading' | translate"
-          [placeholder]="'multiSelect.states.loading' | translate"
-        >
-          <solaris-option value="br"
-            >{{ 'multiSelect.country.br' | translate }}</solaris-option
-          >
+          <solaris-option
+            value="independent"
+            [label]="'multiSelect.constrained.independent' | translate"
+          />
+          <solaris-option
+            value="network"
+            [label]="'multiSelect.constrained.network' | translate"
+          />
+          <solaris-option
+            value="maintainer"
+            [label]="'multiSelect.constrained.maintainer' | translate"
+          />
         </solaris-multi-select>
       </div>
     </solaris-preview-code>
@@ -321,82 +371,107 @@
     <p class="multi-select-showcase__note">
       {{ 'multiSelect.affix.note' | translate }}
     </p>
-    <div class="multi-select-showcase__stack">
-      <solaris-preview-code [code]="prefixCode" language="html">
-        <solaris-multi-select
-          prefix="search"
-          [label]="'multiSelect.affix.prefix.label' | translate"
-          [placeholder]="'multiSelect.affix.prefix.placeholder' | translate"
-        >
-          <solaris-option value="br"
-            >{{ 'multiSelect.country.br' | translate }}</solaris-option
+    <solaris-tabs
+      [(value)]="selectedAffix"
+      [ariaLabel]="'multiSelect.section.affix' | translate"
+    >
+      <solaris-tab value="prefix"
+        >{{ 'multiSelect.affix.prefix.label' | translate }}</solaris-tab
+      >
+      <solaris-tab value="suffix"
+        >{{ 'multiSelect.affix.suffix.label' | translate }}</solaris-tab
+      >
+      <solaris-tab value="suffix-input"
+        >{{ 'multiSelect.affix.suffix-input.label' | translate }}</solaris-tab
+      >
+      <solaris-tab value="action"
+        >{{ 'multiSelect.affix.action.label' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="prefix">
+        <solaris-preview-code [code]="prefixCode" language="html">
+          <solaris-multi-select
+            prefix="search"
+            [label]="'multiSelect.affix.prefix.label' | translate"
+            [placeholder]="'multiSelect.affix.prefix.placeholder' | translate"
           >
-          <solaris-option value="us"
-            >{{ 'multiSelect.country.us' | translate }}</solaris-option
+            <solaris-option value="br"
+              >{{ 'multiSelect.country.br' | translate }}</solaris-option
+            >
+            <solaris-option value="us"
+              >{{ 'multiSelect.country.us' | translate }}</solaris-option
+            >
+          </solaris-multi-select>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="suffix">
+        <solaris-preview-code [code]="suffixCode" language="html">
+          <solaris-multi-select
+            [label]="'multiSelect.affix.suffix.label' | translate"
+            [placeholder]="'multiSelect.affix.suffix.placeholder' | translate"
           >
-        </solaris-multi-select>
-      </solaris-preview-code>
-      <solaris-preview-code [code]="suffixCode" language="html">
-        <solaris-multi-select
-          [label]="'multiSelect.affix.suffix.label' | translate"
-          [placeholder]="'multiSelect.affix.suffix.placeholder' | translate"
-        >
-          <solaris-option value="br"
-            >{{ 'multiSelect.country.br' | translate }}</solaris-option
-          >
-          <solaris-option value="us"
-            >{{ 'multiSelect.country.us' | translate }}</solaris-option
-          >
-          <solaris-icon
-            solaris-form-suffix
-            name="info"
-            [decorative]="false"
-            [attr.aria-label]="
-              'multiSelect.affix.suffix.icon-label' | translate
-            "
-          />
-        </solaris-multi-select>
-      </solaris-preview-code>
-      <solaris-preview-code [code]="suffixInputCode" language="html">
-        <solaris-multi-select
-          suffix="info"
-          [label]="'multiSelect.affix.suffix-input.label' | translate"
-          [placeholder]="'multiSelect.affix.suffix-input.placeholder' | translate"
-        >
-          <solaris-option value="br"
-            >{{ 'multiSelect.country.br' | translate }}</solaris-option
-          >
-          <solaris-option value="us"
-            >{{ 'multiSelect.country.us' | translate }}</solaris-option
-          >
-        </solaris-multi-select>
-      </solaris-preview-code>
-      <solaris-preview-code [code]="suffixActionCode" language="html">
-        <solaris-multi-select
-          [loading]="actionLoading()"
-          [label]="'multiSelect.affix.action.label' | translate"
-          [placeholder]="'multiSelect.affix.action.placeholder' | translate"
-        >
-          <solaris-option value="br"
-            >{{ 'multiSelect.country.br' | translate }}</solaris-option
-          >
-          <solaris-option value="us"
-            >{{ 'multiSelect.country.us' | translate }}</solaris-option
-          >
-          <button
-            solaris-form-suffix
-            solaris-form-suffix-action
-            type="button"
-            (click)="toggleActionLoading()"
-            [attr.aria-label]="
-              'multiSelect.affix.action.button-label' | translate
+            <solaris-option value="br"
+              >{{ 'multiSelect.country.br' | translate }}</solaris-option
+            >
+            <solaris-option value="us"
+              >{{ 'multiSelect.country.us' | translate }}</solaris-option
+            >
+            <solaris-icon
+              solaris-form-suffix
+              name="info"
+              [decorative]="false"
+              [attr.aria-label]="
+                'multiSelect.affix.suffix.icon-label' | translate
+              "
+            />
+          </solaris-multi-select>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="suffix-input">
+        <solaris-preview-code [code]="suffixInputCode" language="html">
+          <solaris-multi-select
+            suffix="info"
+            [label]="'multiSelect.affix.suffix-input.label' | translate"
+            [placeholder]="
+              'multiSelect.affix.suffix-input.placeholder' | translate
             "
           >
-            <solaris-icon name="info" [decorative]="true" />
-          </button>
-        </solaris-multi-select>
-      </solaris-preview-code>
-    </div>
+            <solaris-option value="br"
+              >{{ 'multiSelect.country.br' | translate }}</solaris-option
+            >
+            <solaris-option value="us"
+              >{{ 'multiSelect.country.us' | translate }}</solaris-option
+            >
+          </solaris-multi-select>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="action">
+        <solaris-preview-code [code]="suffixActionCode" language="html">
+          <solaris-multi-select
+            [loading]="actionLoading()"
+            [label]="'multiSelect.affix.action.label' | translate"
+            [placeholder]="'multiSelect.affix.action.placeholder' | translate"
+          >
+            <solaris-option value="br"
+              >{{ 'multiSelect.country.br' | translate }}</solaris-option
+            >
+            <solaris-option value="us"
+              >{{ 'multiSelect.country.us' | translate }}</solaris-option
+            >
+            <button
+              solaris-form-suffix
+              solaris-form-suffix-action
+              type="button"
+              (click)="toggleActionLoading()"
+              [attr.aria-label]="
+                'multiSelect.affix.action.button-label' | translate
+              "
+            >
+              <solaris-icon name="info" [decorative]="true" />
+            </button>
+          </solaris-multi-select>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
   </app-docs-section>
 
   <app-docs-section
@@ -406,66 +481,84 @@
     <p class="multi-select-showcase__note">
       {{ 'multiSelect.searchable.note' | translate }}
     </p>
-    <div class="multi-select-showcase__stack">
-      <solaris-preview-code [code]="searchableCode" language="html">
-        <solaris-multi-select
-          [searchable]="true"
-          [label]="'multiSelect.searchable.label' | translate"
-          [placeholder]="'multiSelect.searchable.placeholder' | translate"
-          [searchPlaceholder]="
-            'multiSelect.searchable.search-placeholder' | translate
-          "
-        >
-          <solaris-option value="br"
-            >{{ 'multiSelect.country.br' | translate }}</solaris-option
+    <solaris-tabs
+      [(value)]="selectedSearchable"
+      [ariaLabel]="'multiSelect.section.searchable' | translate"
+    >
+      <solaris-tab value="searchable"
+        >{{ 'multiSelect.searchable.label' | translate }}</solaris-tab
+      >
+      <solaris-tab value="select-all"
+        >{{ 'multiSelect.select-all.label' | translate }}</solaris-tab
+      >
+      <solaris-tab value="chips"
+        >{{ 'multiSelect.chips.label' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="searchable">
+        <solaris-preview-code [code]="searchableCode" language="html">
+          <solaris-multi-select
+            [searchable]="true"
+            [label]="'multiSelect.searchable.label' | translate"
+            [placeholder]="'multiSelect.searchable.placeholder' | translate"
+            [searchPlaceholder]="
+              'multiSelect.searchable.search-placeholder' | translate
+            "
           >
-          <solaris-option value="us"
-            >{{ 'multiSelect.country.us' | translate }}</solaris-option
+            <solaris-option value="br"
+              >{{ 'multiSelect.country.br' | translate }}</solaris-option
+            >
+            <solaris-option value="us"
+              >{{ 'multiSelect.country.us' | translate }}</solaris-option
+            >
+            <solaris-option value="pt"
+              >{{ 'multiSelect.country.pt' | translate }}</solaris-option
+            >
+          </solaris-multi-select>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="select-all">
+        <solaris-preview-code [code]="selectAllCode" language="html">
+          <solaris-multi-select
+            [formControl]="selectAllControl"
+            [searchable]="true"
+            [selectAll]="true"
+            [label]="'multiSelect.select-all.label' | translate"
+            [placeholder]="'multiSelect.select-all.placeholder' | translate"
           >
-          <solaris-option value="pt"
-            >{{ 'multiSelect.country.pt' | translate }}</solaris-option
+            <solaris-option value="apple"
+              >{{ 'multiSelect.fruit.apple' | translate }}</solaris-option
+            >
+            <solaris-option value="banana"
+              >{{ 'multiSelect.fruit.banana' | translate }}</solaris-option
+            >
+            <solaris-option value="orange"
+              >{{ 'multiSelect.fruit.orange' | translate }}</solaris-option
+            >
+          </solaris-multi-select>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="chips">
+        <solaris-preview-code [code]="chipsCode" language="html">
+          <solaris-multi-select
+            [formControl]="chipsControl"
+            displayMode="chips"
+            [maxVisibleChips]="2"
+            [label]="'multiSelect.chips.label' | translate"
+            [placeholder]="'multiSelect.chips.placeholder' | translate"
           >
-        </solaris-multi-select>
-      </solaris-preview-code>
-      <solaris-preview-code [code]="selectAllCode" language="html">
-        <solaris-multi-select
-          [formControl]="selectAllControl"
-          [searchable]="true"
-          [selectAll]="true"
-          [label]="'multiSelect.select-all.label' | translate"
-          [placeholder]="'multiSelect.select-all.placeholder' | translate"
-        >
-          <solaris-option value="apple"
-            >{{ 'multiSelect.fruit.apple' | translate }}</solaris-option
-          >
-          <solaris-option value="banana"
-            >{{ 'multiSelect.fruit.banana' | translate }}</solaris-option
-          >
-          <solaris-option value="orange"
-            >{{ 'multiSelect.fruit.orange' | translate }}</solaris-option
-          >
-        </solaris-multi-select>
-      </solaris-preview-code>
-      <solaris-preview-code [code]="chipsCode" language="html">
-        <solaris-multi-select
-          [formControl]="chipsControl"
-          displayMode="chips"
-          [maxVisibleChips]="2"
-          [label]="'multiSelect.chips.label' | translate"
-          [placeholder]="'multiSelect.chips.placeholder' | translate"
-        >
-          <solaris-option value="br"
-            >{{ 'multiSelect.country.br' | translate }}</solaris-option
-          >
-          <solaris-option value="us"
-            >{{ 'multiSelect.country.us' | translate }}</solaris-option
-          >
-          <solaris-option value="pt"
-            >{{ 'multiSelect.country.pt' | translate }}</solaris-option
-          >
-        </solaris-multi-select>
-      </solaris-preview-code>
-    </div>
+            <solaris-option value="br"
+              >{{ 'multiSelect.country.br' | translate }}</solaris-option
+            >
+            <solaris-option value="us"
+              >{{ 'multiSelect.country.us' | translate }}</solaris-option
+            >
+            <solaris-option value="pt"
+              >{{ 'multiSelect.country.pt' | translate }}</solaris-option
+            >
+          </solaris-multi-select>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
   </app-docs-section>
 
   <app-docs-section
