@@ -1,18 +1,20 @@
 :host {
-  --solaris-select-icon-color: var(--solaris-neutral-text-secondary);
-  --solaris-select-font-size: var(--solaris-font-size-sm);
-  --solaris-select-value-color: var(--solaris-neutral-text-body);
-  --solaris-select-line-height: var(--solaris-line-height-md);
-  --solaris-select-trigger-gap: var(--solaris-spacing-4);
-  --solaris-select-dropdown-icon-size: var(--solaris-font-size-lg);
-  --solaris-select-value-min-width: 0;
   --solaris-select-value-flex: 1;
+  --solaris-select-value-min-width: 0;
   --solaris-select-actions-margin-inline-start: auto;
-  --solaris-select-placeholder-color: var(--solaris-neutral-text-secondary);
+  --solaris-select-trigger-gap: var(--solaris-spacing-4);
+  --solaris-select-font-size: var(--solaris-font-size-sm);
+  --solaris-select-line-height: var(--solaris-line-height-md);
+  --solaris-select-value-color: var(--solaris-neutral-text-body);
   --solaris-select-placeholder-opacity: var(--solaris-opacity-70);
+  --solaris-select-dropdown-icon-size: var(--solaris-font-size-lg);
+  --solaris-select-icon-color: var(--solaris-neutral-text-secondary);
+  --solaris-select-placeholder-color: var(--solaris-neutral-text-secondary);
 
+  min-width: 0;
   outline: none;
   cursor: pointer;
+  max-width: 100%;
   user-select: none;
   position: relative;
   display: inline-flex;
@@ -24,6 +26,7 @@
 .solaris-select__trigger {
   flex: 1;
   padding: 0;
+  width: 100%;
   min-width: 0;
   border: none;
   display: flex;
@@ -47,29 +50,48 @@
   display: none;
 }
 
+:host ::ng-deep .solaris-form-field__label,
+:host ::ng-deep .solaris-form-field__hint,
+:host ::ng-deep .solaris-form-field__error {
+  user-select: text;
+}
+
 .solaris-select__value {
   flex: var(--solaris-select-value-flex);
   min-width: 0;
+  max-width: 100%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
 .solaris-select__value-text {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
   display: inline-block;
+  vertical-align: bottom;
+  text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
   color: var(--solaris-select-value-color);
   font-size: var(--solaris-select-font-size);
   line-height: var(--solaris-select-line-height);
-  font-variant-numeric: tabular-nums;
   min-width: var(--solaris-select-value-min-width);
 }
 
 .solaris-select__value-text[hidden],
+.solaris-select__placeholder[hidden],
 .solaris-select__clear[hidden] {
   display: none;
 }
 
 .solaris-select__placeholder {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+  vertical-align: bottom;
+  text-overflow: ellipsis;
   font-size: var(--solaris-select-font-size);
   color: var(--solaris-select-placeholder-color);
   line-height: var(--solaris-select-line-height);

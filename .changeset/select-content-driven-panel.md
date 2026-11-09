@@ -1,0 +1,5 @@
+---
+'@educarehq/solaris-ui': minor
+---
+
+Refine select and multi-select dropdown behavior. The panel always renders exactly as wide as the trigger (`panelMatchTriggerWidth`), so no edge step can appear at any zoom; long option labels and descriptions wrap inside the panel (both `label` input and projected content) instead of truncating or scrolling horizontally. Explicit `panelMinWidth`/`panelMaxWidth` still win, the viewport caps the panel, and the size re-syncs on every reposition. Form-field-connected `surface` panels (the `filled` and `surface` appearances) mirror the trigger with the subtle background and a visible border — with a single line at the joint. Remove the `xl` (pill) radius from select and multi-select — a fully-rounded trigger cannot pair with a rectangular list panel — keeping `none | sm | md | lg`. Labels, hints and errors inside select and multi-select are now selectable (`user-select: text`), matching checkbox. Fix the placeholder overlapping the selected value: it now hides visually (`display: none` on `[hidden]`).

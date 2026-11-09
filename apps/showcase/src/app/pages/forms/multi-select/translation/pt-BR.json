@@ -39,6 +39,14 @@
       "output": "Eventos de limpeza",
       "placeholder": "Selecione países"
     },
+    "constrained": {
+      "independent": "Escola independente (unidade própria)",
+      "label": "Tipo de conta",
+      "maintainer": "Mantenedora",
+      "network": "Rede (2 ou mais instituições)",
+      "note": "Em containers estreitos (auth cards, 320px, mobile) o trigger preenche o container e trunca o conteúdo com ellipsis. O painel tem sempre a mesma largura do trigger; opções longas quebram linha em vez de cortar ou vazar.",
+      "placeholder": "Selecione os tipos de conta"
+    },
     "country": {
       "br": "Brasil",
       "pt": "Portugal",
@@ -76,9 +84,8 @@
       "lg": "Grande",
       "md": "Médio",
       "none": "Nenhum",
-      "note": "O raio é repassado ao Form Field interno. Escala global: md equivale a 4px, lg a 8px e xl vira pill.",
-      "sm": "Pequeno",
-      "xl": "Pill"
+      "note": "O raio é repassado ao Form Field interno. Escala: md equivale a 4px e lg a 8px. O painel acompanha o raio do trigger.",
+      "sm": "Pequeno"
     },
     "searchable": {
       "label": "Países",
@@ -90,6 +97,7 @@
       "affix": "Afixo",
       "appearance": "Aparência",
       "clearable": "Com limpeza",
+      "constrained": "Container estreito",
       "density": "Densidade",
       "examples": "Exemplos",
       "installation": "Instalação",

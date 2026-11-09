@@ -31,7 +31,6 @@ type SelectTestSeam = Omit<SolarisSelectComponent, never> & {
   touched: WritableSignal<boolean>;
   triggerElement: Signal<ElementRef<HTMLElement> | undefined>;
   popoverTrigger: Signal<SolarisPopoverTriggerDirective | undefined>;
-  contentMinWidth: Signal<number>;
   resolvedTriggerMinWidth: Signal<string | null>;
   effectivePanelMinWidth: Signal<string | number | undefined>;
   displayText: Signal<string>;
@@ -83,6 +82,27 @@ function getTestTranslations() {
     'solaris.select.noResults': 'No results found',
     'solaris.select.clear': 'Clear selection',
   };
+}
+
+function hasHiddenDisplayNone(selector: string): boolean {
+  const sheets = Array.from(document.styleSheets);
+  for (const sheet of sheets) {
+    let rules: CSSRuleList | undefined;
+    try {
+      rules = sheet.cssRules;
+    } catch {
+      continue;
+    }
+    if (!rules) continue;
+    for (const rule of Array.from(rules)) {
+      if (!(rule instanceof CSSStyleRule)) continue;
+      const selectors = rule.selectorText.split(',');
+      if (selectors.some((part) => part.includes(`${selector}[hidden]`))) {
+        return rule.style.getPropertyValue('display') === 'none';
+      }
+    }
+  }
+  return false;
 }
 
 describe('SolarisSelectComponent', () => {
@@ -823,12 +843,12 @@ describe('SolarisSelectComponent', () => {
       ).toBeTruthy();
     });
 
-    it('should accept radius xl (P5 B/C)', () => {
+    it('should accept radius lg (P5 B/C)', () => {
       @Component({
         standalone: true,
         imports: [SolarisSelectComponent, SolarisOptionComponent],
         template: `
-          <solaris-select radius="xl">
+          <solaris-select radius="lg">
             <solaris-option value="a">Option A</solaris-option>
           </solaris-select>
         `,
@@ -838,15 +858,15 @@ describe('SolarisSelectComponent', () => {
           }),
         ],
       })
-      class RadiusXlHost {}
+      class RadiusLgHost {}
       TestBed.configureTestingModule({});
-      const fixture = TestBed.createComponent(RadiusXlHost);
+      const fixture = TestBed.createComponent(RadiusLgHost);
       fixture.detectChanges();
       expect(
         fixture.nativeElement
           .querySelector('solaris-select solaris-form-field')
           .getAttribute('data-radius'),
-      ).toBe('xl');
+      ).toBe('lg');
     });
   });
 
@@ -1984,6 +2004,25 @@ describe('SolarisSelectComponent', () => {
       expect(valueAfter.hasAttribute('hidden')).toBe(false);
       expect(placeholderAfter.hasAttribute('hidden')).toBe(true);
     });
+
+    it('should hide the placeholder visually once a value is set (no value + placeholder overlap)', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ClearableHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as unknown as SelectTestSeam;
+      select.writeValue('a');
+      fixture.detectChanges();
+      const placeholder = fixture.nativeElement.querySelector(
+        '.solaris-select__placeholder',
+      ) as HTMLElement;
+      const valueText = fixture.nativeElement.querySelector(
+        '.solaris-select__value-text',
+      ) as HTMLElement;
+      expect(placeholder.hasAttribute('hidden')).toBe(true);
+      expect(valueText.hasAttribute('hidden')).toBe(false);
+      expect(hasHiddenDisplayNone('.solaris-select__placeholder')).toBe(true);
+    });
   });
 
   describe('suffix-action projection (P4 Lote B)', () => {
@@ -2062,7 +2101,7 @@ describe('SolarisSelectComponent', () => {
     });
   });
 
-  describe('content min width (widest option floor)', () => {
+  describe('width overrides (no automatic content floor)', () => {
     @Component({
       standalone: true,
       imports: [SolarisSelectComponent, SolarisOptionComponent],
@@ -2087,32 +2126,26 @@ describe('SolarisSelectComponent', () => {
       triggerMinWidth: string | number | undefined;
     }
 
-    it('should estimate the floor from the longest option label', () => {
+    it('should not apply any trigger min-width by default', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(MinWidthHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as unknown as SelectTestSeam;
-      expect(select.contentMinWidth()).toBe(195);
-    });
-
-    it('should apply the floor as trigger min-width', () => {
-      TestBed.configureTestingModule({});
-      const fixture = TestBed.createComponent(MinWidthHost);
-      fixture.detectChanges();
+      expect(select.resolvedTriggerMinWidth()).toBeNull();
       const trigger = fixture.nativeElement.querySelector(
         '.solaris-select__trigger',
       );
-      expect(trigger.style.minWidth).toBe('195px');
+      expect(trigger.style.minWidth).toBe('');
     });
 
-    it('should fall back to the floor as panel min-width', () => {
+    it('should not apply any panel min-width by default (match trigger width)', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(MinWidthHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as unknown as SelectTestSeam;
-      expect(select.effectivePanelMinWidth()).toBe(195);
+      expect(select.effectivePanelMinWidth()).toBeUndefined();
     });
 
     it('should prefer an explicit triggerMinWidth input', () => {
@@ -2139,7 +2172,7 @@ describe('SolarisSelectComponent', () => {
       expect(select.effectivePanelMinWidth()).toBe(300);
     });
 
-    it('should return no floor without options', () => {
+    it('should return no panel min-width without options', () => {
       @Component({
         standalone: true,
         imports: [SolarisSelectComponent],
@@ -2156,7 +2189,80 @@ describe('SolarisSelectComponent', () => {
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as unknown as SelectTestSeam;
-      expect(select.contentMinWidth()).toBe(0);
+      expect(select.resolvedTriggerMinWidth()).toBeNull();
+      expect(select.effectivePanelMinWidth()).toBeUndefined();
+    });
+  });
+
+  describe('select in constrained container (320px regression)', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <div
+          style="width: 320px; max-width: 320px; overflow: hidden; box-sizing: border-box;"
+        >
+          <solaris-select placeholder="Select account type">
+            <solaris-option
+              value="independent"
+              label="Escola independente (unidade própria)"
+            />
+            <solaris-option
+              value="network"
+              label="Rede (2 ou mais instituições)"
+            />
+            <solaris-option value="maintainer" label="Mantenedora" />
+          </solaris-select>
+        </div>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class ConstrainedHost {}
+
+    it('should not impose a content-based min-width on the trigger', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ConstrainedHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as unknown as SelectTestSeam;
+      expect(select.resolvedTriggerMinWidth()).toBeNull();
+      expect(select.effectivePanelMinWidth()).toBeUndefined();
+      const trigger = fixture.nativeElement.querySelector(
+        '.solaris-select__trigger',
+      ) as HTMLElement;
+      expect(trigger.style.minWidth).toBe('');
+    });
+
+    it('should keep long option text truncated with ellipsis and no horizontal overflow', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ConstrainedHost);
+      fixture.detectChanges();
+      const value = fixture.nativeElement.querySelector(
+        '.solaris-select__value',
+      ) as HTMLElement;
+      const styles = getComputedStyle(value);
+      expect(['hidden', 'clip']).toContain(styles.overflow);
+      expect(styles.whiteSpace).toBe('nowrap');
+      expect(styles.textOverflow).toBe('ellipsis');
+      expect(
+        fixture.nativeElement.querySelector('div').scrollWidth,
+      ).toBeLessThanOrEqual(321);
+    });
+
+    it('should match the panel to the trigger width by default', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ConstrainedHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as unknown as SelectTestSeam;
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-select solaris-form-field',
+      ) as HTMLElement;
+      expect(formField.hasAttribute('solaris-popover-trigger')).toBe(true);
       expect(select.effectivePanelMinWidth()).toBeUndefined();
     });
   });

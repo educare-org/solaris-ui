@@ -30,6 +30,7 @@ export const MULTI_SELECT_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'appearance', labelKey: 'multiSelect.section.appearance' },
   { anchor: 'radius', labelKey: 'multiSelect.section.radius' },
   { anchor: 'states', labelKey: 'multiSelect.section.states' },
+  { anchor: 'constrained', labelKey: 'multiSelect.section.constrained' },
   { anchor: 'clearable', labelKey: 'multiSelect.section.clearable' },
   { anchor: 'affix', labelKey: 'multiSelect.section.affix' },
   { anchor: 'searchable', labelKey: 'multiSelect.section.searchable' },
@@ -79,7 +80,6 @@ export const MULTI_SELECT_SHOWCASE_RADIUS_NONE_CODE =
 export const MULTI_SELECT_SHOWCASE_RADIUS_SM_CODE = multiSelectRadiusCode('sm');
 export const MULTI_SELECT_SHOWCASE_RADIUS_MD_CODE = multiSelectRadiusCode('md');
 export const MULTI_SELECT_SHOWCASE_RADIUS_LG_CODE = multiSelectRadiusCode('lg');
-export const MULTI_SELECT_SHOWCASE_RADIUS_XL_CODE = multiSelectRadiusCode('xl');
 
 export const MULTI_SELECT_SHOWCASE_STATES_CODE = [
   '<solaris-multi-select label="Default" placeholder="Default">',
@@ -97,6 +97,46 @@ export const MULTI_SELECT_SHOWCASE_STATES_CODE = [
   '<solaris-multi-select label="Loading" [loading]="true" placeholder="Loading">',
   '  <solaris-option value="br">Brazil</solaris-option>',
   '</solaris-multi-select>',
+].join('\n');
+
+export const MULTI_SELECT_SHOWCASE_STATE_DEFAULT_CODE = [
+  '<solaris-multi-select label="Default" placeholder="Default">',
+  '  <solaris-option value="br">Brazil</solaris-option>',
+  '</solaris-multi-select>',
+].join('\n');
+
+export const MULTI_SELECT_SHOWCASE_STATE_INVALID_CODE = [
+  '<solaris-multi-select label="Invalid" [invalid]="true" error="This field has an error." placeholder="Invalid">',
+  '  <solaris-option value="br">Brazil</solaris-option>',
+  '</solaris-multi-select>',
+].join('\n');
+
+export const MULTI_SELECT_SHOWCASE_STATE_DISABLED_CODE = [
+  '<solaris-multi-select label="Disabled" [disabled]="true" placeholder="Disabled">',
+  '  <solaris-option value="br">Brazil</solaris-option>',
+  '</solaris-multi-select>',
+].join('\n');
+
+export const MULTI_SELECT_SHOWCASE_STATE_READONLY_CODE = [
+  '<solaris-multi-select label="Readonly" [readonly]="true" placeholder="Readonly">',
+  '  <solaris-option value="br">Brazil</solaris-option>',
+  '</solaris-multi-select>',
+].join('\n');
+
+export const MULTI_SELECT_SHOWCASE_STATE_LOADING_CODE = [
+  '<solaris-multi-select label="Loading" [loading]="true" placeholder="Loading">',
+  '  <solaris-option value="br">Brazil</solaris-option>',
+  '</solaris-multi-select>',
+].join('\n');
+
+export const MULTI_SELECT_SHOWCASE_CONSTRAINED_CODE = [
+  '<div style="width: 320px; max-width: 320px;">',
+  '  <solaris-multi-select label="Account type" placeholder="Select account types">',
+  '    <solaris-option value="independent" label="Escola independente (unidade própria)" />',
+  '    <solaris-option value="network" label="Rede (2 ou mais instituições)" />',
+  '    <solaris-option value="maintainer" label="Mantenedora" />',
+  '  </solaris-multi-select>',
+  '</div>',
 ].join('\n');
 
 export const MULTI_SELECT_SHOWCASE_CLEARABLE_CODE = [

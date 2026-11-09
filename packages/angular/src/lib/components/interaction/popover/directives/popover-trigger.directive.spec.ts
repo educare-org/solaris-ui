@@ -348,6 +348,272 @@ describe('SolarisPopoverTriggerDirective', () => {
 
       expect(document.activeElement).toBe(triggerEl);
     });
+
+    it('should not restore focus when close opts out', async () => {
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+
+      const triggerEl = fixture.nativeElement.querySelector(
+        '[solaris-popover-trigger]',
+      ) as HTMLElement;
+      triggerEl.focus();
+      triggerClick(fixture);
+
+      const triggerDirective = fixture.debugElement
+        .query(By.directive(SolarisPopoverTriggerDirective))
+        ?.injector.get(SolarisPopoverTriggerDirective);
+
+      const other = document.createElement('button');
+      other.textContent = 'other';
+      document.body.appendChild(other);
+      try {
+        other.focus();
+        triggerDirective.close({ restoreFocus: false });
+        fixture.detectChanges();
+        expect(document.activeElement).toBe(other);
+      } finally {
+        other.remove();
+      }
+    });
+
+    it('should not steal focus back on outside click', async () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisPopoverDirective, SolarisPopoverTriggerDirective],
+        template: `
+          <button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="myPopover"
+          >
+            Trigger
+          </button>
+          <ng-template solaris-popover #myPopover="solarisPopover">
+            <div>Content</div>
+          </ng-template>
+          <button class="outside-area">Outside</button>
+        `,
+      })
+      class OutsideFocusHost {}
+
+      const fixture = TestBed.createComponent(OutsideFocusHost);
+      fixture.detectChanges();
+      triggerClick(fixture);
+      expect(getPanelContent()).toBeTruthy();
+
+      const outside = fixture.nativeElement.querySelector(
+        '.outside-area',
+      ) as HTMLElement;
+      outside.focus();
+      outside.click();
+      fixture.detectChanges();
+      expect(document.activeElement).toBe(outside);
+      await flushMotionClose(fixture);
+      expect(getPanelContent()).toBeNull();
+    });
+  });
+
+  describe('closeOnTriggerOutOfView', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisPopoverDirective, SolarisPopoverTriggerDirective],
+      template: `
+        <button
+          solaris-popover-trigger
+          [solarisPopoverTriggerFor]="myPopover"
+          [solarisPopoverCloseOnTriggerOutOfView]="true"
+        >
+          Trigger
+        </button>
+        <ng-template solaris-popover #myPopover="solarisPopover">
+          <div>Content</div>
+        </ng-template>
+      `,
+    })
+    class OutOfViewHost {}
+
+    let observedCallback:
+      | ((entries: Array<{ isIntersecting: boolean }>) => void)
+      | null = null;
+    let disconnected = false;
+    const originalIO = (
+      globalThis as unknown as { IntersectionObserver?: unknown }
+    ).IntersectionObserver;
+
+    beforeEach(() => {
+      observedCallback = null;
+      disconnected = false;
+      (
+        globalThis as unknown as {
+          IntersectionObserver?: unknown;
+        }
+      ).IntersectionObserver = class {
+        constructor(
+          callback: (entries: Array<{ isIntersecting: boolean }>) => void,
+        ) {
+          observedCallback = callback;
+        }
+        observe(): void {
+          return undefined;
+        }
+        disconnect(): void {
+          disconnected = true;
+        }
+      };
+    });
+
+    afterEach(() => {
+      (
+        globalThis as unknown as {
+          IntersectionObserver?: unknown;
+        }
+      ).IntersectionObserver = originalIO;
+    });
+
+    it('should close without restoring focus when the trigger leaves the viewport', async () => {
+      const fixture = TestBed.createComponent(OutOfViewHost);
+      fixture.detectChanges();
+      triggerClick(fixture);
+      expect(getPanelContent()).toBeTruthy();
+      expect(observedCallback).toBeTruthy();
+
+      const other = document.createElement('button');
+      document.body.appendChild(other);
+      try {
+        other.focus();
+        observedCallback?.([{ isIntersecting: false }]);
+        fixture.detectChanges();
+        expect(document.activeElement).toBe(other);
+        await flushMotionClose(fixture);
+        expect(getPanelContent()).toBeNull();
+        expect(disconnected).toBe(true);
+      } finally {
+        other.remove();
+      }
+    });
+
+    it('should stay open while the trigger remains visible', () => {
+      const fixture = TestBed.createComponent(OutOfViewHost);
+      fixture.detectChanges();
+      triggerClick(fixture);
+      observedCallback?.([{ isIntersecting: true }]);
+      fixture.detectChanges();
+      expect(getPanelContent()).toBeTruthy();
+    });
+  });
+
+  describe('origin resize tracking', () => {
+    @Component({
+      selector: 'solaris-resize-host',
+      standalone: true,
+      imports: [SolarisPopoverDirective, SolarisPopoverTriggerDirective],
+      template: `
+        <button
+          solaris-popover-trigger
+          [solarisPopoverTriggerFor]="myPopover"
+          [solarisPopoverMatchTriggerWidth]="true"
+          style="width: 200px"
+        >
+          Trigger
+        </button>
+        <ng-template solaris-popover #myPopover="solarisPopover">
+          <div>Content</div>
+        </ng-template>
+      `,
+    })
+    class ResizeHost {}
+
+    let resizeCallback: (() => void) | null = null;
+    let resizeDisconnected = false;
+    const originalRO = (globalThis as unknown as { ResizeObserver?: unknown })
+      .ResizeObserver;
+
+    beforeEach(() => {
+      resizeCallback = null;
+      resizeDisconnected = false;
+      (
+        globalThis as unknown as {
+          ResizeObserver?: unknown;
+        }
+      ).ResizeObserver = class {
+        constructor(callback: () => void) {
+          resizeCallback = callback;
+        }
+        observe(): void {
+          return undefined;
+        }
+        unobserve(): void {
+          return undefined;
+        }
+        disconnect(): void {
+          resizeDisconnected = true;
+        }
+      };
+    });
+
+    afterEach(() => {
+      (
+        globalThis as unknown as {
+          ResizeObserver?: unknown;
+        }
+      ).ResizeObserver = originalRO;
+    });
+
+    it('should re-sync overlay size when the origin resizes while open', () => {
+      const fixture = TestBed.createComponent(ResizeHost);
+      fixture.detectChanges();
+      triggerClick(fixture);
+      expect(getPanelContent()).toBeTruthy();
+      expect(resizeCallback).toBeTruthy();
+
+      const triggerEl = fixture.nativeElement.querySelector(
+        '[solaris-popover-trigger]',
+      ) as HTMLElement;
+      // jsdom has no layout: emulate the origin growing to 300px.
+      triggerEl.getBoundingClientRect = () =>
+        ({
+          width: 300,
+          height: 40,
+          top: 0,
+          left: 0,
+          right: 300,
+          bottom: 40,
+          x: 0,
+          y: 0,
+          toJSON: () => undefined,
+        }) as DOMRect;
+
+      resizeCallback?.();
+      fixture.detectChanges();
+
+      const containerEl = overlayContainer?.getContainerElement();
+      const pane = containerEl?.querySelector(
+        '.cdk-overlay-pane',
+      ) as HTMLElement | null;
+      expect(pane?.style.width).toBe('300px');
+    });
+
+    it('should stop tracking after close', async () => {
+      const fixture = TestBed.createComponent(ResizeHost);
+      fixture.detectChanges();
+      triggerClick(fixture);
+      expect(resizeCallback).toBeTruthy();
+
+      triggerClick(fixture);
+      await flushMotionClose(fixture);
+      expect(resizeDisconnected).toBe(true);
+    });
+
+    it('should open without ResizeObserver support', () => {
+      (
+        globalThis as unknown as {
+          ResizeObserver?: unknown;
+        }
+      ).ResizeObserver = undefined;
+      const fixture = TestBed.createComponent(ResizeHost);
+      fixture.detectChanges();
+      triggerClick(fixture);
+      expect(getPanelContent()).toBeTruthy();
+    });
   });
 
   describe('autoFocus', () => {

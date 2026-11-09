@@ -12,6 +12,7 @@ import {
   contentChildren,
   viewChild,
   ElementRef,
+  ChangeDetectorRef,
   AfterContentInit,
   AfterViewInit,
   OnDestroy,
@@ -35,7 +36,13 @@ import {
   SolarisPopoverDirective,
   SolarisPopoverTriggerDirective,
 } from '../../../interaction/popover';
-import { nextIdFor, resolveElementId } from '../../../../core';
+import {
+  nextIdFor,
+  resolveElementId,
+  measureAvailableWidth,
+  measureOptionsContentWidth,
+} from '../../../../core';
+import { resolveDeviceAlignedFloor } from '../functions/select-intrinsic-width';
 
 import type {
   SolarisSelectAppearance,
@@ -81,6 +88,7 @@ import type { SolarisIconName } from '../../../../services/icon';
     '[attr.data-open]': 'panelOpen() ? "" : null',
     '[attr.aria-label]': 'ariaLabelText() ?? null',
     '[attr.data-has-value]': 'hasValue() ? "" : null',
+    '[style.min-width]': 'hostMinWidth()',
   },
 })
 export class SolarisSelectComponent
@@ -147,6 +155,7 @@ export class SolarisSelectComponent
   readonly panelMinWidth = input<string | number>();
   readonly triggerMinWidth = input<string | number>();
   readonly panelMaxWidth = input<string | number>();
+  readonly autoSize = input<boolean>(true);
   readonly density = input<SolarisSelectDensity>();
   readonly size = input<SolarisSelectSize>('md');
   readonly panelMatchTriggerWidth = input<boolean>(true);
@@ -184,6 +193,8 @@ export class SolarisSelectComponent
   private onTouched: () => void = () => undefined;
   private optionInteractionSubscriptions: (() => void)[] = [];
   private readonly popoverSubscriptions: (() => void)[] = [];
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly intrinsicMinWidth = signal(0);
 
   protected readonly elementId = computed(() => {
     return resolveElementId(this.elementRef, 'solaris-select');
@@ -216,6 +227,11 @@ export class SolarisSelectComponent
     return a === 'filled' || a === 'minimal' ? 'surface' : a;
   });
 
+  protected readonly isPanelBordered = computed(() => {
+    const a = this.appearance();
+    return a === 'outline' || a === 'filled';
+  });
+
   protected readonly canOpen = computed(() => {
     return !this.isEffectivelyDisabled() && !this.isEffectivelyReadonly();
   });
@@ -233,38 +249,34 @@ export class SolarisSelectComponent
     );
   });
 
-  private getRowLabel(option: SolarisOptionComponent): string {
-    const label = option.labelText();
-    if (label) return label;
-    return this.getOptionNativeText(option);
-  }
-
-  protected readonly contentMinWidth = computed(() => {
-    const opts = this.options();
-    if (!opts || opts.length === 0) return 0;
-    let longest = 0;
-    for (const opt of opts) {
-      longest = Math.max(longest, this.getRowLabel(opt).length);
-    }
-    if (longest === 0) return 0;
-    const charWidth = this.size() === 'sm' ? 8 : this.size() === 'lg' ? 10 : 9;
-    return Math.ceil(longest * charWidth * 1.15 + 50);
-  });
-
   protected readonly resolvedTriggerMinWidth = computed(() => {
     const override = this.triggerMinWidth();
     if (override !== undefined && override !== null && override !== '') {
       return typeof override === 'number' ? `${override}px` : override;
     }
-    const floor = this.contentMinWidth();
-    return floor > 0 ? `${floor}px` : null;
+    return null;
+  });
+
+  protected readonly hostMinWidth = computed(() => {
+    const override = this.triggerMinWidth();
+    if (override !== undefined && override !== null && override !== '') {
+      return typeof override === 'number' ? `${override}px` : override;
+    }
+    const auto = this.intrinsicMinWidth();
+    if (auto > 0) {
+      return `${auto}px`;
+    }
+    return null;
   });
 
   protected readonly effectivePanelMinWidth = computed(() => {
     const input = this.panelMinWidth();
     if (input !== undefined) return input;
-    const floor = this.contentMinWidth();
-    return floor > 0 ? floor : undefined;
+    const auto = this.intrinsicMinWidth();
+    if (auto > 0) {
+      return auto;
+    }
+    return undefined;
   });
 
   protected readonly selectedOption = computed<
@@ -588,6 +600,7 @@ export class SolarisSelectComponent
     this.syncActiveOptionToSelected();
     this.syncActiveStates();
     this.syncVisibility();
+    this.syncIntrinsicWidth();
     this.opened.emit();
     this.openChange.emit(true);
 
@@ -596,6 +609,73 @@ export class SolarisSelectComponent
         // SECURITY_EXCEPTION: focusing the search input when the panel opens requires the native method.
         this.searchInputRef()?.nativeElement.focus();
       });
+    }
+  }
+
+  private syncIntrinsicWidth(): void {
+    if (!this.autoSize()) {
+      return;
+    }
+    if (
+      this.triggerMinWidth() !== undefined ||
+      this.panelMinWidth() !== undefined
+    ) {
+      return;
+    }
+    if (!this.panelMatchTriggerWidth()) {
+      return;
+    }
+    requestAnimationFrame(() => this.measureIntrinsicWidth());
+  }
+
+  private measureIntrinsicWidth(): void {
+    if (!this.panelOpen()) {
+      return;
+    }
+    if (typeof document === 'undefined') {
+      return;
+    }
+    // SECURITY_EXCEPTION: measuring the attached panel rows for content-driven
+    // sizing requires native layout reads (offsetWidth); Renderer2
+    // has no layout-measurement alternative. Read-only, guarded for SSR.
+    const triggerEl = this.triggerElement()?.nativeElement;
+    const panel = document.getElementById(this.panelId);
+    const list = panel?.querySelector(
+      '.solaris-select__options',
+    ) as HTMLElement | null;
+    if (!triggerEl || !panel || !list) {
+      return;
+    }
+    const contentWidth = measureOptionsContentWidth(list);
+    if (!(contentWidth > 0)) {
+      return;
+    }
+    const host = this.elementRef.nativeElement;
+    const parentWidth = measureAvailableWidth(host);
+    const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 0;
+    // SECURITY_EXCEPTION: read-only layout input with no Renderer2
+    // alternative; guarded for SSR.
+    const devicePixelRatio =
+      typeof window !== 'undefined' && window.devicePixelRatio > 0
+        ? window.devicePixelRatio
+        : 1;
+    const triggerWidth =
+      this.popoverTrigger()?.getOriginWidth() ??
+      triggerEl.getBoundingClientRect().width;
+    const target = resolveDeviceAlignedFloor({
+      contentWidth,
+      triggerWidth,
+      parentWidth,
+      viewportWidth,
+      maxWidthOverride: this.panelMaxWidth(),
+      devicePixelRatio,
+    });
+    if (target > this.intrinsicMinWidth()) {
+      this.intrinsicMinWidth.set(target);
+      this.changeDetectorRef.detectChanges();
+      const trigger = this.popoverTrigger();
+      trigger?.updateOverlaySize();
+      trigger?.updatePosition();
     }
   }
 

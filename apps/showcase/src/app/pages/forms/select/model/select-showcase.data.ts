@@ -29,6 +29,7 @@ export const SELECT_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'appearance', labelKey: 'select.section.appearance' },
   { anchor: 'radius', labelKey: 'select.section.radius' },
   { anchor: 'states', labelKey: 'select.section.states' },
+  { anchor: 'constrained', labelKey: 'select.section.constrained' },
   { anchor: 'clearable', labelKey: 'select.section.clearable' },
   { anchor: 'affix', labelKey: 'select.section.affix' },
   { anchor: 'searchable', labelKey: 'select.section.searchable' },
@@ -77,7 +78,6 @@ export const SELECT_SHOWCASE_RADIUS_NONE_CODE = selectRadiusCode('none');
 export const SELECT_SHOWCASE_RADIUS_SM_CODE = selectRadiusCode('sm');
 export const SELECT_SHOWCASE_RADIUS_MD_CODE = selectRadiusCode('md');
 export const SELECT_SHOWCASE_RADIUS_LG_CODE = selectRadiusCode('lg');
-export const SELECT_SHOWCASE_RADIUS_XL_CODE = selectRadiusCode('xl');
 
 export const SELECT_SHOWCASE_STATES_CODE = [
   '<solaris-select label="Default" placeholder="Default">',
@@ -95,6 +95,50 @@ export const SELECT_SHOWCASE_STATES_CODE = [
   '<solaris-select label="Loading" [loading]="true" placeholder="Loading">',
   '  <solaris-option value="admin">Administrator</solaris-option>',
   '</solaris-select>',
+].join('\n');
+
+function selectStateCode(lines: string[]): string {
+  return lines.join('\n');
+}
+
+export const SELECT_SHOWCASE_STATE_DEFAULT_CODE = selectStateCode([
+  '<solaris-select label="Default" placeholder="Default">',
+  '  <solaris-option value="admin">Administrator</solaris-option>',
+  '</solaris-select>',
+]);
+
+export const SELECT_SHOWCASE_STATE_INVALID_CODE = selectStateCode([
+  '<solaris-select label="Invalid" [invalid]="true" error="This field has an error." placeholder="Invalid">',
+  '  <solaris-option value="admin">Administrator</solaris-option>',
+  '</solaris-select>',
+]);
+
+export const SELECT_SHOWCASE_STATE_DISABLED_CODE = selectStateCode([
+  '<solaris-select label="Disabled" [disabled]="true" placeholder="Disabled">',
+  '  <solaris-option value="admin">Administrator</solaris-option>',
+  '</solaris-select>',
+]);
+
+export const SELECT_SHOWCASE_STATE_READONLY_CODE = selectStateCode([
+  '<solaris-select label="Readonly" [readonly]="true" placeholder="Readonly">',
+  '  <solaris-option value="admin">Administrator</solaris-option>',
+  '</solaris-select>',
+]);
+
+export const SELECT_SHOWCASE_STATE_LOADING_CODE = selectStateCode([
+  '<solaris-select label="Loading" [loading]="true" placeholder="Loading">',
+  '  <solaris-option value="admin">Administrator</solaris-option>',
+  '</solaris-select>',
+]);
+
+export const SELECT_SHOWCASE_CONSTRAINED_CODE = [
+  '<div style="width: 320px; max-width: 320px;">',
+  '  <solaris-select label="Account type" placeholder="Select account type">',
+  '    <solaris-option value="independent" label="Escola independente (unidade própria)" />',
+  '    <solaris-option value="network" label="Rede (2 ou mais instituições)" />',
+  '    <solaris-option value="maintainer" label="Mantenedora" />',
+  '  </solaris-select>',
+  '</div>',
 ].join('\n');
 
 export const SELECT_SHOWCASE_CLEARABLE_CODE = [
