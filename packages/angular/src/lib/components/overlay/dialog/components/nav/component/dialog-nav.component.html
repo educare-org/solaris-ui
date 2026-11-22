@@ -1,0 +1,93 @@
+<div class="solaris-dialog-nav__select">
+  <solaris-select
+    appearance="minimal"
+    [value]="activeValue()"
+    [prefix]="activeIcon()"
+    [ariaLabel]="resolvedSelectLabel()"
+    (valueChange)="onSelectValue($event)"
+  >
+    @for (item of items(); track item.value) {
+      <solaris-option
+        [value]="item.value"
+        [label]="itemLabel(item)"
+        [description]="itemDescription(item)"
+        [disabled]="item.disabled ?? false"
+      >
+        @if (item.icon) {
+          <solaris-icon
+            solaris-option-leading
+            [name]="item.icon!"
+            [decorative]="true"
+            aria-hidden="true"
+          />
+        }
+      </solaris-option>
+    }
+  </solaris-select>
+</div>
+<div class="solaris-dialog-nav__layout">
+  <div class="solaris-dialog-nav__side">
+    <nav
+      class="solaris-dialog-nav__nav"
+      [attr.aria-label]="resolvedAriaLabel()"
+    >
+      <ul class="solaris-dialog-nav__list">
+        @for (item of items(); track item.value) {
+          @let index = $index;
+          <li
+            class="solaris-dialog-nav__item"
+            [class.solaris-dialog-nav__item--active]="isActive(index)"
+            [attr.data-state]="isActive(index) ? 'active' : 'upcoming'"
+            [attr.data-error]="item.error ? '' : null"
+          >
+            <button
+              type="button"
+              class="solaris-dialog-nav__button"
+              [attr.data-index]="index"
+              [tabindex]="tabIndex(index)"
+              [attr.aria-current]="isActive(index) ? 'true' : null"
+              [attr.title]="itemLabel(item)"
+              [disabled]="item.disabled ?? false"
+              (click)="goTo(index)"
+              (focus)="onItemFocus(index)"
+              (keydown)="onListKeydown($event)"
+            >
+              @if (item.icon) {
+                <solaris-icon
+                  class="solaris-dialog-nav__icon"
+                  [name]="item.icon!"
+                  [decorative]="true"
+                  aria-hidden="true"
+                />
+              }
+              <span class="solaris-dialog-nav__text">
+                <span class="solaris-dialog-nav__label">{{
+                  itemLabel(item)
+                }}</span>
+                @if (itemDescription(item)) {
+                  <span class="solaris-dialog-nav__description">{{
+                    itemDescription(item)
+                  }}</span>
+                }
+              </span>
+              @if (item.error) {
+                <solaris-icon
+                  class="solaris-dialog-nav__error-icon"
+                  name="danger"
+                  [decorative]="true"
+                  aria-hidden="true"
+                />
+              }
+            </button>
+          </li>
+        }
+      </ul>
+    </nav>
+    <div class="solaris-dialog-nav__footer">
+      <ng-content select="[solaris-dialog-nav-footer]" />
+    </div>
+  </div>
+  <div class="solaris-dialog-nav__content">
+    <ng-container [ngTemplateOutlet]="activeTemplate()" />
+  </div>
+</div>

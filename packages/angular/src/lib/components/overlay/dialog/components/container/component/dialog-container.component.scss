@@ -298,6 +298,10 @@
     var(--solaris-dialog-panel-border);
 }
 
+:host([data-appearance='outline']) {
+  --solaris-dialog-panel-bg: var(--solaris-neutral-page);
+}
+
 :host([data-fullscreen]) .solaris-dialog-panel {
   width: 100vw;
   height: 100dvh;

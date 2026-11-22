@@ -2,6 +2,10 @@
   "solaris": {
     "dialog": {
       "back": "Atrás",
+      "breadcrumbLabel": "Pasos",
+      "navLabel": "Secciones",
+      "navSectionLabel": "Sección",
+      "stepOf": "Paso {{current}} de {{total}}",
       "cancel": "Cancelar",
       "close": "Cerrar",
       "confirm": "Confirmar",

@@ -1,0 +1,80 @@
+.dialog-nav-wizard-example {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.dialog-nav-wizard-example solaris-dialog-nav {
+  min-height: 0;
+}
+
+.dialog-nav-wizard-example__pane {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.dialog-nav-wizard-example__pane solaris-dialog-breadcrumb {
+  flex-shrink: 0;
+  padding: var(--solaris-spacing-4) var(--solaris-spacing-5) 0;
+}
+
+.dialog-nav-wizard-example__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.dialog-nav-wizard-example__step {
+  padding: var(--solaris-spacing-4) var(--solaris-spacing-5);
+}
+
+.dialog-nav-wizard-example__step h3 {
+  margin: 0 0 var(--solaris-spacing-2);
+  font-size: var(--solaris-font-size-md);
+  font-weight: var(--solaris-font-weight-semibold);
+  color: var(--solaris-neutral-text-heading);
+}
+
+.dialog-nav-wizard-example__step p {
+  margin: 0 0 var(--solaris-spacing-3);
+  font-size: var(--solaris-font-size-sm);
+  color: var(--solaris-neutral-text-secondary);
+  line-height: var(--solaris-line-height-md);
+}
+
+.dialog-nav-wizard-example__step ul {
+  margin: 0;
+  padding-left: var(--solaris-spacing-7);
+  font-size: var(--solaris-font-size-sm);
+  color: var(--solaris-neutral-text-secondary);
+  line-height: var(--solaris-line-height-lg);
+}
+
+.dialog-nav-wizard-example__dropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--solaris-spacing-3);
+  box-sizing: border-box;
+  min-height: calc(var(--solaris-spacing-18) + var(--solaris-spacing-10));
+  border: var(--solaris-border-width-sm) dashed
+    var(--solaris-neutral-border-default);
+  border-radius: var(--solaris-radius-md);
+  padding: var(--solaris-spacing-6);
+  font-size: var(--solaris-font-size-sm);
+  color: var(--solaris-neutral-text-secondary);
+}
+
+.dialog-nav-wizard-example__footer {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  border-top: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-default);
+  padding: var(--solaris-spacing-5);
+}

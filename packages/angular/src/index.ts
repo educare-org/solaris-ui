@@ -920,6 +920,21 @@ export { SolarisDialogFooterComponent } from './lib/components/overlay/dialog/co
 export { SolarisDialogCloseDirective } from './lib/components/overlay/dialog/components/close/directives/dialog-close.directive';
 export { SolarisDialogFlowComponent } from './lib/components/overlay/dialog/components/flow/component/dialog-flow.component';
 export { SolarisDialogStepComponent } from './lib/components/overlay/dialog/components/step/component/dialog-step.component';
+export { SolarisDialogBreadcrumbComponent } from './lib/components/overlay/dialog/components/breadcrumb/component/dialog-breadcrumb.component';
+export { SolarisDialogNavComponent } from './lib/components/overlay/dialog/components/nav/component/dialog-nav.component';
+export { SolarisDialogNavContentDirective } from './lib/components/overlay/dialog/components/nav/directives/dialog-nav-content.directive';
+export { buildDialogWizardActions } from './lib/components/overlay/dialog/components/breadcrumb/functions/dialog-wizard-actions.functions';
+export {
+  resolveDialogBreadcrumbStepState,
+  isDialogBreadcrumbStepClickable,
+  findDialogBreadcrumbFocusableStep,
+} from './lib/components/overlay/dialog/components/breadcrumb/functions/dialog-breadcrumb.functions';
+export {
+  resolveDialogNavItemState,
+  isDialogNavItemClickable,
+  findDialogNavFocusableSection,
+  findDialogNavIndexByValue,
+} from './lib/components/overlay/dialog/components/nav/functions/dialog-nav.functions';
 export { SOLARIS_DIALOG_CONFIG } from './lib/components/overlay/dialog/token/dialog.tokens';
 export {
   SOLARIS_DIALOG_DATA,
@@ -945,6 +960,17 @@ export type { SolarisDialogAction } from './lib/components/overlay/dialog/compon
 export type { SolarisDialogOptions } from './lib/components/overlay/dialog/components/root/model/dialog.types';
 export type { SolarisDialogComponentConfig } from './lib/components/overlay/dialog/components/root/model/dialog.types';
 export type { SolarisDialogConfig } from './lib/components/overlay/dialog/components/root/model/dialog.types';
+export type {
+  SolarisDialogBreadcrumbItem,
+  SolarisDialogBreadcrumbStepChange,
+  SolarisDialogBreadcrumbStepState,
+} from './lib/components/overlay/dialog/components/breadcrumb/model/dialog-breadcrumb.types';
+export type { SolarisDialogWizardActionsConfig } from './lib/components/overlay/dialog/components/breadcrumb/functions/dialog-wizard-actions.functions';
+export type {
+  SolarisDialogNavItem,
+  SolarisDialogNavStepChange,
+  SolarisDialogNavItemState,
+} from './lib/components/overlay/dialog/components/nav/model/dialog-nav.types';
 
 export { SolarisTabsComponent } from './lib/components/navigation/tabs/components/root/component/tabs.component';
 export { SolarisTabComponent } from './lib/components/navigation/tabs/components/tab/component/tab.component';

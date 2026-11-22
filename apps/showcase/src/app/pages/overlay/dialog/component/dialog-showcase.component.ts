@@ -34,6 +34,7 @@ import {
   DIALOG_SHOWCASE_FLOW_CODE,
   DIALOG_SHOWCASE_IMPORT_CODE,
   DIALOG_SHOWCASE_NESTED_CODE,
+  DIALOG_SHOWCASE_NAV_WIZARD_CODE,
   DIALOG_SHOWCASE_NEXT,
   DIALOG_SHOWCASE_PREV,
   DIALOG_SHOWCASE_SHEET_CODE,
@@ -85,6 +86,7 @@ export class DialogShowcaseComponent {
   protected readonly componentChromeCode =
     DIALOG_SHOWCASE_COMPONENT_CHROME_CODE;
   protected readonly flowCode = DIALOG_SHOWCASE_FLOW_CODE;
+  protected readonly navWizardCode = DIALOG_SHOWCASE_NAV_WIZARD_CODE;
   protected readonly validatedFlowCode = DIALOG_SHOWCASE_VALIDATED_FLOW_CODE;
 
   protected readonly selectedExample = signal<string>('basic');
@@ -726,6 +728,18 @@ export class DialogShowcaseComponent {
       this.dialogService.openComponent(m.DialogFlowExampleComponent, {
         title: this.translateService.translate('dialog.examples.flow.title'),
         width: '600px',
+      });
+    });
+  }
+
+  openNavWizard(): void {
+    import(
+      '../examples/dialog-nav-wizard/component/dialog-nav-wizard.component'
+    ).then((m) => {
+      this.dialogService.openComponent(m.DialogNavWizardExampleComponent, {
+        ariaLabel: this.translateService.translate('dialog.examples.nav.title'),
+        width: '880px',
+        height: '620px',
       });
     });
   }

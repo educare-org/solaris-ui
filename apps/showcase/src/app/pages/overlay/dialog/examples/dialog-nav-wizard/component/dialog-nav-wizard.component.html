@@ -1,0 +1,144 @@
+<div class="dialog-nav-wizard-example">
+  <solaris-dialog-nav
+    [items]="sections"
+    [(activeStep)]="section"
+    (stepChange)="onSectionChange($event)"
+  >
+    <button
+      type="button"
+      solaris-dialog-nav-footer
+      solaris-button
+      appearance="ghost"
+      (click)="newBlank()"
+    >
+      {{ 'dialog.examples.nav.section-blank' | translate }}
+    </button>
+
+    <ng-template solaris-dialog-nav-content="audiobook">
+      <div class="dialog-nav-wizard-example__pane">
+        <solaris-dialog-breadcrumb
+          [(activeStep)]="step"
+          [items]="wizardSteps"
+        />
+        <div class="dialog-nav-wizard-example__scroll">
+          <solaris-dialog-flow [(activeIndex)]="step" transition="slide">
+            <solaris-dialog-step>
+              <div class="dialog-nav-wizard-example__step">
+                <h3>
+                  {{ 'dialog.examples.nav.step1-title' | translate }}
+                </h3>
+                <p>{{ 'dialog.examples.nav.step1-desc' | translate }}</p>
+                <div class="dialog-nav-wizard-example__dropzone">
+                  <solaris-icon name="up-arrow" [decorative]="true" />
+                  <span>{{
+                    'dialog.examples.nav.step1-hint' | translate
+                  }}</span>
+                </div>
+              </div>
+            </solaris-dialog-step>
+            <solaris-dialog-step>
+              <div class="dialog-nav-wizard-example__step">
+                <h3>
+                  {{ 'dialog.examples.nav.step2-title' | translate }}
+                </h3>
+                <p>{{ 'dialog.examples.nav.step2-desc' | translate }}</p>
+                <ul>
+                  <li>{{ 'dialog.examples.nav.step2-list1' | translate }}</li>
+                  <li>{{ 'dialog.examples.nav.step2-list2' | translate }}</li>
+                  <li>{{ 'dialog.examples.nav.step2-list3' | translate }}</li>
+                </ul>
+              </div>
+            </solaris-dialog-step>
+            <solaris-dialog-step>
+              <div class="dialog-nav-wizard-example__step">
+                <h3>
+                  {{ 'dialog.examples.nav.step3-title' | translate }}
+                </h3>
+                <p>{{ 'dialog.examples.nav.step3-desc' | translate }}</p>
+                <ul>
+                  <li>{{ 'dialog.examples.nav.step3-list1' | translate }}</li>
+                  <li>{{ 'dialog.examples.nav.step3-list2' | translate }}</li>
+                  <li>{{ 'dialog.examples.nav.step3-list3' | translate }}</li>
+                </ul>
+              </div>
+            </solaris-dialog-step>
+          </solaris-dialog-flow>
+        </div>
+        <div class="dialog-nav-wizard-example__footer">
+          <button
+            type="button"
+            solaris-button
+            appearance="ghost"
+            [disabled]="step() === 0"
+            (click)="previous()"
+          >
+            {{ 'dialog.common.previous' | translate }}
+          </button>
+          @if (step() < 2) {
+            <button
+              type="button"
+              solaris-button
+              color="primary"
+              (click)="next()"
+            >
+              {{ 'dialog.common.next' | translate }}
+            </button>
+          } @else {
+            <button
+              type="button"
+              solaris-button
+              color="primary"
+              (click)="finish()"
+            >
+              {{ 'dialog.common.finish' | translate }}
+            </button>
+          }
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template solaris-dialog-nav-content="publish">
+      <div class="dialog-nav-wizard-example__pane">
+        <div class="dialog-nav-wizard-example__scroll">
+          <div class="dialog-nav-wizard-example__step">
+            <h3>{{ 'dialog.examples.nav.publish-title' | translate }}</h3>
+            <p>{{ 'dialog.examples.nav.publish-desc' | translate }}</p>
+          </div>
+        </div>
+        <div class="dialog-nav-wizard-example__footer">
+          <span></span>
+          <button
+            type="button"
+            solaris-button
+            color="primary"
+            (click)="publish()"
+          >
+            {{ 'dialog.examples.nav.publish-action' | translate }}
+          </button>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template solaris-dialog-nav-content="series">
+      <div class="dialog-nav-wizard-example__pane">
+        <div class="dialog-nav-wizard-example__scroll">
+          <div class="dialog-nav-wizard-example__step">
+            <h3>{{ 'dialog.examples.nav.series-title' | translate }}</h3>
+            <p>{{ 'dialog.examples.nav.series-desc' | translate }}</p>
+          </div>
+        </div>
+        <div class="dialog-nav-wizard-example__footer">
+          <span></span>
+          <button
+            type="button"
+            solaris-button
+            color="primary"
+            (click)="createSeries()"
+          >
+            {{ 'dialog.examples.nav.series-action' | translate }}
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </solaris-dialog-nav>
+</div>

@@ -155,6 +155,13 @@ export const DIALOG_SHOWCASE_SCROLL_CODE = [
   '});',
 ].join('\n');
 
+export const DIALOG_SHOWCASE_NAV_WIZARD_CODE = [
+  'this.dialog.openComponent(DialogNavWizardExampleComponent, {',
+  "  width: '880px',",
+  "  height: '620px',",
+  '});',
+].join('\n');
+
 export const DIALOG_SHOWCASE_FLOW_CODE = [
   'this.dialog.openComponent(DialogFlowExampleComponent, {',
   "  title: 'Multi-step Dialog',",

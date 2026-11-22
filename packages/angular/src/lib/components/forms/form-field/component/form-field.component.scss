@@ -501,6 +501,10 @@
   --solaris-form-field-control-border-width: 0;
 }
 
+:host([data-appearance='minimal']) .solaris-form-field__affix--prefix {
+  border-inline-end: none;
+}
+
 :host([data-invalid]) {
   --solaris-form-field-control-border-color: var(
     --solaris-form-field-error-border-color

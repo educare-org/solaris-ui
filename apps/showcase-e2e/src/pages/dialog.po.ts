@@ -36,6 +36,26 @@ export class DialogPageObject {
     return this.panel().locator('.solaris-dialog-panel__body');
   }
 
+  nav(): Locator {
+    return this.panel().locator('solaris-dialog-nav');
+  }
+
+  navSide(): Locator {
+    return this.nav().locator('.solaris-dialog-nav__side');
+  }
+
+  navSelect(): Locator {
+    return this.nav().locator('.solaris-dialog-nav__select');
+  }
+
+  navFooter(): Locator {
+    return this.nav().locator('.solaris-dialog-nav__footer');
+  }
+
+  wizardFooter(): Locator {
+    return this.panel().locator('.dialog-nav-wizard-example__footer');
+  }
+
   async headerOffsetFromPanelTop(): Promise<number> {
     const [headerBox, panelBox] = await Promise.all([
       this.header().boundingBox(),

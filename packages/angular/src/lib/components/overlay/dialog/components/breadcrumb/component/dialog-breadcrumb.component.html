@@ -1,0 +1,70 @@
+<nav
+  class="solaris-dialog-breadcrumb__nav"
+  [attr.aria-label]="resolvedAriaLabel()"
+>
+  <ol class="solaris-dialog-breadcrumb__list">
+    @for (item of items(); track item.value) {
+      @let index = $index;
+      @let state = stateOf(index);
+      <li
+        class="solaris-dialog-breadcrumb__item"
+        [class.solaris-dialog-breadcrumb__item--current]="state === 'current'"
+        [attr.data-state]="state"
+        [attr.data-error]="item.error ? '' : null"
+      >
+        @if (isClickable(index)) {
+          <button
+            type="button"
+            class="solaris-dialog-breadcrumb__button"
+            [attr.data-index]="index"
+            [attr.aria-label]="itemLabel(item)"
+            [attr.title]="itemLabel(item)"
+            (click)="goTo(index)"
+            (keydown)="onListKeydown($event)"
+          >
+            @if (item.error) {
+              <solaris-icon
+                name="danger"
+                [decorative]="true"
+                aria-hidden="true"
+              />
+            }
+            <span class="solaris-dialog-breadcrumb__label">{{
+              itemLabel(item)
+            }}</span>
+          </button>
+        } @else if (state === 'current') {
+          <span class="solaris-dialog-breadcrumb__current" aria-current="step">
+            <span solaris-visually-hidden>{{ stepOfText() }}: </span>
+            <span class="solaris-dialog-breadcrumb__label">{{
+              itemLabel(item)
+            }}</span>
+          </span>
+        } @else {
+          <span
+            class="solaris-dialog-breadcrumb__text"
+            [attr.aria-disabled]="item.disabled ? 'true' : null"
+            [attr.aria-label]="itemLabel(item)"
+            [attr.title]="itemLabel(item)"
+          >
+            @if (item.error) {
+              <solaris-icon
+                name="danger"
+                [decorative]="true"
+                aria-hidden="true"
+              />
+            }
+            <span class="solaris-dialog-breadcrumb__label">{{
+              itemLabel(item)
+            }}</span>
+          </span>
+        }
+        @if (!$last) {
+          <span class="solaris-dialog-breadcrumb__separator" aria-hidden="true">
+            <solaris-icon name="chevron-right" [decorative]="true" />
+          </span>
+        }
+      </li>
+    }
+  </ol>
+</nav>

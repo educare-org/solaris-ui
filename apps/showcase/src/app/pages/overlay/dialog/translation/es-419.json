@@ -43,6 +43,7 @@
       "open-placement": "Abrir dialog de ubicación",
       "open-sheet": "Abrir bottom sheet",
       "open-validated-flow": "Abrir flujo validado",
+      "open-nav-wizard": "Abrir dialog con secciones",
       "open-split": "Abrir dialog de acciones divididas"
     },
     "density": {
@@ -181,6 +182,35 @@
         "step2-desc": "Revisa tu nombre antes de finalizar.",
         "step2-title": "Paso 2: Revisión",
         "title": "Flujo validado"
+      },
+      "nav": {
+        "publish-action": "Publicar libro",
+        "publish-desc": "Envía tu eBook con narración dinámica.",
+        "publish-title": "Publicar",
+        "section-audiobook": "Crear audiolibro",
+        "section-blank": "Nuevo proyecto en blanco",
+        "section-publish": "Publicar",
+        "section-series": "Crear serie",
+        "series-action": "Crear serie",
+        "series-desc": "Agrupa audiolibros relacionados en una serie.",
+        "series-title": "Crear serie",
+        "step1-desc": "Elige un archivo para empezar.",
+        "step1-hint": "Haz clic para buscar o arrastra y suelta",
+        "step1-title": "Paso 1: Carga",
+        "step2-desc": "Elige el estilo de narración.",
+        "step2-list1": "Narrador único: una voz para todo el libro",
+        "step2-list2": "Reparto completo: voces distintas por personaje",
+        "step2-list3": "Se aplica a todos los capítulos",
+        "step2-title": "Paso 2: Formato",
+        "step3-desc": "Elige una voz para la narración.",
+        "step3-list1": "Escucha cada voz antes de continuar",
+        "step3-list2": "La voz se aplica a la sección actual",
+        "step3-list3": "Puedes cambiarla después",
+        "step3-title": "Paso 3: Voz",
+        "title": "Dialog con secciones",
+        "wizard-format": "Formato",
+        "wizard-upload": "Carga",
+        "wizard-voice": "Voz"
       },
       "appearance-flat": {
         "title": "Apariencia Flat",

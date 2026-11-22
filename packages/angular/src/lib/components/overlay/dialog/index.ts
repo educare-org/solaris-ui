@@ -9,6 +9,21 @@ export { SolarisDialogFooterComponent } from './components/footer/component/dial
 export { SolarisDialogCloseDirective } from './components/close/directives/dialog-close.directive';
 export { SolarisDialogFlowComponent } from './components/flow/component/dialog-flow.component';
 export { SolarisDialogStepComponent } from './components/step/component/dialog-step.component';
+export { SolarisDialogBreadcrumbComponent } from './components/breadcrumb/component/dialog-breadcrumb.component';
+export { SolarisDialogNavComponent } from './components/nav/component/dialog-nav.component';
+export { SolarisDialogNavContentDirective } from './components/nav/directives/dialog-nav-content.directive';
+export { buildDialogWizardActions } from './components/breadcrumb/functions/dialog-wizard-actions.functions';
+export {
+  resolveDialogBreadcrumbStepState,
+  isDialogBreadcrumbStepClickable,
+  findDialogBreadcrumbFocusableStep,
+} from './components/breadcrumb/functions/dialog-breadcrumb.functions';
+export {
+  resolveDialogNavItemState,
+  isDialogNavItemClickable,
+  findDialogNavFocusableSection,
+  findDialogNavIndexByValue,
+} from './components/nav/functions/dialog-nav.functions';
 
 export { SOLARIS_DIALOG_CONFIG } from './token/dialog.tokens';
 export {
@@ -16,6 +31,17 @@ export {
   SOLARIS_DIALOG_REF,
 } from './token/dialog-data.token';
 
+export type {
+  SolarisDialogBreadcrumbItem,
+  SolarisDialogBreadcrumbStepChange,
+  SolarisDialogBreadcrumbStepState,
+} from './components/breadcrumb/model/dialog-breadcrumb.types';
+export type { SolarisDialogWizardActionsConfig } from './components/breadcrumb/functions/dialog-wizard-actions.functions';
+export type {
+  SolarisDialogNavItem,
+  SolarisDialogNavStepChange,
+  SolarisDialogNavItemState,
+} from './components/nav/model/dialog-nav.types';
 export type {
   SolarisDialogAppearance,
   SolarisDialogVariant,

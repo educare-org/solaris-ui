@@ -43,6 +43,7 @@
       "open-placement": "Open placement dialog",
       "open-sheet": "Open bottom sheet",
       "open-validated-flow": "Open validated flow",
+      "open-nav-wizard": "Open sectioned dialog",
       "open-split": "Open split actions dialog"
     },
     "density": {
@@ -181,6 +182,35 @@
         "step2-desc": "Review your name before finishing.",
         "step2-title": "Step 2: Review",
         "title": "Validated flow"
+      },
+      "nav": {
+        "publish-action": "Publish book",
+        "publish-desc": "Send your eBook with dynamic narration.",
+        "publish-title": "Publish",
+        "section-audiobook": "Create audiobook",
+        "section-blank": "New blank project",
+        "section-publish": "Publish",
+        "section-series": "Create series",
+        "series-action": "Create series",
+        "series-desc": "Group related audiobooks into a series.",
+        "series-title": "Create series",
+        "step1-desc": "Choose a file to get started.",
+        "step1-hint": "Click to browse or drag and drop",
+        "step1-title": "Step 1: Upload",
+        "step2-desc": "Pick the narration style.",
+        "step2-list1": "Single narrator: one voice for the whole book",
+        "step2-list2": "Full cast: distinct voices per character",
+        "step2-list3": "Applies to every chapter",
+        "step2-title": "Step 2: Format",
+        "step3-desc": "Pick a voice for the narration.",
+        "step3-list1": "Preview each voice before continuing",
+        "step3-list2": "The voice applies to the current section",
+        "step3-list3": "You can change it later",
+        "step3-title": "Step 3: Voice",
+        "title": "Sectioned dialog",
+        "wizard-format": "Format",
+        "wizard-upload": "Upload",
+        "wizard-voice": "Voice"
       },
       "appearance-flat": {
         "title": "Flat appearance",

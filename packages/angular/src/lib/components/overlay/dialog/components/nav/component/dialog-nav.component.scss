@@ -1,0 +1,202 @@
+:host {
+  --solaris-dialog-nav-width: calc(var(--solaris-spacing-18) * 2);
+  --solaris-dialog-nav-gap: var(--solaris-spacing-4);
+  --solaris-dialog-nav-list-padding: var(--solaris-spacing-5);
+  --solaris-dialog-nav-item-min-height: var(--solaris-density-min-height);
+  --solaris-dialog-nav-item-padding: var(--solaris-spacing-2)
+    var(--solaris-spacing-3);
+  --solaris-dialog-nav-font-size: var(--solaris-font-size-sm);
+  --solaris-dialog-nav-icon-size: var(--solaris-font-size-md);
+  --solaris-dialog-nav-link-color: var(--solaris-neutral-text-secondary);
+  --solaris-dialog-nav-active-color: var(--solaris-neutral-text-heading);
+  --solaris-dialog-nav-active-bg: var(--solaris-neutral-sunken);
+  --solaris-dialog-nav-hover-bg: var(--solaris-neutral-subtle);
+  --solaris-dialog-nav-border-color: var(--solaris-neutral-border-default);
+  --solaris-dialog-nav-error-color: var(--solaris-danger-foreground);
+  --solaris-dialog-nav-footer-padding: var(--solaris-spacing-5);
+
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.solaris-dialog-nav__select {
+  display: none;
+}
+
+.solaris-dialog-nav__layout {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  min-width: 0;
+  flex-direction: row;
+}
+
+.solaris-dialog-nav__side {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: var(--solaris-dialog-nav-width);
+  flex-shrink: 0;
+  border-right: var(--solaris-border-width-sm) solid
+    var(--solaris-dialog-nav-border-color);
+}
+
+.solaris-dialog-nav__nav {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.solaris-dialog-nav__list {
+  margin: 0;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  list-style: none;
+  box-sizing: border-box;
+  padding: var(--solaris-dialog-nav-list-padding);
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-dialog-nav-gap);
+}
+
+.solaris-dialog-nav__item {
+  display: flex;
+}
+
+.solaris-dialog-nav__button {
+  border: none;
+  cursor: pointer;
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  background: transparent;
+  box-sizing: border-box;
+  padding: var(--solaris-dialog-nav-item-padding);
+  min-height: var(--solaris-dialog-nav-item-min-height);
+  gap: var(--solaris-spacing-3);
+  border-radius: var(--solaris-radius-sm);
+  color: var(--solaris-dialog-nav-link-color);
+  font: var(--solaris-font-weight-regular) var(--solaris-dialog-nav-font-size) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+  text-align: start;
+  transition:
+    color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+.solaris-dialog-nav__button:hover:not(:disabled) {
+  color: var(--solaris-dialog-nav-active-color);
+  background: var(--solaris-dialog-nav-hover-bg);
+}
+
+.solaris-dialog-nav__button:focus-visible {
+  outline-offset: var(--solaris-focus-ring-offset);
+  outline: var(--solaris-focus-ring-width) solid var(--solaris-focus-ring-color);
+}
+
+.solaris-dialog-nav__button:disabled {
+  cursor: not-allowed;
+  opacity: var(--solaris-opacity-50);
+}
+
+.solaris-dialog-nav__item--active .solaris-dialog-nav__button {
+  color: var(--solaris-dialog-nav-active-color);
+  background: var(--solaris-dialog-nav-active-bg);
+  font-weight: var(--solaris-font-weight-medium);
+}
+
+.solaris-dialog-nav__item[data-error] .solaris-dialog-nav__button {
+  color: var(--solaris-dialog-nav-error-color);
+}
+
+.solaris-dialog-nav__icon {
+  flex-shrink: 0;
+}
+
+.solaris-dialog-nav__button solaris-icon {
+  width: var(--solaris-dialog-nav-icon-size);
+  height: var(--solaris-dialog-nav-icon-size);
+}
+
+.solaris-dialog-nav__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.solaris-dialog-nav__label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.solaris-dialog-nav__description {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  color: var(--solaris-dialog-nav-link-color);
+  font-size: var(--solaris-font-size-xs);
+}
+
+.solaris-dialog-nav__error-icon {
+  flex-shrink: 0;
+}
+
+.solaris-dialog-nav__footer {
+  box-sizing: border-box;
+  padding: var(--solaris-dialog-nav-footer-padding);
+  border-top: var(--solaris-border-width-sm) solid
+    var(--solaris-dialog-nav-border-color);
+}
+
+.solaris-dialog-nav__footer:empty {
+  display: none;
+}
+
+.solaris-dialog-nav__content {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+@media (width <= 640px) {
+  .solaris-dialog-nav__select {
+    display: block;
+    box-sizing: border-box;
+    padding: var(--solaris-dialog-nav-list-padding);
+    border-bottom: var(--solaris-border-width-sm) solid
+      var(--solaris-dialog-nav-border-color);
+  }
+
+  .solaris-dialog-nav__side {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-dialog-nav__button {
+    transition: none;
+  }
+}
+
+:host-context([data-reduced-motion='true']) .solaris-dialog-nav__button {
+  transition: none;
+}

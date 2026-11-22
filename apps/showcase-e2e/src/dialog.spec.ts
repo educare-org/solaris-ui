@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+
 import { DialogPageObject } from './pages/dialog.po';
 
 test.describe('Dialog', () => {
@@ -197,5 +199,123 @@ test.describe('Dialog', () => {
 
     await dialog.closeViaEscape();
     await dialog.assertNotVisible();
+  });
+
+  test.describe('section navigation', () => {
+    test.beforeEach(async () => {
+      await dialog.openInSection('flow', 'Open sectioned dialog');
+    });
+
+    test('shows the side nav and switches sections on desktop', async () => {
+      await expect(dialog.navSide()).toBeVisible();
+      await dialog.nav().getByRole('button', { name: 'Publish' }).click();
+      await expect(
+        dialog.panel().getByRole('heading', { name: 'Publish' }),
+      ).toBeVisible();
+    });
+
+    test('moves focus with arrow keys and activates with Enter', async ({
+      page,
+    }) => {
+      await dialog
+        .nav()
+        .getByRole('button', { name: 'Create audiobook' })
+        .focus();
+      await page.keyboard.press('ArrowDown');
+      await expect(
+        dialog.nav().getByRole('button', { name: 'Publish' }),
+      ).toBeFocused();
+      // Focus moved without activating: still on the upload step.
+      await expect(
+        dialog.panel().getByRole('heading', { name: 'Step 1: Upload' }),
+      ).toBeVisible();
+      await page.keyboard.press('Enter');
+      await expect(
+        dialog.panel().getByRole('heading', { name: 'Publish' }),
+      ).toBeVisible();
+    });
+
+    test('keeps the nav footer border aligned with the wizard footer', async () => {
+      const [navBox, wizardBox] = await Promise.all([
+        dialog.navFooter().boundingBox(),
+        dialog.wizardFooter().boundingBox(),
+      ]);
+      expect(Math.abs((navBox?.y ?? 0) - (wizardBox?.y ?? 0))).toBeLessThan(2);
+    });
+
+    test('collapses the side nav into a select on small viewports', async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width: 360, height: 800 });
+      await expect(dialog.navSide()).toBeHidden();
+      await expect(dialog.navSelect()).toBeVisible();
+      // The mobile trigger keeps the active section icon.
+      await expect(
+        dialog
+          .navSelect()
+          .locator('.solaris-form-field__affix--prefix solaris-icon svg'),
+      ).toBeVisible();
+
+      await dialog.navSelect().locator('.solaris-select__trigger').click();
+      await page.locator('solaris-option', { hasText: 'Publish' }).click();
+      await expect(
+        dialog.panel().getByRole('heading', { name: 'Publish' }),
+      ).toBeVisible();
+      await dialog.closeViaEscape();
+      await dialog.assertNotVisible();
+    });
+  });
+
+  test.describe('high contrast', () => {
+    test('renders the sectioned dialog with high-contrast tokens', async ({
+      page,
+    }) => {
+      await page
+        .locator('app-theme-toggle')
+        .getByLabel('High contrast')
+        .first()
+        .click();
+      await expect
+        .poll(
+          async () =>
+            page.evaluate(() => document.documentElement.dataset['theme']),
+          { timeout: 5000 },
+        )
+        .toMatch(/high-contrast/);
+      await dialog.openInSection('flow', 'Open sectioned dialog');
+      await expect(dialog.nav()).toBeVisible();
+      await expect(
+        dialog.nav().getByRole('button', { name: 'Create audiobook' }),
+      ).toHaveAttribute('aria-current', 'true');
+    });
+  });
+
+  test.describe('accessibility', () => {
+    test('sectioned dialog has no detectable violations (light)', async ({
+      page,
+    }) => {
+      await dialog.openInSection('flow', 'Open sectioned dialog');
+      const light = await new AxeBuilder({ page })
+        .include('.solaris-dialog-panel')
+        .analyze();
+      expect(light.violations).toEqual([]);
+      await dialog.closeViaEscape();
+    });
+
+    test('sectioned dialog has no detectable violations (dark)', async ({
+      page,
+    }) => {
+      await page
+        .locator('app-theme-toggle')
+        .getByLabel('Dark theme')
+        .first()
+        .click();
+      await dialog.openInSection('flow', 'Open sectioned dialog');
+      const dark = await new AxeBuilder({ page })
+        .include('.solaris-dialog-panel')
+        .analyze();
+      expect(dark.violations).toEqual([]);
+      await dialog.closeViaEscape();
+    });
   });
 });
