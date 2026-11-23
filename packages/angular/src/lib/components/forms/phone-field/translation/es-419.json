@@ -3,6 +3,7 @@
     "phone-field": {
       "clear": "Borrar número de teléfono",
       "country": "Seleccionar código de país",
+      "countryAnnounced": "País: {{country}} (+{{code}})",
       "empty": "No hay países disponibles",
       "invalid": "Ingrese un número de teléfono válido.",
       "tooShort": "Número de teléfono demasiado corto.",

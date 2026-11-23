@@ -3,6 +3,7 @@
     "phone-field": {
       "clear": "Clear phone number",
       "country": "Select country code",
+      "countryAnnounced": "Country: {{country}} (+{{code}})",
       "empty": "No countries available",
       "invalid": "Enter a valid phone number.",
       "tooShort": "Phone number is too short.",

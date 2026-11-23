@@ -14,6 +14,7 @@ import {
   SolarisTranslatePipe,
   SolarisTranslateService,
   solarisPhoneValidator,
+  type SolarisCountryCode,
   type SolarisPhoneFieldDensity,
   type SolarisPhoneFieldSize,
 } from '@solaris-ui/angular';
@@ -28,6 +29,8 @@ import {
   PHONE_FIELD_SHOWCASE_APPEARANCE_FILLED_CODE,
   PHONE_FIELD_SHOWCASE_APPEARANCE_OUTLINE_CODE,
   PHONE_FIELD_SHOWCASE_APPEARANCE_SURFACE_CODE,
+  PHONE_FIELD_SHOWCASE_ANNOUNCEMENT_PANEL_CODE,
+  PHONE_FIELD_SHOWCASE_ANNOUNCEMENT_TYPING_CODE,
   PHONE_FIELD_SHOWCASE_BASIC_CODE,
   PHONE_FIELD_SHOWCASE_BREADCRUMBS,
   PHONE_FIELD_SHOWCASE_CLEARABLE_CODE,
@@ -35,7 +38,11 @@ import {
   PHONE_FIELD_SHOWCASE_ERRORS_LONG_CODE,
   PHONE_FIELD_SHOWCASE_ERRORS_SHORT_CODE,
   PHONE_FIELD_SHOWCASE_EXCLUDED_CODE,
+  PHONE_FIELD_SHOWCASE_IMPERATIVE_COUNTRY_CODE,
+  PHONE_FIELD_SHOWCASE_IMPERATIVE_VALID_CODE,
   PHONE_FIELD_SHOWCASE_IMPORT_CODE,
+  PHONE_FIELD_SHOWCASE_INITIAL_FALLBACK_CODE,
+  PHONE_FIELD_SHOWCASE_INITIAL_LOOKUP_CODE,
   PHONE_FIELD_SHOWCASE_INSTALL_COMMANDS,
   PHONE_FIELD_SHOWCASE_NEXT,
   PHONE_FIELD_SHOWCASE_PREV,
@@ -126,6 +133,18 @@ export class PhoneFieldShowcasePage {
   protected readonly preferredCode = PHONE_FIELD_SHOWCASE_PREFERRED_CODE;
   protected readonly searchableCode = PHONE_FIELD_SHOWCASE_SEARCHABLE_CODE;
   protected readonly reactiveCode = PHONE_FIELD_SHOWCASE_REACTIVE_CODE;
+  protected readonly initialLookupCode =
+    PHONE_FIELD_SHOWCASE_INITIAL_LOOKUP_CODE;
+  protected readonly initialFallbackCode =
+    PHONE_FIELD_SHOWCASE_INITIAL_FALLBACK_CODE;
+  protected readonly imperativeValidCode =
+    PHONE_FIELD_SHOWCASE_IMPERATIVE_VALID_CODE;
+  protected readonly imperativeCountryCode =
+    PHONE_FIELD_SHOWCASE_IMPERATIVE_COUNTRY_CODE;
+  protected readonly announcementPanelCode =
+    PHONE_FIELD_SHOWCASE_ANNOUNCEMENT_PANEL_CODE;
+  protected readonly announcementTypingCode =
+    PHONE_FIELD_SHOWCASE_ANNOUNCEMENT_TYPING_CODE;
 
   private readonly pageActions = createShowcasePageActions(
     this.translateService,
@@ -148,6 +167,29 @@ export class PhoneFieldShowcasePage {
   protected readonly selectedAffix = signal<string>('suffix');
   protected readonly selectedCountries = signal<string>('restricted');
   protected readonly selectedErrors = signal<string>('short');
+  protected readonly selectedInitialCountry = signal<string>('lookup');
+  protected readonly selectedImperative = signal<string>('validity');
+  protected readonly selectedAnnouncement = signal<string>('panel');
+
+  protected readonly validResult = signal<boolean | undefined>(undefined);
+  protected readonly countryResult = signal<string>('');
+
+  protected readonly lookupCountry = (): Promise<
+    SolarisCountryCode | undefined
+  > => Promise.resolve('US');
+
+  protected readonly failingLookup = (): Promise<
+    SolarisCountryCode | undefined
+  > => Promise.reject(new Error('Region unavailable'));
+
+  protected checkValidity(field: SolarisPhoneFieldComponent): void {
+    this.validResult.set(field.isValid());
+  }
+
+  protected showCountry(field: SolarisPhoneFieldComponent): void {
+    const data = field.getCountryData();
+    this.countryResult.set(data ? `${data.name} (+${data.callingCode})` : '');
+  }
 
   protected readonly sizeDensityCode = computed(() =>
     [

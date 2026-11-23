@@ -1,9 +1,18 @@
 import { InjectionToken } from '@angular/core';
 
-import type { SolarisCountryListFactory } from './country.types';
+import type {
+  SolarisCountryListFactory,
+  SolarisPhoneInitialCountryResolver,
+} from './country.types';
 import { buildCountries } from './country';
 
 export const SOLARIS_PHONE_COUNTRY_LIST =
   new InjectionToken<SolarisCountryListFactory>('SOLARIS_PHONE_COUNTRY_LIST', {
     factory: () => buildCountries,
   });
+
+export const SOLARIS_PHONE_INITIAL_COUNTRY_LOOKUP = new InjectionToken<
+  SolarisPhoneInitialCountryResolver | undefined
+>('SOLARIS_PHONE_INITIAL_COUNTRY_LOOKUP', {
+  factory: () => undefined,
+});

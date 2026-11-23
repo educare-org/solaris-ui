@@ -12,8 +12,11 @@ import {
   ElementRef,
   AfterViewInit,
   OnDestroy,
+  OnInit,
   ChangeDetectionStrategy,
+  PLATFORM_ID,
 } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import {
   NG_VALUE_ACCESSOR,
   type ControlValueAccessor,
@@ -22,6 +25,7 @@ import {
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { resolveElementId } from '../../../../core';
+import { SolarisVisuallyHiddenDirective } from '../../../../services/accessibility';
 import {
   SolarisFormFieldComponent,
   SolarisFormPrefixDirective,
@@ -40,7 +44,10 @@ import {
 } from '../../../interaction/popover';
 import { SolarisPhoneCountryListComponent } from './country-list.component';
 import { SolarisSafeHtmlPipe } from './solaris-safe-html.pipe';
-import { SOLARIS_PHONE_COUNTRY_LIST } from '../model/phone-field.tokens';
+import {
+  SOLARIS_PHONE_COUNTRY_LIST,
+  SOLARIS_PHONE_INITIAL_COUNTRY_LOOKUP,
+} from '../model/phone-field.tokens';
 import {
   formatAsYouType,
   toValidE164,
@@ -57,6 +64,12 @@ import {
   mapCaretToFormatted,
   parseEditablePhoneInput,
 } from '../functions/phone-field-input';
+import {
+  buildCountryAnnouncementParams,
+  formatCountryAnnouncementFallback,
+  isPhoneValueValid,
+  resolveInitialCountry,
+} from '../functions/phone-field-country';
 
 import type {
   SolarisPhoneFieldAppearance,
@@ -67,6 +80,7 @@ import type {
 import type {
   SolarisCountry,
   SolarisCountryCode,
+  SolarisPhoneInitialCountryResolver,
 } from '../model/country.types';
 
 @Component({
@@ -83,6 +97,7 @@ import type {
     SolarisPopoverTriggerDirective,
     SolarisPhoneCountryListComponent,
     SolarisSafeHtmlPipe,
+    SolarisVisuallyHiddenDirective,
   ],
   providers: [
     {
@@ -107,11 +122,16 @@ import type {
 })
 export class SolarisPhoneFieldComponent
   extends SolarisFormControl
-  implements ControlValueAccessor, AfterViewInit, OnDestroy
+  implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy
 {
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly translateService = inject(SolarisTranslateService);
   private readonly countryListFactory = inject(SOLARIS_PHONE_COUNTRY_LIST);
+  private readonly initialCountryToken = inject(
+    SOLARIS_PHONE_INITIAL_COUNTRY_LOOKUP,
+    { optional: true },
+  );
+  private readonly platformId = inject(PLATFORM_ID);
   protected readonly themeService = inject(SolarisThemeService);
 
   protected readonly inputElementRef =
@@ -163,6 +183,9 @@ export class SolarisPhoneFieldComponent
 
   readonly defaultCountry = input<SolarisCountryCode>();
   readonly country = input<SolarisCountryCode | undefined>();
+  readonly initialCountryLookup = input<
+    SolarisPhoneInitialCountryResolver | undefined
+  >(undefined);
   readonly searchable = input<boolean>(true);
   readonly allowAnyCountry = input<boolean>(true);
   readonly countryList = input<SolarisCountryCode[] | undefined>();
@@ -353,6 +376,30 @@ export class SolarisPhoneFieldComponent
     }
   }
 
+  /**
+   * Imperative validity check without side effects: it never marks the field
+   * as touched, never emits outputs and never writes signals.
+   */
+  isValid(): boolean {
+    if (this.invalidInput() === true) {
+      return false;
+    }
+    return isPhoneValueValid(
+      this.displayValue(),
+      this.internalValue(),
+      this.requiredInput(),
+    );
+  }
+
+  /**
+   * Snapshot of the currently selected country. Returns a shallow copy so
+   * consumers cannot mutate the internal list; never emits or writes state.
+   */
+  getCountryData(): SolarisCountry | undefined {
+    const selected = this.selectedCountryObject();
+    return selected ? { ...selected } : undefined;
+  }
+
   protected readonly isEffectivelyReadonly = computed(() => {
     return this.readonlyInput();
   });
@@ -471,6 +518,25 @@ export class SolarisPhoneFieldComponent
     );
   });
 
+  protected readonly countryAnnouncement = computed(() => {
+    const selected = this.selectedCountryObject();
+    if (!selected) {
+      return '';
+    }
+    const params = buildCountryAnnouncementParams(selected);
+    const translated = this.translateService?.translate(
+      'solaris.phone-field.countryAnnounced',
+      params,
+    );
+    if (translated && translated !== 'solaris.phone-field.countryAnnounced') {
+      return translated;
+    }
+    return formatCountryAnnouncementFallback(
+      selected.name,
+      selected.callingCode,
+    );
+  });
+
   protected readonly computedError = computed(() => {
     const manualError = this.error() || this.translateKey(this.errorKey());
     if (manualError) return manualError;
@@ -550,6 +616,10 @@ export class SolarisPhoneFieldComponent
   }
 
   private lastAppliedValue = '';
+
+  ngOnInit(): void {
+    void this.resolveInitialCountryFromLookup();
+  }
 
   ngAfterViewInit(): void {
     const trigger = this.popoverTrigger();
@@ -790,6 +860,46 @@ export class SolarisPhoneFieldComponent
 
   private countryAllowed(code: SolarisCountryCode): boolean {
     return this.countries().some((country) => country.code === code);
+  }
+
+  private async resolveInitialCountryFromLookup(): Promise<void> {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    if (this.country()) {
+      return;
+    }
+    const currentValue = this.internalValue() || this.value();
+    if (currentValue && detectCountry(currentValue)) {
+      return;
+    }
+    const resolver =
+      this.initialCountryLookup() ?? this.initialCountryToken ?? undefined;
+    if (!resolver) {
+      return;
+    }
+    let lookupCountry: SolarisCountryCode | undefined;
+    try {
+      lookupCountry = (await resolver()) ?? undefined;
+    } catch {
+      return;
+    }
+    if (!lookupCountry || this.country()) {
+      return;
+    }
+    const latestValue = this.internalValue() || this.value();
+    if (latestValue && detectCountry(latestValue)) {
+      return;
+    }
+    const resolved = resolveInitialCountry({
+      lookupCountry,
+      defaultCountry: this.defaultCountry(),
+      allowedCodes: this.countries().map((country) => country.code),
+      firstCountry: this.countries()[0]?.code,
+    });
+    if (resolved && this.countryAllowed(resolved)) {
+      this.selectedCountry.set(resolved);
+    }
   }
 
   private markAsTouched(): void {

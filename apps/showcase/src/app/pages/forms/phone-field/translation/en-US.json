@@ -50,6 +50,25 @@
       "label": "Phone",
       "note": "Works with Reactive Forms through ControlValueAccessor. The model value is a single E.164 string; pair with solarisPhoneValidator."
     },
+    "imperative": {
+      "check-validity": "Check validity",
+      "country-label": "Country snapshot",
+      "note": "Call isValid for a read-only validity check and getCountryData for a snapshot copy of the selected country. Neither marks the field nor emits outputs.",
+      "show-country": "Show country",
+      "valid": "Valid number.",
+      "invalid": "Invalid number.",
+      "validity-label": "Validity check"
+    },
+    "initial-country": {
+      "fallback-label": "Rejected lookup",
+      "lookup-label": "Resolved lookup",
+      "note": "Pass an async resolver via initialCountryLookup or SOLARIS_PHONE_INITIAL_COUNTRY_LOOKUP. An explicit country or a prefilled E.164 value wins; a rejected or disallowed lookup falls back to defaultCountry and then to the first country."
+    },
+    "announcement": {
+      "note": "Every country change is announced through a visually hidden polite live region, no matter if it comes from typing the dial code, picking a country in the panel, or setting the value programmatically.",
+      "panel-label": "Panel selection",
+      "typing-label": "Dial-code typing"
+    },
     "installation": {
       "note": "Install the Solaris UI package and import the phone field component."
     },
@@ -66,6 +85,7 @@
     },
     "section": {
       "affix": "Suffix and actions",
+      "announcement": "Screen-reader announcement",
       "appearances": "Appearances",
       "clearable": "Clearable",
       "countries": "Countries and search",
@@ -73,6 +93,8 @@
       "errors": "Length errors",
       "examples": "Examples",
       "form": "Form integration",
+      "imperative": "Imperative API",
+      "initial-country": "Initial country",
       "installation": "Installation",
       "props": "Props",
       "radius": "Radius",

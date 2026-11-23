@@ -34,6 +34,12 @@ export const PHONE_FIELD_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'clearable', labelKey: 'phone-field.section.clearable' },
   { anchor: 'affix', labelKey: 'phone-field.section.affix' },
   { anchor: 'countries', labelKey: 'phone-field.section.countries' },
+  {
+    anchor: 'initial-country',
+    labelKey: 'phone-field.section.initial-country',
+  },
+  { anchor: 'imperative', labelKey: 'phone-field.section.imperative' },
+  { anchor: 'announcement', labelKey: 'phone-field.section.announcement' },
   { anchor: 'form', labelKey: 'phone-field.section.form' },
   { anchor: 'installation', labelKey: 'phone-field.section.installation' },
   { anchor: 'props', labelKey: 'phone-field.section.props' },
@@ -147,6 +153,32 @@ export const PHONE_FIELD_SHOWCASE_SEARCHABLE_CODE = [
 
 export const PHONE_FIELD_SHOWCASE_REACTIVE_CODE = [
   '<solaris-phone-field label="Phone" [formControl]="phoneControl" [required]="true" defaultCountry="BR" />',
+].join('\n');
+
+export const PHONE_FIELD_SHOWCASE_INITIAL_LOOKUP_CODE = [
+  '<solaris-phone-field label="Phone" [initialCountryLookup]="lookupCountry" defaultCountry="BR" />',
+].join('\n');
+
+export const PHONE_FIELD_SHOWCASE_INITIAL_FALLBACK_CODE = [
+  '<solaris-phone-field label="Phone" [initialCountryLookup]="failingLookup" defaultCountry="BR" />',
+].join('\n');
+
+export const PHONE_FIELD_SHOWCASE_IMPERATIVE_VALID_CODE = [
+  '<solaris-phone-field #phone label="Phone" defaultCountry="BR" value="+5511999998888" />',
+  '<button type="button" (click)="valid.set(phone.isValid())">Check validity</button>',
+].join('\n');
+
+export const PHONE_FIELD_SHOWCASE_IMPERATIVE_COUNTRY_CODE = [
+  '<solaris-phone-field #phone label="Phone" defaultCountry="BR" />',
+  '<button type="button" (click)="selected.set(phone.getCountryData()?.name)">Show country</button>',
+].join('\n');
+
+export const PHONE_FIELD_SHOWCASE_ANNOUNCEMENT_PANEL_CODE = [
+  '<solaris-phone-field label="Phone" defaultCountry="BR" />',
+].join('\n');
+
+export const PHONE_FIELD_SHOWCASE_ANNOUNCEMENT_TYPING_CODE = [
+  '<solaris-phone-field label="Phone" defaultCountry="BR" />',
 ].join('\n');
 
 export { SHOWCASE_INSTALL_COMMANDS as PHONE_FIELD_SHOWCASE_INSTALL_COMMANDS } from '../../../shared/showcase-page-utils';

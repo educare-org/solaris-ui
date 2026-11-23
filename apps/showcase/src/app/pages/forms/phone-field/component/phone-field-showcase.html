@@ -410,6 +410,136 @@
     </solaris-tabs>
   </app-docs-section>
 
+  <app-docs-section
+    anchor="initial-country"
+    titleKey="phone-field.section.initial-country"
+  >
+    <p class="phone-field-showcase__note">
+      {{ 'phone-field.initial-country.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedInitialCountry"
+      [ariaLabel]="'phone-field.section.initial-country' | translate"
+    >
+      <solaris-tab value="lookup"
+        >{{ 'phone-field.initial-country.lookup-label' | translate
+        }}</solaris-tab
+      >
+      <solaris-tab value="fallback"
+        >{{ 'phone-field.initial-country.fallback-label' | translate
+        }}</solaris-tab
+      >
+      <solaris-tab-panel value="lookup">
+        <solaris-preview-code [code]="initialLookupCode" language="html">
+          <solaris-phone-field
+            [label]="'phone-field.initial-country.lookup-label' | translate"
+            [initialCountryLookup]="lookupCountry"
+            defaultCountry="BR"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="fallback">
+        <solaris-preview-code [code]="initialFallbackCode" language="html">
+          <solaris-phone-field
+            [label]="'phone-field.initial-country.fallback-label' | translate"
+            [initialCountryLookup]="failingLookup"
+            defaultCountry="BR"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="imperative"
+    titleKey="phone-field.section.imperative"
+  >
+    <p class="phone-field-showcase__note">
+      {{ 'phone-field.imperative.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedImperative"
+      [ariaLabel]="'phone-field.section.imperative' | translate"
+    >
+      <solaris-tab value="validity"
+        >{{ 'phone-field.imperative.validity-label' | translate }}</solaris-tab
+      >
+      <solaris-tab value="country"
+        >{{ 'phone-field.imperative.country-label' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="validity">
+        <solaris-preview-code [code]="imperativeValidCode" language="html">
+          <solaris-phone-field
+            #validDemo
+            [label]="'phone-field.imperative.validity-label' | translate"
+            defaultCountry="BR"
+            value="+5511999998888"
+          />
+          <button type="button" (click)="checkValidity(validDemo)">
+            {{ 'phone-field.imperative.check-validity' | translate }}
+          </button>
+          @if (validResult() !== undefined) {
+          <p class="phone-field-showcase__note">
+            {{ validResult() ? ('phone-field.imperative.valid' | translate) :
+            ('phone-field.imperative.invalid' | translate) }}
+          </p>
+          }
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="country">
+        <solaris-preview-code [code]="imperativeCountryCode" language="html">
+          <solaris-phone-field
+            #countryDemo
+            [label]="'phone-field.imperative.country-label' | translate"
+            defaultCountry="BR"
+          />
+          <button type="button" (click)="showCountry(countryDemo)">
+            {{ 'phone-field.imperative.show-country' | translate }}
+          </button>
+          @if (countryResult()) {
+          <p class="phone-field-showcase__note">{{ countryResult() }}</p>
+          }
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="announcement"
+    titleKey="phone-field.section.announcement"
+  >
+    <p class="phone-field-showcase__note">
+      {{ 'phone-field.announcement.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedAnnouncement"
+      [ariaLabel]="'phone-field.section.announcement' | translate"
+    >
+      <solaris-tab value="panel"
+        >{{ 'phone-field.announcement.panel-label' | translate }}</solaris-tab
+      >
+      <solaris-tab value="typing"
+        >{{ 'phone-field.announcement.typing-label' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="panel">
+        <solaris-preview-code [code]="announcementPanelCode" language="html">
+          <solaris-phone-field
+            [label]="'phone-field.announcement.panel-label' | translate"
+            defaultCountry="BR"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="typing">
+        <solaris-preview-code [code]="announcementTypingCode" language="html">
+          <solaris-phone-field
+            [label]="'phone-field.announcement.typing-label' | translate"
+            defaultCountry="BR"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
   <app-docs-section anchor="form" titleKey="phone-field.section.form">
     <p class="phone-field-showcase__note">
       {{ 'phone-field.form.note' | translate }}

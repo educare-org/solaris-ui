@@ -50,6 +50,25 @@
       "label": "Telefone",
       "note": "Funciona com Reactive Forms via ControlValueAccessor. O valor do modelo é uma única string E.164; combine com solarisPhoneValidator."
     },
+    "imperative": {
+      "check-validity": "Verificar validade",
+      "country-label": "Instantâneo do país",
+      "note": "Chame isValid para uma verificação de validade somente leitura e getCountryData para um instantâneo do país selecionado. Nenhum marca o campo nem emite outputs.",
+      "show-country": "Mostrar país",
+      "valid": "Número válido.",
+      "invalid": "Número inválido.",
+      "validity-label": "Verificação de validade"
+    },
+    "initial-country": {
+      "fallback-label": "Lookup rejeitado",
+      "lookup-label": "Lookup resolvido",
+      "note": "Passe um resolver assíncrono via initialCountryLookup ou SOLARIS_PHONE_INITIAL_COUNTRY_LOOKUP. Um country explícito ou um valor E.164 preenchido vence; um lookup rejeitado ou não permitido cai para defaultCountry e depois para o primeiro país."
+    },
+    "announcement": {
+      "note": "Toda troca de país é anunciada por uma região live educada e visualmente oculta, seja digitando o DDI, escolhendo no painel ou definindo o valor por código.",
+      "panel-label": "Seleção no painel",
+      "typing-label": "Digitação do DDI"
+    },
     "installation": {
       "note": "Instale o pacote Solaris UI e importe o componente de phone field."
     },
@@ -66,6 +85,7 @@
     },
     "section": {
       "affix": "Sufixo e ações",
+      "announcement": "Anúncio para leitor de tela",
       "appearances": "Aparências",
       "clearable": "Limpável",
       "countries": "Países e busca",
@@ -73,6 +93,8 @@
       "errors": "Erros de tamanho",
       "examples": "Exemplos",
       "form": "Integração com formulários",
+      "imperative": "API imperativa",
+      "initial-country": "País inicial",
       "installation": "Instalação",
       "props": "Propriedades",
       "radius": "Raio",

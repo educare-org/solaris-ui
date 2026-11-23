@@ -8,3 +8,7 @@ export interface SolarisCountry {
 }
 
 export type SolarisCountryListFactory = (locale: string) => SolarisCountry[];
+
+export type SolarisPhoneInitialCountryResolver = () => Promise<
+  SolarisCountryCode | undefined
+>;
