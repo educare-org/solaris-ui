@@ -19,8 +19,10 @@
       "note": "With clearable, a clear button appears when the field has a value and emits cleared on click. It stays hidden while disabled, readonly, or loading."
     },
     "countries": {
-      "note": "Open the prefix button to search and pick a country. Pass countryList to restrict the options and [searchable]=\"false\" to hide the search box.",
+      "note": "Open the prefix button to search and pick a country. Pass countryList to restrict the options, excludeCountries to remove some, and preferredCountries to pin favorites to the top. Use [searchable]=\"false\" to hide the search box.",
+      "excluded-label": "Phone without Brazil and US",
       "plain-label": "Phone without search",
+      "preferred-label": "Phone with US and Brazil first",
       "restricted-label": "Phone with restricted countries"
     },
     "demo": {
@@ -34,6 +36,11 @@
     "description": "Form Field preset for phone numbers with a searchable country selector, as-you-type formatting, and a single E.164 value. Composes Form Field + Input.",
     "error": {
       "invalid": "This field has an error."
+    },
+    "errors": {
+      "long-label": "Long number (raised budget)",
+      "note": "Type one digit and blur to see the too-short message; type more than 11 digits in the second field, whose budget was raised, to see the too-long message.",
+      "short-label": "Short number"
     },
     "examples": {
       "note": "Type a number to see it formatted as you type. The value is normalized to E.164 when valid."
@@ -63,6 +70,7 @@
       "clearable": "Clearable",
       "countries": "Countries and search",
       "density": "Density",
+      "errors": "Length errors",
       "examples": "Examples",
       "form": "Form integration",
       "installation": "Installation",

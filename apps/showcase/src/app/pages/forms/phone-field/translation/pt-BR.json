@@ -19,8 +19,10 @@
       "note": "Com clearable, um botão de limpar aparece quando o campo tem valor e emite cleared ao clicar. Ele fica oculto quando desabilitado, readonly ou loading."
     },
     "countries": {
-      "note": "Abra o botão de prefixo para buscar e escolher um país. Passe countryList para restringir as opções e [searchable]=\"false\" para ocultar a busca.",
+      "note": "Abra o botão de prefixo para buscar e escolher um país. Passe countryList para restringir as opções, excludeCountries para remover algumas e preferredCountries para fixar favoritas no topo. Use [searchable]=\"false\" para ocultar a busca.",
+      "excluded-label": "Telefone sem Brasil e EUA",
       "plain-label": "Telefone sem busca",
+      "preferred-label": "Telefone com EUA e Brasil primeiro",
       "restricted-label": "Telefone com países restritos"
     },
     "demo": {
@@ -34,6 +36,11 @@
     "description": "Preset de Form Field para telefones com seletor de país pesquisável, formatação em tempo de digitação e um único valor E.164. Compõe Form Field + Input.",
     "error": {
       "invalid": "Este campo tem um erro."
+    },
+    "errors": {
+      "long-label": "Número longo (limite maior)",
+      "note": "Digite um dígito e saia do campo para ver a mensagem de número curto; digite mais de 11 dígitos no segundo campo, cujo limite foi aumentado, para ver a de número longo.",
+      "short-label": "Número curto"
     },
     "examples": {
       "note": "Digite um número para vê-lo formatado enquanto você digita. O valor é normalizado para E.164 quando válido."
@@ -63,6 +70,7 @@
       "clearable": "Limpável",
       "countries": "Países e busca",
       "density": "Densidade",
+      "errors": "Erros de tamanho",
       "examples": "Exemplos",
       "form": "Integração com formulários",
       "installation": "Instalação",

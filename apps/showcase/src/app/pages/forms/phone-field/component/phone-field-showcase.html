@@ -190,38 +190,74 @@
     <p class="phone-field-showcase__note">
       {{ 'phone-field.states.note' | translate }}
     </p>
-    <solaris-preview-code [code]="statesCode" language="html">
-      <div class="phone-field-showcase__stack">
-        <solaris-phone-field
-          [label]="'phone-field.states.default' | translate"
-          defaultCountry="BR"
-        />
-        <solaris-phone-field
-          [label]="'phone-field.states.invalid' | translate"
-          [invalid]="true"
-          [error]="'phone-field.error.invalid' | translate"
-          defaultCountry="BR"
-        />
-        <solaris-phone-field
-          [label]="'phone-field.states.disabled' | translate"
-          [disabled]="true"
-          value="+5511999998888"
-          defaultCountry="BR"
-        />
-        <solaris-phone-field
-          [label]="'phone-field.states.readonly' | translate"
-          [readonly]="true"
-          value="+5511999998888"
-          defaultCountry="BR"
-        />
-        <solaris-phone-field
-          [label]="'phone-field.states.loading' | translate"
-          [loading]="true"
-          value="+5511999998888"
-          defaultCountry="BR"
-        />
-      </div>
-    </solaris-preview-code>
+    <solaris-tabs
+      [(value)]="selectedStates"
+      [ariaLabel]="'phone-field.section.states' | translate"
+    >
+      <solaris-tab value="default"
+        >{{ 'phone-field.states.default' | translate }}</solaris-tab
+      >
+      <solaris-tab value="invalid"
+        >{{ 'phone-field.states.invalid' | translate }}</solaris-tab
+      >
+      <solaris-tab value="disabled"
+        >{{ 'phone-field.states.disabled' | translate }}</solaris-tab
+      >
+      <solaris-tab value="readonly"
+        >{{ 'phone-field.states.readonly' | translate }}</solaris-tab
+      >
+      <solaris-tab value="loading"
+        >{{ 'phone-field.states.loading' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="default">
+        <solaris-preview-code [code]="statesDefaultCode" language="html">
+          <solaris-phone-field
+            [label]="'phone-field.states.default' | translate"
+            defaultCountry="BR"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="invalid">
+        <solaris-preview-code [code]="statesInvalidCode" language="html">
+          <solaris-phone-field
+            [label]="'phone-field.states.invalid' | translate"
+            [invalid]="true"
+            [error]="'phone-field.error.invalid' | translate"
+            defaultCountry="BR"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="disabled">
+        <solaris-preview-code [code]="statesDisabledCode" language="html">
+          <solaris-phone-field
+            [label]="'phone-field.states.disabled' | translate"
+            [disabled]="true"
+            value="+5511999998888"
+            defaultCountry="BR"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="readonly">
+        <solaris-preview-code [code]="statesReadonlyCode" language="html">
+          <solaris-phone-field
+            [label]="'phone-field.states.readonly' | translate"
+            [readonly]="true"
+            value="+5511999998888"
+            defaultCountry="BR"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="loading">
+        <solaris-preview-code [code]="statesLoadingCode" language="html">
+          <solaris-phone-field
+            [label]="'phone-field.states.loading' | translate"
+            [loading]="true"
+            value="+5511999998888"
+            defaultCountry="BR"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
   </app-docs-section>
 
   <app-docs-section anchor="clearable" titleKey="phone-field.section.clearable">
@@ -242,52 +278,136 @@
     <p class="phone-field-showcase__note">
       {{ 'phone-field.affix.note' | translate }}
     </p>
-    <div class="phone-field-showcase__stack">
-      <solaris-preview-code [code]="suffixCode" language="html">
-        <solaris-phone-field
-          [label]="'phone-field.affix.suffix-label' | translate"
-          suffix="info"
-          defaultCountry="BR"
-        />
-      </solaris-preview-code>
-      <solaris-preview-code [code]="suffixActionCode" language="html">
-        <solaris-phone-field
-          [label]="'phone-field.affix.action-label' | translate"
-          defaultCountry="BR"
-        >
-          <button
-            type="button"
-            solaris-form-suffix
-            solaris-form-suffix-action
-            [attr.aria-label]="'phone-field.affix.action' | translate"
+    <solaris-tabs
+      [(value)]="selectedAffix"
+      [ariaLabel]="'phone-field.section.affix' | translate"
+    >
+      <solaris-tab value="suffix"
+        >{{ 'phone-field.affix.suffix-label' | translate }}</solaris-tab
+      >
+      <solaris-tab value="action"
+        >{{ 'phone-field.affix.action-label' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="suffix">
+        <solaris-preview-code [code]="suffixCode" language="html">
+          <solaris-phone-field
+            [label]="'phone-field.affix.suffix-label' | translate"
+            suffix="info"
+            defaultCountry="BR"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="action">
+        <solaris-preview-code [code]="suffixActionCode" language="html">
+          <solaris-phone-field
+            [label]="'phone-field.affix.action-label' | translate"
+            defaultCountry="BR"
           >
-            {{ 'phone-field.affix.action' | translate }}
-          </button>
-        </solaris-phone-field>
-      </solaris-preview-code>
-    </div>
+            <button
+              type="button"
+              solaris-form-suffix
+              solaris-form-suffix-action
+              [attr.aria-label]="'phone-field.affix.action' | translate"
+            >
+              {{ 'phone-field.affix.action' | translate }}
+            </button>
+          </solaris-phone-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
   </app-docs-section>
 
   <app-docs-section anchor="countries" titleKey="phone-field.section.countries">
     <p class="phone-field-showcase__note">
       {{ 'phone-field.countries.note' | translate }}
     </p>
-    <div class="phone-field-showcase__stack">
-      <solaris-preview-code [code]="countriesCode" language="html">
-        <solaris-phone-field
-          [label]="'phone-field.countries.restricted-label' | translate"
-          [countryList]="['US', 'GB', 'BR', 'PT']"
-          defaultCountry="BR"
-        />
-      </solaris-preview-code>
-      <solaris-preview-code [code]="searchableCode" language="html">
-        <solaris-phone-field
-          [label]="'phone-field.countries.plain-label' | translate"
-          [searchable]="false"
-          defaultCountry="BR"
-        />
-      </solaris-preview-code>
-    </div>
+    <solaris-tabs
+      [(value)]="selectedCountries"
+      [ariaLabel]="'phone-field.section.countries' | translate"
+    >
+      <solaris-tab value="restricted"
+        >{{ 'phone-field.countries.restricted-label' | translate }}</solaris-tab
+      >
+      <solaris-tab value="excluded"
+        >{{ 'phone-field.countries.excluded-label' | translate }}</solaris-tab
+      >
+      <solaris-tab value="preferred"
+        >{{ 'phone-field.countries.preferred-label' | translate }}</solaris-tab
+      >
+      <solaris-tab value="plain"
+        >{{ 'phone-field.countries.plain-label' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="restricted">
+        <solaris-preview-code [code]="countriesCode" language="html">
+          <solaris-phone-field
+            [label]="'phone-field.countries.restricted-label' | translate"
+            [countryList]="['US', 'GB', 'BR', 'PT']"
+            defaultCountry="BR"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="excluded">
+        <solaris-preview-code [code]="excludedCode" language="html">
+          <solaris-phone-field
+            [label]="'phone-field.countries.excluded-label' | translate"
+            [excludeCountries]="['BR', 'US']"
+            defaultCountry="PT"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="preferred">
+        <solaris-preview-code [code]="preferredCode" language="html">
+          <solaris-phone-field
+            [label]="'phone-field.countries.preferred-label' | translate"
+            [preferredCountries]="['US', 'BR']"
+            defaultCountry="BR"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="plain">
+        <solaris-preview-code [code]="searchableCode" language="html">
+          <solaris-phone-field
+            [label]="'phone-field.countries.plain-label' | translate"
+            [searchable]="false"
+            defaultCountry="BR"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="errors" titleKey="phone-field.section.errors">
+    <p class="phone-field-showcase__note">
+      {{ 'phone-field.errors.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedErrors"
+      [ariaLabel]="'phone-field.section.errors' | translate"
+    >
+      <solaris-tab value="short"
+        >{{ 'phone-field.errors.short-label' | translate }}</solaris-tab
+      >
+      <solaris-tab value="long"
+        >{{ 'phone-field.errors.long-label' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="short">
+        <solaris-preview-code [code]="errorsShortCode" language="html">
+          <solaris-phone-field
+            [label]="'phone-field.errors.short-label' | translate"
+            defaultCountry="BR"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="long">
+        <solaris-preview-code [code]="errorsLongCode" language="html">
+          <solaris-phone-field
+            [label]="'phone-field.errors.long-label' | translate"
+            defaultCountry="BR"
+            [maxLength]="20"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
   </app-docs-section>
 
   <app-docs-section anchor="form" titleKey="phone-field.section.form">

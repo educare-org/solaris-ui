@@ -30,6 +30,7 @@ export const PHONE_FIELD_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'appearances', labelKey: 'phone-field.section.appearances' },
   { anchor: 'radius', labelKey: 'phone-field.section.radius' },
   { anchor: 'states', labelKey: 'phone-field.section.states' },
+  { anchor: 'errors', labelKey: 'phone-field.section.errors' },
   { anchor: 'clearable', labelKey: 'phone-field.section.clearable' },
   { anchor: 'affix', labelKey: 'phone-field.section.affix' },
   { anchor: 'countries', labelKey: 'phone-field.section.countries' },
@@ -77,13 +78,36 @@ export const PHONE_FIELD_SHOWCASE_CLEARABLE_CODE = [
   '<solaris-phone-field label="Phone" defaultCountry="BR" value="+5511987654321" [clearable]="true" (cleared)="onCleared()" />',
 ].join('\n');
 
-export const PHONE_FIELD_SHOWCASE_STATES_CODE = [
-  '<solaris-phone-field label="Default" defaultCountry="BR" />',
-  '<solaris-phone-field label="Invalid" [invalid]="true" error="This field has an error." defaultCountry="BR" />',
-  '<solaris-phone-field label="Disabled" [disabled]="true" value="+5511999998888" defaultCountry="BR" />',
-  '<solaris-phone-field label="Readonly" [readonly]="true" value="+5511999998888" defaultCountry="BR" />',
-  '<solaris-phone-field label="Loading" [loading]="true" value="+5511999998888" defaultCountry="BR" />',
-].join('\n');
+function phoneFieldStateCode(label: string, attrs: string, value = ''): string {
+  const valueAttr = value ? ` value="${value}"` : '';
+  return [
+    `<solaris-phone-field label="${label}"${attrs}${valueAttr} defaultCountry="BR" />`,
+  ].join('\n');
+}
+
+export const PHONE_FIELD_SHOWCASE_STATES_DEFAULT_CODE = phoneFieldStateCode(
+  'Default',
+  '',
+);
+export const PHONE_FIELD_SHOWCASE_STATES_INVALID_CODE = phoneFieldStateCode(
+  'Invalid',
+  ' [invalid]="true" error="This field has an error."',
+);
+export const PHONE_FIELD_SHOWCASE_STATES_DISABLED_CODE = phoneFieldStateCode(
+  'Disabled',
+  ' [disabled]="true"',
+  '+5511999998888',
+);
+export const PHONE_FIELD_SHOWCASE_STATES_READONLY_CODE = phoneFieldStateCode(
+  'Readonly',
+  ' [readonly]="true"',
+  '+5511999998888',
+);
+export const PHONE_FIELD_SHOWCASE_STATES_LOADING_CODE = phoneFieldStateCode(
+  'Loading',
+  ' [loading]="true"',
+  '+5511999998888',
+);
 
 export const PHONE_FIELD_SHOWCASE_SUFFIX_CODE = [
   '<solaris-phone-field label="Phone with suffix" suffix="info" defaultCountry="BR" />',
@@ -99,6 +123,22 @@ export const PHONE_FIELD_SHOWCASE_SUFFIX_ACTION_CODE = [
 
 export const PHONE_FIELD_SHOWCASE_COUNTRIES_CODE = [
   "<solaris-phone-field label=\"Phone\" [countryList]=\"['US', 'GB', 'BR', 'PT']\" defaultCountry=\"BR\" />",
+].join('\n');
+
+export const PHONE_FIELD_SHOWCASE_EXCLUDED_CODE = [
+  '<solaris-phone-field label="Phone" [excludeCountries]="[\'BR\', \'US\']" defaultCountry="PT" />',
+].join('\n');
+
+export const PHONE_FIELD_SHOWCASE_PREFERRED_CODE = [
+  '<solaris-phone-field label="Phone" [preferredCountries]="[\'US\', \'BR\']" defaultCountry="BR" />',
+].join('\n');
+
+export const PHONE_FIELD_SHOWCASE_ERRORS_SHORT_CODE = [
+  '<solaris-phone-field label="Short number" defaultCountry="BR" />',
+].join('\n');
+
+export const PHONE_FIELD_SHOWCASE_ERRORS_LONG_CODE = [
+  '<solaris-phone-field label="Long number" defaultCountry="BR" [maxLength]="20" />',
 ].join('\n');
 
 export const PHONE_FIELD_SHOWCASE_SEARCHABLE_CODE = [

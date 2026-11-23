@@ -32,10 +32,14 @@ import {
   PHONE_FIELD_SHOWCASE_BREADCRUMBS,
   PHONE_FIELD_SHOWCASE_CLEARABLE_CODE,
   PHONE_FIELD_SHOWCASE_COUNTRIES_CODE,
+  PHONE_FIELD_SHOWCASE_ERRORS_LONG_CODE,
+  PHONE_FIELD_SHOWCASE_ERRORS_SHORT_CODE,
+  PHONE_FIELD_SHOWCASE_EXCLUDED_CODE,
   PHONE_FIELD_SHOWCASE_IMPORT_CODE,
   PHONE_FIELD_SHOWCASE_INSTALL_COMMANDS,
   PHONE_FIELD_SHOWCASE_NEXT,
   PHONE_FIELD_SHOWCASE_PREV,
+  PHONE_FIELD_SHOWCASE_PREFERRED_CODE,
   PHONE_FIELD_SHOWCASE_RADIUS_LG_CODE,
   PHONE_FIELD_SHOWCASE_RADIUS_MD_CODE,
   PHONE_FIELD_SHOWCASE_RADIUS_NONE_CODE,
@@ -44,7 +48,11 @@ import {
   PHONE_FIELD_SHOWCASE_REACTIVE_CODE,
   PHONE_FIELD_SHOWCASE_SEARCHABLE_CODE,
   PHONE_FIELD_SHOWCASE_SLUG,
-  PHONE_FIELD_SHOWCASE_STATES_CODE,
+  PHONE_FIELD_SHOWCASE_STATES_DEFAULT_CODE,
+  PHONE_FIELD_SHOWCASE_STATES_DISABLED_CODE,
+  PHONE_FIELD_SHOWCASE_STATES_INVALID_CODE,
+  PHONE_FIELD_SHOWCASE_STATES_LOADING_CODE,
+  PHONE_FIELD_SHOWCASE_STATES_READONLY_CODE,
   PHONE_FIELD_SHOWCASE_SUFFIX_ACTION_CODE,
   PHONE_FIELD_SHOWCASE_SUFFIX_CODE,
   PHONE_FIELD_SHOWCASE_TOC_ITEMS,
@@ -98,11 +106,24 @@ export class PhoneFieldShowcasePage {
   protected readonly radiusMdCode = PHONE_FIELD_SHOWCASE_RADIUS_MD_CODE;
   protected readonly radiusLgCode = PHONE_FIELD_SHOWCASE_RADIUS_LG_CODE;
   protected readonly radiusXlCode = PHONE_FIELD_SHOWCASE_RADIUS_XL_CODE;
-  protected readonly statesCode = PHONE_FIELD_SHOWCASE_STATES_CODE;
+  protected readonly statesDefaultCode =
+    PHONE_FIELD_SHOWCASE_STATES_DEFAULT_CODE;
+  protected readonly statesInvalidCode =
+    PHONE_FIELD_SHOWCASE_STATES_INVALID_CODE;
+  protected readonly statesDisabledCode =
+    PHONE_FIELD_SHOWCASE_STATES_DISABLED_CODE;
+  protected readonly statesReadonlyCode =
+    PHONE_FIELD_SHOWCASE_STATES_READONLY_CODE;
+  protected readonly statesLoadingCode =
+    PHONE_FIELD_SHOWCASE_STATES_LOADING_CODE;
   protected readonly clearableCode = PHONE_FIELD_SHOWCASE_CLEARABLE_CODE;
   protected readonly suffixCode = PHONE_FIELD_SHOWCASE_SUFFIX_CODE;
   protected readonly suffixActionCode = PHONE_FIELD_SHOWCASE_SUFFIX_ACTION_CODE;
   protected readonly countriesCode = PHONE_FIELD_SHOWCASE_COUNTRIES_CODE;
+  protected readonly excludedCode = PHONE_FIELD_SHOWCASE_EXCLUDED_CODE;
+  protected readonly errorsShortCode = PHONE_FIELD_SHOWCASE_ERRORS_SHORT_CODE;
+  protected readonly errorsLongCode = PHONE_FIELD_SHOWCASE_ERRORS_LONG_CODE;
+  protected readonly preferredCode = PHONE_FIELD_SHOWCASE_PREFERRED_CODE;
   protected readonly searchableCode = PHONE_FIELD_SHOWCASE_SEARCHABLE_CODE;
   protected readonly reactiveCode = PHONE_FIELD_SHOWCASE_REACTIVE_CODE;
 
@@ -123,6 +144,10 @@ export class PhoneFieldShowcasePage {
   protected readonly selectedSize = signal<SolarisPhoneFieldSize>('md');
   protected readonly selectedDensity =
     signal<SolarisPhoneFieldDensity>('normal');
+  protected readonly selectedStates = signal<string>('default');
+  protected readonly selectedAffix = signal<string>('suffix');
+  protected readonly selectedCountries = signal<string>('restricted');
+  protected readonly selectedErrors = signal<string>('short');
 
   protected readonly sizeDensityCode = computed(() =>
     [
