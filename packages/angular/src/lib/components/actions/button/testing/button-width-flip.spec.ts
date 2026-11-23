@@ -131,6 +131,24 @@ describe('SolarisButton width FLIP', () => {
     expect(animateSpy).not.toHaveBeenCalled();
   });
 
+  it('skips the mount animation even with initial content projection', async () => {
+    const { el } = createFixture(TestHost);
+
+    el.textContent = 'Save changes';
+    currentWidth = 140;
+    await flushMutations();
+    lastObserver().trigger();
+
+    expect(animateSpy).not.toHaveBeenCalled();
+
+    el.textContent = 'Save changes now';
+    currentWidth = 180;
+    await flushMutations();
+    lastObserver().trigger();
+
+    expect(animateSpy).toHaveBeenCalledTimes(1);
+  });
+
   it('skips the animation for full-width buttons', async () => {
     const { el } = createFixture(FullWidthHost);
 

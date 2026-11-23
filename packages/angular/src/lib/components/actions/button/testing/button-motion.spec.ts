@@ -45,6 +45,15 @@ describe('shouldAnimateWidth', () => {
     expect(shouldAnimateWidth(-1, 140, baseFlags)).toBe(false);
   });
 
+  it('skips the initial mount sync without a stable baseline', () => {
+    expect(
+      shouldAnimateWidth(0, 140, { ...baseFlags, hasStableBaseline: false }),
+    ).toBe(false);
+    expect(
+      shouldAnimateWidth(-1, 140, { ...baseFlags, hasStableBaseline: true }),
+    ).toBe(false);
+  });
+
   it('skips when WAAPI is unavailable', () => {
     expect(
       shouldAnimateWidth(80, 140, { ...baseFlags, animatable: false }),

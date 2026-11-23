@@ -270,7 +270,10 @@ While present, the host clips with `overflow: hidden` + `nowrap`, keeps
 children at `flex-shrink: 0`, and fades content via `opacity` on the same
 duration/easing. `width` layout animation is intentional here: the computed
 `width` stays `auto`, so CSS `transition: width` never fires and WAAPI is the
-only way to interpolate the used width. Container-driven changes (window
+only way to interpolate the used width. The first `ResizeObserver` tick only
+syncs the baseline and never animates, and content mutations before that sync
+are discarded — so dialog open, refresh, or route change never plays the
+stretch animation for the default width. Container-driven changes (window
 resize, font load, density switch) only re-sync the baseline, and `fullWidth`
 buttons plus attached `solaris-button-group` members skip the animation. The
 loading spinner additionally enters with `solaris-motion-pop-in`

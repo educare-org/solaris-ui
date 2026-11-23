@@ -216,17 +216,8 @@ export abstract class SolarisButtonHostBase implements OnInit {
   private widthAnimation: Animation | null = null;
   private lastWidth = -1;
   private pendingContentChange = false;
+  private widthMotionStabilized = false;
 
-  /**
-   * Fluid width for content-driven growth (loader insert, badge slot, label
-   * swap). CSS `transition: width` never fires here because the computed
-   * `width` stays `auto` — only the used width changes — so the host tracks
-   * its own box and interpolates content-driven deltas with WAAPI.
-   * Container-driven changes (window resize, font load, density switch) only
-   * re-sync the baseline: no MutationObserver flag, no animation.
-   * SECURITY_EXCEPTION: observers and WAAPI target the own host element only;
-   * same direct-DOM category as the spinner insert/remove below.
-   */
   private setupWidthMotion(): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;
@@ -238,9 +229,14 @@ export abstract class SolarisButtonHostBase implements OnInit {
       return;
     }
     const el = this.elementRef.nativeElement;
-    this.lastWidth = el.getBoundingClientRect().width;
+    this.lastWidth = -1;
+    this.pendingContentChange = false;
+    this.widthMotionStabilized = false;
 
     this.contentObserver = new MutationObserver(() => {
+      if (!this.widthMotionStabilized) {
+        return;
+      }
       this.pendingContentChange = true;
     });
     this.contentObserver.observe(el, {
@@ -253,6 +249,11 @@ export abstract class SolarisButtonHostBase implements OnInit {
       const width = el.getBoundingClientRect().width;
       const previous = this.lastWidth;
       this.lastWidth = width;
+      if (!this.widthMotionStabilized) {
+        this.widthMotionStabilized = true;
+        this.pendingContentChange = false;
+        return;
+      }
       const contentChanged = this.pendingContentChange;
       this.pendingContentChange = false;
       if (
@@ -262,6 +263,7 @@ export abstract class SolarisButtonHostBase implements OnInit {
           reducedMotion: this.prefersReducedMotion(el),
           contentChanged,
           animatable: typeof el.animate === 'function',
+          hasStableBaseline: true,
         })
       ) {
         return;
@@ -279,6 +281,7 @@ export abstract class SolarisButtonHostBase implements OnInit {
         reducedMotion: this.prefersReducedMotion(el),
         contentChanged: true,
         animatable: typeof el.animate === 'function',
+        hasStableBaseline: this.widthMotionStabilized,
       })
     ) {
       return;
@@ -343,6 +346,9 @@ export abstract class SolarisButtonHostBase implements OnInit {
     this.contentObserver = null;
     this.widthAnimation?.cancel();
     this.widthAnimation = null;
+    this.widthMotionStabilized = false;
+    this.pendingContentChange = false;
+    this.lastWidth = -1;
   }
 
   ngOnInit(): void {
