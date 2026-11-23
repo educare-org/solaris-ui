@@ -2,6 +2,7 @@ import {
   AsYouType,
   getCountryCallingCode,
   parsePhoneNumberFromString,
+  validatePhoneNumberLength,
   type CountryCode,
 } from 'libphonenumber-js';
 
@@ -84,8 +85,15 @@ export function parseEditablePhoneInput(
   raw: string,
   currentCountry: SolarisCountryCode,
   allowedCountries: { code: SolarisCountryCode; callingCode: string }[],
+  maxNationalLength?: number,
 ): SolarisParsedPhoneInput {
   const allowedCodes = allowedCountries.map((country) => country.code);
+  const capFor = (country: SolarisCountryCode): number => {
+    // Mirrors `effectiveMaxLength`: an explicit budget wins, otherwise the
+    // country metadata decides. The override may raise the cap (which is
+    // what surfaces TOO_LONG), so no Math.min here.
+    return maxNationalLength ?? getMaxNationalNumberLength(country);
+  };
   const trimmed = raw.trim();
   if (!trimmed || trimmed === '+') {
     return {
@@ -111,10 +119,7 @@ export function parseEditablePhoneInput(
       if (callingCode && nationalDigits.startsWith(callingCode)) {
         nationalDigits = nationalDigits.slice(callingCode.length);
       }
-      nationalDigits = nationalDigits.slice(
-        0,
-        getMaxNationalNumberLength(detected),
-      );
+      nationalDigits = nationalDigits.slice(0, capFor(detected));
       const nationalFormatted = formatNational(detected, nationalDigits);
       return {
         country: detected,
@@ -136,10 +141,7 @@ export function parseEditablePhoneInput(
     const partial = longestCallingCodeMatch(digitsAfterPlus, allowedCountries);
     if (partial && isAllowed(partial.code, allowedCodes)) {
       const rest = digitsAfterPlus.slice(partial.callingCode.length);
-      const nationalDigits = rest.slice(
-        0,
-        getMaxNationalNumberLength(partial.code),
-      );
+      const nationalDigits = rest.slice(0, capFor(partial.code));
       const nationalFormatted = formatNational(partial.code, nationalDigits);
       return {
         country: partial.code,
@@ -161,7 +163,7 @@ export function parseEditablePhoneInput(
 
   const nationalDigits = normalized
     .replace(/\D+/g, '')
-    .slice(0, getMaxNationalNumberLength(currentCountry));
+    .slice(0, capFor(currentCountry));
   const nationalFormatted = formatNational(currentCountry, nationalDigits);
   return {
     country: currentCountry,
@@ -229,6 +231,38 @@ export function adjustRawForTrailingFormatDeletion(
     return raw;
   }
   return raw.slice(0, lastDigit) + raw.slice(lastDigit + 1);
+}
+
+export type SolarisPhoneLengthReason =
+  | 'TOO_SHORT'
+  | 'TOO_LONG'
+  | 'INVALID_COUNTRY';
+
+/**
+ * Explain why a non-empty value is not a valid number for the country.
+ * Returns `undefined` when the length itself is acceptable (the value may
+ * still be invalid for other reasons) so callers fall back to the generic
+ * invalid message.
+ */
+export function getPhoneLengthReason(
+  display: string,
+  country: SolarisCountryCode,
+): SolarisPhoneLengthReason | undefined {
+  if (!display || !display.trim()) {
+    return undefined;
+  }
+  const reason = validatePhoneNumberLength(
+    display,
+    country as CountryCode | undefined,
+  );
+  if (
+    reason === 'TOO_SHORT' ||
+    reason === 'TOO_LONG' ||
+    reason === 'INVALID_COUNTRY'
+  ) {
+    return reason;
+  }
+  return undefined;
 }
 
 /**

@@ -53,6 +53,7 @@ import {
   adjustRawForTrailingFormatDeletion,
   formatE164ForDisplay,
   formatInternationalDisplay,
+  getPhoneLengthReason,
   mapCaretToFormatted,
   parseEditablePhoneInput,
 } from '../functions/phone-field-input';
@@ -134,9 +135,13 @@ export class SolarisPhoneFieldComponent
   readonly placeholder = input<string>();
   readonly invalidError = input<string>();
   readonly requiredError = input<string>();
+  readonly tooShortError = input<string>();
+  readonly tooLongError = input<string>();
   readonly placeholderKey = input<string>();
   readonly invalidErrorKey = input<string>();
   readonly requiredErrorKey = input<string>();
+  readonly tooShortErrorKey = input<string>();
+  readonly tooLongErrorKey = input<string>();
   readonly requiredInput = input<boolean>(false, { alias: 'required' });
   readonly optional = input<boolean>(false);
   readonly disabledInput = input<boolean>(false, { alias: 'disabled' });
@@ -161,6 +166,8 @@ export class SolarisPhoneFieldComponent
   readonly searchable = input<boolean>(true);
   readonly allowAnyCountry = input<boolean>(true);
   readonly countryList = input<SolarisCountryCode[] | undefined>();
+  readonly excludeCountries = input<SolarisCountryCode[] | undefined>();
+  readonly preferredCountries = input<SolarisCountryCode[] | undefined>();
   readonly emptyText = input<string>();
   readonly emptyTextKey = input<string>();
   readonly noResultsText = input<string>();
@@ -200,23 +207,34 @@ export class SolarisPhoneFieldComponent
   protected readonly countries = computed(() => {
     const list = this.allCountries();
     const restrict = this.countryList();
-    if (restrict && restrict.length > 0) {
-      return list.filter((country) => restrict.includes(country.code));
-    }
-    return list;
+    const excluded = new Set(this.excludeCountries() ?? []);
+    return list.filter(
+      (country) =>
+        (!restrict ||
+          restrict.length === 0 ||
+          restrict.includes(country.code)) &&
+        !excluded.has(country.code),
+    );
+  });
+
+  protected readonly preferredCountryCodes = computed(() => {
+    const available = new Set(this.countries().map((country) => country.code));
+    return (this.preferredCountries() ?? []).filter((code) =>
+      available.has(code),
+    );
   });
 
   protected readonly effectiveCountry = computed<SolarisCountryCode>(() => {
     const explicit = this.country();
     if (explicit) return explicit;
     const selected = this.selectedCountry();
-    if (selected) return selected;
+    if (selected && this.countryAllowed(selected)) return selected;
     const fromValue = this.internalValue()
       ? detectCountry(this.internalValue())
       : undefined;
     if (fromValue && this.countryAllowed(fromValue)) return fromValue;
     const def = this.defaultCountry();
-    if (def) return def;
+    if (def && this.countryAllowed(def)) return def;
     const first = this.countries()[0];
     return first?.code ?? 'US';
   });
@@ -473,6 +491,26 @@ export class SolarisPhoneFieldComponent
     }
 
     if (!this.internalValue()) {
+      const reason = getPhoneLengthReason(
+        this.displayValue(),
+        this.effectiveCountry(),
+      );
+      if (reason === 'TOO_SHORT') {
+        return this.buildError(
+          this.tooShortError(),
+          this.tooShortErrorKey(),
+          'solaris.phone-field.tooShort',
+          'Phone number is too short.',
+        );
+      }
+      if (reason === 'TOO_LONG') {
+        return this.buildError(
+          this.tooLongError(),
+          this.tooLongErrorKey(),
+          'solaris.phone-field.tooLong',
+          'Phone number is too long.',
+        );
+      }
       return this.buildError(
         this.invalidError(),
         this.invalidErrorKey(),
@@ -580,6 +618,7 @@ export class SolarisPhoneFieldComponent
       effectiveRaw,
       current,
       this.countries(),
+      this.effectiveMaxLength(),
     );
 
     if (parsed.country !== current && !this.country()) {

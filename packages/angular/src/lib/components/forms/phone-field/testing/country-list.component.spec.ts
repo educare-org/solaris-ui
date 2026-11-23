@@ -111,4 +111,80 @@ describe('SolarisPhoneCountryListComponent', () => {
     sub.unsubscribe();
     expect(selected?.code).toBe('US');
   });
+
+  describe('preferred countries', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisPhoneCountryListComponent],
+      template: `
+        <solaris-phone-country-list
+          [countries]="countries"
+          [selectedCode]="'BR'"
+          [preferredCodes]="['PT', 'XX']"
+        ></solaris-phone-country-list>
+      `,
+    })
+    class PreferredHost {
+      countries = COUNTRIES;
+    }
+
+    async function setupPreferred(): Promise<{
+      fixture: ComponentFixture<PreferredHost>;
+      component: SolarisPhoneCountryListComponent;
+      list: HTMLElement;
+    }> {
+      await TestBed.configureTestingModule({
+        imports: [PreferredHost],
+        providers: [provideZonelessChangeDetection(), provideSolarisTesting()],
+      }).compileComponents();
+      const fixture = TestBed.createComponent(PreferredHost);
+      fixture.detectChanges();
+      const debug = fixture.debugElement.query(
+        By.directive(SolarisPhoneCountryListComponent),
+      );
+      const component =
+        debug.componentInstance as SolarisPhoneCountryListComponent;
+      const list = debug.query(
+        By.css('.solaris-phone-country-list__list'),
+      ).nativeElement;
+      return { fixture, component, list };
+    }
+
+    it('pins preferred countries first above a separator', async () => {
+      const { list } = await setupPreferred();
+      const options = Array.from(
+        list.querySelectorAll('[role="option"]'),
+      ) as HTMLElement[];
+      expect(options.map((option) => option.textContent)).toHaveLength(3);
+      expect(options[0].textContent).toContain('Portugal');
+      expect(
+        list.querySelector('.solaris-phone-country-list__separator'),
+      ).toBeTruthy();
+    });
+
+    it('emits the tapped country after the separator', async () => {
+      const { fixture, component, list } = await setupPreferred();
+      let selected: SolarisCountry | undefined;
+      const sub = component.countrySelected.subscribe((c) => (selected = c));
+      const options = list.querySelectorAll('[role="option"]');
+      // BR sits after the separator; the separator must not shift the index.
+      (options[1] as HTMLElement).click();
+      fixture.detectChanges();
+      sub.unsubscribe();
+      expect(selected?.code).toBe('BR');
+    });
+
+    it('moves keyboard active state across the separator', async () => {
+      const { fixture, list } = await setupPreferred();
+      list.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }),
+      );
+      fixture.detectChanges();
+      list.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }),
+      );
+      fixture.detectChanges();
+      expect(list.getAttribute('aria-activedescendant')).toContain('option-1');
+    });
+  });
 });

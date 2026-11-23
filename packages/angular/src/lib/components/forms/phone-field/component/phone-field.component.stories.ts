@@ -131,3 +131,17 @@ export const Clearable: Story = {
     value: '+5511999998888',
   },
 };
+
+export const ExcludedCountries: Story = {
+  args: {
+    label: 'Phone (no Brazil)',
+    excludeCountries: ['BR'],
+  },
+};
+
+export const PreferredCountries: Story = {
+  args: {
+    label: 'Phone (US and Brazil first)',
+    preferredCountries: ['US', 'BR'],
+  },
+};

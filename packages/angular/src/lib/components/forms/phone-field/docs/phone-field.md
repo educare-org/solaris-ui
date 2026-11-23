@@ -54,6 +54,8 @@ Country names are localized with the native `Intl.DisplayNames` API (no translat
 | `error` / `errorKey`                           | `string` / `string`           | `''`        | Manual error message.                                                           |
 | `placeholder` / `placeholderKey`               | `string` / `string`           | —           | Placeholder. Defaults to the country example.                                   |
 | `invalidError` / `invalidErrorKey`             | `string` / `string`           | —           | Invalid number error override.                                                  |
+| `tooShortError` / `tooShortErrorKey`           | `string` / `string`           | —           | Too-short number error override.                                                |
+| `tooLongError` / `tooLongErrorKey`             | `string` / `string`           | —           | Too-long number error override.                                                 |
 | `requiredError` / `requiredErrorKey`           | `string` / `string`           | —           | Required error override.                                                        |
 | `required`                                     | `boolean`                     | `false`     | Marks required and validates emptiness.                                         |
 | `optional`                                     | `boolean`                     | `false`     | Shows the optional marker.                                                      |
@@ -76,6 +78,8 @@ Country names are localized with the native `Intl.DisplayNames` API (no translat
 | `searchable`                                   | `boolean`                     | `true`      | Show the country search box.                                                    |
 | `allowAnyCountry`                              | `boolean`                     | `true`      | Whether the country can be changed.                                             |
 | `countryList`                                  | `SolarisCountryCode[]`        | —           | Restrict selectable countries.                                                  |
+| `excludeCountries`                             | `SolarisCountryCode[]`        | —           | Remove countries from the list (applies after `countryList`).                   |
+| `preferredCountries`                           | `SolarisCountryCode[]`        | —           | Pin countries to the top of the list, in order, above a divider.                |
 | `searchPlaceholder` / `searchPlaceholderKey`   | `string` / `string`           | —           | Country search placeholder.                                                     |
 | `emptyText` / `emptyTextKey`                   | `string` / `string`           | —           | Empty list message.                                                             |
 | `noResultsText` / `noResultsTextKey`           | `string` / `string`           | —           | No-results message.                                                             |
@@ -185,7 +189,8 @@ error priority is:
 
 1. Manual `error` / `errorKey`.
 2. `required` + empty → required error.
-3. Non-empty but invalid/incomplete → invalid error.
+3. Non-empty but invalid/incomplete → too-short, too-long, or invalid error
+   (resolved from the number length for the selected country).
 
 Default messages use `solaris.phone-field.*` translation keys with English fallbacks.
 

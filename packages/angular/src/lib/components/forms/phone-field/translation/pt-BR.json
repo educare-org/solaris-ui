@@ -5,6 +5,8 @@
       "country": "Selecionar código do país",
       "empty": "Nenhum país disponível",
       "invalid": "Insira um número de telefone válido.",
+      "tooShort": "Número de telefone muito curto.",
+      "tooLong": "Número de telefone muito longo.",
       "noResults": "Nenhum resultado encontrado",
       "required": "O número de telefone é obrigatório.",
       "search": {

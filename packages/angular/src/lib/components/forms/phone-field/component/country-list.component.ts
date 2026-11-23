@@ -32,6 +32,7 @@ export class SolarisPhoneCountryListComponent {
   readonly noResultsText = input<string>('');
   readonly emptyText = input<string>('');
   readonly maxHeight = input<string | number | undefined>();
+  readonly preferredCodes = input<SolarisCountryCode[]>([]);
 
   readonly countrySelected = output<SolarisCountry>();
   readonly closeRequest = output<void>();
@@ -54,6 +55,35 @@ export class SolarisPhoneCountryListComponent {
     );
   });
 
+  protected readonly preferred = computed(() => {
+    const order = this.preferredCodes();
+    if (order.length === 0) {
+      return [];
+    }
+    const byCode = new Map(
+      this.filtered().map((country) => [country.code, country]),
+    );
+    return order
+      .filter((code) => byCode.has(code))
+      .map((code) => byCode.get(code) as SolarisCountry);
+  });
+
+  protected readonly rest = computed(() => {
+    const pinned = new Set(this.preferred().map((country) => country.code));
+    return this.filtered().filter((country) => !pinned.has(country.code));
+  });
+
+  protected readonly ordered = computed(() => [
+    ...this.preferred(),
+    ...this.rest(),
+  ]);
+
+  protected readonly preferredCount = computed(() => this.preferred().length);
+
+  protected readonly showSeparator = computed(() => {
+    return this.preferred().length > 0 && this.rest().length > 0;
+  });
+
   protected readonly showEmpty = computed(() => {
     return this.countries().length === 0;
   });
@@ -64,7 +94,7 @@ export class SolarisPhoneCountryListComponent {
 
   protected readonly activeDescendantId = computed(() => {
     const index = this.activeIndex();
-    if (index < 0 || index >= this.filtered().length) {
+    if (index < 0 || index >= this.ordered().length) {
       return null;
     }
     return this.optionId(index);
@@ -111,20 +141,22 @@ export class SolarisPhoneCountryListComponent {
 
   protected onListClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
-    const optionEl = target.closest('.solaris-phone-country-list__option');
+    const optionEl = target.closest(
+      '[data-country-index]',
+    ) as HTMLElement | null;
     if (!optionEl) {
       return;
     }
-    const current = event.currentTarget as HTMLElement;
-    const index = Array.from(current.children).indexOf(optionEl);
-    const list = this.filtered();
-    if (index >= 0 && index < list.length) {
-      this.countrySelected.emit(list[index]);
+    const index = Number(optionEl.getAttribute('data-country-index'));
+    const list = this.ordered();
+    if (!Number.isInteger(index) || index < 0 || index >= list.length) {
+      return;
     }
+    this.countrySelected.emit(list[index]);
   }
 
   protected onListKeydown(event: KeyboardEvent): void {
-    const list = this.filtered();
+    const list = this.ordered();
     if (list.length === 0) {
       return;
     }
@@ -170,7 +202,7 @@ export class SolarisPhoneCountryListComponent {
   }
 
   private moveActive(direction: 1 | -1): void {
-    const list = this.filtered();
+    const list = this.ordered();
     if (list.length === 0) {
       return;
     }
@@ -185,7 +217,7 @@ export class SolarisPhoneCountryListComponent {
   }
 
   private selectActive(): void {
-    const list = this.filtered();
+    const list = this.ordered();
     const index = this.activeIndex();
     if (index >= 0 && index < list.length) {
       this.countrySelected.emit(list[index]);

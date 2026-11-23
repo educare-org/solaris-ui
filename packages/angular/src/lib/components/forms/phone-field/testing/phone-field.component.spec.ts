@@ -30,6 +30,8 @@ type PhoneFieldTestSeam = Omit<SolarisPhoneFieldComponent, 'translateKey'> & {
   displayValue: WritableSignal<string>;
   panelOpen: WritableSignal<boolean>;
   countries: Signal<SolarisCountry[]>;
+  effectiveCountry: Signal<SolarisCountryCode>;
+  preferredCountryCodes: Signal<SolarisCountryCode[]>;
   clearAriaLabel: Signal<string>;
   ariaDescribedBy: Signal<string | null>;
   popoverAppearance: Signal<'outline' | 'surface'>;
@@ -407,6 +409,83 @@ describe('SolarisPhoneFieldComponent', () => {
         By.css('.solaris-form-field__error'),
       );
       expect(error).toBeNull();
+    });
+
+    it('shows a too-short error for an incomplete number', async () => {
+      const { fixture, input } = await setup(RequiredHost);
+      input.dispatchEvent(new Event('focus', { bubbles: true }));
+      input.value = '1';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      input.dispatchEvent(new Event('blur', { bubbles: true }));
+      fixture.detectChanges();
+      const error = fixture.debugElement.query(
+        By.css('.solaris-form-field__error'),
+      );
+      expect(error.nativeElement.textContent).toContain('too short');
+    });
+
+    it('shows a too-long error when the digit budget is raised', async () => {
+      await TestBed.configureTestingModule({
+        imports: [SolarisPhoneFieldComponent],
+        providers: [provideZonelessChangeDetection(), provideSolarisTesting()],
+      }).compileComponents();
+      const fixture = TestBed.createComponent(SolarisPhoneFieldComponent);
+      const component =
+        fixture.componentInstance as unknown as PhoneFieldTestSeam;
+      fixture.componentRef.setInput('label', 'Phone');
+      fixture.componentRef.setInput('defaultCountry', 'BR');
+      fixture.componentRef.setInput('maxLength', 20);
+      fixture.detectChanges();
+      const input = fixture.debugElement.query(By.css('input[solaris-input]'))
+        .nativeElement as HTMLInputElement;
+      input.dispatchEvent(new Event('focus', { bubbles: true }));
+      input.value = '119999988881234';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      input.dispatchEvent(new Event('blur', { bubbles: true }));
+      fixture.detectChanges();
+      expect(component.internalValue()).toBe('');
+      const error = fixture.debugElement.query(
+        By.css('.solaris-form-field__error'),
+      );
+      expect(error.nativeElement.textContent).toContain('too long');
+    });
+
+    it('falls back to the generic invalid error for wrong-length-ok numbers', async () => {
+      const { fixture, input } = await setup(RequiredHost);
+      input.dispatchEvent(new Event('focus', { bubbles: true }));
+      input.value = '00000000000';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      input.dispatchEvent(new Event('blur', { bubbles: true }));
+      fixture.detectChanges();
+      const error = fixture.debugElement.query(
+        By.css('.solaris-form-field__error'),
+      );
+      expect(error.nativeElement.textContent).toContain('valid phone number');
+    });
+
+    it('honors explicit too-short and too-long overrides', async () => {
+      await TestBed.configureTestingModule({
+        imports: [SolarisPhoneFieldComponent],
+        providers: [provideZonelessChangeDetection(), provideSolarisTesting()],
+      }).compileComponents();
+      const fixture = TestBed.createComponent(SolarisPhoneFieldComponent);
+      fixture.componentRef.setInput('label', 'Phone');
+      fixture.componentRef.setInput('defaultCountry', 'BR');
+      fixture.componentRef.setInput('tooShortError', 'Too few digits');
+      fixture.componentRef.setInput('tooLongError', 'Way too many digits');
+      fixture.componentRef.setInput('maxLength', 20);
+      fixture.detectChanges();
+      const input = fixture.debugElement.query(By.css('input[solaris-input]'))
+        .nativeElement as HTMLInputElement;
+      input.dispatchEvent(new Event('focus', { bubbles: true }));
+      input.value = '1';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      input.dispatchEvent(new Event('blur', { bubbles: true }));
+      fixture.detectChanges();
+      const error = fixture.debugElement.query(
+        By.css('.solaris-form-field__error'),
+      );
+      expect(error.nativeElement.textContent).toContain('Too few digits');
     });
   });
 
@@ -819,6 +898,77 @@ describe('SolarisPhoneFieldComponent', () => {
     });
   });
 
+  describe('country filtering and pinning', () => {
+    async function setupDirect(): Promise<{
+      fixture: ComponentFixture<SolarisPhoneFieldComponent>;
+      component: PhoneFieldTestSeam;
+    }> {
+      await TestBed.configureTestingModule({
+        imports: [SolarisPhoneFieldComponent],
+        providers: [provideZonelessChangeDetection(), provideSolarisTesting()],
+      }).compileComponents();
+      const fixture = TestBed.createComponent(SolarisPhoneFieldComponent);
+      fixture.componentRef.setInput('label', 'Phone');
+      fixture.detectChanges();
+      return {
+        fixture,
+        component: fixture.componentInstance as unknown as PhoneFieldTestSeam,
+      };
+    }
+
+    it('removes excluded countries from the list', async () => {
+      const { fixture, component } = await setupDirect();
+      const total = component.countries().length;
+      fixture.componentRef.setInput('excludeCountries', ['BR']);
+      fixture.detectChanges();
+      const codes = component
+        .countries()
+        .map((country: { code: string }) => country.code);
+      expect(codes).not.toContain('BR');
+      expect(codes).toHaveLength(total - 1);
+    });
+
+    it('falls back to an allowed country when the default is excluded', async () => {
+      const { fixture, component } = await setupDirect();
+      fixture.componentRef.setInput('defaultCountry', 'BR');
+      fixture.componentRef.setInput('excludeCountries', ['BR']);
+      fixture.detectChanges();
+      expect(component.effectiveCountry()).not.toBe('BR');
+      expect(
+        component
+          .countries()
+          .some(
+            (country: { code: string }) =>
+              country.code === component.effectiveCountry(),
+          ),
+      ).toBe(true);
+    });
+
+    it('combines allow and deny lists with deny winning', async () => {
+      const { fixture, component } = await setupDirect();
+      fixture.componentRef.setInput('countryList', ['BR', 'US']);
+      fixture.componentRef.setInput('excludeCountries', ['BR']);
+      fixture.detectChanges();
+      expect(
+        component.countries().map((c: { code: string }) => c.code),
+      ).toEqual(['US']);
+    });
+
+    it('exposes preferred codes in order, ignoring unknown ones', async () => {
+      const { fixture, component } = await setupDirect();
+      fixture.componentRef.setInput('preferredCountries', ['US', 'XX', 'BR']);
+      fixture.detectChanges();
+      expect(component.preferredCountryCodes()).toEqual(['US', 'BR']);
+    });
+
+    it('drops preferred codes that are not selectable', async () => {
+      const { fixture, component } = await setupDirect();
+      fixture.componentRef.setInput('preferredCountries', ['US', 'BR']);
+      fixture.componentRef.setInput('excludeCountries', ['US']);
+      fixture.detectChanges();
+      expect(component.preferredCountryCodes()).toEqual(['BR']);
+    });
+  });
   describe('text and list computeds', () => {
     async function setupDirect(): Promise<{
       fixture: ComponentFixture<SolarisPhoneFieldComponent>;

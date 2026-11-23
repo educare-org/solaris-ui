@@ -113,6 +113,13 @@
   }
 }
 
+.solaris-phone-country-list__separator {
+  flex-shrink: 0;
+  height: var(--solaris-border-width-sm);
+  margin-block: var(--solaris-spacing-1);
+  background: var(--solaris-neutral-border-subtle);
+}
+
 .solaris-phone-country-list__option {
   display: flex;
   cursor: pointer;

@@ -5,6 +5,7 @@ import {
   adjustRawForTrailingFormatDeletion,
   formatE164ForDisplay,
   formatInternationalDisplay,
+  getPhoneLengthReason,
   mapCaretToFormatted,
   parseEditablePhoneInput,
 } from '../functions/phone-field-input';
@@ -96,6 +97,23 @@ describe('adjustRawForTrailingFormatDeletion', () => {
     );
     expect(adjustRawForTrailingFormatDeletion('9', '+55 (11)')).toBe('9');
     expect(adjustRawForTrailingFormatDeletion('', '')).toBe('');
+  });
+});
+
+describe('getPhoneLengthReason', () => {
+  it('explains short, long and unknown-country values', () => {
+    expect(getPhoneLengthReason('+55 1', 'BR')).toBe('TOO_SHORT');
+    expect(getPhoneLengthReason('+551199999888812345678', 'BR')).toBe(
+      'TOO_LONG',
+    );
+    expect(getPhoneLengthReason('+999123', 'BR')).toBe('INVALID_COUNTRY');
+  });
+
+  it('returns undefined for empty values and acceptable lengths', () => {
+    expect(getPhoneLengthReason('', 'BR')).toBeUndefined();
+    expect(getPhoneLengthReason('+14155552671', 'US')).toBeUndefined();
+    // Right length but not a real number: generic invalid, no length reason.
+    expect(getPhoneLengthReason('+550000000000', 'BR')).toBeUndefined();
   });
 });
 

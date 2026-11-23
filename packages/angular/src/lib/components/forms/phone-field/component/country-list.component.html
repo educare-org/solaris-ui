@@ -42,12 +42,44 @@
       (click)="onListClick($event)"
       (keydown)="onListKeydown($event)"
     >
-      @for (country of filtered(); track country.code; let index = $index) {
+      @for (country of preferred(); track country.code; let index = $index) {
         <div
           class="solaris-phone-country-list__option"
           role="option"
           [attr.id]="optionId(index)"
+          [attr.data-country-index]="index"
           [attr.data-active]="activeIndex() === index ? '' : null"
+          [attr.data-selected]="selectedCode() === country.code ? '' : null"
+          [attr.aria-selected]="selectedCode() === country.code"
+        >
+          <!-- SECURITY_EXCEPTION: flag SVG already vetted by solarisSafeHtml pipe (isTrustedFlagSvg). -->
+          <span
+            class="solaris-phone-country-list__flag"
+            [innerHTML]="country.flag | solarisSafeHtml"
+          ></span>
+          <span class="solaris-phone-country-list__name">{{
+            country.name
+          }}</span>
+          <span class="solaris-phone-country-list__code"
+            >+{{ country.callingCode }}</span
+          >
+        </div>
+      }
+      @if (showSeparator()) {
+        <div
+          class="solaris-phone-country-list__separator"
+          role="separator"
+        ></div>
+      }
+      @for (country of rest(); track country.code; let restIndex = $index) {
+        <div
+          class="solaris-phone-country-list__option"
+          role="option"
+          [attr.id]="optionId(preferredCount() + restIndex)"
+          [attr.data-country-index]="preferredCount() + restIndex"
+          [attr.data-active]="
+            activeIndex() === preferredCount() + restIndex ? '' : null
+          "
           [attr.data-selected]="selectedCode() === country.code ? '' : null"
           [attr.aria-selected]="selectedCode() === country.code"
         >
