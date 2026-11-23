@@ -4,6 +4,7 @@ export interface ButtonWidthMotionFlags {
   readonly reducedMotion: boolean;
   readonly contentChanged: boolean;
   readonly animatable: boolean;
+  readonly hasStableBaseline?: boolean;
 }
 
 export function shouldAnimateWidth(
@@ -11,6 +12,9 @@ export function shouldAnimateWidth(
   to: number,
   flags: ButtonWidthMotionFlags,
 ): boolean {
+  if (flags.hasStableBaseline === false) {
+    return false;
+  }
   if (flags.fullWidth) {
     return false;
   }
