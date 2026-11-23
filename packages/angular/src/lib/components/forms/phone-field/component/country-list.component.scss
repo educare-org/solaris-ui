@@ -54,11 +54,6 @@
   }
 }
 
-// The icon host carries its own `height: 1em`, which would pin the prefix
-// cell to the icon height and leave it top-aligned with a stub divider.
-// Stretch the cell to the search height (like the form-field affix) so the
-// icon centers and the divider spans the full height. Higher specificity
-// wins over the `:host` rule deterministically.
 .solaris-phone-country-list__search
   > solaris-icon.solaris-phone-country-list__search-icon {
   height: auto;
