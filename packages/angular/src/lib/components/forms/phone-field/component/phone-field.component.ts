@@ -49,6 +49,13 @@ import {
   getExampleNumberFor,
   getMaxNationalNumberLength,
 } from '../model/phone-format';
+import {
+  adjustRawForTrailingFormatDeletion,
+  formatE164ForDisplay,
+  formatInternationalDisplay,
+  mapCaretToFormatted,
+  parseEditablePhoneInput,
+} from '../functions/phone-field-input';
 
 import type {
   SolarisPhoneFieldAppearance,
@@ -368,8 +375,12 @@ export class SolarisPhoneFieldComponent
       return null;
     }
     const country = this.effectiveCountry();
-    const formatted = formatAsYouType('9'.repeat(max), country);
-    return Math.max(formatted.length, max);
+    const national = formatAsYouType('9'.repeat(max), country);
+    const callingCode = this.selectedCountryObject()?.callingCode ?? '';
+    const display = callingCode
+      ? formatInternationalDisplay(callingCode, national)
+      : national;
+    return Math.max(display.length, max);
   });
 
   protected readonly placeholderText = computed(() => {
@@ -380,7 +391,10 @@ export class SolarisPhoneFieldComponent
     if (this.placeholder() != null) {
       return this.placeholder() as string;
     }
-    return getExampleNumberFor(this.effectiveCountry());
+    const example = getExampleNumberFor(this.effectiveCountry());
+    if (!example) return '';
+    const callingCode = this.selectedCountryObject()?.callingCode ?? '';
+    return callingCode ? `+${callingCode} ${example}` : example;
   });
 
   protected readonly searchPlaceholderText = computed(() => {
@@ -541,40 +555,70 @@ export class SolarisPhoneFieldComponent
   protected onInput(event: Event): void {
     const target = event.target as HTMLInputElement;
     const raw = target.value;
+    const rawCaret = target.selectionStart ?? raw.length;
 
     if (!this.dirty()) {
       this.dirty.set(true);
     }
 
-    const startsWithPlus = raw.trim().startsWith('+');
-    let country = this.effectiveCountry();
-    let digits = raw.replace(/\D+/g, '');
+    // Typing always dismisses the country panel so the list never
+    // overlaps the field mid-edit (the search box inside the panel is a
+    // separate input and is unaffected). No focus restore: the user is
+    // already interacting with the phone input and stealing focus back
+    // would drop keystrokes.
+    this.dismissCountryPanel();
 
-    if (startsWithPlus) {
-      const detected = detectCountry(raw);
-      if (detected && !this.country() && this.countryAllowed(detected)) {
-        this.selectedCountry.set(detected);
-        this.countryChange.emit(detected);
-        country = detected;
-      }
-      const callingCode = this.selectedCallingCode();
-      if (callingCode && digits.startsWith(callingCode)) {
-        digits = digits.slice(callingCode.length);
+    const current = this.effectiveCountry();
+    // Deletion assist: when backspace removes only auto-added formatting
+    // (e.g. the `)` in `+55 (11)`), also drop the last digit so the number
+    // visibly shrinks instead of resurrecting the formatting character.
+    const effectiveRaw = adjustRawForTrailingFormatDeletion(
+      raw,
+      this.displayValue(),
+    );
+    const parsed = parseEditablePhoneInput(
+      effectiveRaw,
+      current,
+      this.countries(),
+    );
+
+    if (parsed.country !== current && !this.country()) {
+      if (this.countryAllowed(parsed.country)) {
+        this.selectedCountry.set(parsed.country);
+        this.countryChange.emit(parsed.country);
       }
     }
 
-    digits = digits.slice(0, this.effectiveMaxLength());
-    const formatted = formatAsYouType(digits, country);
-    this.displayValue.set(formatted);
-    if (target.value !== formatted) {
-      target.value = formatted;
+    this.displayValue.set(parsed.display);
+    if (target.value !== parsed.display) {
+      target.value = parsed.display;
+      try {
+        const trimmed = raw.trim();
+        const isInternational =
+          trimmed.startsWith('+') || trimmed.startsWith('00');
+        let autoPrefixDigits = 0;
+        if (!isInternational) {
+          const callingCode =
+            this.countries().find((item) => item.code === parsed.country)
+              ?.callingCode ?? '';
+          autoPrefixDigits = callingCode.length;
+        }
+        const caret = mapCaretToFormatted(
+          effectiveRaw,
+          Math.min(rawCaret, effectiveRaw.length),
+          parsed.display,
+          autoPrefixDigits,
+        );
+        target.setSelectionRange(caret, caret);
+      } catch {
+        // Caret restore is best-effort; a failed sync must not break typing.
+      }
     }
 
-    const e164 = toValidE164(formatted, country);
-    if (e164) {
-      this.internalValue.set(e164);
-      this.onChange(e164);
-      this.valueChange.emit(e164);
+    if (parsed.e164) {
+      this.internalValue.set(parsed.e164);
+      this.onChange(parsed.e164);
+      this.valueChange.emit(parsed.e164);
     } else {
       this.internalValue.set('');
       this.onChange('');
@@ -584,6 +628,9 @@ export class SolarisPhoneFieldComponent
 
   protected onInputFocus(): void {
     this.internalFocused.set(true);
+    // Same no-restore dismissal as typing: focusing the field means the
+    // user took the interaction back from an open panel.
+    this.dismissCountryPanel();
   }
 
   protected onInputBlur(): void {
@@ -595,10 +642,16 @@ export class SolarisPhoneFieldComponent
     this.internalValue.set('');
     this.displayValue.set('');
     this.dirty.set(true);
+    const input = this.inputElementRef()?.nativeElement;
+    if (input && input.value !== '') {
+      input.value = '';
+    }
     this.onChange('');
     this.valueChange.emit('');
     this.cleared.emit();
     this.markAsTouched();
+    this.dismissCountryPanel();
+    this.focus();
   }
 
   protected onCountryToggle(event: Event): void {
@@ -612,23 +665,69 @@ export class SolarisPhoneFieldComponent
     this.popoverTrigger()?.close();
   }
 
+  /**
+   * Silently dismiss the panel without restoring focus. Used when the
+   * interaction already lives in the phone input (typing, focusing,
+   * clearing): restoring focus to the pre-open element would blur the
+   * input and drop keystrokes. Panel-initiated closes (option select,
+   * Escape/Tab in the search) keep using `closeCountryPanel` so focus
+   * returns to the trigger as documented.
+   */
+  protected dismissCountryPanel(): void {
+    this.popoverTrigger()?.close({ restoreFocus: false });
+  }
+
   protected onInputClick(event: Event): void {
     event.stopPropagation();
   }
 
   protected selectCountry(country: SolarisCountry): void {
+    const previousCountry = this.effectiveCountry();
+    const previousCallingCode =
+      this.countries().find((item) => item.code === previousCountry)
+        ?.callingCode ?? '';
     this.selectedCountry.set(country.code);
     this.countryChange.emit(country.code);
 
     const digits = this.displayValue().replace(/\D+/g, '');
-    if (digits) {
-      const formatted = formatAsYouType(digits, country.code);
-      this.displayValue.set(formatted);
-      const e164 = toValidE164(formatted, country.code);
+    let national = digits;
+    if (
+      previousCallingCode &&
+      national.startsWith(previousCallingCode) &&
+      previousCallingCode !== country.callingCode
+    ) {
+      national = national.slice(previousCallingCode.length);
+    } else if (national.startsWith(country.callingCode)) {
+      national = national.slice(country.callingCode.length);
+    }
+    if (national) {
+      national = national.slice(0, this.effectiveMaxLength());
+      const formatted = formatAsYouType(national, country.code);
+      const display = formatInternationalDisplay(
+        country.callingCode,
+        formatted,
+      );
+      this.displayValue.set(display);
+      const input = this.inputElementRef()?.nativeElement;
+      if (input && input.value !== display) {
+        input.value = display;
+        try {
+          input.setSelectionRange(display.length, display.length);
+        } catch {
+          // Caret placement is best-effort after a country switch.
+        }
+      }
+      const e164 = toValidE164(display, country.code);
       if (e164) {
         this.internalValue.set(e164);
         this.onChange(e164);
         this.valueChange.emit(e164);
+      }
+    } else {
+      this.displayValue.set('');
+      const input = this.inputElementRef()?.nativeElement;
+      if (input && input.value !== '') {
+        input.value = '';
       }
     }
 
@@ -640,11 +739,14 @@ export class SolarisPhoneFieldComponent
       this.displayValue.set('');
       return;
     }
-    const country = detectCountry(e164);
+    const { country, display } = formatE164ForDisplay(
+      e164,
+      this.effectiveCountry(),
+    );
     if (country && !this.country() && this.countryAllowed(country)) {
       this.selectedCountry.set(country);
     }
-    this.displayValue.set(formatE164(e164));
+    this.displayValue.set(display || formatE164(e164));
   }
 
   private countryAllowed(code: SolarisCountryCode): boolean {

@@ -27,11 +27,17 @@
   [solarisPopoverDisabled]="!canOpen()"
   [solarisPopoverPlacement]="'bottom'"
   [solarisPopoverAlign]="'start'"
-  [solarisPopoverOffset]="8"
+  [solarisPopoverOffset]="0"
   [solarisPopoverPadding]="'none'"
   [solarisPopoverRadius]="radius()"
   [solarisPopoverMaxWidth]="panelMaxWidth()"
   [solarisPopoverAppearance]="popoverAppearance()"
+  [solarisPopoverMatchTriggerWidth]="true"
+  [solarisPopoverTopConnected]="true"
+  [solarisPopoverBordered]="true"
+  [solarisPopoverCloseOnTriggerOutOfView]="true"
+  [solarisPopoverScrollStrategy]="'reposition'"
+  [solarisPopoverCloseOnEscape]="false"
   [solarisPopoverAutoFocus]="'first-tabbable'"
   [solarisPopoverAriaHasPopup]="'listbox'"
 >
@@ -47,10 +53,6 @@
     select="[solaris-form-label-action]"
     ngProjectAs="[solaris-form-label-action]"
   />
-  <span class="solaris-phone-field__dial-code"
-    >+{{ selectedCallingCode() }}</span
-  >
-
   <input
     type="tel"
     #inputElement

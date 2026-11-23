@@ -1,13 +1,13 @@
 :host {
   --solaris-phone-country-option-radius: var(--solaris-radius-sm);
-  --solaris-phone-country-search-bg: var(--solaris-neutral-subtle);
-  --solaris-phone-country-option-hover-bg: var(--solaris-neutral-sunken);
-  --solaris-phone-country-option-active-bg: var(--solaris-primary-soft);
-  --solaris-phone-country-option-active-color: var(
-    --solaris-primary-foreground
-  );
+  --solaris-phone-country-option-gap: var(--solaris-spacing-2);
+  --solaris-phone-country-option-padding-y: var(--solaris-spacing-3);
+  --solaris-phone-country-option-padding-x: var(--solaris-spacing-3);
+  --solaris-phone-country-label-font-size: var(--solaris-font-size-sm);
+  --solaris-phone-country-label-line-height: var(--solaris-line-height-sm);
+  --solaris-phone-country-code-font-size: var(--solaris-font-size-xs);
+  --solaris-phone-country-code-color: var(--solaris-neutral-text-secondary);
 
-  width: calc(var(--solaris-spacing-18) * 2 + var(--solaris-spacing-3));
   display: block;
   max-width: 100%;
   box-sizing: border-box;
@@ -17,36 +17,67 @@
   display: flex;
   box-sizing: border-box;
   flex-direction: column;
-  gap: var(--solaris-spacing-2);
+  gap: var(--solaris-spacing-3);
+  padding: var(--solaris-spacing-3);
+  overscroll-behavior: contain;
+  animation: solaris-motion-overlay-enter-top
+    var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
 }
 
 .solaris-phone-country-list__search {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   box-sizing: border-box;
-  gap: var(--solaris-spacing-2);
-  padding: 0 var(--solaris-spacing-3);
   border-radius: var(--solaris-phone-country-option-radius);
-  background: var(--solaris-phone-country-search-bg);
+  background: transparent;
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
 }
 
 .solaris-phone-country-list__search-icon {
+  display: inline-flex;
   flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  padding-inline: var(--solaris-spacing-3);
+  border-inline-end: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
   color: var(--solaris-neutral-text-secondary);
+  font-size: var(--solaris-font-size-md);
+  line-height: var(--solaris-line-height-none);
+
+  solaris-icon {
+    display: inline-flex;
+    width: 1em;
+    height: 1em;
+  }
+}
+
+// The icon host carries its own `height: 1em`, which would pin the prefix
+// cell to the icon height and leave it top-aligned with a stub divider.
+// Stretch the cell to the search height (like the form-field affix) so the
+// icon centers and the divider spans the full height. Higher specificity
+// wins over the `:host` rule deterministically.
+.solaris-phone-country-list__search
+  > solaris-icon.solaris-phone-country-list__search-icon {
+  height: auto;
+  align-self: stretch;
 }
 
 .solaris-phone-country-list__search-input {
-  all: unset;
-  box-sizing: border-box;
   flex: 1;
+  all: unset;
   min-width: 0;
-  padding: var(--solaris-spacing-2) 0;
+  box-sizing: border-box;
+  padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
   color: var(--solaris-neutral-text-body);
   font-size: var(--solaris-font-size-sm);
   line-height: var(--solaris-line-height-md);
 
   &::placeholder {
     color: var(--solaris-neutral-text-secondary);
+    opacity: var(--solaris-opacity-70);
   }
 
   &:focus-visible {
@@ -61,7 +92,7 @@
   scrollbar-width: thin;
   box-sizing: border-box;
   flex-direction: column;
-  gap: var(--solaris-spacing-1);
+  gap: var(--solaris-spacing-2);
   scrollbar-color: var(--solaris-neutral-border-subtle) transparent;
 
   &::-webkit-scrollbar {
@@ -85,21 +116,37 @@
 .solaris-phone-country-list__option {
   display: flex;
   cursor: pointer;
+  user-select: none;
   align-items: center;
   box-sizing: border-box;
-  gap: var(--solaris-spacing-3);
-  font-size: var(--solaris-font-size-sm);
-  line-height: var(--solaris-line-height-md);
+  gap: var(--solaris-phone-country-option-gap);
+  color: var(--solaris-neutral-text-body);
+  font-size: var(--solaris-phone-country-label-font-size);
+  line-height: var(--solaris-phone-country-label-line-height);
   border-radius: var(--solaris-phone-country-option-radius);
-  padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
+  padding: var(--solaris-phone-country-option-padding-y)
+    var(--solaris-phone-country-option-padding-x);
+  transition:
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
 
   &:hover {
-    background: var(--solaris-phone-country-option-hover-bg);
+    background: var(--solaris-neutral-subtle);
+  }
+
+  &:active {
+    background: var(--solaris-neutral-sunken);
   }
 
   &[data-active] {
-    background: var(--solaris-phone-country-option-active-bg);
-    color: var(--solaris-phone-country-option-active-color);
+    background: var(--solaris-neutral-sunken);
+  }
+
+  &[data-selected] {
+    color: var(--solaris-neutral-text-heading);
+    background: var(--solaris-neutral-sunken);
   }
 }
 
@@ -109,8 +156,9 @@
   align-items: center;
   display: inline-flex;
   justify-content: center;
-  width: var(--solaris-font-size-xl);
-  font-size: var(--solaris-font-size-lg);
+  width: var(--solaris-font-size-lg);
+  margin-inline-end: var(--solaris-spacing-3);
+  font-size: var(--solaris-font-size-md);
 
   svg {
     display: block;
@@ -123,25 +171,41 @@
   flex: 1;
   min-width: 0;
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow-wrap: break-word;
+  color: var(--solaris-neutral-text-body);
 }
 
 .solaris-phone-country-list__code {
   flex-shrink: 0;
-  color: var(--solaris-neutral-text-secondary);
+  font-variant-numeric: tabular-nums;
+  color: var(--solaris-phone-country-code-color);
+  font-size: var(--solaris-phone-country-code-font-size);
 }
 
 .solaris-phone-country-list__empty,
 .solaris-phone-country-list__no-results {
-  padding: var(--solaris-spacing-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--solaris-spacing-4);
   color: var(--solaris-neutral-text-secondary);
   font-size: var(--solaris-font-size-sm);
   line-height: var(--solaris-line-height-md);
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .solaris-phone-country-list,
   .solaris-phone-country-list__option {
+    animation: none;
+    transition: none;
+  }
+}
+
+[data-reduced-motion='true'] {
+  .solaris-phone-country-list,
+  .solaris-phone-country-list__option {
+    animation: none;
     transition: none;
   }
 }

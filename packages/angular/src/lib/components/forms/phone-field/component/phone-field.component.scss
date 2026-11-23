@@ -1,8 +1,6 @@
 :host {
   --solaris-phone-field-country-gap: var(--solaris-spacing-1);
   --solaris-phone-field-country-padding-inline: var(--solaris-spacing-2);
-  --solaris-phone-field-dial-code-color: var(--solaris-neutral-text-secondary);
-  --solaris-phone-field-dial-code-gap: var(--solaris-spacing-3);
   --solaris-phone-field-flag-size: var(--solaris-font-size-xs);
   --solaris-phone-field-chevron-size: var(--solaris-font-size-2xs);
   --solaris-phone-field-country-font-size: var(--solaris-font-size-xs);
@@ -61,16 +59,6 @@
 
 :host([data-open]) .solaris-phone-field__chevron {
   transform: rotate(180deg);
-}
-
-.solaris-phone-field__dial-code {
-  flex: 0 0 auto;
-  user-select: none;
-  cursor: default;
-  color: var(--solaris-phone-field-dial-code-color);
-  font-size: var(--solaris-phone-field-country-font-size);
-  line-height: var(--solaris-line-height-md);
-  margin-inline-end: var(--solaris-phone-field-dial-code-gap);
 }
 
 :host([data-size='sm'][data-density='compact']) {

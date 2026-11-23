@@ -106,18 +106,27 @@ phone = new FormControl<string>('+5511999998888');
 
 ## Mask / as-you-type formatting
 
-A fixed dial-code prefix (`+55`) is rendered to the left of the placeholder and follows
-the selected country. The number is formatted as the user types using `libphonenumber-js`'s
-`AsYouType` in national style (`(11) 99999-8888`). When an international number with a `+`
-is pasted (e.g. `+1 201-555-0123`), the country is auto-detected and the dial-code prefix
-updates accordingly. The model value is only set to the canonical E.164 when the number is
-valid (`isValid()`). While the number is incomplete or invalid the value is `''`.
+The number is a single editable input that always includes the international
+prefix (e.g. `+55 (11) 99999-8888`). The field can stay fully empty: deleting
+the prefix clears the value instead of leaving a dangling `+`. Typing or
+pasting a `+`/`00` prefix (e.g. `+1 201-555-0123`) auto-detects an allowed
+country and emits `countryChange`; ambiguous prefixes (e.g. `+1` shared by
+several countries) keep the current country until the number becomes
+unambiguous or the user picks a country in the panel. The number is formatted
+as the user types using `libphonenumber-js`'s `AsYouType` in national style.
+The model value is only set to the canonical E.164 when the number is valid
+(`isValid()`). While the number is incomplete or invalid the value is `''`.
 
 ## Country selector
 
 The prefix is a button showing the selected country's flag and a chevron. Clicking it opens
-a standard `solaris-popover` with a small offset below the field, containing a searchable
-`role="listbox"` of countries. Selection updates the dial-code prefix and emits
+a `solaris-popover` connected to the trigger (`matchTriggerWidth`, top-connected, same
+radius/appearance as the field), containing a searchable `role="listbox"` of countries.
+Typing or focusing the phone input always dismisses the panel without
+restoring focus, so the list never overlaps the field mid-edit and keystrokes
+keep landing in the input. Opening the panel auto-focuses the search box
+(`first-tabbable`); closing it from a country selection or from Escape/Tab in
+the search restores focus to the trigger as usual. The panel follows the `select` visual language (compact options with extra flag-to-name spacing, search field with a prefix divider like `form-field`, empty/no-results states). Selection rewrites the input prefix and emits
 `countryChange`. The popover matches the field appearance: `outline` and `filled` render
 with a border, `surface` without.
 
@@ -185,15 +194,12 @@ Default messages use `solaris.phone-field.*` translation keys with English fallb
 `SolarisPhoneFieldComponent` defines the following tokens. The prefix sizes (flag, chevron,
 font, padding) scale with the field density.
 
-| Token                                          | Default                                 | Description                              |
-| ---------------------------------------------- | --------------------------------------- | ---------------------------------------- |
-| `--solaris-phone-field-country-gap`            | `var(--solaris-spacing-1)`              | Gap inside the country button.           |
-| `--solaris-phone-field-country-padding-inline` | `var(--solaris-spacing-2)`              | Country button horizontal padding.       |
-| `--solaris-phone-field-country-font-size`      | `var(--solaris-font-size-sm)`           | Country button and dial-code font size.  |
-| `--solaris-phone-field-dial-code-color`        | `var(--solaris-neutral-text-secondary)` | Dial-code prefix color.                  |
-| `--solaris-phone-field-dial-code-gap`          | `var(--solaris-spacing-3)`              | Gap between the dial-code and the input. |
-| `--solaris-phone-field-flag-size`              | `var(--solaris-font-size-sm)`           | Flag size.                               |
-| `--solaris-phone-field-chevron-size`           | `var(--solaris-font-size-xs)`           | Country button chevron size.             |
+| Token                                          | Default                       | Description                        |
+| ---------------------------------------------- | ----------------------------- | ---------------------------------- |
+| `--solaris-phone-field-country-gap`            | `var(--solaris-spacing-1)`    | Gap inside the country button.     |
+| `--solaris-phone-field-country-padding-inline` | `var(--solaris-spacing-2)`    | Country button horizontal padding. |
+| `--solaris-phone-field-flag-size`              | `var(--solaris-font-size-sm)` | Flag size.                         |
+| `--solaris-phone-field-chevron-size`           | `var(--solaris-font-size-xs)` | Country button chevron size.       |
 
 ## Accessibility
 

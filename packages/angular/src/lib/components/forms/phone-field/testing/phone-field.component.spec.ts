@@ -190,9 +190,9 @@ describe('SolarisPhoneFieldComponent', () => {
         inputMaxLength: () => number | null;
         displayValue: () => string;
       };
-      // BR mobile: 11 national digits format to 15 chars "(11) 99999-8888".
+      // BR mobile: 11 national digits format to "(11) 99999-8888" plus "+55 ".
       expect(c.effectiveMaxLength()).toBe(11);
-      expect(c.inputMaxLength()).toBe(15);
+      expect(c.inputMaxLength()).toBe(19);
       component.writeValue('+5511999998888');
       expect(c.displayValue().length).toBeLessThanOrEqual(
         c.inputMaxLength() ?? 0,
@@ -217,12 +217,13 @@ describe('SolarisPhoneFieldComponent', () => {
       ).toBeTruthy();
     });
 
-    it('shows the calling code in a fixed dial-code prefix', async () => {
-      const { fixture } = await setup(DefaultCountryHost);
-      const dialCode = fixture.debugElement.query(
-        By.css('.solaris-phone-field__dial-code'),
-      ).nativeElement;
-      expect(dialCode.textContent).toContain('+55');
+    it('shows the calling code inside the editable input', async () => {
+      const { fixture, component } = await setup(DefaultCountryHost);
+      const input = fixture.debugElement.query(By.css('input[solaris-input]'))
+        .nativeElement as HTMLInputElement;
+      component.writeValue('+5511999998888');
+      fixture.detectChanges();
+      expect(input.value).toContain('+55');
     });
 
     it('shows a country-aware placeholder when none is provided', async () => {
@@ -263,7 +264,8 @@ describe('SolarisPhoneFieldComponent', () => {
       expect(component.internalValue).toBeDefined();
       const controlValue = host.control.value;
       expect(controlValue).toBe('+5511999998888');
-      expect(input.value.replace(/\D/g, '')).toBe('11999998888');
+      expect(input.value).toContain('+55');
+      expect(input.value.replace(/\D/g, '')).toBe('5511999998888');
     });
 
     it('writeValue formats the display value', async () => {
@@ -271,8 +273,9 @@ describe('SolarisPhoneFieldComponent', () => {
       const host = fixture.componentInstance as ReactiveFormsHost;
       host.control.setValue('+5511999998888');
       fixture.detectChanges();
+      expect(input.value).toContain('+55');
       expect(input.value).toContain('99999-8888');
-      expect(input.value.replace(/\D/g, '')).toBe('11999998888');
+      expect(input.value.replace(/\D/g, '')).toBe('5511999998888');
       expect(component.displayValue).toBeTruthy();
     });
 
@@ -311,7 +314,8 @@ describe('SolarisPhoneFieldComponent', () => {
       fixture.detectChanges();
 
       expect(component.internalValue()).toBe('+5511999998888');
-      expect(input.value.replace(/\D/g, '')).toBe('11999998888');
+      expect(input.value).toContain('+55');
+      expect(input.value.replace(/\D/g, '')).toBe('5511999998888');
       expect(host.control.value).toBe('+5511999998888');
     });
 
@@ -323,17 +327,17 @@ describe('SolarisPhoneFieldComponent', () => {
       input.dispatchEvent(new Event('input', { bubbles: true }));
       fixture.detectChanges();
 
-      const dialCode = fixture.debugElement.query(
-        By.css('.solaris-phone-field__dial-code'),
-      ).nativeElement;
+      const dialCodeInput = fixture.debugElement.query(
+        By.css('input[solaris-input]'),
+      ).nativeElement as HTMLInputElement;
       expect(component.internalValue()).toBe('+14155552671');
-      expect(dialCode.textContent).toContain('+1');
+      expect(dialCodeInput.value).toContain('+1');
       expect(host.control.value).toBe('+14155552671');
     });
   });
 
   describe('country selection', () => {
-    it('updates the dial-code when a country is selected', async () => {
+    it('updates the input prefix when a country is selected', async () => {
       const { fixture, input, component } = await setup(BasicHost);
       const us = component
         .countries()
@@ -347,10 +351,7 @@ describe('SolarisPhoneFieldComponent', () => {
       component.selectCountry(assertPresent(us, 'US country'));
       fixture.detectChanges();
 
-      const dialCode = fixture.debugElement.query(
-        By.css('.solaris-phone-field__dial-code'),
-      ).nativeElement;
-      expect(dialCode.textContent).toContain('+1');
+      expect(input.value.startsWith('+1')).toBe(true);
     });
 
     it('emits countryChange with the selected code', async () => {
@@ -505,13 +506,19 @@ describe('SolarisPhoneFieldComponent', () => {
     });
 
     it('clears the value and display on click', async () => {
-      const { fixture, component } = await setup(ClearableHost);
+      const { fixture, input, component } = await setup(ClearableHost);
+      const trigger = assertPresent(
+        component.popoverTrigger(),
+        'popover trigger',
+      );
+      const close = vi.spyOn(trigger, 'close');
       let cleared = 0;
       component.cleared.subscribe(() => {
         cleared += 1;
       });
       component.writeValue('+5511987654321');
       fixture.detectChanges();
+      expect(input.value).toContain('+55');
       (
         fixture.nativeElement.querySelector(
           '.solaris-phone-field__clear',
@@ -520,7 +527,11 @@ describe('SolarisPhoneFieldComponent', () => {
       fixture.detectChanges();
       expect(component.internalValue()).toBe('');
       expect(component.displayValue()).toBe('');
+      expect(input.value).toBe('');
       expect(cleared).toBe(1);
+      // Dismissal must not steal focus back: the clear action refocuses
+      // the phone input so the user can keep typing.
+      expect(close).toHaveBeenCalledWith({ restoreFocus: false });
       const button = fixture.nativeElement.querySelector(
         '.solaris-phone-field__clear',
       ) as HTMLButtonElement;
@@ -726,7 +737,7 @@ describe('SolarisPhoneFieldComponent', () => {
       );
       const close = vi.spyOn(trigger, 'close');
       component.closeCountryPanel();
-      expect(close).toHaveBeenCalled();
+      expect(close).toHaveBeenCalledWith();
     });
 
     it('tracks panel open state from popover events', async () => {
@@ -744,6 +755,51 @@ describe('SolarisPhoneFieldComponent', () => {
       fixture.detectChanges();
       expect(component.panelOpen()).toBe(false);
       expect(countryButton.getAttribute('aria-expanded')).toBe('false');
+    });
+
+    it('closes the panel while typing so the list never overlaps the edit', async () => {
+      const { fixture, input, component } = await setup(DefaultCountryHost);
+      const trigger = assertPresent(
+        component.popoverTrigger(),
+        'popover trigger',
+      );
+      const close = vi.spyOn(trigger, 'close');
+      input.value = '119';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      fixture.detectChanges();
+      // No focus restore: focus must stay in the phone input so
+      // keystrokes keep landing while the panel dismisses.
+      expect(close).toHaveBeenCalledWith({ restoreFocus: false });
+    });
+
+    it('closes the panel when the input is focused', async () => {
+      const { fixture, input, component } = await setup(DefaultCountryHost);
+      const trigger = assertPresent(
+        component.popoverTrigger(),
+        'popover trigger',
+      );
+      const close = vi.spyOn(trigger, 'close');
+      input.dispatchEvent(new Event('focus', { bubbles: true }));
+      fixture.detectChanges();
+      expect(close).toHaveBeenCalledWith({ restoreFocus: false });
+    });
+
+    it('restores focus when the panel closes from a country selection', async () => {
+      const { fixture, input, component } = await setup(DefaultCountryHost);
+      const trigger = assertPresent(
+        component.popoverTrigger(),
+        'popover trigger',
+      );
+      const close = vi.spyOn(trigger, 'close');
+      input.value = '2015550123';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      fixture.detectChanges();
+      close.mockClear();
+      const us = component
+        .countries()
+        .find((c: { code: string }) => c.code === 'US');
+      component.selectCountry(assertPresent(us, 'US country'));
+      expect(close).toHaveBeenCalledWith();
     });
 
     it('uses surface popover appearance for non-outline appearances', async () => {
@@ -906,6 +962,100 @@ describe('SolarisPhoneFieldComponent', () => {
       fixture.detectChanges();
       expect(component.internalValue()).toBe('+12015550123');
       expect(emitted).toBe('+12015550123');
+    });
+  });
+
+  describe('editable dial code', () => {
+    it('switches the country when the user types an international prefix', async () => {
+      const { fixture, input, component } = await setup(DefaultCountryHost);
+      let emitted: string | undefined;
+      const sub = component.countryChange.subscribe(
+        (code: string) => (emitted = code),
+      );
+      input.value = '+14155552671';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      fixture.detectChanges();
+      sub.unsubscribe();
+      expect(emitted).toBe('US');
+      expect(component.internalValue()).toBe('+14155552671');
+      expect(input.value.startsWith('+1')).toBe(true);
+    });
+
+    it('keeps a partially typed calling code while it is ambiguous', async () => {
+      const { fixture, input, component } = await setup(DefaultCountryHost);
+      input.value = '+5';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      fixture.detectChanges();
+      expect(input.value).toBe('+5');
+      expect(component.internalValue()).toBe('');
+    });
+
+    it('clears the display when the dial code is fully deleted', async () => {
+      const { fixture, input, component } = await setup(DefaultCountryHost);
+      component.writeValue('+5511999998888');
+      fixture.detectChanges();
+      expect(input.value).toContain('+55');
+      input.value = '';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      fixture.detectChanges();
+      expect(component.displayValue()).toBe('');
+      expect(component.internalValue()).toBe('');
+      expect(input.value).toBe('');
+    });
+
+    it('stays empty when the field is cleared to only "+"', async () => {
+      const { fixture, input, component } = await setup(DefaultCountryHost);
+      input.value = '+';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      fixture.detectChanges();
+      expect(component.displayValue()).toBe('');
+      expect(component.internalValue()).toBe('');
+    });
+
+    it('places the caret at the end when typing the first digit from empty', async () => {
+      const { fixture, input } = await setup(DefaultCountryHost);
+      input.value = '5';
+      input.selectionStart = 1;
+      input.selectionEnd = 1;
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      fixture.detectChanges();
+      expect(input.value.startsWith('+55')).toBe(true);
+      expect(input.selectionStart).toBe(input.value.length);
+    });
+
+    it('deletes DDD and DDI with consecutive backspaces from a partial value', async () => {
+      const { fixture, input, component } = await setup(DefaultCountryHost);
+      // Type the DDD like a real user: AsYouType renders BR `11` as `(11)`.
+      input.value = '11';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      fixture.detectChanges();
+      expect(input.value).toBe('+55 (11)');
+
+      // Simulate one backspace at a time from the end, like a real user.
+      const backspace = (): void => {
+        const end = input.value.length;
+        input.selectionStart = end;
+        input.selectionEnd = end;
+        input.value = input.value.slice(0, -1);
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        fixture.detectChanges();
+      };
+
+      const seen = [input.value];
+      backspace();
+      seen.push(input.value);
+      // The auto-added `)` must not resurrect: first backspace drops it
+      // together with the last DDD digit.
+      expect(input.value).toBe('+55 1');
+
+      for (let step = 0; step < 6 && input.value !== ''; step += 1) {
+        backspace();
+        seen.push(input.value);
+      }
+      expect(input.value).toBe('');
+      expect(component.displayValue()).toBe('');
+      expect(component.internalValue()).toBe('');
+      expect(seen[seen.length - 2]).not.toBe('');
     });
   });
 });
