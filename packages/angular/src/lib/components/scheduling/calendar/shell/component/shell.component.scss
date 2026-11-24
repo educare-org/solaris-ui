@@ -143,7 +143,7 @@
 
 .solaris-calendar__mini-day[data-today] {
   background: var(--solaris-primary-solid);
-  color: var(--solaris-primary-foreground);
+  color: var(--solaris-primary-on-solid);
 }
 
 .solaris-calendar__mini-day[data-active] {

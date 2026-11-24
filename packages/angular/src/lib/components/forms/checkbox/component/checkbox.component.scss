@@ -245,7 +245,7 @@
 
 :host([data-color='primary'][data-checked]),
 :host([data-color='primary'][data-indeterminate]) {
-  --solaris-checkbox-color: var(--solaris-primary-foreground);
+  --solaris-checkbox-color: var(--solaris-primary-on-solid);
   --solaris-checkbox-background: var(--solaris-primary-solid);
   --solaris-checkbox-border-color: var(--solaris-primary-solid);
 }

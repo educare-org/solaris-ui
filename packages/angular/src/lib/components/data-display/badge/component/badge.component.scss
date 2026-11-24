@@ -412,7 +412,7 @@
 }
 
 :host([data-color='primary'][data-appearance='solid']) {
-  --solaris-badge-color: var(--solaris-primary-foreground);
+  --solaris-badge-color: var(--solaris-primary-on-solid);
   --solaris-badge-background: var(--solaris-primary-solid);
 }
 
