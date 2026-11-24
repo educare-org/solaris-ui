@@ -1,26 +1,26 @@
 import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
-  input,
   computed,
-  signal,
-  output,
+  contentChild,
   effect,
+  ElementRef,
   forwardRef,
   inject,
-  viewChild,
-  contentChild,
-  ElementRef,
-  AfterViewInit,
+  input,
   OnDestroy,
   OnInit,
-  ChangeDetectionStrategy,
+  output,
   PLATFORM_ID,
+  signal,
+  viewChild,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import {
-  NG_VALUE_ACCESSOR,
   type ControlValueAccessor,
   FormsModule,
+  NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
@@ -34,8 +34,8 @@ import {
 } from '../../form-field';
 import { SolarisInputDirective } from '../../input';
 import { SolarisIconComponent } from '../../../icon';
-import { SolarisTranslateService } from '../../../../services/translation';
 import type { SolarisTranslateParams } from '../../../../services/translation';
+import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import type { SolarisIconName } from '../../../../services/icon';
 import {
@@ -49,12 +49,12 @@ import {
   SOLARIS_PHONE_INITIAL_COUNTRY_LOOKUP,
 } from '../model/phone-field.tokens';
 import {
-  formatAsYouType,
-  toValidE164,
   detectCountry,
+  formatAsYouType,
   formatE164,
   getExampleNumberFor,
   getMaxNationalNumberLength,
+  toValidE164,
 } from '../model/phone-format';
 import {
   adjustRawForTrailingFormatDeletion,
@@ -276,10 +276,6 @@ export class SolarisPhoneFieldComponent
     () => this.selectedCountryObject()?.flag ?? '',
   );
 
-  protected readonly selectedCallingCode = computed(
-    () => this.selectedCountryObject()?.callingCode ?? '',
-  );
-
   protected readonly hasPrefix = computed(() => true);
 
   protected readonly hasSuffix = computed(() => {
@@ -376,10 +372,6 @@ export class SolarisPhoneFieldComponent
     }
   }
 
-  /**
-   * Imperative validity check without side effects: it never marks the field
-   * as touched, never emits outputs and never writes signals.
-   */
   isValid(): boolean {
     if (this.invalidInput() === true) {
       return false;
@@ -391,10 +383,6 @@ export class SolarisPhoneFieldComponent
     );
   }
 
-  /**
-   * Snapshot of the currently selected country. Returns a shallow copy so
-   * consumers cannot mutate the internal list; never emits or writes state.
-   */
   getCountryData(): SolarisCountry | undefined {
     const selected = this.selectedCountryObject();
     return selected ? { ...selected } : undefined;
@@ -426,14 +414,6 @@ export class SolarisPhoneFieldComponent
     return getMaxNationalNumberLength(this.effectiveCountry());
   });
 
-  /**
-   * Native `maxlength` for the inner input. `effectiveMaxLength` counts
-   * national digits, but the input displays the formatted value (e.g. BR
-   * `(11) 99999-8888` is 15 chars for 11 digits). Binding the digit count
-   * directly would truncate the formatted text while typing, so the native
-   * limit is derived from the formatted length instead. Digit capping is
-   * still enforced in `onInput`.
-   */
   protected readonly inputMaxLength = computed(() => {
     const max = this.effectiveMaxLength();
     if (!max || max <= 0) {
@@ -668,18 +648,9 @@ export class SolarisPhoneFieldComponent
     if (!this.dirty()) {
       this.dirty.set(true);
     }
-
-    // Typing always dismisses the country panel so the list never
-    // overlaps the field mid-edit (the search box inside the panel is a
-    // separate input and is unaffected). No focus restore: the user is
-    // already interacting with the phone input and stealing focus back
-    // would drop keystrokes.
     this.dismissCountryPanel();
 
     const current = this.effectiveCountry();
-    // Deletion assist: when backspace removes only auto-added formatting
-    // (e.g. the `)` in `+55 (11)`), also drop the last digit so the number
-    // visibly shrinks instead of resurrecting the formatting character.
     const effectiveRaw = adjustRawForTrailingFormatDeletion(
       raw,
       this.displayValue(),
@@ -688,7 +659,7 @@ export class SolarisPhoneFieldComponent
       effectiveRaw,
       current,
       this.countries(),
-      this.effectiveMaxLength(),
+      this.maxLength(),
     );
 
     if (parsed.country !== current && !this.country()) {
@@ -737,8 +708,6 @@ export class SolarisPhoneFieldComponent
 
   protected onInputFocus(): void {
     this.internalFocused.set(true);
-    // Same no-restore dismissal as typing: focusing the field means the
-    // user took the interaction back from an open panel.
     this.dismissCountryPanel();
   }
 
@@ -774,14 +743,6 @@ export class SolarisPhoneFieldComponent
     this.popoverTrigger()?.close();
   }
 
-  /**
-   * Silently dismiss the panel without restoring focus. Used when the
-   * interaction already lives in the phone input (typing, focusing,
-   * clearing): restoring focus to the pre-open element would blur the
-   * input and drop keystrokes. Panel-initiated closes (option select,
-   * Escape/Tab in the search) keep using `closeCountryPanel` so focus
-   * returns to the trigger as documented.
-   */
   protected dismissCountryPanel(): void {
     this.popoverTrigger()?.close({ restoreFocus: false });
   }
@@ -798,49 +759,69 @@ export class SolarisPhoneFieldComponent
     this.selectedCountry.set(country.code);
     this.countryChange.emit(country.code);
 
-    const digits = this.displayValue().replace(/\D+/g, '');
-    let national = digits;
+    const national = this.stripPreviousCallingCode(
+      this.displayValue().replace(/\D+/g, ''),
+      previousCallingCode,
+      country,
+    );
+    if (national) {
+      this.applyCountrySelection(country, national);
+    } else {
+      this.clearCountrySelectionDisplay();
+    }
+
+    this.popoverTrigger()?.close();
+  }
+
+  private stripPreviousCallingCode(
+    national: string,
+    previousCallingCode: string,
+    country: SolarisCountry,
+  ): string {
     if (
       previousCallingCode &&
       national.startsWith(previousCallingCode) &&
       previousCallingCode !== country.callingCode
     ) {
-      national = national.slice(previousCallingCode.length);
-    } else if (national.startsWith(country.callingCode)) {
-      national = national.slice(country.callingCode.length);
+      return national.slice(previousCallingCode.length);
     }
-    if (national) {
-      national = national.slice(0, this.effectiveMaxLength());
-      const formatted = formatAsYouType(national, country.code);
-      const display = formatInternationalDisplay(
-        country.callingCode,
-        formatted,
-      );
-      this.displayValue.set(display);
-      const input = this.inputElementRef()?.nativeElement;
-      if (input && input.value !== display) {
-        input.value = display;
-        try {
-          input.setSelectionRange(display.length, display.length);
-        } catch {
-          // Caret placement is best-effort after a country switch.
-        }
-      }
-      const e164 = toValidE164(display, country.code);
-      if (e164) {
-        this.internalValue.set(e164);
-        this.onChange(e164);
-        this.valueChange.emit(e164);
-      }
-    } else {
-      this.displayValue.set('');
-      const input = this.inputElementRef()?.nativeElement;
-      if (input && input.value !== '') {
-        input.value = '';
-      }
+    if (national.startsWith(country.callingCode)) {
+      return national.slice(country.callingCode.length);
     }
+    return national;
+  }
 
-    this.popoverTrigger()?.close();
+  private applyCountrySelection(
+    country: SolarisCountry,
+    national: string,
+  ): void {
+    const trimmed = national.slice(0, this.effectiveMaxLength());
+    const formatted = formatAsYouType(trimmed, country.code);
+    const display = formatInternationalDisplay(country.callingCode, formatted);
+    this.displayValue.set(display);
+    const input = this.inputElementRef()?.nativeElement;
+    if (input && input.value !== display) {
+      input.value = display;
+      try {
+        input.setSelectionRange(display.length, display.length);
+      } catch {
+        // Caret placement is best-effort after a country switch.
+      }
+    }
+    const e164 = toValidE164(display, country.code);
+    if (e164) {
+      this.internalValue.set(e164);
+      this.onChange(e164);
+      this.valueChange.emit(e164);
+    }
+  }
+
+  private clearCountrySelectionDisplay(): void {
+    this.displayValue.set('');
+    const input = this.inputElementRef()?.nativeElement;
+    if (input && input.value !== '') {
+      input.value = '';
+    }
   }
 
   private applyDisplayFromValue(e164: string): void {
@@ -848,10 +829,7 @@ export class SolarisPhoneFieldComponent
       this.displayValue.set('');
       return;
     }
-    const { country, display } = formatE164ForDisplay(
-      e164,
-      this.effectiveCountry(),
-    );
+    const { country, display } = formatE164ForDisplay(e164);
     if (country && !this.country() && this.countryAllowed(country)) {
       this.selectedCountry.set(country);
     }

@@ -57,14 +57,14 @@ describe('parseEditablePhoneInput', () => {
 
 describe('formatE164ForDisplay', () => {
   it('returns empty display for empty E.164', () => {
-    expect(formatE164ForDisplay('', 'BR')).toEqual({
+    expect(formatE164ForDisplay('')).toEqual({
       country: undefined,
       display: '',
     });
   });
 
   it('prefixes the national format with the calling code', () => {
-    const { country, display } = formatE164ForDisplay('+5511999998888', 'BR');
+    const { country, display } = formatE164ForDisplay('+5511999998888');
     expect(country).toBe('BR');
     expect(display.startsWith('+55')).toBe(true);
     expect(display).toContain('99999-8888');

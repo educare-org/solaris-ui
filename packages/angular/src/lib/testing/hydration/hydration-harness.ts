@@ -1,4 +1,3 @@
-import '@angular/compiler';
 import type { ApplicationRef, Type } from '@angular/core';
 import {
   bootstrapApplication,
@@ -32,7 +31,7 @@ const HYDRATION_FAILURE_PATTERN =
   /NG0500|NG0501|NG0502|NG0503|NG0504|NG0505|hydrat/i;
 
 function extractBody(html: string): string {
-  return html.match(/<body[^>]*>([\s\S]*)<\/body>/i)?.[1] ?? html;
+  return new RegExp(/<body[^>]*>([\s\S]*)<\/body>/i).exec(html)?.[1] ?? html;
 }
 
 export async function renderServerHtml(
@@ -53,7 +52,7 @@ export async function renderServerHtml(
         context,
       ),
     {
-      document: `<html><head></head><body><${tag}></${tag}></body></html>`,
+      document: `<html lang=""><head></head><body><${tag}></${tag}></body></html>`,
       url: '/',
     },
   );
