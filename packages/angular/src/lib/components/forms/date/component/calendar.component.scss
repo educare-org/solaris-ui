@@ -154,7 +154,7 @@
 }
 
 .solaris-date-calendar__month-option[data-selected] {
-  color: var(--solaris-primary-foreground);
+  color: var(--solaris-primary-on-solid);
   background: var(--solaris-primary-solid);
 }
 
@@ -174,7 +174,7 @@
 }
 
 .solaris-date-calendar__day[data-selected] {
-  color: var(--solaris-primary-foreground);
+  color: var(--solaris-primary-on-solid);
   background: var(--solaris-primary-solid);
 }
 
