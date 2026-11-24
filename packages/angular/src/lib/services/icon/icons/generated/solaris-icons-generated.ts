@@ -116,6 +116,52 @@ export const SOLARIS_GENERATED_ICONS: SolarisIconDefinition[] = [
     ],
   },
   {
+    name: 'arrow-left-to-line',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'path',
+        d: 'M3 19V5',
+      },
+      {
+        type: 'path',
+        d: 'm13 6-6 6 6 6',
+      },
+      {
+        type: 'path',
+        d: 'M7 12h14',
+      },
+    ],
+  },
+  {
+    name: 'arrow-right-to-line',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'path',
+        d: 'M17 12H3',
+      },
+      {
+        type: 'path',
+        d: 'm11 18 6-6-6-6',
+      },
+      {
+        type: 'path',
+        d: 'M21 5v14',
+      },
+    ],
+  },
+  {
     name: 'backpack',
     viewBox: '0 0 24 24',
     fill: 'none',
@@ -578,6 +624,35 @@ export const SOLARIS_GENERATED_ICONS: SolarisIconDefinition[] = [
         stroke: 'currentColor',
         strokeWidth: 1.5,
         strokeLinejoin: 'round',
+      },
+    ],
+  },
+  {
+    name: 'case-sensitive',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'path',
+        d: 'm2 16 4.039-9.69a.5.5 0 0 1 .923 0L11 16',
+      },
+      {
+        type: 'path',
+        d: 'M22 9v7',
+      },
+      {
+        type: 'path',
+        d: 'M3.304 13h6.392',
+      },
+      {
+        type: 'circle',
+        cx: 18.5,
+        cy: 12.5,
+        r: 3.5,
       },
     ],
   },
@@ -1991,6 +2066,38 @@ export const SOLARIS_GENERATED_ICONS: SolarisIconDefinition[] = [
     ],
   },
   {
+    name: 'italic',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'line',
+        x1: 19,
+        x2: 10,
+        y1: 4,
+        y2: 4,
+      },
+      {
+        type: 'line',
+        x1: 14,
+        x2: 5,
+        y1: 20,
+        y2: 20,
+      },
+      {
+        type: 'line',
+        x1: 15,
+        x2: 9,
+        y1: 4,
+        y2: 20,
+      },
+    ],
+  },
+  {
     name: 'java',
     viewBox: '0 0 485 485',
     fill: 'currentColor',
@@ -2144,6 +2251,21 @@ export const SOLARIS_GENERATED_ICONS: SolarisIconDefinition[] = [
     ],
   },
   {
+    name: 'letter-b',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'path',
+        d: 'M6 12h9a4 4 0 010 8H7a1 1 0 01-1-1V5a1 1 0 011-1h7a4 4 0 010 8',
+      },
+    ],
+  },
+  {
     name: 'link-2',
     viewBox: '0 0 24 24',
     fill: 'none',
@@ -2220,6 +2342,41 @@ export const SOLARIS_GENERATED_ICONS: SolarisIconDefinition[] = [
       {
         type: 'path',
         d: 'M6.5 20H3.4c0-1 2.6-1.925 2.6-3.5a1.5 1.5 0 0 0-2.6-1.02',
+      },
+    ],
+  },
+  {
+    name: 'list-todo',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'path',
+        d: 'M13 5h8',
+      },
+      {
+        type: 'path',
+        d: 'M13 12h8',
+      },
+      {
+        type: 'path',
+        d: 'M13 19h8',
+      },
+      {
+        type: 'path',
+        d: 'm3 17 2 2 4-4',
+      },
+      {
+        type: 'rect',
+        x: 3,
+        y: 4,
+        width: 6,
+        height: 6,
+        rx: 1,
       },
     ],
   },
@@ -3206,6 +3363,25 @@ export const SOLARIS_GENERATED_ICONS: SolarisIconDefinition[] = [
     ],
   },
   {
+    name: 'redo-2',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'path',
+        d: 'm15 14 5-5-5-5',
+      },
+      {
+        type: 'path',
+        d: 'M20 9H9.5A5.5 5.5 0 0 0 4 14.5A5.5 5.5 0 0 0 9.5 20H13',
+      },
+    ],
+  },
+  {
     name: 'refresh-back',
     viewBox: '0 0 24 24',
     fill: 'none',
@@ -4179,6 +4355,55 @@ export const SOLARIS_GENERATED_ICONS: SolarisIconDefinition[] = [
     ],
   },
   {
+    name: 'strikethrough',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'path',
+        d: 'M16 4H9a3 3 0 0 0-2.83 4',
+      },
+      {
+        type: 'path',
+        d: 'M14 12a4 4 0 0 1 0 8H6',
+      },
+      {
+        type: 'line',
+        x1: 4,
+        x2: 20,
+        y1: 12,
+        y2: 12,
+      },
+    ],
+  },
+  {
+    name: 'subscript',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'path',
+        d: 'm4 5 8 8',
+      },
+      {
+        type: 'path',
+        d: 'm12 5-8 8',
+      },
+      {
+        type: 'path',
+        d: 'M20 19h-4c0-1.5.44-2 1.5-2.5S20 15.33 20 14c0-.47-.17-.93-.48-1.29a2.11 2.11 0 0 0-2.62-.44c-.42.24-.74.62-.9 1.07',
+      },
+    ],
+  },
+  {
     name: 'success',
     viewBox: '0 0 24 24',
     elements: [
@@ -4244,6 +4469,29 @@ export const SOLARIS_GENERATED_ICONS: SolarisIconDefinition[] = [
     ],
   },
   {
+    name: 'superscript',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'path',
+        d: 'm4 19 8-8',
+      },
+      {
+        type: 'path',
+        d: 'm12 19-8-8',
+      },
+      {
+        type: 'path',
+        d: 'M20 12h-4c0-1.5.442-2 1.5-2.5S20 8.334 20 7.002c0-.472-.17-.93-.484-1.29a2.105 2.105 0 0 0-2.617-.436c-.42.239-.738.614-.899 1.06',
+      },
+    ],
+  },
+  {
     name: 'table',
     viewBox: '0 0 24 24',
     fill: 'none',
@@ -4271,6 +4519,98 @@ export const SOLARIS_GENERATED_ICONS: SolarisIconDefinition[] = [
       {
         type: 'path',
         d: 'M3 15h18',
+      },
+    ],
+  },
+  {
+    name: 'text-align-center',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'path',
+        d: 'M21 5H3',
+      },
+      {
+        type: 'path',
+        d: 'M17 12H7',
+      },
+      {
+        type: 'path',
+        d: 'M19 19H5',
+      },
+    ],
+  },
+  {
+    name: 'text-align-end',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'path',
+        d: 'M21 5H3',
+      },
+      {
+        type: 'path',
+        d: 'M21 12H9',
+      },
+      {
+        type: 'path',
+        d: 'M21 19H7',
+      },
+    ],
+  },
+  {
+    name: 'text-align-justify',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'path',
+        d: 'M3 5h18',
+      },
+      {
+        type: 'path',
+        d: 'M3 12h18',
+      },
+      {
+        type: 'path',
+        d: 'M3 19h18',
+      },
+    ],
+  },
+  {
+    name: 'text-align-start',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'path',
+        d: 'M21 5H3',
+      },
+      {
+        type: 'path',
+        d: 'M15 12H3',
+      },
+      {
+        type: 'path',
+        d: 'M17 19H3',
       },
     ],
   },
@@ -4418,6 +4758,47 @@ export const SOLARIS_GENERATED_ICONS: SolarisIconDefinition[] = [
         fillRule: 'evenodd',
         clipRule: 'evenodd',
         d: 'M0 0H15V15H0V0ZM10 6C8.89543 6 8 6.89543 8 8C8 9.10457 8.89543 10 10 10H11C11.5523 10 12 10.4477 12 11C12 11.5523 11.5523 12 11 12H10C9.44772 12 9 11.5523 9 11H8C8 12.1046 8.89543 13 10 13H11C12.1046 13 13 12.1046 13 11C13 9.89543 12.1046 9 11 9H10C9.44772 9 9 8.55228 9 8C9 7.44772 9.44772 7 10 7H11.1667C11.6269 7 12 7.3731 12 7.83333V8H13V7.83333C13 6.82081 12.1792 6 11.1667 6H10ZM3 6H8V7H6V13H5V7H3V6Z',
+      },
+    ],
+  },
+  {
+    name: 'underline',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'path',
+        d: 'M6 4v6a6 6 0 0 0 12 0V4',
+      },
+      {
+        type: 'line',
+        x1: 4,
+        x2: 20,
+        y1: 20,
+        y2: 20,
+      },
+    ],
+  },
+  {
+    name: 'undo-2',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'path',
+        d: 'M9 14 4 9l5-5',
+      },
+      {
+        type: 'path',
+        d: 'M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11',
       },
     ],
   },
