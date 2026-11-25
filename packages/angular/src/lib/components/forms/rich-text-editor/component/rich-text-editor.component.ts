@@ -961,13 +961,9 @@ export class SolarisRichTextEditorComponent
     const figure = this.selectedFigure();
     const html = figure?.outerHTML;
     if (!figure || !html || !navigator.clipboard) return;
-    try {
-      navigator.clipboard.writeText(html).catch(() => {
-        if (isDevMode()) console.warn('[SolarisRichText] Image copy failed.');
-      });
-    } catch {
+    void navigator.clipboard.writeText(html).catch(() => {
       if (isDevMode()) console.warn('[SolarisRichText] Image copy failed.');
-    }
+    });
   }
 
   private syncImagePanel(): void {
