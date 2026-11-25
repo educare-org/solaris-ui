@@ -959,10 +959,12 @@ export class SolarisRichTextEditorComponent
     if (typeof document === 'undefined' || typeof navigator === 'undefined')
       return;
     const figure = this.selectedFigure();
+    const html = figure?.outerHTML;
+    if (!figure || !html || !navigator.clipboard) return;
     try {
-      const html = figure?.outerHTML;
-      if (!figure || !html || !navigator.clipboard) return;
-      void navigator.clipboard.writeText(html);
+      navigator.clipboard.writeText(html).catch(() => {
+        if (isDevMode()) console.warn('[SolarisRichText] Image copy failed.');
+      });
     } catch {
       if (isDevMode()) console.warn('[SolarisRichText] Image copy failed.');
     }
@@ -1608,75 +1610,100 @@ export class SolarisRichTextEditorComponent
     attr: 'data-color' | 'data-highlight',
     color: SolarisRichTextColor | SolarisRichTextHighlight,
   ): void {
-    if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
-    if (this.contentFormat() !== 'rich') return;
-    if (typeof document === 'undefined') return;
-    const editor = this.editorRef();
-    if (!editor) return;
+    const host = this.dataSpanHost();
+    if (!host) return;
     this.restoreSelection();
     try {
-      const selection = document.getSelection();
-      if (
-        selection &&
-        selection.rangeCount > 0 &&
-        !selection.isCollapsed &&
-        editor.nativeElement.contains(
-          selection.getRangeAt(0).commonAncestorContainer,
-        )
-      ) {
-        const range = selection.getRangeAt(0);
-        expandRangeToInlineAncestors(range, editor.nativeElement);
-        const text = stripHtmlToText(range.toString());
-        if (text.length === 0) return;
-        const probe = document.createElement('div');
-        probe.appendChild(range.cloneContents());
-        const existingColor =
-          probe.querySelector('[data-color]')?.getAttribute('data-color') ??
-          'default';
-        const existingHighlight =
-          probe
-            .querySelector('[data-highlight]')
-            ?.getAttribute('data-highlight') ?? 'default';
-        const nextColor = attr === 'data-color' ? color : existingColor;
-        const nextHighlight =
-          attr === 'data-highlight' ? color : existingHighlight;
-        const merged = buildDataSpanHtml({
-          color: nextColor as SolarisRichTextColor,
-          highlight: nextHighlight as SolarisRichTextHighlight,
-          text,
-        });
-        this.insertMergedSpan(range, selection, merged);
-        this.emitFromDom();
-        this.activeColor.set(nextColor as SolarisRichTextColor);
-        this.activeHighlight.set(nextHighlight as SolarisRichTextHighlight);
-        try {
-          this.lastRange = selection.rangeCount
-            ? selection.getRangeAt(0).cloneRange()
-            : null;
-        } catch {
-          this.lastRange = null;
-        }
-        return;
-      }
-      if (attr === 'data-color') {
-        this.toggleCaretDataSpan(
-          editor.nativeElement,
-          attr,
-          color as SolarisRichTextColor,
-          this.activeColor,
-        );
-      } else {
-        this.toggleCaretDataSpan(
-          editor.nativeElement,
-          attr,
-          color as SolarisRichTextHighlight,
-          this.activeHighlight,
-        );
-      }
+      if (this.tryApplyDataSpanToRange(attr, color, host)) return;
+      this.applyDataSpanToCaret(host, attr, color);
       this.emitFromDom();
     } catch {
       if (isDevMode()) console.warn('[SolarisRichText] Span color failed.');
     }
+  }
+
+  private dataSpanHost(): HTMLElement | null {
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) return null;
+    if (this.contentFormat() !== 'rich') return null;
+    if (typeof document === 'undefined') return null;
+    return this.editorRef()?.nativeElement ?? null;
+  }
+
+  private readDataSpanSelection(
+    host: HTMLElement,
+  ): { range: Range; selection: Selection } | null {
+    const selection = document.getSelection();
+    if (!selection || selection.rangeCount === 0 || selection.isCollapsed)
+      return null;
+    const range = selection.getRangeAt(0);
+    if (!host.contains(range.commonAncestorContainer)) return null;
+    return { range, selection };
+  }
+
+  private tryApplyDataSpanToRange(
+    attr: 'data-color' | 'data-highlight',
+    color: SolarisRichTextColor | SolarisRichTextHighlight,
+    host: HTMLElement,
+  ): boolean {
+    const selected = this.readDataSpanSelection(host);
+    if (!selected) return false;
+    const { range, selection } = selected;
+    expandRangeToInlineAncestors(range, host);
+    const text = stripHtmlToText(range.toString());
+    if (text.length === 0) return true;
+    const probe = document.createElement('div');
+    probe.appendChild(range.cloneContents());
+    const existingColor =
+      probe.querySelector('[data-color]')?.getAttribute('data-color') ??
+      'default';
+    const existingHighlight =
+      probe.querySelector('[data-highlight]')?.getAttribute('data-highlight') ??
+      'default';
+    const nextColor = attr === 'data-color' ? color : existingColor;
+    const nextHighlight = attr === 'data-highlight' ? color : existingHighlight;
+    const merged = buildDataSpanHtml({
+      color: nextColor as SolarisRichTextColor,
+      highlight: nextHighlight as SolarisRichTextHighlight,
+      text,
+    });
+    this.insertMergedSpan(range, selection, merged);
+    this.emitFromDom();
+    this.activeColor.set(nextColor as SolarisRichTextColor);
+    this.activeHighlight.set(nextHighlight as SolarisRichTextHighlight);
+    this.rememberSelectionRange(selection);
+    return true;
+  }
+
+  private rememberSelectionRange(selection: Selection): void {
+    try {
+      this.lastRange = selection.rangeCount
+        ? selection.getRangeAt(0).cloneRange()
+        : null;
+    } catch {
+      this.lastRange = null;
+    }
+  }
+
+  private applyDataSpanToCaret(
+    host: HTMLElement,
+    attr: 'data-color' | 'data-highlight',
+    color: SolarisRichTextColor | SolarisRichTextHighlight,
+  ): void {
+    if (attr === 'data-color') {
+      this.toggleCaretDataSpan(
+        host,
+        attr,
+        color as SolarisRichTextColor,
+        this.activeColor,
+      );
+      return;
+    }
+    this.toggleCaretDataSpan(
+      host,
+      attr,
+      color as SolarisRichTextHighlight,
+      this.activeHighlight,
+    );
   }
 
   private insertMergedSpan(
@@ -1706,53 +1733,90 @@ export class SolarisRichTextEditorComponent
     color: T,
     active: WritableSignal<T>,
   ): void {
+    const caretNode = this.caretContainerNode();
+    const anySpan = this.closestDataSpan(
+      caretNode,
+      'span[data-color],span[data-highlight]',
+    );
+    if (this.tryUpdateEmptyAnySpan(host, anySpan, attr, color, active)) return;
+    const span = this.closestDataSpan(caretNode, `span[${attr}]`);
+    if (this.tryUpdateAttrSpan(host, span, attr, color, active)) return;
+    this.insertCaretDataSpan(host, attr, color, active);
+  }
+
+  private caretContainerNode(): Node | null {
     const selection = document.getSelection();
-    const caretNode =
-      selection && selection.rangeCount > 0
-        ? selection.getRangeAt(0).commonAncestorContainer
-        : null;
-    const anySpan =
-      (caretNode instanceof Element
-        ? caretNode.closest('span[data-color],span[data-highlight]')
-        : caretNode?.parentElement?.closest(
-            'span[data-color],span[data-highlight]',
-          )) ?? null;
-    if (anySpan && host.contains(anySpan) && isEmptyMarker(anySpan)) {
-      if (color === 'default' || anySpan.getAttribute(attr) === color) {
-        anySpan.removeAttribute(attr);
-        if (
-          !anySpan.hasAttribute('data-color') &&
-          !anySpan.hasAttribute('data-highlight')
-        ) {
-          anySpan.remove();
-        }
-        active.set('default' as T);
-        return;
-      }
-      anySpan.setAttribute(attr, color);
-      active.set(color);
-      return;
+    if (!selection || selection.rangeCount === 0) return null;
+    return selection.getRangeAt(0).commonAncestorContainer;
+  }
+
+  private closestDataSpan(node: Node | null, selector: string): Element | null {
+    if (!node) return null;
+    if (node instanceof Element) return node.closest(selector);
+    return node.parentElement?.closest(selector) ?? null;
+  }
+
+  private tryUpdateEmptyAnySpan<T extends string>(
+    host: HTMLElement,
+    anySpan: Element | null,
+    attr: 'data-color' | 'data-highlight',
+    color: T,
+    active: WritableSignal<T>,
+  ): boolean {
+    if (!anySpan || !host.contains(anySpan) || !isEmptyMarker(anySpan))
+      return false;
+    if (color === 'default' || anySpan.getAttribute(attr) === color) {
+      this.clearDataSpanAttr(anySpan, attr);
+      active.set('default' as T);
+      return true;
     }
-    let span =
-      caretNode instanceof Element ? caretNode.closest(`span[${attr}]`) : null;
-    if (!span && caretNode) {
-      span = caretNode.parentElement?.closest(`span[${attr}]`) ?? null;
+    anySpan.setAttribute(attr, color);
+    active.set(color);
+    return true;
+  }
+
+  private clearDataSpanAttr(
+    span: Element,
+    attr: 'data-color' | 'data-highlight',
+  ): void {
+    span.removeAttribute(attr);
+    if (
+      !span.hasAttribute('data-color') &&
+      !span.hasAttribute('data-highlight')
+    ) {
+      span.remove();
     }
-    if (span && host.contains(span)) {
-      if (isEmptyMarker(span)) {
-        span.remove();
-        active.set('default' as T);
-        return;
-      }
-      if (color === 'default' || span.getAttribute(attr) === color) {
-        this.exitElement(span);
-        active.set('default' as T);
-        return;
-      }
-      span.setAttribute(attr, color);
-      active.set(color);
-      return;
+  }
+
+  private tryUpdateAttrSpan<T extends string>(
+    host: HTMLElement,
+    span: Element | null,
+    attr: 'data-color' | 'data-highlight',
+    color: T,
+    active: WritableSignal<T>,
+  ): boolean {
+    if (!span || !host.contains(span)) return false;
+    if (isEmptyMarker(span)) {
+      span.remove();
+      active.set('default' as T);
+      return true;
     }
+    if (color === 'default' || span.getAttribute(attr) === color) {
+      this.exitElement(span);
+      active.set('default' as T);
+      return true;
+    }
+    span.setAttribute(attr, color);
+    active.set(color);
+    return true;
+  }
+
+  private insertCaretDataSpan<T extends string>(
+    host: HTMLElement,
+    attr: 'data-color' | 'data-highlight',
+    color: T,
+    active: WritableSignal<T>,
+  ): void {
     if (color === 'default') return;
     active.set(color);
     this.insertCaretMarker(
