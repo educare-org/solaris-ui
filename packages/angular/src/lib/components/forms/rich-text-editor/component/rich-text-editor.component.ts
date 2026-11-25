@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
+import type { WritableSignal } from '@angular/core';
 import {
   AfterViewInit,
-  Component,
   booleanAttribute,
   ChangeDetectionStrategy,
+  Component,
   computed,
   DestroyRef,
   ElementRef,
@@ -16,49 +17,38 @@ import {
   output,
   signal,
   viewChild,
-  viewChildren,
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
+import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
-import {
-  SOLARIS_FORM_FIELD,
-  SolarisFormFieldComponent,
-} from '../../form-field';
+import { SOLARIS_FORM_FIELD } from '../../form-field';
 import { resolveElementId } from '../../../../core';
 import { SolarisThemeService } from '../../../../services/theme';
-import {
-  SolarisTranslatePipe,
-  SolarisTranslateService,
-} from '../../../../services/translation';
-import { SolarisIconComponent } from '../../../icon';
-import { SolarisTooltipDirective } from '../../../interaction/tooltip';
-import {
-  SolarisPopoverDirective,
-  SolarisPopoverTriggerDirective,
-} from '../../../interaction/popover';
-import { SolarisInputDirective } from '../../input';
-import { SolarisButtonDirective } from '../../../actions/button';
-import { SolarisButtonGroupComponent } from '../../../actions/button-group';
-import { SolarisIconButtonDirective } from '../../../actions/icon-button';
-import {
-  SolarisDropdownMenuComponent,
-  SolarisDropdownMenuItemComponent,
-  SolarisDropdownMenuTriggerDirective,
-} from '../../../interaction/dropdown-menu';
-import { SolarisDividerComponent } from '../../../data-display/divider';
-import { SolarisSelectComponent } from '../../select';
-import { SolarisOptionComponent } from '../../option';
+import { SolarisTranslateService } from '../../../../services/translation';
+import { SolarisRichTextToolbarComponent } from './toolbar/toolbar.component';
+import { SolarisRichTextCodePanelComponent } from './code-panel/code-panel.component';
+import { SolarisRichTextImagePanelComponent } from './image-panel/image-panel.component';
+import { SolarisRichTextEditingEngine } from './rich-text-editor.engine';
+import type {
+  SolarisRgb,
+  SolarisRichTextAlign,
+  SolarisRichTextBlockTag,
+  SolarisRichTextColor,
+  SolarisRichTextHighlight,
+  SolarisRichTextHistoryKind,
+  SolarisRichTextImageError,
+} from '../functions/rich-text-editor.utils';
 import {
   accumulateActiveElement,
+  blockKindForTag,
   buildBlockHtml,
+  buildCodeBlockHtml,
   buildDataSpanHtml,
   buildImageFigureHtml,
   buildLinkHtml,
   buildListHtml,
   buildTableHtml,
   buildTaskListHtml,
-  clampImageWidth,
   clampTableDimension,
   cleanCommittedHtml,
   contrastRatio,
@@ -72,30 +62,30 @@ import {
   insertTableBlock,
   isEmptyValue,
   isSafeHttpUrl,
+  normalizeCodeLanguage,
   normalizeEditorValue,
   parseCssRgb,
   parseCssRgba,
-  RICH_TEXT_ZERO_WIDTH_SPACE,
   removeHighlightSpans,
+  RICH_TEXT_ZERO_WIDTH_SPACE,
   shouldCoalesceHistory,
   stripHtmlToText,
   toPlainText,
+  trimTrailingWhitespace,
   unwrapInlineFormatting,
   validateImageSelection,
 } from '../functions/rich-text-editor.utils';
 import {
-  anchorOf,
   closestTag,
   describeFigureWidth,
   expandRangeToInlineAncestors,
   isEmptyMarker,
   sharedInlineAncestor,
 } from '../functions/rich-text-editor.dom';
-
-import type { WritableSignal } from '@angular/core';
 import type {
   SolarisRichTextActiveMark,
   SolarisRichTextAppearance,
+  SolarisRichTextCodeLanguage,
   SolarisRichTextContentFormat,
   SolarisRichTextDensity,
   SolarisRichTextField,
@@ -110,16 +100,6 @@ import type {
   SolarisRichTextValue,
   SolarisRichTextVariant,
 } from '../model/rich-text-editor.types';
-
-import type {
-  SolarisRgb,
-  SolarisRichTextImageError,
-  SolarisRichTextHistoryKind,
-  SolarisRichTextAlign,
-  SolarisRichTextBlockTag,
-  SolarisRichTextColor,
-  SolarisRichTextHighlight,
-} from '../functions/rich-text-editor.utils';
 import {
   SOLARIS_RICH_TEXT_CONTRAST_AA_LARGE_RATIO,
   SOLARIS_RICH_TEXT_CONTRAST_AA_RATIO,
@@ -142,22 +122,9 @@ type RichTextEditorValueInput =
   standalone: true,
   imports: [
     CommonModule,
-    SolarisIconComponent,
-    SolarisTooltipDirective,
-    SolarisPopoverTriggerDirective,
-    SolarisPopoverDirective,
-    SolarisFormFieldComponent,
-    SolarisInputDirective,
-    SolarisButtonDirective,
-    SolarisButtonGroupComponent,
-    SolarisIconButtonDirective,
-    SolarisDropdownMenuComponent,
-    SolarisDropdownMenuTriggerDirective,
-    SolarisDropdownMenuItemComponent,
-    SolarisDividerComponent,
-    SolarisSelectComponent,
-    SolarisOptionComponent,
-    SolarisTranslatePipe,
+    SolarisRichTextToolbarComponent,
+    SolarisRichTextCodePanelComponent,
+    SolarisRichTextImagePanelComponent,
   ],
   templateUrl: './rich-text-editor.component.html',
   styleUrls: ['./rich-text-editor.component.scss'],
@@ -216,13 +183,9 @@ export class SolarisRichTextEditorComponent
 
   private readonly editorRef = viewChild<ElementRef<HTMLElement>>('editor');
 
-  private readonly toolbarTooltips = viewChildren(SolarisTooltipDirective);
+  private readonly engine = new SolarisRichTextEditingEngine();
 
-  private readonly linkPopoverTrigger = viewChild('linkTrigger', {
-    read: SolarisPopoverTriggerDirective,
-  });
-
-  protected readonly colorPanelOpen = signal(false);
+  private readonly toolbarRef = viewChild(SolarisRichTextToolbarComponent);
 
   readonly value = model<SolarisRichTextValue>(createEmptyValue());
   readonly variant = input<SolarisRichTextVariant>('document');
@@ -298,49 +261,6 @@ export class SolarisRichTextEditorComponent
     orderedList: false,
   });
   protected readonly blockTag = signal<SolarisRichTextBlockTag>('p');
-  protected readonly paletteColors: readonly SolarisRichTextColor[] = [
-    'default',
-    'primaryLight',
-    'successLight',
-    'warningLight',
-    'dangerLight',
-    'infoLight',
-    'accentLight',
-    'cyanLight',
-    'pinkLight',
-    'violetLight',
-    'muted',
-    'primary',
-    'success',
-    'warning',
-    'danger',
-    'info',
-    'accent',
-    'cyan',
-    'pink',
-    'violet',
-    'neutralDark',
-    'primaryDark',
-    'successDark',
-    'warningDark',
-    'dangerDark',
-    'infoDark',
-    'accentDark',
-    'cyanDark',
-    'pinkDark',
-    'violetDark',
-  ];
-
-  protected readonly highlightColors: readonly SolarisRichTextHighlight[] = [
-    'primary',
-    'success',
-    'warning',
-    'danger',
-    'info',
-    'accent',
-    'violet',
-    'neutral',
-  ];
   protected readonly activeAlign = signal<SolarisRichTextAlign>('left');
   protected readonly activeColor = signal<SolarisRichTextColor>('default');
   protected readonly activeHighlight =
@@ -353,6 +273,11 @@ export class SolarisRichTextEditorComponent
   protected readonly imagePanelTop = signal(0);
   protected readonly imagePanelLeft = signal(0);
   protected readonly imageBordered = signal(false);
+  protected readonly codePanelVisible = signal(false);
+  protected readonly codePanelTop = signal(0);
+  protected readonly codePanelLeft = signal(0);
+  protected readonly codeLanguage = signal<SolarisRichTextCodeLanguage>('auto');
+  protected readonly codeLineNumbers = signal(true);
   private lastRichValue: SolarisRichTextValue | null = null;
   private readonly objectUrls: string[] = [];
 
@@ -509,11 +434,6 @@ export class SolarisRichTextEditorComponent
     }
   }
 
-  @HostListener('click')
-  protected dismissToolbarTooltips(): void {
-    for (const tooltip of this.toolbarTooltips()) tooltip.close();
-  }
-
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange: (value: SolarisRichTextValue) => void = () => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -575,6 +495,7 @@ export class SolarisRichTextEditorComponent
     };
     this.commitValue(next, true, true);
     this.detectFieldTrigger(text);
+    this.normalizeActiveCodeBlock();
   }
 
   protected onEditorFocus(): void {
@@ -584,19 +505,21 @@ export class SolarisRichTextEditorComponent
 
   protected onEditorBlur(): void {
     this._focused.set(false);
-    this.rememberSelection();
+    this.engine.rememberSelection();
     if (!this.touched()) this.touched.set(true);
     this.onTouched();
     this.editorBlurred.emit();
   }
 
   ngAfterViewInit(): void {
+    this.engine.bind(this.editorRef()?.nativeElement ?? null);
     if (this.autofocus() && !this.isEffectivelyDisabled()) {
       this.focus();
     }
   }
 
   protected onEditorKeydown(event: KeyboardEvent): void {
+    if (this.handleCodeKey(event)) return;
     if (this.handleResizeHandleKey(event)) return;
     if (this.handleLinkShortcut(event)) return;
     if (this.handleListShortcuts(event)) return;
@@ -736,6 +659,7 @@ export class SolarisRichTextEditorComponent
     this.updateActiveStates();
     this.updateFloatingPosition();
     this.syncFigureSelection();
+    this.syncCodePanel();
   }
 
   protected onEditorMousedown(event: MouseEvent): void {
@@ -745,7 +669,8 @@ export class SolarisRichTextEditorComponent
     ) as HTMLElement | null;
     if (handle) {
       const figure = handle.closest('figure[data-image]') as HTMLElement | null;
-      if (figure) this.startFigureResize(event, figure);
+      if (figure)
+        this.engine.startFigureResize(event, figure, () => this.emitFromDom());
       return;
     }
     if (typeof document === 'undefined') return;
@@ -755,7 +680,7 @@ export class SolarisRichTextEditorComponent
       'figure[data-image]',
     ) as HTMLElement | null;
     if (!figure || !editor.nativeElement.contains(figure)) {
-      this.deselectFigure();
+      this.engine.deselectFigure();
       this.syncImagePanel();
       return;
     }
@@ -784,7 +709,7 @@ export class SolarisRichTextEditorComponent
     if (event.key === 'Escape') {
       event.preventDefault();
       event.stopPropagation();
-      this.deselectFigure();
+      this.engine.deselectFigure();
       this.focus();
       return;
     }
@@ -802,110 +727,14 @@ export class SolarisRichTextEditorComponent
   }
 
   private syncFigureSelection(): void {
-    if (typeof document === 'undefined') return;
-    const editor = this.editorRef();
-    if (!editor) return;
-    try {
-      const target = this.findFigureFromSelection(editor.nativeElement);
-      const selected = editor.nativeElement.querySelector(
-        'figure[data-image][data-selected]',
-      );
-      if (selected && selected !== target) {
-        selected.removeAttribute('data-selected');
-        selected.querySelector('.solaris-image-resize-handle')?.remove();
-      }
-      if (target && !target.hasAttribute('data-selected')) {
-        target.setAttribute('data-selected', '');
-        this.attachResizeHandle(target);
-      }
-    } catch {
-      if (isDevMode())
-        console.warn('[SolarisRichText] Figure selection failed.');
-    }
+    this.engine.updateFigureSelection(
+      this.translateService.translate('solaris.rich-text.imageResize'),
+    );
     this.syncImagePanel();
   }
 
-  private findFigureFromSelection(host: HTMLElement): HTMLElement | null {
-    const selection = document.getSelection();
-    if (!selection || selection.rangeCount === 0) return null;
-    const anchor = selection.anchorNode;
-    const el =
-      anchor instanceof Element ? anchor : (anchor?.parentElement ?? null);
-    const figure = el?.closest?.('figure[data-image]') as HTMLElement | null;
-    return figure && host.contains(figure) ? figure : null;
-  }
-
-  private attachResizeHandle(target: HTMLElement): void {
-    const handle = document.createElement('span');
-    handle.className = 'solaris-image-resize-handle';
-    handle.setAttribute('contenteditable', 'false');
-    handle.setAttribute('role', 'slider');
-    handle.setAttribute('tabindex', '0');
-    handle.setAttribute(
-      'aria-label',
-      this.translateService.translate('solaris.rich-text.imageResize'),
-    );
-    handle.setAttribute('aria-valuemin', '44');
-    target.appendChild(handle);
-    this.resizeFigure(target, target.getBoundingClientRect().width);
-  }
-
-  private deselectFigure(): void {
-    const editor = this.editorRef();
-    if (!editor || typeof document === 'undefined') return;
-    const selected = editor.nativeElement.querySelector(
-      'figure[data-image][data-selected]',
-    );
-    if (selected) {
-      selected.removeAttribute('data-selected');
-      selected.querySelector('.solaris-image-resize-handle')?.remove();
-    }
-    try {
-      const selection = document.getSelection();
-      const range =
-        selection && selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
-      const container =
-        range?.commonAncestorContainer instanceof Element
-          ? range.commonAncestorContainer
-          : (range?.commonAncestorContainer.parentElement ?? null);
-      const rangedFigure = container?.closest?.('figure[data-image]');
-      if (
-        range &&
-        rangedFigure &&
-        editor.nativeElement.contains(rangedFigure)
-      ) {
-        range.setStartAfter(rangedFigure);
-        range.collapse(true);
-        selection?.removeAllRanges();
-        selection?.addRange(range);
-      }
-      if (
-        this.lastRange &&
-        rangedFigure?.contains(this.lastRange.commonAncestorContainer)
-      ) {
-        this.lastRange = null;
-      }
-    } catch {
-      if (isDevMode())
-        console.warn('[SolarisRichText] Figure deselect failed.');
-    }
-  }
-
   private resizeFigure(figure: HTMLElement, widthPx: number): void {
-    const editor = this.editorRef();
-    if (!editor) return;
-    const max = Math.max(44, editor.nativeElement.clientWidth - 2);
-    const width = clampImageWidth(Math.round(widthPx), 44, max);
-    figure.style.width = `${width}px`;
-    describeFigureWidth(figure, width, max);
-  }
-
-  private selectedFigure(): HTMLElement | null {
-    const editor = this.editorRef();
-    if (!editor || typeof document === 'undefined') return null;
-    return editor.nativeElement.querySelector(
-      'figure[data-image][data-selected]',
-    );
+    this.engine.resizeFigure(figure, widthPx);
   }
 
   protected alignSelectedImage(align: SolarisRichTextAlign): void {
@@ -917,7 +746,7 @@ export class SolarisRichTextEditorComponent
   protected applyImagePreset(preset: SolarisRichTextImagePreset): void {
     if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
     const editor = this.editorRef();
-    const figure = this.selectedFigure();
+    const figure = this.engine.selectedFigure();
     if (!editor || !figure) return;
     if (preset === 'original') {
       figure.style.removeProperty('width');
@@ -939,7 +768,7 @@ export class SolarisRichTextEditorComponent
 
   protected toggleSelectedImageBorder(): void {
     if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
-    const figure = this.selectedFigure();
+    const figure = this.engine.selectedFigure();
     if (!figure) return;
     figure.toggleAttribute('data-bordered');
     this.imageBordered.set(figure.hasAttribute('data-bordered'));
@@ -949,7 +778,7 @@ export class SolarisRichTextEditorComponent
 
   protected removeImage(): void {
     if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
-    const figure = this.selectedFigure();
+    const figure = this.engine.selectedFigure();
     if (!figure) return;
     figure.remove();
     this.emitFromDom();
@@ -959,16 +788,16 @@ export class SolarisRichTextEditorComponent
 
   @HostListener('keydown.escape')
   protected closeImagePanel(): void {
-    this.deselectFigure();
+    this.engine.deselectFigure();
     this.syncImagePanel();
     this.focus();
   }
 
   protected focusImageHandle(): void {
     if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
-    const handle = this.selectedFigure()?.querySelector<HTMLElement>(
-      '.solaris-image-resize-handle',
-    );
+    const handle = this.engine
+      .selectedFigure()
+      ?.querySelector<HTMLElement>('.solaris-image-resize-handle');
     handle?.focus();
   }
 
@@ -976,11 +805,144 @@ export class SolarisRichTextEditorComponent
     if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
     if (typeof document === 'undefined' || typeof navigator === 'undefined')
       return;
-    const figure = this.selectedFigure();
+    const figure = this.engine.selectedFigure();
     const html = figure?.outerHTML;
     if (!figure || !html || !navigator.clipboard) return;
     void navigator.clipboard.writeText(html).catch(() => {
       if (isDevMode()) console.warn('[SolarisRichText] Image copy failed.');
+    });
+  }
+
+  private selectedCodeBlock(): HTMLElement | null {
+    const editor = this.editorRef();
+    if (!editor || typeof document === 'undefined') return null;
+    const selection = document.getSelection();
+    if (!selection || selection.rangeCount === 0) return null;
+    const node = selection.getRangeAt(0).commonAncestorContainer;
+    const pre = closestTag(node, 'PRE', editor.nativeElement);
+    if (!pre || !editor.nativeElement.contains(pre)) return null;
+    return pre as HTMLElement;
+  }
+
+  private syncCodePanel(): void {
+    if (typeof document === 'undefined' || typeof window === 'undefined') {
+      this.codePanelVisible.set(false);
+      return;
+    }
+    const editor = this.editorRef();
+    if (!editor) {
+      this.codePanelVisible.set(false);
+      return;
+    }
+    try {
+      const pre = this.selectedCodeBlock();
+      if (
+        !pre ||
+        this.isEffectivelyDisabled() ||
+        this.readonlyInput() ||
+        this.contentFormat() !== 'rich'
+      ) {
+        this.codePanelVisible.set(false);
+        return;
+      }
+      const rect = pre.getBoundingClientRect();
+      if (rect.width === 0 && rect.height === 0) {
+        this.codePanelVisible.set(false);
+        return;
+      }
+      const hostRect = this.elementRef.nativeElement.getBoundingClientRect();
+      const { top, left } = this.engine.panelBelow(hostRect, rect);
+      this.codePanelLeft.set(left);
+      this.codePanelTop.set(top);
+      this.codeLanguage.set(
+        normalizeCodeLanguage(pre.getAttribute('data-language')),
+      );
+      this.codeLineNumbers.set(pre.hasAttribute('data-line-numbers'));
+      this.codePanelVisible.set(true);
+    } catch {
+      this.codePanelVisible.set(false);
+    }
+  }
+
+  protected setCodeLanguage(language: string): void {
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
+    const pre = this.selectedCodeBlock();
+    if (!pre) return;
+    const normalized = normalizeCodeLanguage(language);
+    pre.setAttribute('data-language', normalized);
+    this.codeLanguage.set(normalized);
+    this.emitFromDom();
+  }
+
+  protected toggleCodeLineNumbers(force?: boolean): void {
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
+    const pre = this.selectedCodeBlock();
+    if (!pre) return;
+    const show = force ?? !pre.hasAttribute('data-line-numbers');
+    if (show) {
+      pre.setAttribute('data-line-numbers', '');
+    } else {
+      pre.removeAttribute('data-line-numbers');
+    }
+    this.codeLineNumbers.set(show);
+    this.emitFromDom();
+  }
+
+  protected formatCode(): void {
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
+    const pre = this.selectedCodeBlock();
+    if (!pre) return;
+    const selection = document.getSelection();
+    const range =
+      selection && selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+    const offset = range ? this.engine.codeCaretOffset(pre, range) : null;
+    const lines = this.engine
+      .codeTextContent(pre)
+      .split('\n')
+      .map((line) => trimTrailingWhitespace(line));
+    this.engine.writeCodeLines(pre, lines, offset);
+    this.emitFromDom();
+  }
+
+  protected removeCodeBlock(): void {
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
+    const pre = this.selectedCodeBlock();
+    if (!pre) return;
+    const editor = this.editorRef()?.nativeElement;
+    const previous = pre.previousElementSibling;
+    pre.remove();
+    if (editor?.childNodes.length === 0) {
+      const paragraph = document.createElement('p');
+      paragraph.append(document.createElement('br'));
+      editor.append(paragraph);
+    }
+    try {
+      const selection = document.getSelection();
+      if (editor && selection) {
+        const anchor = previous ?? editor;
+        const caret = document.createRange();
+        caret.selectNodeContents(anchor);
+        caret.collapse(!previous);
+        selection.removeAllRanges();
+        selection.addRange(caret);
+        editor.focus({ preventScroll: true });
+      }
+    } catch {
+      if (isDevMode()) console.warn('[SolarisRichText] Code remove failed.');
+    }
+    this.emitFromDom();
+    this.syncCodePanel();
+  }
+
+  protected copyCode(): void {
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
+    if (typeof document === 'undefined' || typeof navigator === 'undefined')
+      return;
+    const pre = this.selectedCodeBlock();
+    const text = pre ? this.engine.codeTextContent(pre) : '';
+    if (!pre || text.length === 0 || !navigator.clipboard) return;
+    void navigator.clipboard.writeText(text).catch(() => {
+      if (isDevMode()) console.warn('[SolarisRichText] Code copy failed.');
     });
   }
 
@@ -1008,35 +970,13 @@ export class SolarisRichTextEditorComponent
         return;
       }
       const hostRect = this.elementRef.nativeElement.getBoundingClientRect();
-      this.imagePanelLeft.set(Math.max(0, rect.left - hostRect.left));
-      this.imagePanelTop.set(rect.bottom - hostRect.top + 8);
+      const { top, left } = this.engine.panelBelow(hostRect, rect);
+      this.imagePanelLeft.set(left);
+      this.imagePanelTop.set(top);
       this.imageBordered.set(figure.hasAttribute('data-bordered'));
       this.imagePanelVisible.set(true);
     } catch {
       this.imagePanelVisible.set(false);
-    }
-  }
-
-  private startFigureResize(event: MouseEvent, figure: HTMLElement): void {
-    event.preventDefault();
-    const startX = event.clientX;
-    const startWidth =
-      figure.getBoundingClientRect().width ||
-      Number.parseFloat(figure.style.width) ||
-      0;
-    const move = (e: PointerEvent): void => {
-      this.resizeFigure(figure, startWidth + (e.clientX - startX));
-    };
-    const up = (): void => {
-      window.removeEventListener('pointermove', move);
-      window.removeEventListener('pointerup', up);
-      window.removeEventListener('pointercancel', up);
-      this.emitFromDom();
-    };
-    if (typeof window !== 'undefined') {
-      window.addEventListener('pointermove', move);
-      window.addEventListener('pointerup', up);
-      window.addEventListener('pointercancel', up);
     }
   }
 
@@ -1075,21 +1015,18 @@ export class SolarisRichTextEditorComponent
       const toolbar = host.querySelector<HTMLElement>(
         '.solaris-rich-text-toolbar--floating',
       );
-      const toolbarHeight = toolbar?.offsetHeight || 52;
-      const toolbarWidth = toolbar?.offsetWidth || 0;
-      const gap = 8;
       // Fixed positioning escapes clipping ancestors (e.g. preview frames),
       // so coordinates are viewport-relative. Same popover flip rule.
-      const fitsAbove = rect.top - toolbarHeight - gap >= 0;
-      const fitsBelow =
-        window.innerHeight - rect.bottom - toolbarHeight - gap >= 0;
-      const maxLeft = Math.max(gap, window.innerWidth - toolbarWidth - gap);
-      this.floatingLeft.set(Math.min(Math.max(gap, rect.left), maxLeft));
-      if (fitsAbove || !fitsBelow) {
-        this.floatingTop.set(rect.top - toolbarHeight - gap);
-      } else {
-        this.floatingTop.set(rect.bottom + gap);
-      }
+      const { top, left } = this.engine.floatingPlacement(
+        rect,
+        { width: window.innerWidth, height: window.innerHeight },
+        {
+          height: toolbar?.offsetHeight || 52,
+          width: toolbar?.offsetWidth || 0,
+        },
+      );
+      this.floatingTop.set(top);
+      this.floatingLeft.set(left);
       this.floatingVisible.set(true);
     } catch {
       this.floatingVisible.set(false);
@@ -1102,7 +1039,7 @@ export class SolarisRichTextEditorComponent
     if (this.contentFormat() !== 'rich') return;
     const editor = this.editorRef();
     if (!editor) return;
-    this.restoreSelection();
+    this.engine.restoreSelection();
     try {
       const selection = document.getSelection();
       if (
@@ -1168,118 +1105,22 @@ export class SolarisRichTextEditorComponent
         const after = document.createTextNode(RICH_TEXT_ZERO_WIDTH_SPACE);
         parent?.insertBefore(after, existing.nextSibling);
         existing.remove();
-        this.collapseAfter(after);
+        this.engine.collapseAfter(after);
         return;
       }
-      this.exitElement(existing);
+      this.engine.exitElement(existing);
       return;
     }
-    this.insertCaretMarker(
-      host,
+    this.engine.insertCaretMarker(
       `<${tag}>${RICH_TEXT_ZERO_WIDTH_SPACE}</${tag}>`,
     );
-  }
-
-  private exitElement(el: Element): void {
-    const after = document.createTextNode(RICH_TEXT_ZERO_WIDTH_SPACE);
-    el.parentNode?.insertBefore(after, el.nextSibling);
-    this.collapseAfter(after);
-  }
-
-  private collapseAfter(node: Node): void {
-    const selection = document.getSelection();
-    if (!selection) return;
-    const range = document.createRange();
-    range.setStartAfter(node);
-    range.collapse(true);
-    selection.removeAllRanges();
-    selection.addRange(range);
-  }
-
-  private insertCaretMarker(host: HTMLElement, html: string): void {
-    const selection = document.getSelection();
-    if (selection && selection.rangeCount > 0) {
-      try {
-        if (
-          this.placeMarkerAtRange(
-            host,
-            selection.getRangeAt(0),
-            selection,
-            html,
-          )
-        )
-          return;
-      } catch {
-        if (isDevMode())
-          console.warn('[SolarisRichText] Caret marker insert failed.');
-      }
-    }
-    if (this.insertHtmlAtCaret(html)) {
-      this.updateCaretToMarker(host);
-    }
-  }
-
-  private placeMarkerAtRange(
-    host: HTMLElement,
-    range: Range,
-    selection: Selection,
-    html: string,
-  ): boolean {
-    if (!host.contains(range.commonAncestorContainer)) return false;
-    range.deleteContents();
-    const wrapper = document.createElement('div');
-    // SECURITY_EXCEPTION: caret marker is a builder-known tag wrapping a zero-width space; no consumer HTML.
-    wrapper.innerHTML = html;
-    const node = wrapper.firstChild;
-    if (!node) return false;
-    const marker = node.firstChild;
-    range.insertNode(node);
-    const inner = document.createRange();
-    if (marker) {
-      inner.setStartAfter(marker);
-    } else {
-      inner.selectNodeContents(node);
-    }
-    inner.collapse(true);
-    selection.removeAllRanges();
-    selection.addRange(inner);
-    host.focus();
-    return true;
-  }
-
-  private updateCaretToMarker(host: HTMLElement): void {
-    try {
-      const selection = document.getSelection();
-      if (!selection || selection.rangeCount === 0) return;
-      const range = selection.getRangeAt(0);
-      if (!host.contains(range.commonAncestorContainer)) return;
-      const walker = document.createTreeWalker(host, NodeFilter.SHOW_TEXT);
-      let last: Text | null = null;
-      let current = walker.nextNode() as Text | null;
-      while (current) {
-        if (current.nodeValue?.includes(RICH_TEXT_ZERO_WIDTH_SPACE))
-          last = current;
-        current = walker.nextNode() as Text | null;
-      }
-      if (last) {
-        range.setStart(
-          last,
-          last.nodeValue?.indexOf(RICH_TEXT_ZERO_WIDTH_SPACE) ?? 0,
-        );
-        range.collapse(true);
-        selection.removeAllRanges();
-        selection.addRange(range);
-      }
-    } catch {
-      if (isDevMode()) console.warn('[SolarisRichText] Caret restore failed.');
-    }
   }
 
   protected insertField(field: SolarisRichTextField): void {
     if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
     const nextBlocks = insertMention(this.value().blocks, field);
     const pill = `<span data-mention data-field-id="${escapeHtml(field.id)}">${escapeHtml(field.label)}</span>&nbsp;`;
-    if (this.insertHtmlAtCaret(pill)) {
+    if (this.engine.insertHtmlAtCaret(pill)) {
       this.emitFromDom(nextBlocks);
     } else {
       const next: SolarisRichTextValue = {
@@ -1304,52 +1145,203 @@ export class SolarisRichTextEditorComponent
     if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
     if (this.contentFormat() !== 'rich') return;
     if (typeof document === 'undefined') return;
-    this.restoreSelection();
+    this.engine.restoreSelection();
     let selectedText = '';
     try {
-      const selection = document.getSelection();
-      const editor = this.editorRef();
-      if (
-        selection &&
-        selection.rangeCount > 0 &&
-        !selection.isCollapsed &&
-        editor?.nativeElement.contains(
-          selection.getRangeAt(0).commonAncestorContainer,
-        )
-      ) {
-        const range = selection.getRangeAt(0);
-        selectedText = stripHtmlToText(range.toString());
-        range.deleteContents();
-        const wrapper = document.createElement('div');
-        // SECURITY_EXCEPTION: block wrapper holds only builder-escaped HTML (buildBlockHtml); no raw consumer HTML.
-        wrapper.innerHTML = buildBlockHtml(tag, selectedText);
-        const node = wrapper.firstChild;
-        if (node) {
-          range.insertNode(node);
-          selection.removeAllRanges();
-        }
-        this.emitFromDom(
-          insertBlockEntry(this.value().blocks, 'paragraph', selectedText),
+      const selected = this.engine.selectionInEditor();
+      if (selected && !selected.range.collapsed) {
+        selectedText = this.applyBlockToRange(
+          tag,
+          selected.range,
+          selected.selection,
         );
+        return;
+      }
+      if (selected && this.transformCaretBlock(selected.range, tag)) {
         return;
       }
     } catch {
       if (isDevMode()) console.warn('[SolarisRichText] Block format failed.');
     }
-    if (this.insertHtmlAtCaret(buildBlockHtml(tag, selectedText))) {
+    if (this.engine.insertHtmlAtCaret(this.blockHtml(tag, selectedText))) {
       this.emitFromDom(
-        insertBlockEntry(this.value().blocks, 'paragraph', selectedText),
+        insertBlockEntry(
+          this.value().blocks,
+          blockKindForTag(tag),
+          selectedText,
+        ),
       );
     }
+  }
+
+  private blockHtml(tag: SolarisRichTextBlockTag, text: string): string {
+    if (tag === 'pre') {
+      return buildCodeBlockHtml({
+        language: 'auto',
+        lineNumbers: true,
+        text,
+      });
+    }
+    return buildBlockHtml(tag, text);
+  }
+
+  private applyBlockToRange(
+    tag: SolarisRichTextBlockTag,
+    range: Range,
+    selection: Selection,
+  ): string {
+    const selectedText = stripHtmlToText(range.toString());
+    range.deleteContents();
+    const wrapper = document.createElement('div');
+    // SECURITY_EXCEPTION: block wrapper holds only builder-escaped HTML (buildBlockHtml/buildCodeBlockHtml); no raw consumer HTML.
+    wrapper.innerHTML = this.blockHtml(tag, selectedText);
+    const node = wrapper.firstChild;
+    if (node) {
+      range.insertNode(node);
+      selection.removeAllRanges();
+    }
+    this.emitFromDom(
+      insertBlockEntry(this.value().blocks, blockKindForTag(tag), selectedText),
+    );
+    return selectedText;
+  }
+
+  private transformCaretBlock(
+    range: Range,
+    tag: SolarisRichTextBlockTag,
+  ): boolean {
+    const editor = this.editorRef()?.nativeElement;
+    if (!editor) return false;
+    let el =
+      range.startContainer instanceof Element
+        ? range.startContainer
+        : range.startContainer.parentElement;
+    while (
+      el &&
+      el !== editor &&
+      !/^(P|H1|H2|H3|BLOCKQUOTE|PRE)$/.test(el.tagName)
+    ) {
+      el = el.parentElement;
+    }
+    if (!el || el === editor) return false;
+    if (el.tagName === tag.toUpperCase()) return true;
+    if (tag === 'pre') {
+      return this.transformToCodeBlock(el, range);
+    }
+    const anchorNode = range.startContainer;
+    const anchorOffset = range.startOffset;
+    const replacement = document.createElement(tag);
+    while (el.firstChild) replacement.appendChild(el.firstChild);
+    if (!replacement.hasChildNodes()) {
+      replacement.appendChild(document.createElement('br'));
+    }
+    el.replaceWith(replacement);
+    this.engine.restoreCaretToNode(
+      anchorNode === el ? replacement : anchorNode,
+      anchorOffset,
+    );
+    this.emitFromDom(
+      insertBlockEntry(
+        this.value().blocks,
+        blockKindForTag(tag),
+        replacement.textContent ?? '',
+      ),
+    );
+    return true;
+  }
+
+  private normalizeActiveCodeBlock(): void {
+    if (typeof document === 'undefined') return;
+    const pre = this.selectedCodeBlock();
+    if (!pre || this.engine.isCodeBlockClean(pre)) return;
+    const selection = document.getSelection();
+    const range =
+      selection && selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+    const offset = range ? this.engine.codeCaretOffset(pre, range) : null;
+    this.engine.writeCodeLines(
+      pre,
+      this.engine.codeTextContent(pre).split('\n'),
+      offset,
+    );
+    this.emitFromDom();
+  }
+
+  private handleCodeKey(event: KeyboardEvent): boolean {
+    if (event.ctrlKey || event.metaKey) return false;
+    if (event.key !== 'Enter' && event.key !== 'Tab') return false;
+    if (typeof document === 'undefined') return false;
+    const editor = this.editorRef();
+    const selection = document.getSelection();
+    if (!editor || !selection || selection.rangeCount === 0) return false;
+    const range = selection.getRangeAt(0);
+    const pre = closestTag(range.startContainer, 'PRE', editor.nativeElement);
+    if (!pre || !editor.nativeElement.contains(pre)) return false;
+    event.preventDefault();
+    const code = pre as HTMLElement;
+    if (event.key === 'Tab') {
+      this.insertCodeText(code, range, '  ');
+      return true;
+    }
+    const offset = this.engine.codeCaretOffset(code, range);
+    const text = this.engine.codeTextContent(code);
+    const lineStart = text.lastIndexOf('\n', offset - 1) + 1;
+    const indent = /^[ \t]*/.exec(text.slice(lineStart, offset))?.[0] ?? '';
+    const next = `${text.slice(0, offset)}\n${indent}${text.slice(offset)}`;
+    this.engine.writeCodeLines(
+      code,
+      next.split('\n'),
+      offset + 1 + indent.length,
+    );
+    this.emitFromDom();
+    return true;
+  }
+
+  private insertCodeText(
+    pre: HTMLElement,
+    range: Range,
+    insertion: string,
+  ): void {
+    const offset = this.engine.codeCaretOffset(pre, range);
+    const text = this.engine.codeTextContent(pre);
+    const next = `${text.slice(0, offset)}${insertion}${text.slice(offset)}`;
+    this.engine.writeCodeLines(
+      pre,
+      next.split('\n'),
+      offset + insertion.length,
+    );
+    this.emitFromDom();
+  }
+
+  private transformToCodeBlock(el: Element, range: Range): boolean {
+    const caret = document.createRange();
+    caret.selectNodeContents(el);
+    try {
+      caret.setEnd(range.startContainer, range.startOffset);
+    } catch {
+      return false;
+    }
+    const offset = this.engine.codeTextContent(caret.cloneContents()).length;
+    const text = this.engine.codeTextContent(el);
+    const pre = document.createElement('pre');
+    pre.setAttribute('data-language', 'auto');
+    pre.setAttribute('data-line-numbers', '');
+    el.replaceWith(pre);
+    this.engine.writeCodeLines(
+      pre,
+      text.length > 0 ? text.split('\n') : [''],
+      offset,
+    );
+    this.emitFromDom(insertBlockEntry(this.value().blocks, 'code', text));
+    return true;
   }
 
   protected insertList(kind: 'ul' | 'ol'): void {
     if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
     if (this.contentFormat() !== 'rich') return;
-    this.restoreSelection();
+    this.engine.restoreSelection();
     const items = this.takeSelectedLines() ?? [''];
     const html = buildListHtml(kind, items);
-    if (this.insertHtmlAtCaret(html)) {
+    if (this.engine.insertHtmlAtCaret(html)) {
       this.emitFromDom(
         insertBlockEntry(
           this.value().blocks,
@@ -1363,10 +1355,10 @@ export class SolarisRichTextEditorComponent
   protected insertTaskList(): void {
     if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
     if (this.contentFormat() !== 'rich') return;
-    this.restoreSelection();
+    this.engine.restoreSelection();
     const items = this.takeSelectedLines() ?? [''];
     const html = buildTaskListHtml(items);
-    if (this.insertHtmlAtCaret(html)) {
+    if (this.engine.insertHtmlAtCaret(html)) {
       this.emitFromDom(
         insertBlockEntry(this.value().blocks, 'bullet-list', items.join(' ')),
       );
@@ -1408,7 +1400,7 @@ export class SolarisRichTextEditorComponent
     if (this.contentFormat() !== 'rich') return;
     const editor = this.editorRef();
     if (!editor || typeof document === 'undefined') return;
-    this.restoreSelection();
+    this.engine.restoreSelection();
     try {
       const selection = document.getSelection();
       const node: Node | null =
@@ -1439,38 +1431,33 @@ export class SolarisRichTextEditorComponent
   protected prepareLinkPopover(): void {
     if (this.contentFormat() !== 'rich') return;
     if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
-    const existing = this.findLinkAtCaret();
+    const existing = this.engine.findLinkAtCaret();
     if (existing) {
       this.linkUrl.set(existing.href);
       this.linkText.set(existing.text);
       return;
     }
     this.linkUrl.set('');
-    this.linkText.set(this.readSelectedText());
+    this.linkText.set(this.engine.readSelectedText());
   }
 
   protected openLinkPopover(): void {
     if (this.contentFormat() !== 'rich') return;
     if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
     this.prepareLinkPopover();
-    try {
-      this.linkPopoverTrigger()?.open();
-    } catch {
-      if (isDevMode())
-        console.warn('[SolarisRichText] Link popover open failed.');
-    }
+    this.toolbarRef()?.openLinkPanel();
   }
 
   protected applyLink(url = this.linkUrl(), text = this.linkText()): void {
     if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
     if (this.contentFormat() !== 'rich') return;
-    this.restoreSelection();
+    this.engine.restoreSelection();
     const safeUrl = url.trim();
     if (!isSafeHttpUrl(safeUrl)) return;
     const label = text.trim();
     if (this.applyLinkToSelection(safeUrl, label)) return;
     const fallbackLabel = label || safeUrl;
-    if (this.insertHtmlAtCaret(buildLinkHtml(safeUrl, fallbackLabel)))
+    if (this.engine.insertHtmlAtCaret(buildLinkHtml(safeUrl, fallbackLabel)))
       this.emitFromDom();
     this.clearLinkPanel();
   }
@@ -1513,61 +1500,8 @@ export class SolarisRichTextEditorComponent
   private clearLinkPanel(): void {
     this.linkUrl.set('');
     this.linkText.set('');
-    try {
-      this.linkPopoverTrigger()?.close();
-    } catch {
-      if (isDevMode())
-        console.warn('[SolarisRichText] Link popover close failed.');
-    }
+    this.toolbarRef()?.closeLinkPanel();
     this.refocusEditorAfterOverlayClose();
-  }
-
-  private editorRangeForLink(): Range | null {
-    if (typeof document === 'undefined') return null;
-    try {
-      const selection = document.getSelection();
-      const editor = this.editorRef();
-      if (!editor) return null;
-      if (
-        selection &&
-        selection.rangeCount > 0 &&
-        editor.nativeElement.contains(
-          selection.getRangeAt(0).commonAncestorContainer,
-        )
-      ) {
-        return selection.getRangeAt(0);
-      }
-      if (
-        this.lastRange &&
-        editor.nativeElement.contains(this.lastRange.commonAncestorContainer)
-      ) {
-        return this.lastRange.cloneRange();
-      }
-    } catch {
-      if (isDevMode())
-        console.warn('[SolarisRichText] Link range read failed.');
-    }
-    return null;
-  }
-
-  private findLinkAtCaret(): { href: string; text: string } | null {
-    const range = this.editorRangeForLink();
-    if (!range) return null;
-    const editor = this.editorRef();
-    if (!editor) return null;
-    const anchor =
-      anchorOf(range.startContainer) ?? anchorOf(range.endContainer);
-    if (!anchor || !editor.nativeElement.contains(anchor)) return null;
-    return {
-      href: anchor.getAttribute('href') ?? '',
-      text: anchor.textContent ?? '',
-    };
-  }
-
-  private readSelectedText(): string {
-    const range = this.editorRangeForLink();
-    if (!range || range.collapsed) return '';
-    return stripHtmlToText(range.toString());
   }
 
   protected toggleInlineCode(): void {
@@ -1591,7 +1525,7 @@ export class SolarisRichTextEditorComponent
     if (typeof document === 'undefined') return;
     const editor = this.editorRef();
     if (!editor) return;
-    this.restoreSelection();
+    this.engine.restoreSelection();
     try {
       const selection = document.getSelection();
       if (
@@ -1642,7 +1576,7 @@ export class SolarisRichTextEditorComponent
   ): void {
     const host = this.dataSpanHost();
     if (!host) return;
-    this.restoreSelection();
+    this.engine.restoreSelection();
     try {
       if (this.tryApplyDataSpanToRange(attr, color, host)) return;
       this.applyDataSpanToCaret(host, attr, color);
@@ -1700,18 +1634,8 @@ export class SolarisRichTextEditorComponent
     this.emitFromDom();
     this.activeColor.set(nextColor as SolarisRichTextColor);
     this.activeHighlight.set(nextHighlight as SolarisRichTextHighlight);
-    this.rememberSelectionRange(selection);
+    this.engine.rememberSelection();
     return true;
-  }
-
-  private rememberSelectionRange(selection: Selection): void {
-    try {
-      this.lastRange = selection.rangeCount
-        ? selection.getRangeAt(0).cloneRange()
-        : null;
-    } catch {
-      this.lastRange = null;
-    }
   }
 
   private applyDataSpanToCaret(
@@ -1771,7 +1695,7 @@ export class SolarisRichTextEditorComponent
     if (this.tryUpdateEmptyAnySpan(host, anySpan, attr, color, active)) return;
     const span = this.closestDataSpan(caretNode, `span[${attr}]`);
     if (this.tryUpdateAttrSpan(host, span, attr, color, active)) return;
-    this.insertCaretDataSpan(host, attr, color, active);
+    this.insertCaretDataSpan(attr, color, active);
   }
 
   private caretContainerNode(): Node | null {
@@ -1832,7 +1756,7 @@ export class SolarisRichTextEditorComponent
       return true;
     }
     if (color === 'default' || span.getAttribute(attr) === color) {
-      this.exitElement(span);
+      this.engine.exitElement(span);
       active.set('default' as T);
       return true;
     }
@@ -1842,15 +1766,13 @@ export class SolarisRichTextEditorComponent
   }
 
   private insertCaretDataSpan<T extends string>(
-    host: HTMLElement,
     attr: 'data-color' | 'data-highlight',
     color: T,
     active: WritableSignal<T>,
   ): void {
     if (color === 'default') return;
     active.set(color);
-    this.insertCaretMarker(
-      host,
+    this.engine.insertCaretMarker(
       `<span ${attr}="${color}">${RICH_TEXT_ZERO_WIDTH_SPACE}</span>`,
     );
   }
@@ -1866,7 +1788,7 @@ export class SolarisRichTextEditorComponent
       cols: safeCols,
       headerRow,
     });
-    if (this.insertHtmlAtCaret(html)) {
+    if (this.engine.insertHtmlAtCaret(html)) {
       this.emitFromDom(nextBlocks);
     } else {
       this.commitValue({
@@ -1891,7 +1813,7 @@ export class SolarisRichTextEditorComponent
       this.imageRejected.emit({ fileName, error: 'missing-alt' });
       return;
     }
-    if (this.insertHtmlAtCaret(figure)) {
+    if (this.engine.insertHtmlAtCaret(figure)) {
       this.emitFromDom();
     } else {
       this.commitValue({
@@ -1933,50 +1855,6 @@ export class SolarisRichTextEditorComponent
       });
     }
     input.value = '';
-  }
-
-  private insertHtmlAtCaret(html: string): boolean {
-    const editor = this.editorRef();
-    if (!editor || typeof document === 'undefined') return false;
-    try {
-      const selection = document.getSelection();
-      const host = editor.nativeElement;
-      if (!selection || selection.rangeCount === 0) {
-        // SECURITY_EXCEPTION: appending sanitized editor HTML requires native innerHTML; content comes from sanitizeRichTextHtml/built-in builders only.
-        host.innerHTML += html;
-        return true;
-      }
-      const range = selection.getRangeAt(0);
-      if (!host.contains(range.commonAncestorContainer)) {
-        // SECURITY_EXCEPTION: appending sanitized editor HTML requires native innerHTML; content comes from sanitizeRichTextHtml/built-in builders only.
-        host.innerHTML += html;
-        return true;
-      }
-      range.deleteContents();
-      const fragment = range.createContextualFragment(html);
-      const last = fragment.lastChild;
-      range.insertNode(fragment);
-      if (last) {
-        range.setStartAfter(last);
-        range.collapse(true);
-        selection.removeAllRanges();
-        selection.addRange(range);
-      }
-      host.focus();
-      return true;
-    } catch {
-      if (isDevMode())
-        console.warn(
-          '[SolarisRichText] Caret insert failed; appended instead.',
-        );
-      try {
-        // SECURITY_EXCEPTION: fallback caret insert appends sanitized editor HTML; same sanitized sources as above, no raw consumer HTML.
-        editor.nativeElement.innerHTML += html;
-        return true;
-      } catch {
-        return false;
-      }
-    }
   }
 
   protected undo(): void {
@@ -2092,13 +1970,6 @@ export class SolarisRichTextEditorComponent
     }
   }
 
-  protected colorSwatchLabel(color: string): string {
-    const capitalized = color.charAt(0).toUpperCase() + color.slice(1);
-    const key = `solaris.rich-text.color${capitalized}`;
-    const translated = this.translateService.translate(key);
-    return translated !== key ? translated : color;
-  }
-
   protected colorContrast(): { level: 'ok' | 'partial' | 'fail' } | null {
     if (typeof document === 'undefined') return null;
     try {
@@ -2152,7 +2023,7 @@ export class SolarisRichTextEditorComponent
     if (typeof document === 'undefined') return;
     const editor = this.editorRef();
     if (!editor) return;
-    this.restoreSelection();
+    this.engine.restoreSelection();
     try {
       const selection = document.getSelection();
       if (
@@ -2190,7 +2061,7 @@ export class SolarisRichTextEditorComponent
   protected updateActiveStates(): void {
     const scan = createActiveScan();
     const host = this.editorRef()?.nativeElement ?? null;
-    let el = this.selectionAnchorElement();
+    let el = this.engine.selectionAnchorElement();
     while (el && host && el !== host) {
       accumulateActiveElement(el, scan);
       el = el.parentElement;
@@ -2202,75 +2073,9 @@ export class SolarisRichTextEditorComponent
     this.activeHighlight.set(scan.highlight);
   }
 
-  private selectionAnchorElement(): Element | null {
-    if (typeof document === 'undefined') return null;
-    try {
-      const selection = document.getSelection();
-      if (!selection || selection.rangeCount === 0) return null;
-      const node = selection.getRangeAt(0).commonAncestorContainer;
-      return node instanceof Element ? node : node.parentElement;
-    } catch {
-      if (isDevMode())
-        console.warn('[SolarisRichText] Active state read failed.');
-      return null;
-    }
-  }
-
-  private lastRange: Range | null = null;
-
   private refocusEditorAfterOverlayClose(): void {
     if (typeof document === 'undefined') return;
     setTimeout(() => this.focus(), 0);
-  }
-
-  private rememberSelection(): void {
-    if (typeof document === 'undefined') return;
-    try {
-      const selection = document.getSelection();
-      const editor = this.editorRef();
-      if (
-        selection &&
-        selection.rangeCount > 0 &&
-        editor?.nativeElement.contains(
-          selection.getRangeAt(0).commonAncestorContainer,
-        )
-      ) {
-        this.lastRange = selection.getRangeAt(0).cloneRange();
-      }
-    } catch {
-      if (isDevMode())
-        console.warn('[SolarisRichText] Selection remember failed.');
-    }
-  }
-
-  private restoreSelection(): boolean {
-    if (typeof document === 'undefined') return false;
-    try {
-      const selection = document.getSelection();
-      const editor = this.editorRef();
-      if (!selection || !editor) return false;
-      if (
-        selection.rangeCount > 0 &&
-        editor.nativeElement.contains(
-          selection.getRangeAt(0).commonAncestorContainer,
-        )
-      ) {
-        return true;
-      }
-      if (
-        this.lastRange &&
-        editor.nativeElement.contains(this.lastRange.commonAncestorContainer)
-      ) {
-        editor.nativeElement.focus({ preventScroll: true });
-        selection.removeAllRanges();
-        selection.addRange(this.lastRange.cloneRange());
-        return true;
-      }
-    } catch {
-      if (isDevMode())
-        console.warn('[SolarisRichText] Selection restore failed.');
-    }
-    return false;
   }
 
   private detectFieldTrigger(text: string): void {

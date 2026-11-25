@@ -1,0 +1,98 @@
+<div
+  class="solaris-rich-text-code-panel"
+  [style.top.px]="top()"
+  [style.left.px]="left()"
+  role="toolbar"
+  [attr.aria-label]="'solaris.rich-text.codeOptions' | translate"
+>
+  <solaris-select
+    appearance="outline"
+    size="sm"
+    [searchable]="true"
+    [triggerMinWidth]="224"
+    [value]="language()"
+    (valueChange)="languageChange.emit($any($event))"
+    [ariaLabel]="'solaris.rich-text.codeLanguage' | translate"
+  >
+    <solaris-option-group>
+      @for (language of priorityLanguages; track language.id) {
+        <solaris-option [value]="language.id">{{
+          codeLanguageLabel(language.id, language.name)
+        }}</solaris-option>
+      }
+    </solaris-option-group>
+    <solaris-option-group
+      [label]="'solaris.rich-text.codeAllLanguages' | translate"
+    >
+      @for (language of otherLanguages; track language.id) {
+        <solaris-option [value]="language.id">{{
+          codeLanguageLabel(language.id, language.name)
+        }}</solaris-option>
+      }
+    </solaris-option-group>
+  </solaris-select>
+  <solaris-divider orientation="vertical" spacing="sm" [decorative]="false" />
+  <button
+    solaris-icon-button
+    appearance="ghost"
+    size="sm"
+    type="button"
+    [attr.data-action]="'code-line-numbers'"
+    (click)="lineNumbersToggle.emit()"
+    [pressed]="lineNumbers()"
+    [disabled]="disabled()"
+    [attr.aria-label]="
+      lineNumbers()
+        ? ('solaris.rich-text.codeLineNumbersHide' | translate)
+        : ('solaris.rich-text.codeLineNumbersShow' | translate)
+    "
+    [solarisTooltip]="
+      lineNumbers()
+        ? ('solaris.rich-text.codeLineNumbersHide' | translate)
+        : ('solaris.rich-text.codeLineNumbersShow' | translate)
+    "
+  >
+    <solaris-icon name="list-ordered" [size]="16" />
+  </button>
+  <button
+    solaris-button
+    appearance="tonal"
+    size="sm"
+    type="button"
+    [attr.data-action]="'code-format'"
+    (click)="format.emit()"
+    [disabled]="disabled()"
+    [attr.aria-label]="'solaris.rich-text.codeFormat' | translate"
+    [solarisTooltip]="'solaris.rich-text.codeFormat' | translate"
+  >
+    <solaris-icon name="sparkles" [size]="16" />
+    {{ 'solaris.rich-text.codeFormat' | translate }}
+  </button>
+  <solaris-divider orientation="vertical" spacing="sm" [decorative]="false" />
+  <button
+    solaris-icon-button
+    appearance="ghost"
+    size="sm"
+    type="button"
+    [attr.data-action]="'code-copy'"
+    (click)="copied.emit()"
+    [disabled]="disabled()"
+    [attr.aria-label]="'solaris.rich-text.codeCopy' | translate"
+    [solarisTooltip]="'solaris.rich-text.codeCopy' | translate"
+  >
+    <solaris-icon name="copy" [size]="16" />
+  </button>
+  <button
+    solaris-icon-button
+    appearance="ghost"
+    size="sm"
+    type="button"
+    [attr.data-action]="'code-remove'"
+    (click)="remove.emit()"
+    [disabled]="disabled()"
+    [attr.aria-label]="'solaris.rich-text.codeRemove' | translate"
+    [solarisTooltip]="'solaris.rich-text.codeRemove' | translate"
+  >
+    <solaris-icon name="trash" [size]="16" />
+  </button>
+</div>

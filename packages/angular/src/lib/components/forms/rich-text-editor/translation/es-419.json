@@ -89,5 +89,15 @@
   "solaris.rich-text.colorAccessibilityPartial": "Esta combinación de texto y resaltado cumple el contraste AA solo para textos grandes (3:1).",
   "solaris.rich-text.colorAccessibilityFail": "Esta combinación de texto y resaltado no cumple el contraste AA (4,5:1).",
   "solaris.rich-text.imageCopy": "Copiar imagen",
-  "solaris.rich-text.imageMoreOptions": "Más opciones de imagen"
+  "solaris.rich-text.imageMoreOptions": "Más opciones de imagen",
+  "solaris.rich-text.codeOptions": "Opciones de código",
+  "solaris.rich-text.codeLanguage": "Idioma del código",
+  "solaris.rich-text.codeDetectLanguage": "Detectar idioma",
+  "solaris.rich-text.codePlainText": "PlainText",
+  "solaris.rich-text.codeAllLanguages": "Todos",
+  "solaris.rich-text.codeCopy": "Copiar código",
+  "solaris.rich-text.codeLineNumbersShow": "Mostrar números de línea",
+  "solaris.rich-text.codeLineNumbersHide": "Ocultar números de línea",
+  "solaris.rich-text.codeFormat": "Formatear código",
+  "solaris.rich-text.codeRemove": "Quitar código"
 }

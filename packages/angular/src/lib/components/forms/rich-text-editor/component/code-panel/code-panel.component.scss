@@ -1,0 +1,24 @@
+.solaris-rich-text-code-panel {
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  align-items: center;
+  gap: var(--solaris-spacing-3);
+  padding: var(--solaris-spacing-4);
+  box-shadow: var(--solaris-shadow-md);
+  z-index: var(--solaris-z-index-raised);
+  background: var(--solaris-rich-text-bg);
+  border-radius: var(--solaris-rich-text-radius);
+  border: var(--solaris-rich-text-border-width) solid
+    var(--solaris-rich-text-border-color);
+}
+
+.solaris-rich-text-code-panel solaris-divider[data-orientation='vertical'] {
+  align-self: stretch;
+  height: auto;
+  margin-block: calc(-1 * var(--solaris-spacing-4));
+}
+
+.solaris-rich-text-code-panel [data-action='code-format'] {
+  margin-inline-start: var(--solaris-spacing-2);
+}

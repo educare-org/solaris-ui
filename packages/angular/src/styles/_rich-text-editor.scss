@@ -7,23 +7,25 @@
 /// chrome stays in the component stylesheet.
 
 .solaris-rich-text-editor-area {
-  min-height: var(--solaris-rich-text-min-height, 120px);
-  padding: var(--solaris-rich-text-padding-y, 12px)
-    var(--solaris-rich-text-padding-x, 12px);
   border: none;
   border-radius: 0;
   background: transparent;
-  color: var(--solaris-rich-text-color, var(--solaris-neutral-text-body));
-  font-family: var(--solaris-font-family-sans), system-ui;
+  color: var(--solaris-rich-text-color);
   font-size: var(--solaris-font-size-sm);
   line-height: var(--solaris-line-height-md);
+  min-height: var(--solaris-rich-text-min-height);
+  font-family: var(--solaris-font-family-sans), system-ui;
+  padding: var(--solaris-rich-text-padding-y) var(--solaris-rich-text-padding-x);
 }
 
 .solaris-rich-text-editor[data-variant='composer']
   .solaris-rich-text-editor-area {
-  min-height: 44px;
-  max-height: 200px;
+  // Fixed composer shell: one control row tall, capped so long drafts scroll
+  // instead of pushing the page. Both are deliberate interaction sizes,
+  // not spacing scale.
+  min-height: var(--solaris-control-height-normal-lg);
   overflow-y: auto;
+  max-height: 200px;
   padding-top: var(--solaris-spacing-2);
   padding-bottom: var(--solaris-spacing-2);
 }
@@ -33,9 +35,9 @@
 }
 
 .solaris-rich-text-editor-area:empty::before {
+  pointer-events: none;
   content: attr(data-placeholder);
   color: var(--solaris-neutral-text-tertiary);
-  pointer-events: none;
 }
 
 .solaris-rich-text-editor-area:focus-visible {
@@ -57,8 +59,8 @@
 .solaris-rich-text-editor-area h1,
 .solaris-rich-text-editor-area h2,
 .solaris-rich-text-editor-area h3 {
-  font-family: var(--solaris-font-family-sans), system-ui;
   color: var(--solaris-neutral-text-heading);
+  font-family: var(--solaris-font-family-sans), system-ui;
 }
 
 .solaris-rich-text-editor-area ul,
@@ -71,16 +73,14 @@
   padding-left: var(--solaris-spacing-2);
 }
 
-// Why: task checkboxes are static in v1 (disabled, no state sync), so
-// pointer events reach the list item and move the caret instead.
 .solaris-rich-text-editor-area ul[data-task-list] input[type='checkbox'] {
-  margin-right: var(--solaris-spacing-2);
   pointer-events: none;
+  margin-right: var(--solaris-spacing-2);
 }
 
 .solaris-rich-text-editor-area a {
-  color: var(--solaris-primary-solid);
   text-decoration: underline;
+  color: var(--solaris-primary-solid);
 }
 
 .solaris-rich-text-editor-area [data-align='center'] {
@@ -240,22 +240,58 @@
 }
 
 .solaris-rich-text-editor-area span[data-mention] {
-  background: var(--solaris-primary-soft);
-  border-radius: var(--solaris-radius-sm);
-  padding: 0 var(--solaris-spacing-1);
   white-space: nowrap;
+  padding: 0 var(--solaris-spacing-1);
+  border-radius: var(--solaris-radius-sm);
+  background: var(--solaris-primary-soft);
 }
 
 .solaris-rich-text-editor-area blockquote {
+  padding-left: var(--solaris-spacing-3);
   border-left: var(--solaris-spacing-1) solid
     var(--solaris-neutral-border-strong);
-  padding-left: var(--solaris-spacing-3);
+}
+
+.solaris-rich-text-editor-area blockquote + blockquote {
+  margin-top: calc(-1 * var(--solaris-spacing-2));
 }
 
 .solaris-rich-text-editor-area pre {
-  background: var(--solaris-neutral-subtle);
-  padding: var(--solaris-spacing-2);
   overflow-x: auto;
+  padding: var(--solaris-spacing-5);
+  margin: var(--solaris-spacing-2) 0;
+  font-size: var(--solaris-font-size-sm);
+  background: var(--solaris-neutral-subtle);
+  border-radius: var(--solaris-rich-text-radius);
+  font-family: var(--solaris-font-family-mono), monospace;
+}
+
+.solaris-rich-text-editor-area pre[data-line-numbers] {
+  counter-reset: solaris-code-line;
+}
+
+.solaris-rich-text-code-line {
+  display: block;
+}
+
+.solaris-rich-text-editor-area
+  pre[data-line-numbers]
+  > .solaris-rich-text-code-line {
+  position: relative;
+  counter-increment: solaris-code-line;
+  padding-left: var(--solaris-spacing-9);
+}
+
+.solaris-rich-text-editor-area
+  pre[data-line-numbers]
+  > .solaris-rich-text-code-line::before {
+  left: 0;
+  user-select: none;
+  text-align: right;
+  position: absolute;
+  width: var(--solaris-spacing-7);
+  content: counter(solaris-code-line);
+  color: var(--solaris-neutral-text-secondary);
 }
 
 .solaris-rich-text-editor-area figure[data-image] {
@@ -266,8 +302,8 @@
 .solaris-rich-text-editor-area figure[data-image] img {
   display: block;
   max-width: 100%;
-  border-radius: var(--solaris-radius-sm);
   user-select: none;
+  border-radius: var(--solaris-radius-sm);
 }
 
 .solaris-rich-text-editor-area figure[data-image][data-bordered] img {
@@ -294,47 +330,43 @@
 }
 
 .solaris-image-resize-handle {
-  position: absolute;
   right: 0;
   bottom: 0;
+  position: absolute;
+  touch-action: none;
+  cursor: nwse-resize;
   width: var(--solaris-spacing-6);
   height: var(--solaris-spacing-6);
   border-radius: var(--solaris-radius-sm);
   background: var(--solaris-primary-solid);
-  cursor: nwse-resize;
-  touch-action: none;
 }
 
 .solaris-image-resize-handle:focus-visible {
+  outline-offset: var(--solaris-focus-ring-offset);
   outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
     var(--solaris-focus-ring-color);
-  outline-offset: var(--solaris-focus-ring-offset);
 }
 
 .solaris-rich-text-editor-area table {
-  border-collapse: collapse;
   width: 100%;
+  border-collapse: collapse;
 }
 
 .solaris-rich-text-editor-area th,
 .solaris-rich-text-editor-area td {
-  min-width: 44px;
-  padding: var(--solaris-spacing-2);
-  border: var(--solaris-rich-text-border-width, 1px) solid
-    var(--solaris-rich-text-border-color, var(--solaris-neutral-border-default));
-  vertical-align: top;
+  // Minimum tappable cell width; mirrors the normal-lg control height.
+  min-width: var(--solaris-control-height-normal-lg);
   text-align: left;
+  vertical-align: top;
+  padding: var(--solaris-spacing-2);
+  border: var(--solaris-rich-text-border-width) solid
+    var(--solaris-rich-text-border-color);
 }
 
 .solaris-rich-text-editor-area th {
   background: var(--solaris-neutral-subtle);
 }
 
-// Why: inside solaris-form-field the editor host drops its own border (R2-8,
-// no double border) and the field wrapper paints the shell instead — but its
-// resting border (subtle) reads fainter than the standalone editor shell
-// (default), so only the toolbar divider looked painted. Match the strengths;
-// focus/invalid/appearance states keep winning (higher specificity upstream).
 solaris-form-field[data-appearance='outline']:has(solaris-rich-text-editor)
   .solaris-form-field__control-wrapper {
   --solaris-form-field-control-border-color: var(

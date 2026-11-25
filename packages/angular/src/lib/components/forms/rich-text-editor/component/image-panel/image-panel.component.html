@@ -1,0 +1,176 @@
+<div
+  class="solaris-rich-text-image-panel"
+  [style.top.px]="top()"
+  [style.left.px]="left()"
+  role="toolbar"
+  [attr.aria-label]="'solaris.rich-text.imageOptions' | translate"
+>
+  <solaris-button-group size="sm">
+    <button
+      solaris-icon-button
+      appearance="ghost"
+      size="sm"
+      type="button"
+      [attr.data-action]="'image-align-left'"
+      (click)="alignChange.emit('left')"
+      [pressed]="align() === 'left'"
+      [disabled]="disabled() || readOnly()"
+      [ariaLabel]="'solaris.rich-text.alignLeft' | translate"
+      [solarisTooltip]="'solaris.rich-text.alignLeft' | translate"
+    >
+      <solaris-icon name="text-align-start" [size]="16" />
+    </button>
+    <button
+      solaris-icon-button
+      appearance="ghost"
+      size="sm"
+      type="button"
+      [attr.data-action]="'image-align-center'"
+      (click)="alignChange.emit('center')"
+      [pressed]="align() === 'center'"
+      [disabled]="disabled() || readOnly()"
+      [ariaLabel]="'solaris.rich-text.alignCenter' | translate"
+      [solarisTooltip]="'solaris.rich-text.alignCenter' | translate"
+    >
+      <solaris-icon name="text-align-center" [size]="16" />
+    </button>
+    <button
+      solaris-icon-button
+      appearance="ghost"
+      size="sm"
+      type="button"
+      [attr.data-action]="'image-align-right'"
+      (click)="alignChange.emit('right')"
+      [pressed]="align() === 'right'"
+      [disabled]="disabled() || readOnly()"
+      [ariaLabel]="'solaris.rich-text.alignRight' | translate"
+      [solarisTooltip]="'solaris.rich-text.alignRight' | translate"
+    >
+      <solaris-icon name="text-align-end" [size]="16" />
+    </button>
+    <button
+      solaris-icon-button
+      appearance="ghost"
+      size="sm"
+      type="button"
+      [attr.data-action]="'image-align-justify'"
+      (click)="alignChange.emit('justify')"
+      [pressed]="align() === 'justify'"
+      [disabled]="disabled() || readOnly()"
+      [ariaLabel]="'solaris.rich-text.alignJustify' | translate"
+      [solarisTooltip]="'solaris.rich-text.alignJustify' | translate"
+    >
+      <solaris-icon name="text-align-justify" [size]="16" />
+    </button>
+  </solaris-button-group>
+  <solaris-button-group size="sm">
+    <button
+      solaris-button
+      size="sm"
+      type="button"
+      [attr.data-action]="'image-preset-s'"
+      (click)="presetChange.emit('S')"
+      [disabled]="disabled() || readOnly()"
+      [attr.aria-label]="'solaris.rich-text.imageSizeSmall' | translate"
+      [attr.title]="'solaris.rich-text.imageSizeSmall' | translate"
+    >
+      S
+    </button>
+    <button
+      solaris-button
+      size="sm"
+      type="button"
+      [attr.data-action]="'image-preset-m'"
+      (click)="presetChange.emit('M')"
+      [disabled]="disabled() || readOnly()"
+      [attr.aria-label]="'solaris.rich-text.imageSizeMedium' | translate"
+      [attr.title]="'solaris.rich-text.imageSizeMedium' | translate"
+    >
+      M
+    </button>
+    <button
+      solaris-button
+      size="sm"
+      type="button"
+      [attr.data-action]="'image-preset-l'"
+      (click)="presetChange.emit('L')"
+      [disabled]="disabled() || readOnly()"
+      [attr.aria-label]="'solaris.rich-text.imageSizeLarge' | translate"
+      [attr.title]="'solaris.rich-text.imageSizeLarge' | translate"
+    >
+      L
+    </button>
+    <button
+      solaris-button
+      size="sm"
+      type="button"
+      [attr.data-action]="'image-preset-original'"
+      (click)="presetChange.emit('original')"
+      [disabled]="disabled() || readOnly()"
+      [attr.aria-label]="'solaris.rich-text.imageSizeOriginal' | translate"
+    >
+      {{ 'solaris.rich-text.imageSizeOriginal' | translate }}
+    </button>
+    <button
+      solaris-icon-button
+      appearance="ghost"
+      size="sm"
+      type="button"
+      [attr.data-action]="'image-remove'"
+      (click)="remove.emit()"
+      [disabled]="disabled() || readOnly()"
+      [ariaLabel]="'solaris.rich-text.imageRemove' | translate"
+      [solarisTooltip]="'solaris.rich-text.imageRemove' | translate"
+    >
+      <solaris-icon name="trash" [size]="16" />
+    </button>
+  </solaris-button-group>
+  <solaris-button-group size="sm">
+    <button
+      solaris-icon-button
+      appearance="ghost"
+      size="sm"
+      type="button"
+      [attr.data-action]="'image-border'"
+      (click)="borderToggle.emit()"
+      [pressed]="bordered()"
+      [disabled]="disabled() || readOnly()"
+      [ariaLabel]="'solaris.rich-text.imageBorder' | translate"
+      [solarisTooltip]="'solaris.rich-text.imageBorder' | translate"
+    >
+      <solaris-icon name="square" [size]="16" />
+    </button>
+    <button
+      solaris-icon-button
+      appearance="ghost"
+      size="sm"
+      type="button"
+      [attr.data-action]="'image-more'"
+      solaris-dropdown-menu-trigger
+      [solarisDropdownMenuTriggerFor]="imageMoreMenu"
+      [solarisDropdownMenuDisabled]="disabled() || readOnly()"
+      [disabled]="disabled() || readOnly()"
+      [ariaLabel]="'solaris.rich-text.imageMoreOptions' | translate"
+      [solarisTooltip]="'solaris.rich-text.imageMoreOptions' | translate"
+    >
+      <solaris-icon name="chevron-down" [size]="16" />
+    </button>
+  </solaris-button-group>
+  <solaris-dropdown-menu #imageMoreMenu>
+    <solaris-dropdown-menu-item
+      icon="expand"
+      labelKey="solaris.rich-text.imageResize"
+      (itemSelected)="focusHandle.emit()"
+    />
+    <solaris-dropdown-menu-item
+      icon="copy"
+      labelKey="solaris.rich-text.imageCopy"
+      (itemSelected)="copied.emit()"
+    />
+    <solaris-dropdown-menu-item
+      icon="trash"
+      labelKey="solaris.rich-text.imageRemove"
+      (itemSelected)="remove.emit()"
+    />
+  </solaris-dropdown-menu>
+</div>

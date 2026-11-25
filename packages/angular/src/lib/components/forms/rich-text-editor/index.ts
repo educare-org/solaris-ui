@@ -58,6 +58,7 @@ export {
   stripZeroWidthSpaces,
   toMarkdown,
   toPlainText,
+  trimTrailingWhitespace,
   truncateToMaxLength,
   unwrapInlineFormatting,
   validateImageSelection,

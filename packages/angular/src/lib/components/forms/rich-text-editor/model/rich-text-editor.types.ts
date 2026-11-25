@@ -15,6 +15,26 @@ export type SolarisRichTextInlineTag =
   | 'sub'
   | 'sup';
 
+export type SolarisRichTextCodeLanguage =
+  | 'auto'
+  | 'text'
+  | 'typescript'
+  | 'javascript'
+  | 'html'
+  | 'scss'
+  | 'css'
+  | 'json'
+  | 'shell'
+  | 'bash'
+  | 'powershell'
+  | 'java'
+  | 'angular';
+
+export interface SolarisRichTextCodeLanguageOption {
+  readonly id: SolarisRichTextCodeLanguage;
+  readonly name: string;
+}
+
 export type SolarisRichTextActiveMark =
   | 'bold'
   | 'italic'
@@ -31,6 +51,15 @@ export type SolarisRichTextToolbarDisplay =
   | 'floating'
   | 'both'
   | 'hidden';
+
+export interface SolarisRichTextToolbarContrast {
+  readonly level: 'ok' | 'partial' | 'fail';
+}
+
+export interface SolarisRichTextLinkDraft {
+  readonly url: string;
+  readonly text: string;
+}
 
 export type SolarisRichTextToolbarPreset = 'full' | 'minimal' | 'custom';
 
@@ -77,14 +106,6 @@ export interface SolarisRichTextValue {
   readonly text: string;
   readonly blocks: readonly SolarisRichTextBlock[];
   readonly version: 1;
-}
-
-export type SolarisRichTextEditorValue = SolarisRichTextValue | string;
-
-export interface SolarisRichTextToolbarItem {
-  readonly action: string;
-  readonly icon?: string;
-  readonly labelKey?: string;
 }
 
 export interface SolarisRichTextImageOptions {

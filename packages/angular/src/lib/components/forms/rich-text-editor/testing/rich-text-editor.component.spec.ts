@@ -5,6 +5,7 @@ import { SolarisRichTextEditorComponent } from '../component/rich-text-editor.co
 import {
   accumulateActiveElement,
   buildBlockHtml,
+  buildCodeBlockHtml,
   buildColorSpanHtml,
   buildDataSpanHtml,
   buildHighlightSpanHtml,
@@ -29,6 +30,7 @@ import {
   isEmptyValue,
   isSafeHttpUrl,
   matchesImageAccept,
+  normalizeCodeLanguage,
   normalizeEditorValue,
   parseCssRgb,
   parseCssRgba,
@@ -40,6 +42,7 @@ import {
   shouldCoalesceHistory,
   stripZeroWidthSpaces,
   toMarkdown,
+  trimTrailingWhitespace,
   truncateToMaxLength,
   unwrapInlineFormatting,
   validateImageSelection,
@@ -246,6 +249,242 @@ describe('SolarisRichTextEditorComponent', () => {
     const before = fixture.componentInstance.value().html;
     fixture.componentInstance['insertTable'](2, 2, true);
     expect(fixture.componentInstance.value().html).toBe(before);
+  });
+
+  it('converts the current line to a code block in place', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>console.log(1)</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const text = area.querySelector('p')?.firstChild as Node;
+    placeCaret(area, text, text.textContent?.length ?? 0);
+    fixture.componentInstance['formatBlock']('pre');
+    expect(area.querySelector('p')).toBeNull();
+    const pres = area.querySelectorAll('pre');
+    expect(pres.length).toBe(1);
+    expect(pres[0]?.getAttribute('data-language')).toBe('auto');
+    expect(pres[0]?.hasAttribute('data-line-numbers')).toBe(true);
+    const lines = pres[0]?.querySelectorAll('.solaris-rich-text-code-line');
+    expect(lines?.length).toBe(1);
+    expect(lines?.[0]?.textContent).toBe('console.log(1)');
+    expect(fixture.componentInstance.value().html).toContain('<pre');
+    fixture.componentInstance['formatBlock']('pre');
+    expect(area.querySelectorAll('pre').length).toBe(1);
+  });
+
+  it('splits code lines on Enter without leaving the block', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>code</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const text = area.querySelector('p')?.firstChild as Node;
+    placeCaret(area, text, text.textContent?.length ?? 0);
+    fixture.componentInstance['formatBlock']('pre');
+    const pre = area.querySelector('pre') as HTMLElement;
+    const line = pre.querySelector(
+      '.solaris-rich-text-code-line',
+    ) as HTMLElement;
+    placeCaret(area, line.firstChild as Node, 4);
+    area.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    const lines = pre.querySelectorAll('.solaris-rich-text-code-line');
+    expect(lines.length).toBe(2);
+    expect(lines[0]?.textContent).toBe('code');
+    expect(lines[1]?.textContent).toBe('');
+    expect(fixture.componentInstance.value().html).toContain('<pre');
+  });
+
+  it('carries indentation to the new code line on Enter', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>code</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const text = area.querySelector('p')?.firstChild as Node;
+    placeCaret(area, text, text.textContent?.length ?? 0);
+    fixture.componentInstance['formatBlock']('pre');
+    const pre = area.querySelector('pre') as HTMLElement;
+    const line = pre.querySelector(
+      '.solaris-rich-text-code-line',
+    ) as HTMLElement;
+    line.textContent = '  code';
+    placeCaret(area, line.firstChild as Node, 6);
+    area.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    const lines = pre.querySelectorAll('.solaris-rich-text-code-line');
+    expect(lines.length).toBe(2);
+    expect(lines[0]?.textContent).toBe('  code');
+    expect(lines[1]?.textContent).toBe('  ');
+  });
+
+  it('keeps both lines when splitting the second one', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>code</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const text = area.querySelector('p')?.firstChild as Node;
+    placeCaret(area, text, text.textContent?.length ?? 0);
+    fixture.componentInstance['formatBlock']('pre');
+    const getLines = (): NodeListOf<HTMLElement> =>
+      (area.querySelector('pre') as HTMLElement).querySelectorAll(
+        '.solaris-rich-text-code-line',
+      );
+    const first = getLines()[0] as HTMLElement;
+    placeCaret(area, first.firstChild as Node, 4);
+    area.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    const second = getLines()[1] as HTMLElement;
+    second.textContent = 'def';
+    placeCaret(area, second.firstChild as Node, 3);
+    area.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    const lines = getLines();
+    expect(lines.length).toBe(3);
+    expect(lines[0]?.textContent).toBe('code');
+    expect(lines[1]?.textContent).toBe('def');
+    expect(lines[2]?.textContent).toBe('');
+  });
+
+  it('lets empty code lines grow past two lines', () => {
+    create();
+    fixture.componentInstance.writeValue('<p><br /></p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const br = area.querySelector('p')?.firstChild as Node;
+    placeCaret(area, br, 0);
+    fixture.componentInstance['formatBlock']('pre');
+    const getLines = (): NodeListOf<HTMLElement> =>
+      (area.querySelector('pre') as HTMLElement).querySelectorAll(
+        '.solaris-rich-text-code-line',
+      );
+    expect(getLines().length).toBe(1);
+    const first = getLines()[0] as HTMLElement;
+    placeCaret(area, first.firstChild as Node, 0);
+    area.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    expect(getLines().length).toBe(2);
+    const second = getLines()[1] as HTMLElement;
+    placeCaret(area, second.firstChild as Node, 0);
+    area.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    expect(getLines().length).toBe(3);
+  });
+
+  it('inserts two spaces on Tab inside code', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>code</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const text = area.querySelector('p')?.firstChild as Node;
+    placeCaret(area, text, text.textContent?.length ?? 0);
+    fixture.componentInstance['formatBlock']('pre');
+    const pre = area.querySelector('pre') as HTMLElement;
+    const line = pre.querySelector(
+      '.solaris-rich-text-code-line',
+    ) as HTMLElement;
+    placeCaret(area, line.firstChild as Node, 2);
+    area.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab' }));
+    const updated = pre.querySelector(
+      '.solaris-rich-text-code-line',
+    ) as HTMLElement;
+    expect(updated.textContent).toBe('co  de');
+  });
+
+  it('manages code block language, line numbers and copy', async () => {
+    create();
+    fixture.componentInstance.writeValue('<p>code</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const text = area.querySelector('p')?.firstChild as Node;
+    placeCaret(area, text, text.textContent?.length ?? 0);
+    fixture.componentInstance['formatBlock']('pre');
+    const pre = area.querySelector('pre') as HTMLElement;
+    const line = pre.querySelector(
+      '.solaris-rich-text-code-line',
+    ) as HTMLElement;
+    placeCaret(area, line.firstChild as Node, 0);
+    fixture.componentInstance['setCodeLanguage']('TypeScript');
+    expect(pre.getAttribute('data-language')).toBe('typescript');
+    expect(fixture.componentInstance['codeLanguage']()).toBe('typescript');
+    fixture.componentInstance['toggleCodeLineNumbers']();
+    expect(pre.hasAttribute('data-line-numbers')).toBe(false);
+    expect(fixture.componentInstance['codeLineNumbers']()).toBe(false);
+    fixture.componentInstance['toggleCodeLineNumbers']();
+    expect(pre.hasAttribute('data-line-numbers')).toBe(true);
+    fixture.componentInstance['toggleCodeLineNumbers'](false);
+    expect(pre.hasAttribute('data-line-numbers')).toBe(false);
+    fixture.componentInstance['toggleCodeLineNumbers'](true);
+    expect(pre.hasAttribute('data-line-numbers')).toBe(true);
+    const written: string[] = [];
+    Object.defineProperty(window.navigator, 'clipboard', {
+      value: {
+        writeText: (value: string): Promise<void> => {
+          written.push(value);
+          return Promise.resolve();
+        },
+      },
+      configurable: true,
+    });
+    try {
+      fixture.componentInstance['copyCode']();
+      await Promise.resolve();
+      expect(written[0]).toBe('code');
+    } finally {
+      Reflect.deleteProperty(window.navigator, 'clipboard');
+    }
+  });
+
+  it('formats code by trimming trailing whitespace', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>code</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const text = area.querySelector('p')?.firstChild as Node;
+    placeCaret(area, text, text.textContent?.length ?? 0);
+    fixture.componentInstance['formatBlock']('pre');
+    const pre = area.querySelector('pre') as HTMLElement;
+    const line = pre.querySelector(
+      '.solaris-rich-text-code-line',
+    ) as HTMLElement;
+    line.textContent = 'code   ';
+    placeCaret(area, line.firstChild as Node, 7);
+    fixture.componentInstance['formatCode']();
+    const trimmed = pre.querySelector(
+      '.solaris-rich-text-code-line',
+    ) as HTMLElement;
+    expect(trimmed.textContent).toBe('code');
+  });
+
+  it('removes the code block and keeps an editable paragraph', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>before</p><p>code</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const paragraphs = area.querySelectorAll('p');
+    const text = paragraphs[1]?.firstChild as Node;
+    placeCaret(area, text, text.textContent?.length ?? 0);
+    fixture.componentInstance['formatBlock']('pre');
+    expect(area.querySelector('pre')).not.toBeNull();
+    const pre = area.querySelector('pre') as HTMLElement;
+    const line = pre.querySelector(
+      '.solaris-rich-text-code-line',
+    ) as HTMLElement;
+    placeCaret(area, line.firstChild as Node, 0);
+    fixture.componentInstance['removeCodeBlock']();
+    expect(area.querySelector('pre')).toBeNull();
+    expect(area.querySelectorAll('p').length).toBe(1);
+    expect(fixture.componentInstance.value().html).not.toContain('<pre');
   });
 
   it('formats headings, lists, links and colors', () => {
@@ -1214,6 +1453,35 @@ describe('rich-text-editor utils (F1 core)', () => {
 
   it('creates an empty value', () => {
     expect(isEmptyValue(createEmptyValue())).toBe(true);
+  });
+
+  it('trims trailing spaces and tabs', () => {
+    expect(trimTrailingWhitespace('code   ')).toBe('code');
+    expect(trimTrailingWhitespace('a\tb\t ')).toBe('a\tb');
+    expect(trimTrailingWhitespace('  leading')).toBe('  leading');
+    expect(trimTrailingWhitespace('')).toBe('');
+  });
+
+  it('normalizes code languages and builds code blocks', () => {
+    expect(normalizeCodeLanguage('TypeScript')).toBe('typescript');
+    expect(normalizeCodeLanguage('js')).toBe('javascript');
+    expect(normalizeCodeLanguage('auto')).toBe('auto');
+    expect(normalizeCodeLanguage('cobol')).toBe('text');
+    expect(normalizeCodeLanguage(null)).toBe('text');
+    expect(
+      buildCodeBlockHtml({
+        language: 'typescript',
+        lineNumbers: true,
+        text: 'a\nb',
+      }),
+    ).toBe(
+      '<pre data-language="typescript" data-line-numbers=""><div class="solaris-rich-text-code-line">a</div><div class="solaris-rich-text-code-line">b</div></pre>',
+    );
+    expect(
+      buildCodeBlockHtml({ language: 'cobol', lineNumbers: false, text: '' }),
+    ).toBe(
+      '<pre data-language="text"><div class="solaris-rich-text-code-line"><br /></div></pre>',
+    );
   });
 
   it('computes WCAG contrast ratios from CSS colors', () => {

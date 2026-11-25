@@ -1,0 +1,566 @@
+@if (show()) {
+  <div
+    class="solaris-rich-text-toolbar"
+    [class.solaris-rich-text-toolbar--floating]="floating()"
+    [style.top.px]="floating() ? top() : null"
+    [style.left.px]="floating() ? left() : null"
+    [attr.data-floating]="floatingActive() ? '' : null"
+    role="toolbar"
+    [attr.aria-label]="label()"
+  >
+    <div class="solaris-rich-text-toolbar-group">
+      <solaris-select
+        appearance="minimal"
+        size="sm"
+        [value]="blockTag()"
+        [triggerMinWidth]="224"
+        (valueChange)="blockSelect.emit($any($event))"
+        [ariaLabel]="'solaris.rich-text.blockStyle' | translate"
+      >
+        <solaris-option value="p">{{
+          'solaris.rich-text.paragraph' | translate
+        }}</solaris-option>
+        <solaris-option value="h1">{{
+          'solaris.rich-text.heading1' | translate
+        }}</solaris-option>
+        <solaris-option value="h2">{{
+          'solaris.rich-text.heading2' | translate
+        }}</solaris-option>
+        <solaris-option value="h3">{{
+          'solaris.rich-text.heading3' | translate
+        }}</solaris-option>
+        <solaris-option value="blockquote">{{
+          'solaris.rich-text.quote' | translate
+        }}</solaris-option>
+        <solaris-option value="pre">{{
+          'solaris.rich-text.code' | translate
+        }}</solaris-option>
+      </solaris-select>
+    </div>
+    @if (contentFormat() === 'rich') {
+      <solaris-divider
+        orientation="vertical"
+        spacing="sm"
+        [decorative]="false"
+      />
+      <div class="solaris-rich-text-toolbar-group">
+        <solaris-button-group size="sm">
+          <button
+            solaris-icon-button
+            appearance="ghost"
+            size="sm"
+            type="button"
+            [attr.data-action]="'bold'"
+            (click)="inline.emit('strong')"
+            [pressed]="marks()['bold']"
+            [disabled]="disabled() || readOnly()"
+            [ariaLabel]="'solaris.rich-text.bold' | translate"
+            [solarisTooltip]="'solaris.rich-text.bold' | translate"
+          >
+            <solaris-icon name="letter-b" [size]="16" />
+          </button>
+          <button
+            solaris-icon-button
+            appearance="ghost"
+            size="sm"
+            type="button"
+            [attr.data-action]="'inline-more'"
+            solaris-dropdown-menu-trigger
+            [solarisDropdownMenuTriggerFor]="inlineMenu"
+            [solarisDropdownMenuMinWidth]="240"
+            [solarisDropdownMenuMaxWidth]="320"
+            [solarisDropdownMenuDisabled]="disabled() || readOnly()"
+            [disabled]="disabled() || readOnly()"
+            [ariaLabel]="'solaris.rich-text.moreFormatting' | translate"
+            [solarisTooltip]="'solaris.rich-text.moreFormatting' | translate"
+          >
+            <solaris-icon name="chevron-down" [size]="16" />
+          </button>
+        </solaris-button-group>
+        <button
+          solaris-icon-button
+          appearance="ghost"
+          size="sm"
+          type="button"
+          [attr.data-action]="'color'"
+          #colorTrigger
+          solaris-popover-trigger
+          [solarisPopoverTriggerFor]="colorPanel"
+          [solarisPopoverDisabled]="
+            disabled() || readOnly() || contentFormat() !== 'rich'
+          "
+          [solarisPopoverAriaHasPopup]="'dialog'"
+          solarisPopoverPadding="lg"
+          (solarisPopoverOpened)="colorPanelOpen.set(true)"
+          (solarisPopoverClosed)="colorPanelOpen.set(false)"
+          [pressed]="color() !== 'default' || highlight() !== 'default'"
+          [disabled]="disabled() || readOnly()"
+          [ariaLabel]="'solaris.rich-text.colorAndHighlight' | translate"
+          [solarisTooltip]="'solaris.rich-text.colorAndHighlight' | translate"
+          [solarisTooltipDisabled]="colorPanelOpen()"
+        >
+          <span
+            class="solaris-rich-text-color-preview"
+            [attr.data-color]="color()"
+            [attr.data-highlight]="highlight()"
+            >A</span
+          >
+        </button>
+        <solaris-dropdown-menu #inlineMenu>
+          <solaris-dropdown-menu-item
+            icon="letter-b"
+            shortcut="Ctrl+B"
+            labelKey="solaris.rich-text.bold"
+            (itemSelected)="inline.emit('strong')"
+          />
+          <solaris-dropdown-menu-item
+            icon="italic"
+            shortcut="Ctrl+I"
+            labelKey="solaris.rich-text.italic"
+            (itemSelected)="inline.emit('em')"
+          />
+          <solaris-dropdown-menu-item
+            icon="underline"
+            shortcut="Ctrl+U"
+            labelKey="solaris.rich-text.underline"
+            (itemSelected)="inline.emit('u')"
+          />
+          <solaris-dropdown-menu-item
+            icon="strikethrough"
+            shortcut="Ctrl+Shift+S"
+            labelKey="solaris.rich-text.strike"
+            (itemSelected)="inline.emit('s')"
+          />
+          <solaris-dropdown-menu-item
+            icon="code"
+            shortcut="Ctrl+Shift+M"
+            labelKey="solaris.rich-text.inlineCode"
+            (itemSelected)="inlineCode.emit()"
+          />
+          <solaris-dropdown-menu-item
+            icon="subscript"
+            shortcut="Ctrl+,"
+            labelKey="solaris.rich-text.subscript"
+            (itemSelected)="subscript.emit()"
+          />
+          <solaris-dropdown-menu-item
+            icon="superscript"
+            shortcut="Ctrl+."
+            labelKey="solaris.rich-text.superscript"
+            (itemSelected)="superscript.emit()"
+          />
+          <solaris-dropdown-menu-item
+            shortcut="Ctrl+\"
+            labelKey="solaris.rich-text.clearFormatting"
+            (itemSelected)="clearFormat.emit()"
+          />
+        </solaris-dropdown-menu>
+      </div>
+      <solaris-divider
+        orientation="vertical"
+        spacing="sm"
+        [decorative]="false"
+      />
+      <div class="solaris-rich-text-toolbar-group">
+        <solaris-button-group size="sm">
+          <button
+            solaris-icon-button
+            appearance="ghost"
+            size="sm"
+            type="button"
+            [attr.data-action]="'bullet-list'"
+            (click)="listInsert.emit('ul')"
+            [pressed]="marks()['bulletList']"
+            [disabled]="disabled() || readOnly()"
+            [ariaLabel]="'solaris.rich-text.bulletList' | translate"
+            [solarisTooltip]="'solaris.rich-text.bulletList' | translate"
+          >
+            <solaris-icon name="list" [size]="16" />
+          </button>
+          <button
+            solaris-icon-button
+            appearance="ghost"
+            size="sm"
+            type="button"
+            [attr.data-action]="'lists-more'"
+            solaris-dropdown-menu-trigger
+            [solarisDropdownMenuTriggerFor]="listsMenu"
+            [solarisDropdownMenuMinWidth]="240"
+            [solarisDropdownMenuMaxWidth]="320"
+            [solarisDropdownMenuDisabled]="disabled() || readOnly()"
+            [disabled]="disabled() || readOnly()"
+            [ariaLabel]="'solaris.rich-text.moreLists' | translate"
+            [solarisTooltip]="'solaris.rich-text.moreLists' | translate"
+          >
+            <solaris-icon name="chevron-down" [size]="16" />
+          </button>
+        </solaris-button-group>
+        <solaris-dropdown-menu #listsMenu>
+          <solaris-dropdown-menu-item
+            icon="list"
+            shortcut="Ctrl+Shift+8"
+            labelKey="solaris.rich-text.bulletList"
+            (itemSelected)="listInsert.emit('ul')"
+          />
+          <solaris-dropdown-menu-item
+            icon="list-ordered"
+            shortcut="Ctrl+Shift+7"
+            labelKey="solaris.rich-text.orderedList"
+            (itemSelected)="listInsert.emit('ol')"
+          />
+          <solaris-dropdown-menu-item
+            icon="list-todo"
+            shortcut="Ctrl+Shift+6"
+            labelKey="solaris.rich-text.taskList"
+            (itemSelected)="taskList.emit()"
+          />
+        </solaris-dropdown-menu>
+        <solaris-button-group size="sm">
+          <button
+            solaris-icon-button
+            appearance="ghost"
+            size="sm"
+            type="button"
+            [attr.data-action]="'align-left'"
+            (click)="alignChange.emit('left')"
+            [pressed]="align() === 'left'"
+            [disabled]="disabled() || readOnly()"
+            [ariaLabel]="'solaris.rich-text.alignLeft' | translate"
+            [solarisTooltip]="'solaris.rich-text.alignLeft' | translate"
+          >
+            <solaris-icon name="text-align-start" [size]="16" />
+          </button>
+          <button
+            solaris-icon-button
+            appearance="ghost"
+            size="sm"
+            type="button"
+            [attr.data-action]="'align-more'"
+            solaris-dropdown-menu-trigger
+            [solarisDropdownMenuTriggerFor]="alignMenu"
+            [solarisDropdownMenuDisabled]="disabled() || readOnly()"
+            [disabled]="disabled() || readOnly()"
+            [ariaLabel]="'solaris.rich-text.alignLabel' | translate"
+            [solarisTooltip]="'solaris.rich-text.alignLabel' | translate"
+          >
+            <solaris-icon name="chevron-down" [size]="16" />
+          </button>
+        </solaris-button-group>
+        <solaris-dropdown-menu #alignMenu>
+          <solaris-dropdown-menu-item
+            icon="text-align-start"
+            labelKey="solaris.rich-text.alignLeft"
+            (itemSelected)="alignChange.emit('left')"
+          />
+          <solaris-dropdown-menu-item
+            icon="text-align-center"
+            labelKey="solaris.rich-text.alignCenter"
+            (itemSelected)="alignChange.emit('center')"
+          />
+          <solaris-dropdown-menu-item
+            icon="text-align-end"
+            labelKey="solaris.rich-text.alignRight"
+            (itemSelected)="alignChange.emit('right')"
+          />
+          <solaris-dropdown-menu-item
+            icon="text-align-justify"
+            labelKey="solaris.rich-text.alignJustify"
+            (itemSelected)="alignChange.emit('justify')"
+          />
+        </solaris-dropdown-menu>
+      </div>
+      <solaris-divider
+        orientation="vertical"
+        spacing="sm"
+        [decorative]="false"
+      />
+      <div class="solaris-rich-text-toolbar-group">
+        <solaris-button-group size="sm">
+          <button
+            solaris-icon-button
+            appearance="ghost"
+            size="sm"
+            type="button"
+            [attr.data-action]="'undo'"
+            (click)="undo.emit()"
+            [disabled]="disabled() || readOnly() || !canUndo()"
+            [ariaLabel]="'solaris.rich-text.undo' | translate"
+            [solarisTooltip]="'solaris.rich-text.undo' | translate"
+          >
+            <solaris-icon name="undo-2" [size]="16" />
+          </button>
+          <button
+            solaris-icon-button
+            appearance="ghost"
+            size="sm"
+            type="button"
+            [attr.data-action]="'redo'"
+            (click)="redo.emit()"
+            [disabled]="disabled() || readOnly() || !canRedo()"
+            [ariaLabel]="'solaris.rich-text.redo' | translate"
+            [solarisTooltip]="'solaris.rich-text.redo' | translate"
+          >
+            <solaris-icon name="redo-2" [size]="16" />
+          </button>
+        </solaris-button-group>
+      </div>
+      <solaris-divider
+        orientation="vertical"
+        spacing="sm"
+        [decorative]="false"
+      />
+      <div class="solaris-rich-text-toolbar-group">
+        <button
+          type="button"
+          [attr.data-action]="'link'"
+          #linkTrigger
+          solaris-icon-button
+          appearance="ghost"
+          size="sm"
+          solaris-popover-trigger
+          [solarisPopoverTriggerFor]="linkPanel"
+          [solarisPopoverDisabled]="
+            disabled() || readOnly() || contentFormat() !== 'rich'
+          "
+          [solarisPopoverAriaHasPopup]="'dialog'"
+          [solarisPopoverAutoFocus]="'first-tabbable'"
+          solarisPopoverPadding="lg"
+          (click)="linkPrepare.emit()"
+          [disabled]="disabled() || readOnly()"
+          [attr.aria-pressed]="marks()['link']"
+          [attr.data-active]="marks()['link'] ? '' : null"
+          [attr.aria-label]="'solaris.rich-text.link' | translate"
+          [solarisTooltip]="'solaris.rich-text.link' | translate"
+        >
+          <solaris-icon name="link" [size]="16" />
+        </button>
+      </div>
+    }
+    <ng-template #linkPanel="solarisPopover" solaris-popover>
+      <div class="solaris-rich-text-link-panel">
+        <solaris-form-field [label]="'solaris.rich-text.linkUrl' | translate">
+          <input
+            solaris-input
+            type="url"
+            placeholder="https://"
+            [value]="linkUrl()"
+            (input)="linkUrlChange.emit($any($event.target).value)"
+            (keydown.enter)="applyLinkFromPanel()"
+            [attr.aria-label]="'solaris.rich-text.linkUrl' | translate"
+          />
+        </solaris-form-field>
+        <solaris-form-field [label]="'solaris.rich-text.linkText' | translate">
+          <input
+            solaris-input
+            type="text"
+            [value]="linkText()"
+            (input)="linkTextChange.emit($any($event.target).value)"
+            (keydown.enter)="applyLinkFromPanel()"
+            [attr.aria-label]="'solaris.rich-text.linkText' | translate"
+          />
+        </solaris-form-field>
+        <div class="solaris-rich-text-link-panel-actions">
+          <button
+            solaris-button
+            size="sm"
+            type="button"
+            [attr.data-action]="'apply-link'"
+            (click)="applyLinkFromPanel()"
+            [disabled]="disabled() || readOnly()"
+            [attr.aria-label]="'solaris.rich-text.apply' | translate"
+          >
+            {{ 'solaris.rich-text.apply' | translate }}
+          </button>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #colorPanel="solarisPopover" solaris-popover>
+      <div class="solaris-rich-text-color-panel">
+        <span class="solaris-rich-text-color-panel-title">{{
+          'solaris.rich-text.colorLabel' | translate
+        }}</span>
+        <div
+          class="solaris-rich-text-color-grid solaris-rich-text-color-grid--text"
+          role="group"
+          [attr.aria-label]="'solaris.rich-text.colorLabel' | translate"
+        >
+          @for (swatch of paletteColors; track swatch) {
+            <button
+              type="button"
+              class="solaris-rich-text-swatch"
+              [attr.data-color]="swatch"
+              [attr.data-active]="color() === swatch ? '' : null"
+              [attr.aria-pressed]="color() === swatch"
+              [attr.aria-label]="colorSwatchLabel(swatch)"
+              [attr.title]="colorSwatchLabel(swatch)"
+              (click)="colorPick.emit(swatch)"
+            >
+              <span
+                class="solaris-rich-text-swatch-dot"
+                [attr.data-color]="swatch"
+              >
+                @if (color() === swatch) {
+                  <solaris-icon
+                    class="solaris-rich-text-swatch-check"
+                    name="check"
+                    [size]="14"
+                  />
+                }
+              </span>
+            </button>
+          }
+        </div>
+        <span class="solaris-rich-text-color-panel-title">{{
+          'solaris.rich-text.highlightLabel' | translate
+        }}</span>
+        <div
+          class="solaris-rich-text-color-grid solaris-rich-text-color-grid--highlight"
+          role="group"
+          [attr.aria-label]="'solaris.rich-text.highlightLabel' | translate"
+        >
+          @for (color of highlightColors; track color) {
+            <button
+              type="button"
+              class="solaris-rich-text-swatch"
+              [attr.data-highlight]="color"
+              [attr.data-active]="highlight() === color ? '' : null"
+              [attr.aria-pressed]="highlight() === color"
+              [attr.aria-label]="colorSwatchLabel(color)"
+              [attr.title]="colorSwatchLabel(color)"
+              (click)="highlightPick.emit(color)"
+            >
+              <span
+                class="solaris-rich-text-swatch-dot"
+                [attr.data-highlight]="color"
+              >
+                @if (highlight() === color) {
+                  <solaris-icon
+                    class="solaris-rich-text-swatch-check"
+                    name="check"
+                    [size]="14"
+                  />
+                }
+              </span>
+            </button>
+          }
+        </div>
+        <div class="solaris-rich-text-color-panel-actions">
+          <button
+            solaris-button
+            size="sm"
+            appearance="outline"
+            [fullWidth]="true"
+            icon="cancel"
+            type="button"
+            [attr.data-action]="'remove-highlight'"
+            (click)="highlightClear.emit()"
+            [disabled]="disabled() || readOnly()"
+            [attr.aria-label]="'solaris.rich-text.removeHighlight' | translate"
+          >
+            {{ 'solaris.rich-text.removeHighlight' | translate }}
+          </button>
+        </div>
+        @if (contrast(); as panelContrast) {
+          <div class="solaris-rich-text-color-panel-accessibility">
+            <span class="solaris-rich-text-color-panel-accessibility-tag">
+              <solaris-icon
+                class="solaris-rich-text-color-panel-accessibility-tag-icon"
+                name="contrast"
+                [size]="14"
+              />
+              <span>{{ 'solaris.rich-text.accessibility' | translate }}</span>
+              <span
+                class="solaris-rich-text-color-panel-accessibility-dot"
+                aria-hidden="true"
+              ></span>
+              <span
+                class="solaris-rich-text-color-panel-accessibility-level"
+                [attr.data-ok]="panelContrast.level === 'ok' ? '' : null"
+                [attr.data-partial]="
+                  panelContrast.level === 'partial' ? '' : null
+                "
+                >{{
+                  panelContrast.level === 'ok'
+                    ? ('solaris.rich-text.accessible' | translate)
+                    : panelContrast.level === 'partial'
+                      ? ('solaris.rich-text.partiallyAccessible' | translate)
+                      : ('solaris.rich-text.inaccessible' | translate)
+                }}</span
+              >
+            </span>
+            <span
+              class="solaris-rich-text-color-panel-accessibility-help"
+              [attr.title]="
+                panelContrast.level === 'ok'
+                  ? ('solaris.rich-text.colorAccessibilityOk' | translate)
+                  : panelContrast.level === 'partial'
+                    ? ('solaris.rich-text.colorAccessibilityPartial'
+                      | translate)
+                    : ('solaris.rich-text.colorAccessibilityFail' | translate)
+              "
+              [attr.aria-label]="
+                panelContrast.level === 'ok'
+                  ? ('solaris.rich-text.colorAccessibilityOk' | translate)
+                  : panelContrast.level === 'partial'
+                    ? ('solaris.rich-text.colorAccessibilityPartial'
+                      | translate)
+                    : ('solaris.rich-text.colorAccessibilityFail' | translate)
+              "
+              ><solaris-icon name="circle-question-mark" [size]="16"
+            /></span>
+          </div>
+        }
+      </div>
+    </ng-template>
+    <div class="solaris-rich-text-toolbar-divider" role="separator"></div>
+    <div class="solaris-rich-text-toolbar-group">
+      <button
+        type="button"
+        [attr.data-action]="'format'"
+        solaris-icon-button
+        appearance="ghost"
+        size="sm"
+        (click)="formatToggle.emit()"
+        [disabled]="disabled() || readOnly()"
+        [attr.aria-label]="'solaris.rich-text.plainMode' | translate"
+        [solarisTooltip]="'solaris.rich-text.plainMode' | translate"
+      >
+        <solaris-icon name="case-sensitive" [size]="16" />
+      </button>
+      <button
+        type="button"
+        [attr.data-action]="'image'"
+        solaris-icon-button
+        appearance="ghost"
+        size="sm"
+        (click)="imageInput.click()"
+        [disabled]="disabled() || readOnly()"
+        [attr.aria-label]="'solaris.rich-text.image' | translate"
+        [solarisTooltip]="'solaris.rich-text.image' | translate"
+      >
+        <solaris-icon name="image" [size]="16" />
+      </button>
+      <button
+        type="button"
+        [attr.data-action]="'table'"
+        solaris-icon-button
+        appearance="ghost"
+        size="sm"
+        (click)="tableInsert.emit()"
+        [disabled]="disabled() || readOnly()"
+        [attr.aria-label]="'solaris.rich-text.table' | translate"
+        [solarisTooltip]="'solaris.rich-text.table' | translate"
+      >
+        <solaris-icon name="table" [size]="16" />
+      </button>
+      <input
+        #imageInput
+        type="file"
+        class="solaris-rich-text-file-input"
+        [accept]="imageAccept()"
+        (change)="imageFile.emit($event)"
+        hidden
+      />
+    </div>
+  </div>
+}

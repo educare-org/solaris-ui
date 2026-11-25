@@ -1,8 +1,14 @@
-import { SOLARIS_RICH_TEXT_VERSION } from '../model/rich-text-editor.defaults';
+import {
+  SOLARIS_RICH_TEXT_CODE_LANGUAGES,
+  SOLARIS_RICH_TEXT_VERSION,
+} from '../model/rich-text-editor.defaults';
+
+import { normalizeCodeBlockLanguage } from '../../../data-display/code-block/runtime/code-block-highlighting';
 
 import type {
   SolarisRichTextActiveMark,
   SolarisRichTextBlock,
+  SolarisRichTextCodeLanguage,
   SolarisRichTextField,
   SolarisRichTextMention,
   SolarisRichTextValue,
@@ -44,11 +50,37 @@ export function stripHtmlToText(html: string): string {
     .trim();
 }
 
+export function trimTrailingWhitespace(line: string): string {
+  let end = line.length;
+  while (end > 0 && (line[end - 1] === ' ' || line[end - 1] === '\t')) {
+    end -= 1;
+  }
+  return line.slice(0, end);
+}
+
+function stripTagPair(
+  html: string,
+  tag: 'script' | 'style' | 'iframe',
+): string {
+  const openTag = `<${tag}`;
+  const closeTag = `</${tag}>`;
+  let output = html;
+  let start = output.toLowerCase().indexOf(openTag);
+  while (start >= 0) {
+    const end = output.toLowerCase().indexOf(closeTag, start + openTag.length);
+    if (end < 0) break;
+    output = output.slice(0, start) + output.slice(end + closeTag.length);
+    start = output.toLowerCase().indexOf(openTag);
+  }
+  return output;
+}
+
 export function sanitizeRichTextHtml(html: string): string {
-  const stripped = html
-    .replace(/<script[\s\S]*?<\/script>/gi, '')
-    .replace(/<style[\s\S]*?<\/style>/gi, '')
-    .replace(/<iframe[\s\S]*?<\/iframe>/gi, '')
+  let stripped = html;
+  for (const tag of ['script', 'style', 'iframe'] as const) {
+    stripped = stripTagPair(stripped, tag);
+  }
+  stripped = stripped
     .replace(/\son\w+="[^"]*"/gi, '')
     .replace(/\son\w+='[^']*'/gi, '')
     .replace(/javascript:/gi, '');
@@ -154,7 +186,7 @@ export function truncateToMaxLength(
 export type SolarisRgb = readonly [number, number, number];
 
 export function parseCssRgb(css: string): SolarisRgb | null {
-  const match = css.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+  const match = new RegExp(/rgba?\((\d+),\s*(\d+),\s*(\d+)/).exec(css);
   if (!match) return null;
   return [Number(match[1]), Number(match[2]), Number(match[3])];
 }
@@ -163,7 +195,9 @@ export function parseCssRgba(css: string): {
   color: SolarisRgb;
   alpha: number;
 } | null {
-  const match = css.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+  const match = new RegExp(
+    /rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/,
+  ).exec(css);
   if (!match) return null;
   return {
     color: [Number(match[1]), Number(match[2]), Number(match[3])],
@@ -372,16 +406,16 @@ export interface SolarisRichTextActiveScan {
   highlight: SolarisRichTextHighlight;
 }
 
-const ACTIVE_BLOCK_TAGS: readonly string[] = [
+const ACTIVE_BLOCK_TAGS: ReadonlySet<string> = new Set([
   'P',
   'H1',
   'H2',
   'H3',
   'BLOCKQUOTE',
   'PRE',
-];
+]);
 
-const ACTIVE_SPAN_COLORS: readonly string[] = [
+const ACTIVE_SPAN_COLORS: ReadonlySet<string> = new Set([
   'primary',
   'primaryLight',
   'primaryDark',
@@ -411,7 +445,7 @@ const ACTIVE_SPAN_COLORS: readonly string[] = [
   'violetDark',
   'muted',
   'neutralDark',
-];
+]);
 
 export function createActiveScan(): SolarisRichTextActiveScan {
   return {
@@ -458,7 +492,7 @@ function accumulateBlockState(
   el: Element,
   scan: SolarisRichTextActiveScan,
 ): void {
-  if (ACTIVE_BLOCK_TAGS.includes(el.tagName)) {
+  if (ACTIVE_BLOCK_TAGS.has(el.tagName)) {
     scan.block = el.tagName.toLowerCase() as SolarisRichTextBlockTag;
   }
   if (el.hasAttribute('data-align')) {
@@ -475,11 +509,11 @@ function accumulateSpanState(
 ): void {
   if (el.tagName !== 'SPAN') return;
   const color = el.getAttribute('data-color');
-  if (color && ACTIVE_SPAN_COLORS.includes(color)) {
+  if (color && ACTIVE_SPAN_COLORS.has(color)) {
     scan.color = color as SolarisRichTextColor;
   }
   const highlight = el.getAttribute('data-highlight');
-  if (highlight && ACTIVE_SPAN_COLORS.includes(highlight)) {
+  if (highlight && ACTIVE_SPAN_COLORS.has(highlight)) {
     scan.highlight = highlight as SolarisRichTextHighlight;
   }
 }
@@ -501,6 +535,54 @@ export function buildBlockHtml(
 ): string {
   const content = text.trim().length > 0 ? escapeHtml(text) : '<br />';
   return `<${tag}>${content}</${tag}>`;
+}
+
+export function blockKindForTag(
+  tag: SolarisRichTextBlockTag,
+): SolarisRichTextBlock['blockType'] {
+  switch (tag) {
+    case 'h1':
+    case 'h2':
+    case 'h3':
+      return 'heading';
+    case 'blockquote':
+      return 'quote';
+    case 'pre':
+      return 'code';
+    default:
+      return 'paragraph';
+  }
+}
+
+const SUPPORTED_CODE_LANGUAGES = new Set<string>(
+  SOLARIS_RICH_TEXT_CODE_LANGUAGES.map((language) => language.id),
+);
+
+export function normalizeCodeLanguage(
+  value: string | null | undefined,
+): SolarisRichTextCodeLanguage {
+  const normalized = normalizeCodeBlockLanguage(
+    (value ?? '').trim().toLowerCase(),
+  );
+  return (
+    SUPPORTED_CODE_LANGUAGES.has(normalized) ? normalized : 'text'
+  ) as SolarisRichTextCodeLanguage;
+}
+
+export function buildCodeBlockHtml(options: {
+  language: string;
+  lineNumbers: boolean;
+  text: string;
+}): string {
+  const lines = options.text.length > 0 ? options.text.split('\n') : [''];
+  const body = lines
+    .map(
+      (line) =>
+        `<div class="solaris-rich-text-code-line">${line.length > 0 ? escapeHtml(line) : '<br />'}</div>`,
+    )
+    .join('');
+  const numbers = options.lineNumbers ? ' data-line-numbers=""' : '';
+  return `<pre data-language="${escapeHtml(normalizeCodeLanguage(options.language))}"${numbers}>${body}</pre>`;
 }
 
 export function buildListHtml(
@@ -580,9 +662,9 @@ function stripDataSpans(
   attr: 'data-color' | 'data-highlight',
 ): string {
   const tagPattern = /<\/?span[^<>]*>/gi;
-  const marker = new RegExp(`${attr}(?==|\\s|>)`, 'i');
+  const marker = new RegExp(String.raw`${attr}(?==|\s|>)`, 'i');
   const otherAttr = attr === 'data-color' ? 'data-highlight' : 'data-color';
-  const otherMarker = new RegExp(`${otherAttr}(?==|\\s|>)`, 'i');
+  const otherMarker = new RegExp(String.raw`${otherAttr}(?==|\s|>)`, 'i');
   let result = '';
   let rest = 0;
   const markedStack: boolean[] = [];
@@ -599,12 +681,11 @@ function stripDataSpans(
         if (otherMarker.test(tag)) {
           rewrite = tag.replace(
             new RegExp(
-              `\\s*${attr}(?:\\s*=\\s*(?:"[^"]*"|'[^']*'|[^\\s>]+))?`,
+              String.raw`\s*${attr}(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+))?`,
               'i',
             ),
             '',
           );
-          drop = false;
         } else {
           drop = true;
         }
@@ -633,7 +714,7 @@ export function insertBlockEntry(
   return [...blocks, { id: nextBlockId(), blockType, text }];
 }
 
-export const RICH_TEXT_ZERO_WIDTH_SPACE = String.fromCharCode(8203);
+export const RICH_TEXT_ZERO_WIDTH_SPACE = String.fromCodePoint(8203);
 
 export function stripZeroWidthSpaces(value: string): string {
   return value.split(RICH_TEXT_ZERO_WIDTH_SPACE).join('');

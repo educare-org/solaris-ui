@@ -1,4 +1,10 @@
-import type { SolarisRichTextInlineTag } from './rich-text-editor.types';
+import type {
+  SolarisRichTextCodeLanguage,
+  SolarisRichTextCodeLanguageOption,
+  SolarisRichTextInlineTag,
+} from './rich-text-editor.types';
+
+import { getLanguageDisplayLabel } from '../../../data-display/code-block/runtime/code-block-highlighting';
 
 export const SOLARIS_RICH_TEXT_VERSION = 1 as const;
 
@@ -68,6 +74,35 @@ export const SOLARIS_RICH_TEXT_ALLOWED_TAGS: readonly string[] = [
   'caption',
 ];
 
+export const SOLARIS_RICH_TEXT_CODE_LINE_CLASS = 'solaris-rich-text-code-line';
+
+const SOLARIS_RICH_TEXT_CODE_LANGUAGE_IDS: readonly Exclude<
+  SolarisRichTextCodeLanguage,
+  'auto'
+>[] = [
+  'text',
+  'typescript',
+  'javascript',
+  'html',
+  'scss',
+  'css',
+  'json',
+  'shell',
+  'bash',
+  'powershell',
+  'java',
+  'angular',
+];
+
+export const SOLARIS_RICH_TEXT_CODE_LANGUAGES: readonly SolarisRichTextCodeLanguageOption[] =
+  [
+    { id: 'auto', name: 'Detect language' },
+    ...SOLARIS_RICH_TEXT_CODE_LANGUAGE_IDS.map((id) => ({
+      id,
+      name: getLanguageDisplayLabel(id),
+    })),
+  ];
+
 export const SOLARIS_RICH_TEXT_ALLOWED_ATTRIBUTES: readonly string[] = [
   'href',
   'target',
@@ -85,4 +120,6 @@ export const SOLARIS_RICH_TEXT_ALLOWED_ATTRIBUTES: readonly string[] = [
   'data-image',
   'data-highlight',
   'data-task-list',
+  'data-language',
+  'data-line-numbers',
 ];
