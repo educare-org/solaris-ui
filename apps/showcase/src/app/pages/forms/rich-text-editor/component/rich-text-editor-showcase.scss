@@ -1,13 +1,45 @@
-.rich-text-editor-showcase__composer-row {
+.rich-text-editor-showcase__fields-demo {
   display: flex;
-  align-items: flex-end;
-  gap: var(--solaris-spacing-2);
+  flex-direction: column;
+  gap: var(--solaris-spacing-3);
   width: 100%;
 }
 
-.rich-text-editor-showcase__composer-row solaris-rich-text-editor {
+.rich-text-editor-showcase__fields-format {
+  align-self: flex-start;
+}
+
+.rich-text-editor-showcase__composer {
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+
+.rich-text-editor-showcase__composer solaris-rich-text-editor {
   flex: 1 1 auto;
   min-width: 0;
+
+  // Room for the floating send button inside the composer box.
+  padding-bottom: calc(
+    var(--solaris-spacing-10) + var(--solaris-spacing-3) +
+      var(--solaris-spacing-2)
+  );
+}
+
+.rich-text-editor-showcase__composer-send {
+  position: absolute;
+  right: var(--solaris-spacing-3);
+  bottom: var(--solaris-spacing-3);
+}
+
+.rich-text-editor-showcase__composer-format {
+  position: absolute;
+  left: var(--solaris-spacing-3);
+  bottom: var(--solaris-spacing-3);
+}
+
+.rich-text-editor-showcase__composer-hint {
+  color: var(--solaris-neutral-text-secondary);
 }
 
 .rich-text-editor-showcase__note {

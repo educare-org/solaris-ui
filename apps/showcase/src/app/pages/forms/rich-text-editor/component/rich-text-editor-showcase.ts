@@ -7,6 +7,9 @@ import {
   SolarisFormFieldComponent,
   SolarisPreviewCodeComponent,
   SolarisRichTextEditorComponent,
+  SolarisTabComponent,
+  SolarisTabPanelComponent,
+  SolarisTabsComponent,
   SolarisTranslatePipe,
   SolarisTranslateService,
   type SolarisRichTextField,
@@ -22,6 +25,9 @@ import { ShowcaseDocsSection } from '../../../../shell/docs-section/docs-section
 
 import { createShowcasePageActions } from '../../../shared/showcase-page-utils';
 import {
+  RICH_TEXT_EDITOR_SHOWCASE_APPEARANCE_FILLED_CODE,
+  RICH_TEXT_EDITOR_SHOWCASE_APPEARANCE_OUTLINE_CODE,
+  RICH_TEXT_EDITOR_SHOWCASE_APPEARANCE_SURFACE_CODE,
   RICH_TEXT_EDITOR_SHOWCASE_BASIC_CODE,
   RICH_TEXT_EDITOR_SHOWCASE_BREADCRUMBS,
   RICH_TEXT_EDITOR_SHOWCASE_COMPOSER_CODE,
@@ -46,6 +52,9 @@ import {
     SolarisFormFieldComponent,
     SolarisPreviewCodeComponent,
     SolarisRichTextEditorComponent,
+    SolarisTabComponent,
+    SolarisTabPanelComponent,
+    SolarisTabsComponent,
     SolarisTranslatePipe,
     ShowcaseDocsPageFooter,
     ShowcaseDocsPageHeader,
@@ -70,6 +79,12 @@ export class RichTextEditorShowcasePage {
   protected readonly basicCode = RICH_TEXT_EDITOR_SHOWCASE_BASIC_CODE;
   protected readonly fieldsCode = RICH_TEXT_EDITOR_SHOWCASE_FIELDS_CODE;
   protected readonly composerCode = RICH_TEXT_EDITOR_SHOWCASE_COMPOSER_CODE;
+  protected readonly appearanceOutlineCode =
+    RICH_TEXT_EDITOR_SHOWCASE_APPEARANCE_OUTLINE_CODE;
+  protected readonly appearanceSurfaceCode =
+    RICH_TEXT_EDITOR_SHOWCASE_APPEARANCE_SURFACE_CODE;
+  protected readonly appearanceFilledCode =
+    RICH_TEXT_EDITOR_SHOWCASE_APPEARANCE_FILLED_CODE;
   protected readonly statesCode = RICH_TEXT_EDITOR_SHOWCASE_STATES_CODE;
   protected readonly reactiveCode = RICH_TEXT_EDITOR_SHOWCASE_REACTIVE_CODE;
 
@@ -81,6 +96,14 @@ export class RichTextEditorShowcasePage {
   protected readonly notesControl = new FormControl('');
 
   protected readonly submittedLog = signal<readonly SolarisRichTextValue[]>([]);
+
+  protected readonly formattingVisible = signal(true);
+
+  protected readonly fieldFormattingVisible = signal(true);
+
+  protected readonly selectedAppearance = signal<
+    'outline' | 'surface' | 'filled'
+  >('outline');
 
   private readonly pageActions = createShowcasePageActions(
     this.translateService,

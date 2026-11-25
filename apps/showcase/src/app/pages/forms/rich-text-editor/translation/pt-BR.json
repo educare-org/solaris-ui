@@ -3,7 +3,14 @@
     "ai": {
       "prompt": "Estou olhando a documentação Solaris UI de {{component}} ({{url}}). Me ajude a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar."
     },
+    "appearance": {
+      "filled": "Filled",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
     "composer": {
+      "formatHide": "Ocultar formatação",
+      "formatShow": "Mostrar formatação",
       "hint": "Shift + Enter para nova linha. Enter envia.",
       "label": "Mensagem do chat",
       "note": "Variante compacta com toolbar flutuante. Enter envia, Shift + Enter quebra linha.",
@@ -15,6 +22,8 @@
       "note": "Variante de campo com toolbar fixa. Digite { para inserir um campo do formulário."
     },
     "fields": {
+      "formatHide": "Ocultar formatação",
+      "formatShow": "Mostrar formatação",
       "hint": "Escreva uma mensagem objetiva.",
       "label": "Recibo",
       "note": "Pills são atômicas: Backspace remove o campo inteiro."
@@ -31,6 +40,7 @@
       "title": "Valores enviados"
     },
     "section": {
+      "appearances": "Aparências",
       "composer": "Composer",
       "document": "Documento",
       "fields": "Campos do formulário",

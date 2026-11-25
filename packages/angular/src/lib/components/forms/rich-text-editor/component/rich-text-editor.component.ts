@@ -5,6 +5,7 @@ import {
   booleanAttribute,
   ChangeDetectionStrategy,
   computed,
+  DestroyRef,
   ElementRef,
   forwardRef,
   HostListener,
@@ -195,6 +196,23 @@ export class SolarisRichTextEditorComponent
   private readonly translateService = inject(SolarisTranslateService);
   private readonly themeService = inject(SolarisThemeService);
   private readonly formField = inject(SOLARIS_FORM_FIELD, { optional: true });
+  private readonly destroyRef = inject(DestroyRef);
+
+  constructor() {
+    super();
+    // The floating toolbar uses fixed positioning, so it must follow the
+    // selection on any scroll (capture catches nested scrollers too).
+    if (typeof window === 'undefined') return;
+    const repositionFloatingToolbar = (): void => {
+      if (this.floatingVisible()) this.updateFloatingPosition();
+    };
+    window.addEventListener('scroll', repositionFloatingToolbar, true);
+    window.addEventListener('resize', repositionFloatingToolbar);
+    this.destroyRef.onDestroy(() => {
+      window.removeEventListener('scroll', repositionFloatingToolbar, true);
+      window.removeEventListener('resize', repositionFloatingToolbar);
+    });
+  }
 
   private readonly editorRef = viewChild<ElementRef<HTMLElement>>('editor');
 
@@ -1044,18 +1062,34 @@ export class SolarisRichTextEditorComponent
         return;
       }
       const range = selection.getRangeAt(0);
+      const host = this.elementRef.nativeElement;
       if (!editor.nativeElement.contains(range.commonAncestorContainer)) {
         this.floatingVisible.set(false);
         return;
       }
       const rect = range.getBoundingClientRect();
-      const hostRect = this.elementRef.nativeElement.getBoundingClientRect();
       if (rect.width === 0 && rect.height === 0) {
         this.floatingVisible.set(false);
         return;
       }
-      this.floatingLeft.set(Math.max(8, rect.left - hostRect.left));
-      this.floatingTop.set(Math.max(0, rect.top - hostRect.top - 52));
+      const toolbar = host.querySelector<HTMLElement>(
+        '.solaris-rich-text-toolbar--floating',
+      );
+      const toolbarHeight = toolbar?.offsetHeight || 52;
+      const toolbarWidth = toolbar?.offsetWidth || 0;
+      const gap = 8;
+      // Fixed positioning escapes clipping ancestors (e.g. preview frames),
+      // so coordinates are viewport-relative. Same popover flip rule.
+      const fitsAbove = rect.top - toolbarHeight - gap >= 0;
+      const fitsBelow =
+        window.innerHeight - rect.bottom - toolbarHeight - gap >= 0;
+      const maxLeft = Math.max(gap, window.innerWidth - toolbarWidth - gap);
+      this.floatingLeft.set(Math.min(Math.max(gap, rect.left), maxLeft));
+      if (fitsAbove || !fitsBelow) {
+        this.floatingTop.set(rect.top - toolbarHeight - gap);
+      } else {
+        this.floatingTop.set(rect.bottom + gap);
+      }
       this.floatingVisible.set(true);
     } catch {
       this.floatingVisible.set(false);

@@ -3,7 +3,14 @@
     "ai": {
       "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
     },
+    "appearance": {
+      "filled": "Filled",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
     "composer": {
+      "formatHide": "Hide formatting",
+      "formatShow": "Show formatting",
       "hint": "Shift + Enter for a new line. Enter sends.",
       "label": "Chat message",
       "note": "Compact variant with floating toolbar. Enter submits, Shift + Enter breaks the line.",
@@ -15,6 +22,8 @@
       "note": "Field-like variant with fixed toolbar. Type { to insert a form field."
     },
     "fields": {
+      "formatHide": "Hide formatting",
+      "formatShow": "Show formatting",
       "hint": "Write an objective message.",
       "label": "Receipt",
       "note": "Pills are atomic: Backspace removes the whole field."
@@ -31,6 +40,7 @@
       "title": "Submitted values"
     },
     "section": {
+      "appearances": "Appearances",
       "composer": "Composer",
       "document": "Document",
       "fields": "Form fields",

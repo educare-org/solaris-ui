@@ -27,6 +27,7 @@ export const RICH_TEXT_EDITOR_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
 export const RICH_TEXT_EDITOR_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'document', labelKey: 'rich-text-editor.section.document' },
   { anchor: 'fields', labelKey: 'rich-text-editor.section.fields' },
+  { anchor: 'appearances', labelKey: 'rich-text-editor.section.appearances' },
   { anchor: 'composer', labelKey: 'rich-text-editor.section.composer' },
   { anchor: 'states', labelKey: 'rich-text-editor.section.states' },
   { anchor: 'form', labelKey: 'rich-text-editor.section.form' },
@@ -42,16 +43,35 @@ export const RICH_TEXT_EDITOR_SHOWCASE_BASIC_CODE = [
 
 export const RICH_TEXT_EDITOR_SHOWCASE_FIELDS_CODE = [
   '<solaris-form-field label="Receipt">',
-  '  <solaris-rich-text-editor [fields]="fields" [maxLength]="300" />',
+  '  <solaris-rich-text-editor [fields]="fields" [maxLength]="300" [toolbarDisplay]="fieldFormattingVisible() ? undefined : \'hidden\'" />',
   '</solaris-form-field>',
+  '<button solaris-button (click)="fieldFormattingVisible.set(!fieldFormattingVisible())">Toggle formatting</button>',
 ].join('\n');
 
 export const RICH_TEXT_EDITOR_SHOWCASE_COMPOSER_CODE = [
-  '<div class="composer-row">',
-  '  <solaris-rich-text-editor #composer variant="composer" (submitted)="send($event)" />',
-  '  <button solaris-button (click)="composer.submit()">Send</button>',
+  '<div class="composer-box">',
+  '  <solaris-rich-text-editor #composer variant="composer" [toolbarDisplay]="formattingVisible() ? undefined : \'hidden\'" (submitted)="send($event)" />',
+  '  <button solaris-button class="composer-box__format" (click)="formattingVisible.set(!formattingVisible())">Toggle formatting</button>',
+  '  <button solaris-button class="composer-box__send" (click)="composer.submit()">Send</button>',
   '</div>',
+  '<p class="composer-box__hint">Shift + Enter for a new line. Enter sends.</p>',
 ].join('\n');
+
+function richTextEditorAppearanceCode(appearance: string): string {
+  const label = appearance.charAt(0).toUpperCase() + appearance.slice(1);
+  return [
+    `<solaris-form-field label="${label}" appearance="${appearance}">`,
+    `  <solaris-rich-text-editor placeholder="${label}" />`,
+    '</solaris-form-field>',
+  ].join('\n');
+}
+
+export const RICH_TEXT_EDITOR_SHOWCASE_APPEARANCE_OUTLINE_CODE =
+  richTextEditorAppearanceCode('outline');
+export const RICH_TEXT_EDITOR_SHOWCASE_APPEARANCE_SURFACE_CODE =
+  richTextEditorAppearanceCode('surface');
+export const RICH_TEXT_EDITOR_SHOWCASE_APPEARANCE_FILLED_CODE =
+  richTextEditorAppearanceCode('filled');
 
 export const RICH_TEXT_EDITOR_SHOWCASE_STATES_CODE = [
   '<solaris-rich-text-editor [invalid]="true" placeholder="Invalid" />',

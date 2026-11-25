@@ -32,13 +32,86 @@
       {{ 'rich-text-editor.fields.note' | translate }}
     </p>
     <solaris-preview-code [code]="fieldsCode" language="html">
-      <solaris-form-field
-        [label]="'rich-text-editor.fields.label' | translate"
-        [hint]="'rich-text-editor.fields.hint' | translate"
-      >
-        <solaris-rich-text-editor [fields]="fields" [maxLength]="300" />
-      </solaris-form-field>
+      <div class="rich-text-editor-showcase__fields-demo">
+        <solaris-form-field
+          [label]="'rich-text-editor.fields.label' | translate"
+          [hint]="'rich-text-editor.fields.hint' | translate"
+        >
+          <solaris-rich-text-editor
+            [fields]="fields"
+            [maxLength]="300"
+            [toolbarDisplay]="fieldFormattingVisible() ? undefined : 'hidden'"
+          />
+        </solaris-form-field>
+        <button
+          solaris-button
+          type="button"
+          class="rich-text-editor-showcase__fields-format"
+          [attr.data-action]="'fields-format-toggle'"
+          [attr.aria-pressed]="fieldFormattingVisible()"
+          (click)="fieldFormattingVisible.set(!fieldFormattingVisible())"
+        >
+          {{ (fieldFormattingVisible() ? 'rich-text-editor.fields.formatHide' :
+          'rich-text-editor.fields.formatShow' ) | translate }}
+        </button>
+      </div>
     </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="appearances"
+    titleKey="rich-text-editor.section.appearances"
+  >
+    <solaris-tabs
+      [(value)]="selectedAppearance"
+      [ariaLabel]="'rich-text-editor.section.appearances' | translate"
+    >
+      <solaris-tab value="outline"
+        >{{ 'rich-text-editor.appearance.outline' | translate }}</solaris-tab
+      >
+      <solaris-tab value="surface"
+        >{{ 'rich-text-editor.appearance.surface' | translate }}</solaris-tab
+      >
+      <solaris-tab value="filled"
+        >{{ 'rich-text-editor.appearance.filled' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="outline">
+        <solaris-preview-code [code]="appearanceOutlineCode" language="html">
+          <solaris-form-field
+            [label]="'rich-text-editor.appearance.outline' | translate"
+            appearance="outline"
+          >
+            <solaris-rich-text-editor
+              [placeholder]="'rich-text-editor.appearance.outline' | translate"
+            />
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="surface">
+        <solaris-preview-code [code]="appearanceSurfaceCode" language="html">
+          <solaris-form-field
+            [label]="'rich-text-editor.appearance.surface' | translate"
+            appearance="surface"
+          >
+            <solaris-rich-text-editor
+              [placeholder]="'rich-text-editor.appearance.surface' | translate"
+            />
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="filled">
+        <solaris-preview-code [code]="appearanceFilledCode" language="html">
+          <solaris-form-field
+            [label]="'rich-text-editor.appearance.filled' | translate"
+            appearance="filled"
+          >
+            <solaris-rich-text-editor
+              [placeholder]="'rich-text-editor.appearance.filled' | translate"
+            />
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
   </app-docs-section>
 
   <app-docs-section
@@ -49,16 +122,29 @@
       {{ 'rich-text-editor.composer.note' | translate }}
     </p>
     <solaris-preview-code [code]="composerCode" language="html">
-      <div class="rich-text-editor-showcase__composer-row">
+      <div class="rich-text-editor-showcase__composer">
         <solaris-rich-text-editor
           #composer
           variant="composer"
+          [toolbarDisplay]="formattingVisible() ? undefined : 'hidden'"
           [placeholder]="'rich-text-editor.composer.label' | translate"
           (submitted)="onComposerSubmit($event)"
         />
         <button
           solaris-button
           type="button"
+          class="rich-text-editor-showcase__composer-format"
+          [attr.data-action]="'composer-format-toggle'"
+          [attr.aria-pressed]="formattingVisible()"
+          (click)="formattingVisible.set(!formattingVisible())"
+        >
+          {{ (formattingVisible() ? 'rich-text-editor.composer.formatHide' :
+          'rich-text-editor.composer.formatShow' ) | translate }}
+        </button>
+        <button
+          solaris-button
+          type="button"
+          class="rich-text-editor-showcase__composer-send"
           [attr.data-action]="'composer-send'"
           (click)="composer.submit()"
         >
@@ -66,6 +152,9 @@
         </button>
       </div>
     </solaris-preview-code>
+    <p class="rich-text-editor-showcase__composer-hint">
+      {{ 'rich-text-editor.composer.hint' | translate }}
+    </p>
     <p class="rich-text-editor-showcase__note">
       {{ 'rich-text-editor.log.title' | translate }}
     </p>
