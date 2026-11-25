@@ -1,0 +1,88 @@
+import type { SolarisRichTextInlineTag } from './rich-text-editor.types';
+
+export const SOLARIS_RICH_TEXT_VERSION = 1 as const;
+
+export const SOLARIS_RICH_TEXT_DEFAULT_MAX_TABLE_ROWS = 5;
+
+export const SOLARIS_RICH_TEXT_DEFAULT_MAX_TABLE_COLS = 5;
+
+export const SOLARIS_RICH_TEXT_MAX_HISTORY = 50;
+
+export const SOLARIS_RICH_TEXT_HISTORY_IDLE_MS = 1000;
+
+export const SOLARIS_RICH_TEXT_FORMAT_SWITCH_DURATION_MS = 150;
+
+export const SOLARIS_RICH_TEXT_IMAGE_PRESET_WIDTHS: Record<
+  'S' | 'M' | 'L',
+  number
+> = { S: 0.25, M: 0.5, L: 0.75 };
+
+export const SOLARIS_RICH_TEXT_INLINE_TAG_SHORTCUTS: Record<
+  string,
+  SolarisRichTextInlineTag
+> = {
+  b: 'strong',
+  i: 'em',
+  u: 'u',
+  ',': 'sub',
+  '.': 'sup',
+};
+
+export const SOLARIS_RICH_TEXT_FORMAT_SWITCH_EASING =
+  'cubic-bezier(0.4, 0, 0.2, 1)';
+
+export const SOLARIS_RICH_TEXT_CONTRAST_AA_RATIO = 4.5;
+export const SOLARIS_RICH_TEXT_CONTRAST_AA_LARGE_RATIO = 3;
+
+export const SOLARIS_RICH_TEXT_ALLOWED_TAGS: readonly string[] = [
+  'p',
+  'h1',
+  'h2',
+  'h3',
+  'blockquote',
+  'pre',
+  'code',
+  'strong',
+  'em',
+  'u',
+  's',
+  'sub',
+  'sup',
+  'a',
+  'ul',
+  'ol',
+  'li',
+  'br',
+  'hr',
+  'span',
+  'figure',
+  'img',
+  'figcaption',
+  'input',
+  'table',
+  'thead',
+  'tbody',
+  'tr',
+  'th',
+  'td',
+  'caption',
+];
+
+export const SOLARIS_RICH_TEXT_ALLOWED_ATTRIBUTES: readonly string[] = [
+  'href',
+  'target',
+  'rel',
+  'alt',
+  'src',
+  'scope',
+  'colspan',
+  'rowspan',
+  'type',
+  'checked',
+  'disabled',
+  'data-mention',
+  'data-field-id',
+  'data-image',
+  'data-highlight',
+  'data-task-list',
+];

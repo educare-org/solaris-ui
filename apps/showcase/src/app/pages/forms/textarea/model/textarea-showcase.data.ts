@@ -20,8 +20,8 @@ export const TEXTAREA_SHOWCASE_PREV: ShowcaseDocsPageNav = {
 };
 
 export const TEXTAREA_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.password-field',
-  route: '/forms/password-field',
+  labelKey: 'shell.sidebar.item.rich-text-editor',
+  route: '/forms/rich-text-editor',
 };
 
 export const TEXTAREA_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [

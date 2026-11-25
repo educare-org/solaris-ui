@@ -275,6 +275,21 @@ export const SOLARIS_ICONS_METADATA: Record<string, SolarisIconMetadata> = {
     class: 'stroke-only',
     availableVariants: ['outline', 'solid', 'duotone'],
   },
+  'circle-question-mark': {
+    categories: ['status'],
+    keywords: [
+      'help',
+      'ajuda',
+      'question',
+      'pergunta',
+      'tooltip',
+      'circle',
+      'mark',
+    ],
+    aliases: [],
+    class: 'stroke-only',
+    availableVariants: ['outline'],
+  },
   city: {
     categories: ['data'],
     keywords: ['cidade', 'urban', 'city'],

@@ -215,6 +215,10 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
                 route: '/forms/textarea',
               },
               {
+                labelKey: 'shell.sidebar.item.rich-text-editor',
+                route: '/forms/rich-text-editor',
+              },
+              {
                 labelKey: 'shell.sidebar.item.password-field',
                 route: '/forms/password-field',
               },

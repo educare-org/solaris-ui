@@ -15,8 +15,8 @@ export const PASSWORD_FIELD_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrum
   ];
 
 export const PASSWORD_FIELD_SHOWCASE_PREV: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.textarea',
-  route: '/forms/textarea',
+  labelKey: 'shell.sidebar.item.rich-text-editor',
+  route: '/forms/rich-text-editor',
 };
 
 export const PASSWORD_FIELD_SHOWCASE_NEXT: ShowcaseDocsPageNav = {

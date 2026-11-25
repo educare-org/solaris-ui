@@ -1,0 +1,48 @@
+{
+  "rich-text-editor": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "composer": {
+      "hint": "Shift + Enter for a new line. Enter sends.",
+      "label": "Chat message",
+      "note": "Compact variant with floating toolbar. Enter submits, Shift + Enter breaks the line.",
+      "send": "Send"
+    },
+    "description": "Native contenteditable rich text editor with document and composer variants, form-field pills and char count.",
+    "document": {
+      "label": "Receipt text",
+      "note": "Field-like variant with fixed toolbar. Type { to insert a form field."
+    },
+    "fields": {
+      "hint": "Write an objective message.",
+      "label": "Receipt",
+      "note": "Pills are atomic: Backspace removes the whole field."
+    },
+    "form": {
+      "hint": "Autosaved as draft.",
+      "label": "Notes"
+    },
+    "installation": {
+      "note": "Install the Solaris UI package and import the rich text editor with Form Field."
+    },
+    "log": {
+      "empty": "Nothing submitted yet.",
+      "title": "Submitted values"
+    },
+    "section": {
+      "composer": "Composer",
+      "document": "Document",
+      "fields": "Form fields",
+      "form": "Form integration",
+      "installation": "Installation",
+      "states": "States"
+    },
+    "states": {
+      "disabled": "Disabled",
+      "invalid": "Invalid",
+      "readonly": "Readonly"
+    },
+    "title": "Rich text editor"
+  }
+}

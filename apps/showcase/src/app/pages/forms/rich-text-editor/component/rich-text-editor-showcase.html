@@ -1,0 +1,130 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="rich-text-editor.title"
+    descriptionKey="rich-text-editor.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section
+    anchor="document"
+    titleKey="rich-text-editor.section.document"
+  >
+    <p class="rich-text-editor-showcase__note">
+      {{ 'rich-text-editor.document.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <solaris-rich-text-editor
+        [placeholder]="'rich-text-editor.document.label' | translate"
+        [maxLength]="300"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="fields" titleKey="rich-text-editor.section.fields">
+    <p class="rich-text-editor-showcase__note">
+      {{ 'rich-text-editor.fields.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="fieldsCode" language="html">
+      <solaris-form-field
+        [label]="'rich-text-editor.fields.label' | translate"
+        [hint]="'rich-text-editor.fields.hint' | translate"
+      >
+        <solaris-rich-text-editor [fields]="fields" [maxLength]="300" />
+      </solaris-form-field>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="composer"
+    titleKey="rich-text-editor.section.composer"
+  >
+    <p class="rich-text-editor-showcase__note">
+      {{ 'rich-text-editor.composer.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="composerCode" language="html">
+      <div class="rich-text-editor-showcase__composer-row">
+        <solaris-rich-text-editor
+          #composer
+          variant="composer"
+          [placeholder]="'rich-text-editor.composer.label' | translate"
+          (submitted)="onComposerSubmit($event)"
+        />
+        <button
+          solaris-button
+          type="button"
+          [attr.data-action]="'composer-send'"
+          (click)="composer.submit()"
+        >
+          {{ 'rich-text-editor.composer.send' | translate }}
+        </button>
+      </div>
+    </solaris-preview-code>
+    <p class="rich-text-editor-showcase__note">
+      {{ 'rich-text-editor.log.title' | translate }}
+    </p>
+    @if (submittedLog().length === 0) {
+    <p class="rich-text-editor-showcase__note">
+      {{ 'rich-text-editor.log.empty' | translate }}
+    </p>
+    } @else {
+    <ul class="rich-text-editor-showcase__log">
+      @for (entry of submittedLog(); track $index) {
+      <li>{{ entry.text }}</li>
+      }
+    </ul>
+    }
+  </app-docs-section>
+
+  <app-docs-section anchor="states" titleKey="rich-text-editor.section.states">
+    <solaris-preview-code [code]="statesCode" language="html">
+      <div class="rich-text-editor-showcase__stack">
+        <solaris-rich-text-editor
+          [invalid]="true"
+          [placeholder]="'rich-text-editor.states.invalid' | translate"
+        />
+        <solaris-rich-text-editor
+          disabled
+          [placeholder]="'rich-text-editor.states.disabled' | translate"
+        />
+        <solaris-rich-text-editor
+          readonly
+          [placeholder]="'rich-text-editor.states.readonly' | translate"
+        />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="form" titleKey="rich-text-editor.section.form">
+    <solaris-preview-code [code]="reactiveCode" language="html">
+      <solaris-form-field
+        [label]="'rich-text-editor.form.label' | translate"
+        [hint]="'rich-text-editor.form.hint' | translate"
+      >
+        <solaris-rich-text-editor
+          [formControl]="notesControl"
+          [placeholder]="'rich-text-editor.form.label' | translate"
+        />
+      </solaris-form-field>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="rich-text-editor.section.installation"
+  >
+    <p class="rich-text-editor-showcase__note">
+      {{ 'rich-text-editor.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

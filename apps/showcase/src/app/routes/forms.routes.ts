@@ -19,6 +19,13 @@ export const formsRoutes: Route[] = [
           ),
       },
       {
+        path: 'rich-text-editor',
+        loadComponent: () =>
+          import(
+            '../pages/forms/rich-text-editor/component/rich-text-editor-showcase'
+          ).then((m) => m.RichTextEditorShowcasePage),
+      },
+      {
         path: 'input',
         loadComponent: () =>
           import('../pages/forms/input/component/input-showcase').then(

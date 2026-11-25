@@ -1,0 +1,27 @@
+.rich-text-editor-showcase__composer-row {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--solaris-spacing-2);
+  width: 100%;
+}
+
+.rich-text-editor-showcase__composer-row solaris-rich-text-editor {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.rich-text-editor-showcase__note {
+  color: var(--solaris-neutral-text-secondary);
+}
+
+.rich-text-editor-showcase__stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-3);
+}
+
+.rich-text-editor-showcase__log {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-2);
+}

@@ -829,6 +829,31 @@ export const SOLARIS_GENERATED_ICONS: SolarisIconDefinition[] = [
     ],
   },
   {
+    name: 'circle-question-mark',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'circle',
+        cx: 12,
+        cy: 12,
+        r: 10,
+      },
+      {
+        type: 'path',
+        d: 'M9 9.5a3 2.5 0 016 0c0 2-2 2-3 3.5',
+      },
+      {
+        type: 'path',
+        d: 'M12 17h.01',
+      },
+    ],
+  },
+  {
     name: 'city',
     viewBox: '0 0 24 24',
     fill: 'none',

@@ -1,0 +1,48 @@
+{
+  "rich-text-editor": {
+    "ai": {
+      "prompt": "Estou olhando a documentação Solaris UI de {{component}} ({{url}}). Me ajude a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar."
+    },
+    "composer": {
+      "hint": "Shift + Enter para nova linha. Enter envia.",
+      "label": "Mensagem do chat",
+      "note": "Variante compacta com toolbar flutuante. Enter envia, Shift + Enter quebra linha.",
+      "send": "Enviar"
+    },
+    "description": "Editor de texto rico nativo com contenteditable, variantes document e composer, pills de formulário e contador.",
+    "document": {
+      "label": "Texto do recibo",
+      "note": "Variante de campo com toolbar fixa. Digite { para inserir um campo do formulário."
+    },
+    "fields": {
+      "hint": "Escreva uma mensagem objetiva.",
+      "label": "Recibo",
+      "note": "Pills são atômicas: Backspace remove o campo inteiro."
+    },
+    "form": {
+      "hint": "Salvo como rascunho.",
+      "label": "Notas"
+    },
+    "installation": {
+      "note": "Instale o pacote Solaris UI e importe o editor com Form Field."
+    },
+    "log": {
+      "empty": "Nada enviado ainda.",
+      "title": "Valores enviados"
+    },
+    "section": {
+      "composer": "Composer",
+      "document": "Documento",
+      "fields": "Campos do formulário",
+      "form": "Integração com formulário",
+      "installation": "Instalação",
+      "states": "Estados"
+    },
+    "states": {
+      "disabled": "Desabilitado",
+      "invalid": "Inválido",
+      "readonly": "Somente leitura"
+    },
+    "title": "Editor de texto rico"
+  }
+}

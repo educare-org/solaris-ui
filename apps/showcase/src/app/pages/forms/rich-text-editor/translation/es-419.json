@@ -1,0 +1,48 @@
+{
+  "rich-text-editor": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación Solaris UI de {{component}} ({{url}}). Ayúdame a entender cómo usarlo."
+    },
+    "composer": {
+      "hint": "Shift + Enter para nueva línea. Enter envía.",
+      "label": "Mensaje del chat",
+      "note": "Variante compacta con barra flotante. Enter envía, Shift + Enter salta de línea.",
+      "send": "Enviar"
+    },
+    "description": "Editor de texto enriquecido nativo con contenteditable, variantes document y composer, pills y contador.",
+    "document": {
+      "label": "Texto del recibo",
+      "note": "Variante de campo con barra fija. Escribe { para insertar un campo."
+    },
+    "fields": {
+      "hint": "Escribe un mensaje objetivo.",
+      "label": "Recibo",
+      "note": "Las pills son atómicas: Retroceso elimina todo el campo."
+    },
+    "form": {
+      "hint": "Guardado como borrador.",
+      "label": "Notas"
+    },
+    "installation": {
+      "note": "Instala el paquete Solaris UI e importa el editor con Form Field."
+    },
+    "log": {
+      "empty": "Nada enviado todavía.",
+      "title": "Valores enviados"
+    },
+    "section": {
+      "composer": "Composer",
+      "document": "Documento",
+      "fields": "Campos",
+      "form": "Integración",
+      "installation": "Instalación",
+      "states": "Estados"
+    },
+    "states": {
+      "disabled": "Deshabilitado",
+      "invalid": "Inválido",
+      "readonly": "Solo lectura"
+    },
+    "title": "Editor de texto enriquecido"
+  }
+}

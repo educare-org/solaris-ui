@@ -740,6 +740,25 @@ export type {
   SolarisTextareaResize,
 } from './lib/components/forms/textarea/model/textarea.types';
 
+export { SolarisRichTextEditorComponent } from './lib/components/forms/rich-text-editor/component/rich-text-editor.component';
+export type {
+  SolarisRichTextAppearance,
+  SolarisRichTextBlock,
+  SolarisRichTextBlockType,
+  SolarisRichTextContentFormat,
+  SolarisRichTextDensity,
+  SolarisRichTextField,
+  SolarisRichTextImageOptions,
+  SolarisRichTextMention,
+  SolarisRichTextRadius,
+  SolarisRichTextSize,
+  SolarisRichTextSubmitTrigger,
+  SolarisRichTextToolbarDisplay,
+  SolarisRichTextToolbarPreset,
+  SolarisRichTextValue,
+  SolarisRichTextVariant,
+} from './lib/components/forms/rich-text-editor/model/rich-text-editor.types';
+
 export { SolarisPasswordFieldComponent } from './lib/components/forms/password-field/component/password-field.component';
 export { solarisPasswordValidator } from './lib/components/forms/password-field/validators/password.validator';
 export type { SolarisPasswordPolicy } from './lib/components/forms/password-field/model/password-policy.types';

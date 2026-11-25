@@ -34,6 +34,8 @@
   --solaris-primary-border: #c9d2ff;
   --solaris-primary-foreground: #23357a;
   --solaris-primary-on-solid: #ffffff;
+  --solaris-primary-light: #798eda;
+  --solaris-primary-dark: #2c418d;
 
   --solaris-success-solid: #33a44b;
   --solaris-success-solid-hover: #2b8c3f;
@@ -44,6 +46,8 @@
   --solaris-success-border: #b3e0bd;
   --solaris-success-foreground: #1e6b2e;
   --solaris-success-on-solid: #ffffff;
+  --solaris-success-light: #70bf81;
+  --solaris-success-dark: #247335;
 
   --solaris-warning-solid: #f1d008;
   --solaris-warning-solid-hover: #d9bc06;
@@ -54,6 +58,8 @@
   --solaris-warning-border: #f0e6a0;
   --solaris-warning-foreground: #7a6808;
   --solaris-warning-on-solid: #17191e;
+  --solaris-warning-light: #f5de52;
+  --solaris-warning-dark: #a99206;
 
   --solaris-danger-solid: #dc252d;
   --solaris-danger-solid-hover: #bb1f26;
@@ -65,6 +71,8 @@
   --solaris-danger-border: #f4b3b6;
   --solaris-danger-foreground: #9c3c40;
   --solaris-danger-on-solid: #ffffff;
+  --solaris-danger-light: #e7666c;
+  --solaris-danger-dark: #9a1a20;
 
   --solaris-info-solid: #2f6cb5;
   --solaris-info-solid-hover: #285d9c;
@@ -75,6 +83,8 @@
   --solaris-info-border: #bfd9f3;
   --solaris-info-foreground: #1d4a7a;
   --solaris-info-on-solid: #ffffff;
+  --solaris-info-light: #6d98cb;
+  --solaris-info-dark: #214c7f;
 
   --solaris-accent-solid: #b25f04;
   --solaris-accent-solid-hover: #9a5204;
@@ -83,6 +93,8 @@
   --solaris-accent-border: #f5d6a8;
   --solaris-accent-foreground: #8a4f0b;
   --solaris-accent-on-solid: #ffffff;
+  --solaris-accent-light: #c98f4f;
+  --solaris-accent-dark: #7d4303;
 
   --solaris-violet-solid: #6d4fd0;
   --solaris-violet-solid-hover: #5d43b5;
@@ -91,6 +103,32 @@
   --solaris-violet-border: #c4b5f5;
   --solaris-violet-foreground: #3d2e8a;
   --solaris-violet-on-solid: #ffffff;
+  --solaris-violet-light: #9984de;
+  --solaris-violet-dark: #4c3792;
+
+  --solaris-cyan-solid: #0b8bab;
+  --solaris-cyan-solid-hover: #097a97;
+  --solaris-cyan-solid-active: #086682;
+  --solaris-cyan-soft: #e3f4f8;
+  --solaris-cyan-soft-hover: #c9e9f1;
+  --solaris-cyan-soft-active: #abe0ea;
+  --solaris-cyan-border: #9bd5e2;
+  --solaris-cyan-foreground: #0a4e5f;
+  --solaris-cyan-on-solid: #ffffff;
+  --solaris-cyan-light: #54aec4;
+  --solaris-cyan-dark: #086178;
+
+  --solaris-pink-solid: #c2437f;
+  --solaris-pink-solid-hover: #ad3a70;
+  --solaris-pink-solid-active: #973263;
+  --solaris-pink-soft: #fbe9f1;
+  --solaris-pink-soft-hover: #f7d3e1;
+  --solaris-pink-soft-active: #f2b3c9;
+  --solaris-pink-border: #efa9c2;
+  --solaris-pink-foreground: #86264c;
+  --solaris-pink-on-solid: #ffffff;
+  --solaris-pink-light: #d47ba5;
+  --solaris-pink-dark: #882f59;
 }
 
 :root,

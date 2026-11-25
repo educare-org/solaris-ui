@@ -1,0 +1,355 @@
+/// Solaris UI — Rich Text Editor content styles.
+///
+/// Uncompiled editor content (inserted through `innerHTML`) cannot match
+/// Angular emulated-encapsulation attributes, so every rule that targets
+/// user content inside the editing area lives here, next to the other
+/// official component shells (`_textarea.scss`, `_input.scss`). Toolbar
+/// chrome stays in the component stylesheet.
+
+.solaris-rich-text-editor-area {
+  min-height: var(--solaris-rich-text-min-height, 120px);
+  padding: var(--solaris-rich-text-padding-y, 12px)
+    var(--solaris-rich-text-padding-x, 12px);
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: var(--solaris-rich-text-color, var(--solaris-neutral-text-body));
+  font-family: var(--solaris-font-family-sans), system-ui;
+  font-size: var(--solaris-font-size-sm);
+  line-height: var(--solaris-line-height-md);
+}
+
+.solaris-rich-text-editor[data-variant='composer']
+  .solaris-rich-text-editor-area {
+  min-height: 44px;
+  max-height: 200px;
+  overflow-y: auto;
+  padding-top: var(--solaris-spacing-2);
+  padding-bottom: var(--solaris-spacing-2);
+}
+
+.solaris-rich-text-editor[data-in-field] .solaris-rich-text-editor-area {
+  padding-inline: 0;
+}
+
+.solaris-rich-text-editor-area:empty::before {
+  content: attr(data-placeholder);
+  color: var(--solaris-neutral-text-tertiary);
+  pointer-events: none;
+}
+
+.solaris-rich-text-editor-area:focus-visible {
+  outline: none;
+}
+
+.solaris-rich-text-editor-area p,
+.solaris-rich-text-editor-area h1,
+.solaris-rich-text-editor-area h2,
+.solaris-rich-text-editor-area h3,
+.solaris-rich-text-editor-area blockquote,
+.solaris-rich-text-editor-area ul,
+.solaris-rich-text-editor-area ol,
+.solaris-rich-text-editor-area pre,
+.solaris-rich-text-editor-area figure {
+  margin: 0 0 var(--solaris-spacing-2);
+}
+
+.solaris-rich-text-editor-area h1,
+.solaris-rich-text-editor-area h2,
+.solaris-rich-text-editor-area h3 {
+  font-family: var(--solaris-font-family-sans), system-ui;
+  color: var(--solaris-neutral-text-heading);
+}
+
+.solaris-rich-text-editor-area ul,
+.solaris-rich-text-editor-area ol {
+  padding-left: var(--solaris-spacing-5);
+}
+
+.solaris-rich-text-editor-area ul[data-task-list] {
+  list-style: none;
+  padding-left: var(--solaris-spacing-2);
+}
+
+// Why: task checkboxes are static in v1 (disabled, no state sync), so
+// pointer events reach the list item and move the caret instead.
+.solaris-rich-text-editor-area ul[data-task-list] input[type='checkbox'] {
+  margin-right: var(--solaris-spacing-2);
+  pointer-events: none;
+}
+
+.solaris-rich-text-editor-area a {
+  color: var(--solaris-primary-solid);
+  text-decoration: underline;
+}
+
+.solaris-rich-text-editor-area [data-align='center'] {
+  text-align: center;
+}
+
+.solaris-rich-text-editor-area [data-align='justify'] {
+  text-align: justify;
+}
+
+.solaris-rich-text-editor-area [data-align='right'] {
+  text-align: right;
+}
+
+.solaris-rich-text-editor-area span[data-color='primary'] {
+  color: var(--solaris-primary-solid);
+}
+
+.solaris-rich-text-editor-area span[data-color='primaryLight'] {
+  color: var(--solaris-primary-light);
+}
+
+.solaris-rich-text-editor-area span[data-color='primaryDark'] {
+  color: var(--solaris-primary-dark);
+}
+
+.solaris-rich-text-editor-area span[data-color='success'] {
+  color: var(--solaris-success-solid);
+}
+
+.solaris-rich-text-editor-area span[data-color='successLight'] {
+  color: var(--solaris-success-light);
+}
+
+.solaris-rich-text-editor-area span[data-color='successDark'] {
+  color: var(--solaris-success-dark);
+}
+
+.solaris-rich-text-editor-area span[data-color='warning'] {
+  color: var(--solaris-warning-solid);
+}
+
+.solaris-rich-text-editor-area span[data-color='warningLight'] {
+  color: var(--solaris-warning-light);
+}
+
+.solaris-rich-text-editor-area span[data-color='warningDark'] {
+  color: var(--solaris-warning-dark);
+}
+
+.solaris-rich-text-editor-area span[data-color='danger'] {
+  color: var(--solaris-danger-solid);
+}
+
+.solaris-rich-text-editor-area span[data-color='dangerLight'] {
+  color: var(--solaris-danger-light);
+}
+
+.solaris-rich-text-editor-area span[data-color='dangerDark'] {
+  color: var(--solaris-danger-dark);
+}
+
+.solaris-rich-text-editor-area span[data-color='info'] {
+  color: var(--solaris-info-solid);
+}
+
+.solaris-rich-text-editor-area span[data-color='infoLight'] {
+  color: var(--solaris-info-light);
+}
+
+.solaris-rich-text-editor-area span[data-color='infoDark'] {
+  color: var(--solaris-info-dark);
+}
+
+.solaris-rich-text-editor-area span[data-color='accent'] {
+  color: var(--solaris-accent-solid);
+}
+
+.solaris-rich-text-editor-area span[data-color='accentLight'] {
+  color: var(--solaris-accent-light);
+}
+
+.solaris-rich-text-editor-area span[data-color='accentDark'] {
+  color: var(--solaris-accent-dark);
+}
+
+.solaris-rich-text-editor-area span[data-color='cyan'] {
+  color: var(--solaris-cyan-solid);
+}
+
+.solaris-rich-text-editor-area span[data-color='cyanLight'] {
+  color: var(--solaris-cyan-light);
+}
+
+.solaris-rich-text-editor-area span[data-color='cyanDark'] {
+  color: var(--solaris-cyan-dark);
+}
+
+.solaris-rich-text-editor-area span[data-color='pink'] {
+  color: var(--solaris-pink-solid);
+}
+
+.solaris-rich-text-editor-area span[data-color='pinkLight'] {
+  color: var(--solaris-pink-light);
+}
+
+.solaris-rich-text-editor-area span[data-color='pinkDark'] {
+  color: var(--solaris-pink-dark);
+}
+
+.solaris-rich-text-editor-area span[data-color='violet'] {
+  color: var(--solaris-violet-solid);
+}
+
+.solaris-rich-text-editor-area span[data-color='violetLight'] {
+  color: var(--solaris-violet-light);
+}
+
+.solaris-rich-text-editor-area span[data-color='violetDark'] {
+  color: var(--solaris-violet-dark);
+}
+
+.solaris-rich-text-editor-area span[data-color='muted'] {
+  color: var(--solaris-neutral-text-secondary);
+}
+
+.solaris-rich-text-editor-area span[data-highlight='primary'] {
+  background: var(--solaris-primary-soft);
+}
+
+.solaris-rich-text-editor-area span[data-highlight='success'] {
+  background: var(--solaris-success-soft);
+}
+
+.solaris-rich-text-editor-area span[data-highlight='warning'] {
+  background: var(--solaris-warning-soft);
+}
+
+.solaris-rich-text-editor-area span[data-highlight='danger'] {
+  background: var(--solaris-danger-soft);
+}
+
+.solaris-rich-text-editor-area span[data-highlight='info'] {
+  background: var(--solaris-info-soft);
+}
+
+.solaris-rich-text-editor-area span[data-highlight='accent'] {
+  background: var(--solaris-accent-soft);
+}
+
+.solaris-rich-text-editor-area span[data-highlight='violet'] {
+  background: var(--solaris-violet-soft);
+}
+
+.solaris-rich-text-editor-area span[data-highlight='neutral'] {
+  background: var(--solaris-neutral-subtle);
+}
+
+.solaris-rich-text-editor-area span[data-mention] {
+  background: var(--solaris-primary-soft);
+  border-radius: var(--solaris-radius-sm);
+  padding: 0 var(--solaris-spacing-1);
+  white-space: nowrap;
+}
+
+.solaris-rich-text-editor-area blockquote {
+  border-left: var(--solaris-spacing-1) solid
+    var(--solaris-neutral-border-strong);
+  padding-left: var(--solaris-spacing-3);
+}
+
+.solaris-rich-text-editor-area pre {
+  background: var(--solaris-neutral-subtle);
+  padding: var(--solaris-spacing-2);
+  overflow-x: auto;
+}
+
+.solaris-rich-text-editor-area figure[data-image] {
+  position: relative;
+  margin: 0 0 var(--solaris-spacing-2);
+}
+
+.solaris-rich-text-editor-area figure[data-image] img {
+  display: block;
+  max-width: 100%;
+  border-radius: var(--solaris-radius-sm);
+  user-select: none;
+}
+
+.solaris-rich-text-editor-area figure[data-image][data-bordered] img {
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-strong);
+}
+
+.solaris-rich-text-editor-area figure[data-image]::selection {
+  background: transparent;
+}
+
+.solaris-rich-text-editor-area figure[data-image][data-align='center'] img {
+  margin-inline: auto;
+}
+
+.solaris-rich-text-editor-area figure[data-image][data-align='right'] img {
+  margin-left: auto;
+}
+
+.solaris-rich-text-editor-area figure[data-image][data-selected] {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.solaris-image-resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: var(--solaris-spacing-6);
+  height: var(--solaris-spacing-6);
+  border-radius: var(--solaris-radius-sm);
+  background: var(--solaris-primary-solid);
+  cursor: nwse-resize;
+  touch-action: none;
+}
+
+.solaris-image-resize-handle:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.solaris-rich-text-editor-area table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.solaris-rich-text-editor-area th,
+.solaris-rich-text-editor-area td {
+  min-width: 44px;
+  padding: var(--solaris-spacing-2);
+  border: var(--solaris-rich-text-border-width, 1px) solid
+    var(--solaris-rich-text-border-color, var(--solaris-neutral-border-default));
+  vertical-align: top;
+  text-align: left;
+}
+
+.solaris-rich-text-editor-area th {
+  background: var(--solaris-neutral-subtle);
+}
+
+// Why: inside solaris-form-field the editor host drops its own border (R2-8,
+// no double border) and the field wrapper paints the shell instead — but its
+// resting border (subtle) reads fainter than the standalone editor shell
+// (default), so only the toolbar divider looked painted. Match the strengths;
+// focus/invalid/appearance states keep winning (higher specificity upstream).
+solaris-form-field[data-appearance='outline']:has(solaris-rich-text-editor)
+  .solaris-form-field__control-wrapper {
+  --solaris-form-field-control-border-color: var(
+    --solaris-neutral-border-default
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-rich-text-editor-area {
+    animation: none;
+    transition: none;
+  }
+}
+
+[data-reduced-motion='true'] .solaris-rich-text-editor-area {
+  animation: none;
+  transition: none;
+}

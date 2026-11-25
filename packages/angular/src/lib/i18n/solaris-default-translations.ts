@@ -29,6 +29,7 @@ import { PASSWORD_FIELD_TRANSLATION } from '../components/forms/password-field/t
 import { PHONE_FIELD_TRANSLATION } from '../components/forms/phone-field/translation';
 import { PROGRESS_TRANSLATION } from '../components/feedback/progress/translation';
 import { RECORD_GRID_TRANSLATION } from '../components/data-display/record-grid/translation';
+import { RICH_TEXT_EDITOR_TRANSLATION } from '../components/forms/rich-text-editor/translation';
 import { SELECT_TRANSLATION } from '../components/forms/select/translation';
 import { SLIDER_TRANSLATION } from '../components/forms/slider/translation';
 import { SPINNER_TRANSLATION } from '../components/feedback/spinner/translation';
@@ -94,6 +95,7 @@ const TRANSLATION_PACKAGES: readonly Record<string, TranslationTree>[] = [
   CHART_TRANSLATION,
   TABLE_TRANSLATION,
   RECORD_GRID_TRANSLATION,
+  RICH_TEXT_EDITOR_TRANSLATION,
   GRADEBOOK_TRANSLATION,
   TABLE_FILTER_TRANSLATION,
   EXPORT_TRANSLATION,

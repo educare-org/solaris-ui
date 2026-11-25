@@ -33,6 +33,7 @@ import { PHONE_FIELD_TRANSLATIONS } from '../pages/forms/phone-field/translation
 import { OTP_INPUT_TRANSLATIONS } from '../pages/forms/otp-input/translation';
 import { FILE_UPLOAD_TRANSLATIONS } from '../pages/forms/file-upload/translation';
 import { TEXTAREA_TRANSLATIONS } from '../pages/forms/textarea/translation';
+import { RICH_TEXT_EDITOR_TRANSLATIONS } from '../pages/forms/rich-text-editor/translation';
 import { CHECKBOX_TRANSLATIONS } from '../pages/forms/checkbox/translation';
 import { CHECKBOX_GROUP_TRANSLATIONS } from '../pages/forms/checkbox-group/translation';
 import { RADIO_TRANSLATIONS } from '../pages/forms/radio/translation';
@@ -141,6 +142,7 @@ const PAGE_MODULES = [
   FORM_FIELD_TRANSLATIONS,
   INPUT_TRANSLATIONS,
   TEXTAREA_TRANSLATIONS,
+  RICH_TEXT_EDITOR_TRANSLATIONS,
   PASSWORD_FIELD_TRANSLATIONS,
   EMAIL_FIELD_TRANSLATIONS,
   PHONE_FIELD_TRANSLATIONS,
