@@ -79,12 +79,12 @@
           </button>
         </solaris-button-group>
         <button
-          solaris-icon-button
-          appearance="ghost"
           size="sm"
           type="button"
-          [attr.data-action]="'color'"
           #colorTrigger
+          appearance="ghost"
+          solaris-icon-button
+          [attr.data-action]="'color'"
           solaris-popover-trigger
           [solarisPopoverTriggerFor]="colorPanel"
           [solarisPopoverDisabled]="
@@ -224,14 +224,14 @@
             appearance="ghost"
             size="sm"
             type="button"
-            [attr.data-action]="'align-left'"
-            (click)="alignChange.emit('left')"
-            [pressed]="align() === 'left'"
+            [attr.data-action]="'align-current'"
+            (click)="alignChange.emit(alignValue())"
+            [pressed]="align() !== 'mixed'"
             [disabled]="disabled() || readOnly()"
-            [ariaLabel]="'solaris.rich-text.alignLeft' | translate"
-            [solarisTooltip]="'solaris.rich-text.alignLeft' | translate"
+            [ariaLabel]="alignLabelKey() | translate"
+            [solarisTooltip]="alignLabelKey() | translate"
           >
-            <solaris-icon name="text-align-start" [size]="16" />
+            <solaris-icon [name]="alignIcon()" [size]="16" />
           </button>
           <button
             solaris-icon-button
@@ -252,23 +252,31 @@
         </solaris-button-group>
         <solaris-dropdown-menu #alignMenu>
           <solaris-dropdown-menu-item
-            icon="text-align-start"
+            type="radio"
             labelKey="solaris.rich-text.alignLeft"
+            shortcut="Ctrl+Shift+L"
+            [checked]="align() === 'left'"
             (itemSelected)="closeMenus(); alignChange.emit('left')"
           />
           <solaris-dropdown-menu-item
-            icon="text-align-center"
+            type="radio"
             labelKey="solaris.rich-text.alignCenter"
+            shortcut="Ctrl+Shift+C"
+            [checked]="align() === 'center'"
             (itemSelected)="closeMenus(); alignChange.emit('center')"
           />
           <solaris-dropdown-menu-item
-            icon="text-align-end"
+            type="radio"
             labelKey="solaris.rich-text.alignRight"
+            shortcut="Ctrl+Shift+R"
+            [checked]="align() === 'right'"
             (itemSelected)="closeMenus(); alignChange.emit('right')"
           />
           <solaris-dropdown-menu-item
-            icon="text-align-justify"
+            type="radio"
             labelKey="solaris.rich-text.alignJustify"
+            shortcut="Ctrl+Shift+J"
+            [checked]="align() === 'justify'"
             (itemSelected)="closeMenus(); alignChange.emit('justify')"
           />
         </solaris-dropdown-menu>

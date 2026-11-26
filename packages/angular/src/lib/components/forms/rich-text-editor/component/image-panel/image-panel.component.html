@@ -48,20 +48,6 @@
     >
       <solaris-icon name="text-align-end" [size]="16" />
     </button>
-    <button
-      solaris-icon-button
-      appearance="ghost"
-      size="sm"
-      type="button"
-      [attr.data-action]="'image-align-justify'"
-      (click)="alignChange.emit('justify')"
-      [pressed]="align() === 'justify'"
-      [disabled]="disabled() || readOnly()"
-      [ariaLabel]="'solaris.rich-text.alignJustify' | translate"
-      [solarisTooltip]="'solaris.rich-text.alignJustify' | translate"
-    >
-      <solaris-icon name="text-align-justify" [size]="16" />
-    </button>
   </solaris-button-group>
   <solaris-button-group size="sm">
     <button

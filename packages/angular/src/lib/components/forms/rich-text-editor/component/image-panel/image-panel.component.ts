@@ -42,7 +42,7 @@ import type { SolarisRichTextAlign } from '../../functions/rich-text-editor.util
 export class SolarisRichTextImagePanelComponent {
   readonly top = input.required<number>();
   readonly left = input.required<number>();
-  readonly align = input.required<SolarisRichTextAlign>();
+  readonly align = input.required<SolarisRichTextAlign | 'mixed'>();
   readonly bordered = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });

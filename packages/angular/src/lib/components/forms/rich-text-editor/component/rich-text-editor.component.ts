@@ -261,7 +261,9 @@ export class SolarisRichTextEditorComponent
     orderedList: false,
   });
   protected readonly blockTag = signal<SolarisRichTextBlockTag>('p');
-  protected readonly activeAlign = signal<SolarisRichTextAlign>('left');
+  protected readonly activeAlign = signal<SolarisRichTextAlign | 'mixed'>(
+    'left',
+  );
   protected readonly activeColor = signal<SolarisRichTextColor>('default');
   protected readonly activeHighlight =
     signal<SolarisRichTextHighlight>('default');
@@ -527,6 +529,7 @@ export class SolarisRichTextEditorComponent
     if (this.handleCodeKey(event)) return;
     if (this.handleResizeHandleKey(event)) return;
     if (this.handleLinkShortcut(event)) return;
+    if (this.handleAlignShortcuts(event)) return;
     if (this.handleListShortcuts(event)) return;
     if (this.handleTaskListEnter(event)) return;
     if (this.handleListTab(event)) return;
@@ -561,6 +564,24 @@ export class SolarisRichTextEditorComponent
       return true;
     }
     return false;
+  }
+
+  private handleAlignShortcuts(event: KeyboardEvent): boolean {
+    if (!(event.ctrlKey || event.metaKey) || !event.shiftKey || event.altKey) {
+      return false;
+    }
+    const alignForCode: Record<string, SolarisRichTextAlign> = {
+      KeyL: 'left',
+      KeyC: 'center',
+      KeyR: 'right',
+      KeyJ: 'justify',
+    };
+    const align = alignForCode[event.code];
+    if (!align) return false;
+    event.preventDefault();
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) return true;
+    this.setAlign(align);
+    return true;
   }
 
   private handleListShortcuts(event: KeyboardEvent): boolean {
@@ -1668,29 +1689,96 @@ export class SolarisRichTextEditorComponent
     this.engine.restoreSelection();
     try {
       const selection = document.getSelection();
-      const node: Node | null =
-        selection && selection.rangeCount > 0
-          ? selection.getRangeAt(0).commonAncestorContainer
-          : editor.nativeElement.firstChild;
-      let el = node instanceof Element ? node : (node?.parentElement ?? null);
-      while (
-        el &&
-        el !== editor.nativeElement &&
-        !/^(P|H1|H2|H3|BLOCKQUOTE|PRE|LI|FIGURE)$/.test(el.tagName)
-      ) {
-        el = el.parentElement;
-      }
-      if (!el || el === editor.nativeElement) return;
-      if (align === 'left') {
-        el.removeAttribute('data-align');
-      } else {
-        el.setAttribute('data-align', align);
+      const range =
+        selection && selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+      const host = editor.nativeElement;
+      if (!range || !host.contains(range.commonAncestorContainer)) return;
+      const targets = this.collectAlignTargets(host, range);
+      if (targets.length === 0) return;
+      for (const target of targets) {
+        if (align === 'left') {
+          target.removeAttribute('data-align');
+        } else {
+          target.setAttribute('data-align', align);
+        }
       }
       this.emitFromDom();
     } catch {
       if (isDevMode()) console.warn('[SolarisRichText] Align failed.');
     }
     this.refocusEditorAfterOverlayClose();
+  }
+
+  private collectAlignTargets(host: HTMLElement, range: Range): HTMLElement[] {
+    const selector = 'p,h1,h2,h3,blockquote,pre,li,figure,td,th,div';
+    const candidates = Array.from(host.querySelectorAll(selector));
+    const hits: HTMLElement[] = [];
+    for (const candidate of candidates) {
+      if (!(candidate instanceof HTMLElement)) continue;
+      if (!host.contains(candidate)) continue;
+      try {
+        if (typeof range.intersectsNode === 'function') {
+          if (range.intersectsNode(candidate)) hits.push(candidate);
+        } else if (
+          range.commonAncestorContainer === candidate ||
+          candidate.contains(range.commonAncestorContainer)
+        ) {
+          hits.push(candidate);
+        }
+      } catch {
+        // Ignore unmeasurable nodes and keep scanning the rest.
+      }
+    }
+    if (hits.length > 0) {
+      return hits.filter(
+        (candidate) =>
+          !hits.some(
+            (other) => other !== candidate && candidate.contains(other),
+          ),
+      );
+    }
+    return this.wrapBareAlignTarget(host, range);
+  }
+
+  private wrapBareAlignTarget(host: HTMLElement, range: Range): HTMLElement[] {
+    const ancestor = this.alignableAncestorOf(
+      range.commonAncestorContainer,
+      host,
+    );
+    if (ancestor) return [ancestor];
+    try {
+      const paragraph = document.createElement('p');
+      const extracted = range.extractContents();
+      const hasVisible =
+        (extracted.textContent ?? '').replace(/[\u200b\s]/g, '').length > 0 ||
+        extracted.querySelector?.('img, table, figure, input, br') !== null;
+      paragraph.appendChild(extracted);
+      if (!hasVisible) paragraph.appendChild(document.createElement('br'));
+      range.insertNode(paragraph);
+      const caret = document.createRange();
+      caret.selectNodeContents(paragraph);
+      caret.collapse(false);
+      document.getSelection()?.removeAllRanges();
+      document.getSelection()?.addRange(caret);
+      return [paragraph];
+    } catch {
+      return [];
+    }
+  }
+
+  private alignableAncestorOf(
+    node: Node | null,
+    host: HTMLElement,
+  ): HTMLElement | null {
+    let el = node instanceof Element ? node : (node?.parentElement ?? null);
+    while (
+      el &&
+      el !== host &&
+      !/^(P|H1|H2|H3|BLOCKQUOTE|PRE|LI|FIGURE|TD|TH|DIV)$/.test(el.tagName)
+    ) {
+      el = el.parentElement;
+    }
+    return el && el !== host ? (el as HTMLElement) : null;
   }
 
   protected prepareLinkPopover(): void {
@@ -1792,39 +1880,70 @@ export class SolarisRichTextEditorComponent
     if (!editor) return;
     this.engine.restoreSelection();
     try {
-      const selection = document.getSelection();
-      if (
-        !selection ||
-        selection.rangeCount === 0 ||
-        selection.isCollapsed ||
-        !editor.nativeElement.contains(
-          selection.getRangeAt(0).commonAncestorContainer,
-        )
-      ) {
-        return;
-      }
-      const range = selection.getRangeAt(0);
-      expandRangeToInlineAncestors(range, editor.nativeElement);
-      const probe = document.createElement('div');
-      probe.appendChild(range.cloneContents());
-      // SECURITY_EXCEPTION: serialization feeds the pure unwrap helper; write-only below, no consumer HTML.
-      const plain = unwrapInlineFormatting(probe.innerHTML);
-      range.deleteContents();
-      const fragment = range.createContextualFragment(plain);
-      const last = fragment.lastChild;
-      range.insertNode(fragment);
-      if (last) {
-        range.setStartAfter(last);
-        range.collapse(true);
-        selection.removeAllRanges();
-        selection.addRange(range);
-      }
-      this.emitFromDom();
+      this.runClearFormatting(editor.nativeElement);
     } catch {
       if (isDevMode())
         console.warn('[SolarisRichText] Clear formatting failed.');
     }
     this.refocusEditorAfterOverlayClose();
+  }
+
+  private runClearFormatting(host: HTMLElement): void {
+    const selection = document.getSelection();
+    const range = this.inEditorRange(selection, host);
+    if (!range || !selection) return;
+    if (selection.isCollapsed) {
+      if (this.clearAlignAttributes(this.peekAlignTargets(host, range))) {
+        this.emitFromDom();
+      }
+      return;
+    }
+    this.unwrapInlineRange(host, range, selection);
+    this.clearAlignAttributes(this.peekAlignTargets(host, range));
+    this.emitFromDom();
+  }
+
+  private inEditorRange(
+    selection: Selection | null,
+    host: HTMLElement,
+  ): Range | null {
+    if (
+      !selection ||
+      selection.rangeCount === 0 ||
+      !host.contains(selection.getRangeAt(0).commonAncestorContainer)
+    ) {
+      return null;
+    }
+    return selection.getRangeAt(0);
+  }
+
+  private clearAlignAttributes(targets: readonly HTMLElement[]): boolean {
+    if (targets.length === 0) return false;
+    for (const target of targets) {
+      target.removeAttribute('data-align');
+    }
+    return true;
+  }
+
+  private unwrapInlineRange(
+    host: HTMLElement,
+    range: Range,
+    selection: Selection,
+  ): void {
+    expandRangeToInlineAncestors(range, host);
+    const probe = document.createElement('div');
+    probe.appendChild(range.cloneContents());
+    // SECURITY_EXCEPTION: serialization feeds the pure unwrap helper; write-only below, no consumer HTML.
+    const plain = unwrapInlineFormatting(probe.innerHTML);
+    range.deleteContents();
+    const fragment = range.createContextualFragment(plain);
+    const last = fragment.lastChild;
+    range.insertNode(fragment);
+    if (!last) return;
+    range.setStartAfter(last);
+    range.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(range);
   }
 
   protected setColor(color: SolarisRichTextColor): void {
@@ -2589,9 +2708,69 @@ export class SolarisRichTextEditorComponent
     }
     this.activeMarks.set(scan.marks);
     this.blockTag.set(scan.block);
-    this.activeAlign.set(scan.align);
+    this.activeAlign.set(this.readCommonAlign(host, scan.align));
     this.activeColor.set(scan.color);
     this.activeHighlight.set(scan.highlight);
+  }
+
+  private readCommonAlign(
+    host: HTMLElement | null,
+    fallback: SolarisRichTextAlign,
+  ): SolarisRichTextAlign | 'mixed' {
+    if (!host || typeof document === 'undefined') return fallback;
+    try {
+      const selection = document.getSelection();
+      const range =
+        selection && selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+      if (!range || !host.contains(range.commonAncestorContainer)) {
+        return fallback;
+      }
+      const targets = this.peekAlignTargets(host, range);
+      if (targets.length === 0) return fallback;
+      const values = targets.map(
+        (target) =>
+          (target.getAttribute('data-align') as SolarisRichTextAlign | null) ??
+          'left',
+      );
+      const first = values[0];
+      return values.every((value) => value === first) ? first : 'mixed';
+    } catch {
+      return fallback;
+    }
+  }
+
+  private peekAlignTargets(host: HTMLElement, range: Range): HTMLElement[] {
+    const selector = 'p,h1,h2,h3,blockquote,pre,li,figure,td,th,div';
+    const candidates = Array.from(host.querySelectorAll(selector));
+    const hits: HTMLElement[] = [];
+    for (const candidate of candidates) {
+      if (!(candidate instanceof HTMLElement)) continue;
+      try {
+        if (typeof range.intersectsNode === 'function') {
+          if (range.intersectsNode(candidate)) hits.push(candidate);
+        } else if (
+          range.commonAncestorContainer === candidate ||
+          candidate.contains(range.commonAncestorContainer)
+        ) {
+          hits.push(candidate);
+        }
+      } catch {
+        // Ignore unmeasurable nodes and keep scanning the rest.
+      }
+    }
+    if (hits.length > 0) {
+      return hits.filter(
+        (candidate) =>
+          !hits.some(
+            (other) => other !== candidate && candidate.contains(other),
+          ),
+      );
+    }
+    const single = this.alignableAncestorOf(
+      range.commonAncestorContainer,
+      host,
+    );
+    return single ? [single] : [];
   }
 
   private refocusEditorAfterOverlayClose(): void {

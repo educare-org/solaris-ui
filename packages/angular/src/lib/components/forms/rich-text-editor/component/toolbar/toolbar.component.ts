@@ -3,6 +3,7 @@ import {
   Component,
   HostListener,
   booleanAttribute,
+  computed,
   inject,
   input,
   isDevMode,
@@ -106,7 +107,7 @@ export class SolarisRichTextToolbarComponent {
     bulletList: false,
     orderedList: false,
   });
-  readonly align = input<SolarisRichTextAlign>('left');
+  readonly align = input<SolarisRichTextAlign | 'mixed'>('left');
   readonly color = input<SolarisRichTextColor>('default');
   readonly highlight = input<SolarisRichTextHighlight>('default');
   readonly contentFormat = input<SolarisRichTextContentFormat>('rich');
@@ -191,6 +192,39 @@ export class SolarisRichTextToolbarComponent {
   readonly linkTextChange = output<string>();
 
   protected readonly colorPanelOpen = signal(false);
+
+  protected readonly alignIcon = computed(() => {
+    switch (this.align()) {
+      case 'center':
+        return 'text-align-center';
+      case 'right':
+        return 'text-align-end';
+      case 'justify':
+        return 'text-align-justify';
+      default:
+        return 'text-align-start';
+    }
+  });
+
+  protected readonly alignLabelKey = computed(() => {
+    switch (this.align()) {
+      case 'center':
+        return 'solaris.rich-text.alignCenter';
+      case 'right':
+        return 'solaris.rich-text.alignRight';
+      case 'justify':
+        return 'solaris.rich-text.alignJustify';
+      case 'mixed':
+        return 'solaris.rich-text.alignLabel';
+      default:
+        return 'solaris.rich-text.alignLeft';
+    }
+  });
+
+  protected readonly alignValue = computed<SolarisRichTextAlign>(() => {
+    const current = this.align();
+    return current === 'mixed' ? 'left' : current;
+  });
 
   @HostListener('click')
   protected dismissTooltips(): void {

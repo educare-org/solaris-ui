@@ -175,6 +175,26 @@
   text-align: right;
 }
 
+.solaris-rich-text-editor-area th[data-align='center'],
+.solaris-rich-text-editor-area td[data-align='center'] {
+  text-align: center;
+}
+
+.solaris-rich-text-editor-area th[data-align='right'],
+.solaris-rich-text-editor-area td[data-align='right'] {
+  text-align: right;
+}
+
+.solaris-rich-text-editor-area th[data-align='justify'],
+.solaris-rich-text-editor-area td[data-align='justify'] {
+  text-align: justify;
+}
+
+.solaris-rich-text-editor-area th[data-align='left'],
+.solaris-rich-text-editor-area td[data-align='left'] {
+  text-align: left;
+}
+
 .solaris-rich-text-editor-area span[data-color='primary'] {
   color: var(--solaris-primary-solid);
 }

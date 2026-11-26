@@ -447,8 +447,8 @@ test.describe('Rich Text Editor', () => {
     await expect(panel).toBeVisible();
     await panel.locator('[data-action="image-align-center"]').click();
     await expect(figure).toHaveAttribute('data-align', 'center');
-    await panel.locator('[data-action="image-align-justify"]').click();
-    await expect(figure).toHaveAttribute('data-align', 'justify');
+    await panel.locator('[data-action="image-align-right"]').click();
+    await expect(figure).toHaveAttribute('data-align', 'right');
     await panel.locator('[data-action="image-preset-m"]').click();
     await expect(figure).toHaveAttribute('style', /width/);
     await panel.locator('[data-action="image-border"]').click();
