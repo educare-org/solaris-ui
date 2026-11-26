@@ -32,11 +32,9 @@
     border: var(--solaris-border-width-sm) solid
       var(--solaris-button-group-border-color);
     border-radius: var(--solaris-button-group-radius);
+    margin-block: calc(-1 * var(--solaris-border-width-sm));
   }
 
-  // All-ghost groups render borderless: ghost items are transparent, so the
-  // container frame would be the only visible chrome. Keep the border when
-  // any button child is not ghost.
   &[data-attached]:has(
       > :is([solaris-button], [solaris-icon-button])[data-appearance='ghost']
     ):not(
@@ -46,6 +44,8 @@
           )
       )
     ) {
+    border-width: 0;
+    margin-block: 0;
     --solaris-button-group-border-color: transparent;
     --solaris-button-group-separator-in-use: transparent;
     --solaris-button-group-icon-separator-in-use: transparent;

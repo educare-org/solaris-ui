@@ -987,13 +987,15 @@ describe('SolarisRichTextEditorComponent', () => {
     }
   });
 
-  it('animates the toolbar and area on content format switch', () => {
+  it('animates the toolbar and area on content format switch', async () => {
     create();
     Object.defineProperty(window, 'matchMedia', {
       value: () => ({ matches: false }),
       configurable: true,
     });
-    const animateSpy = vi.fn();
+    const animateSpy = vi
+      .fn()
+      .mockImplementation(() => ({ finished: Promise.resolve() }) as never);
     Object.defineProperty(window.HTMLElement.prototype, 'animate', {
       value: animateSpy,
       configurable: true,
@@ -1001,7 +1003,20 @@ describe('SolarisRichTextEditorComponent', () => {
     try {
       fixture.componentInstance['toggleContentFormat']();
       expect(fixture.componentInstance.contentFormat()).toBe('plain');
-      expect(animateSpy).toHaveBeenCalledTimes(2);
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      const slideIndexes = animateSpy.mock.calls
+        .map((call, index) => ({ call, index }))
+        .filter(({ call }) => JSON.stringify(call[0]).includes('translateX'))
+        .map(({ index }) => index);
+      expect(slideIndexes.length).toBeGreaterThan(0);
+      // The block-style select (first toolbar child) stays fixed.
+      const firstChild = fixture.nativeElement.querySelector(
+        '.solaris-rich-text-toolbar',
+      )?.firstElementChild;
+      const slideInstances = slideIndexes.map(
+        (index) => animateSpy.mock.instances[index],
+      );
+      expect(slideInstances).not.toContain(firstChild);
     } finally {
       Reflect.deleteProperty(window.HTMLElement.prototype, 'animate');
       Reflect.deleteProperty(window, 'matchMedia');

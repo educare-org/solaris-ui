@@ -1,5 +1,3 @@
-// Edge-to-edge divider: bleed into the wrapper horizontal padding so the
-// toolbar border spans the full field width; the wrapper never clips.
 :host-context([data-in-field]) .solaris-rich-text-toolbar {
   padding-inline: 0;
   margin-inline: calc(-1 * var(--solaris-form-field-control-padding-x));
@@ -104,8 +102,9 @@
 .solaris-rich-text-link-panel {
   display: flex;
   flex-direction: column;
-  gap: var(--solaris-spacing-5);
-  min-width: calc(var(--solaris-spacing-18) * 2 + var(--solaris-spacing-9));
+  gap: var(--solaris-spacing-6);
+  padding: var(--solaris-spacing-4);
+  min-width: calc(var(--solaris-spacing-18) * 2 + var(--solaris-spacing-11));
 }
 
 .solaris-rich-text-link-panel-actions {

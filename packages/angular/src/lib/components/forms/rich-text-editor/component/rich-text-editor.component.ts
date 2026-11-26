@@ -107,6 +107,8 @@ import {
   SOLARIS_RICH_TEXT_CONTRAST_AA_RATIO,
   SOLARIS_RICH_TEXT_FORMAT_SWITCH_DURATION_MS,
   SOLARIS_RICH_TEXT_FORMAT_SWITCH_EASING,
+  SOLARIS_RICH_TEXT_FORMAT_SLIDE_DURATION_MS,
+  SOLARIS_RICH_TEXT_FORMAT_SLIDE_STAGGER_MS,
   SOLARIS_RICH_TEXT_HISTORY_IDLE_MS,
   SOLARIS_RICH_TEXT_IMAGE_PRESET_WIDTHS,
   SOLARIS_RICH_TEXT_INLINE_TAG_SHORTCUTS,
@@ -2493,6 +2495,7 @@ export class SolarisRichTextEditorComponent
 
   protected setContentFormat(format: SolarisRichTextContentFormat): void {
     if (format === this.contentFormat()) return;
+    const fromFormat = this.contentFormat();
     this.lastHistoryKind = 'action';
     if (format === 'plain') {
       this.lastRichValue = this.value();
@@ -2511,10 +2514,12 @@ export class SolarisRichTextEditorComponent
     }
     this.contentFormat.set(format);
     this.syncEditorDom();
-    this.animateContentFormatSwitch();
+    this.animateContentFormatSwitch(fromFormat);
   }
 
-  private animateContentFormatSwitch(): void {
+  private animateContentFormatSwitch(
+    fromFormat: SolarisRichTextContentFormat,
+  ): void {
     if (typeof document === 'undefined' || typeof window === 'undefined')
       return;
     if (
@@ -2524,18 +2529,45 @@ export class SolarisRichTextEditorComponent
       return;
     const host = this.elementRef.nativeElement;
     if (host?.closest?.('[data-reduced-motion="true"]')) return;
-    const toolbar = host.querySelector('.solaris-rich-text-toolbar');
-    if (toolbar && typeof toolbar.animate === 'function') {
-      toolbar.animate(
-        [
-          { opacity: '0.55', transform: 'translateY(4px)' },
-          { opacity: '1', transform: 'translateY(0)' },
-        ],
-        {
-          duration: SOLARIS_RICH_TEXT_FORMAT_SWITCH_DURATION_MS,
-          easing: SOLARIS_RICH_TEXT_FORMAT_SWITCH_EASING,
-        },
-      );
+    if (typeof window.requestAnimationFrame !== 'function') {
+      this.playFormatSlide(fromFormat);
+      return;
+    }
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        this.playFormatSlide(fromFormat);
+      });
+    });
+  }
+
+  private playFormatSlide(fromFormat: SolarisRichTextContentFormat): void {
+    const direction = fromFormat === 'rich' ? -1 : 1;
+    const toolbar = this.elementRef.nativeElement.querySelector(
+      '.solaris-rich-text-toolbar',
+    ) as HTMLElement | null;
+    if (toolbar) {
+      // The block-style select always stays first (and exists in both modes),
+      // so it never moves: only the groups/dividers to its right slide.
+      const sliding = Array.from(toolbar.children).slice(1);
+      sliding.forEach((child, index) => {
+        if (!(child instanceof HTMLElement)) return;
+        if (typeof child.animate !== 'function') return;
+        child.animate(
+          [
+            {
+              opacity: '0.35',
+              transform: `translateX(${12 * direction}px)`,
+            },
+            { opacity: '1', transform: 'translateX(0)' },
+          ],
+          {
+            duration: SOLARIS_RICH_TEXT_FORMAT_SLIDE_DURATION_MS,
+            delay: index * SOLARIS_RICH_TEXT_FORMAT_SLIDE_STAGGER_MS,
+            easing: SOLARIS_RICH_TEXT_FORMAT_SWITCH_EASING,
+            fill: 'backwards',
+          },
+        );
+      });
     }
     const area = this.editorRef()?.nativeElement;
     if (area && typeof area.animate === 'function') {
