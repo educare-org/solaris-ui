@@ -35,22 +35,22 @@ Dropdown Menu displays a list of actions or commands in an overlay triggered by 
 
 ### Dropdown Menu Trigger (`[solaris-dropdown-menu-trigger]`)
 
-| Input                                    | Type                                     | Default     | Description                       |
-| ---------------------------------------- | ---------------------------------------- | ----------- | --------------------------------- |
-| `solarisDropdownMenuTriggerFor`          | `SolarisDropdownMenuComponent`           | required    | Reference to the dropdown menu    |
-| `solarisDropdownMenuPlacement`           | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'`  | Preferred placement               |
-| `solarisDropdownMenuAlign`               | `'start' \| 'center' \| 'end'`           | `'start'`   | Alignment relative to trigger     |
-| `solarisDropdownMenuOffset`              | `number`                                 | `8`         | Offset from trigger in pixels     |
-| `solarisDropdownMenuAppearance`          | `'surface' \| 'outline'`                 | `'outline'` | Panel appearance                  |
-| `solarisDropdownMenuRadius`              | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'`      | Panel border radius               |
-| `solarisDropdownMenuCloseOnSelect`       | `boolean`                                | `true`      | Close menu on item selection      |
-| `solarisDropdownMenuCloseOnEscape`       | `boolean`                                | `true`      | Close menu on Escape key          |
-| `solarisDropdownMenuCloseOnOutsideClick` | `boolean`                                | `true`      | Close menu on outside click       |
-| `solarisDropdownMenuMatchTriggerWidth`   | `boolean`                                | `false`     | Match menu width to trigger       |
-| `solarisDropdownMenuMinWidth`            | `string \| number \| undefined`          | `undefined` | Minimum menu width                |
-| `solarisDropdownMenuMaxWidth`            | `string \| number \| undefined`          | `undefined` | Maximum menu width                |
-| `solarisDropdownMenuDisabled`            | `boolean`                                | `false`     | Disable the trigger               |
-| `solarisDropdownMenuRestoreFocus`        | `boolean`                                | `true`      | Restore focus to trigger on close |
+| Input                                    | Type                                     | Default     | Description                                            |
+| ---------------------------------------- | ---------------------------------------- | ----------- | ------------------------------------------------------ |
+| `solarisDropdownMenuTriggerFor`          | `SolarisDropdownMenuComponent`           | required    | Reference to the dropdown menu                         |
+| `solarisDropdownMenuPlacement`           | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'`  | Preferred placement                                    |
+| `solarisDropdownMenuAlign`               | `'start' \| 'center' \| 'end'`           | `'start'`   | Alignment relative to trigger                          |
+| `solarisDropdownMenuOffset`              | `number`                                 | `8`         | Offset from trigger in pixels                          |
+| `solarisDropdownMenuAppearance`          | `'surface' \| 'outline'`                 | `'outline'` | Panel appearance                                       |
+| `solarisDropdownMenuRadius`              | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'`      | Panel border radius                                    |
+| `solarisDropdownMenuCloseOnSelect`       | `boolean`                                | `true`      | Close menu on item selection                           |
+| `solarisDropdownMenuCloseOnEscape`       | `boolean`                                | `true`      | Close menu on Escape key                               |
+| `solarisDropdownMenuCloseOnOutsideClick` | `boolean`                                | `true`      | Close menu on outside click                            |
+| `solarisDropdownMenuMatchTriggerWidth`   | `boolean`                                | `false`     | Match menu width to trigger                            |
+| `solarisDropdownMenuMinWidth`            | `string \| number \| undefined`          | `undefined` | Minimum menu width (overrides the token for this menu) |
+| `solarisDropdownMenuMaxWidth`            | `string \| number \| undefined`          | `undefined` | Maximum menu width (overrides the token for this menu) |
+| `solarisDropdownMenuDisabled`            | `boolean`                                | `false`     | Disable the trigger                                    |
+| `solarisDropdownMenuRestoreFocus`        | `boolean`                                | `true`      | Restore focus to trigger on close                      |
 
 | Output       | Description                     |
 | ------------ | ------------------------------- |
@@ -158,24 +158,24 @@ Set on the item via `color`.
 
 The following CSS variables can be customized:
 
-| Token                                            | Purpose                           |
-| ------------------------------------------------ | --------------------------------- |
-| `--solaris-dropdown-menu-min-width`              | Minimum menu width                |
-| `--solaris-dropdown-menu-max-width`              | Maximum menu width                |
-| `--solaris-dropdown-menu-gap`                    | Gap between menu items            |
-| `--solaris-dropdown-menu-padding`                | Inner padding of the menu panel   |
-| `--solaris-dropdown-menu-item-gap`               | Gap between icon, label, shortcut |
-| `--solaris-dropdown-menu-item-radius`            | Item border radius                |
-| `--solaris-dropdown-menu-item-padding-y`         | Vertical item padding             |
-| `--solaris-dropdown-menu-item-padding-x`         | Horizontal item padding           |
-| `--solaris-dropdown-menu-item-label-color`       | Item label color                  |
-| `--solaris-dropdown-menu-item-danger-color`      | Text color for danger items       |
-| `--solaris-dropdown-menu-item-shortcut-color`    | Shortcut hint color               |
-| `--solaris-dropdown-menu-item-danger-hover`      | Hover background for danger items |
-| `--solaris-dropdown-menu-item-description-color` | Description text color            |
-| `--solaris-dropdown-menu-item-focus-ring-color`  | Focus ring color                  |
-| `--solaris-dropdown-menu-item-hover-background`  | Item hover background             |
-| `--solaris-dropdown-menu-item-focus-background`  | Item focus background             |
+| Token                                            | Purpose                                                   |
+| ------------------------------------------------ | --------------------------------------------------------- |
+| `--solaris-dropdown-menu-min-width`              | Minimum menu width (floor when no trigger input is set)   |
+| `--solaris-dropdown-menu-max-width`              | Maximum menu width (ceiling when no trigger input is set) |
+| `--solaris-dropdown-menu-gap`                    | Gap between menu items                                    |
+| `--solaris-dropdown-menu-padding`                | Inner padding of the menu panel                           |
+| `--solaris-dropdown-menu-item-gap`               | Gap between icon, label, shortcut                         |
+| `--solaris-dropdown-menu-item-radius`            | Item border radius                                        |
+| `--solaris-dropdown-menu-item-padding-y`         | Vertical item padding                                     |
+| `--solaris-dropdown-menu-item-padding-x`         | Horizontal item padding                                   |
+| `--solaris-dropdown-menu-item-label-color`       | Item label color                                          |
+| `--solaris-dropdown-menu-item-danger-color`      | Text color for danger items                               |
+| `--solaris-dropdown-menu-item-shortcut-color`    | Shortcut hint color                                       |
+| `--solaris-dropdown-menu-item-danger-hover`      | Hover background for danger items                         |
+| `--solaris-dropdown-menu-item-description-color` | Description text color                                    |
+| `--solaris-dropdown-menu-item-focus-ring-color`  | Focus ring color                                          |
+| `--solaris-dropdown-menu-item-hover-background`  | Item hover background                                     |
+| `--solaris-dropdown-menu-item-focus-background`  | Item focus background                                     |
 
 ## Keyboard Navigation
 

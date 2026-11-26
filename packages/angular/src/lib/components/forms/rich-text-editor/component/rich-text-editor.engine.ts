@@ -293,6 +293,158 @@ export class SolarisRichTextEditingEngine {
     }
   }
 
+  insertListAtCaret(html: string): boolean {
+    const editor = this.editor;
+    if (!editor || typeof document === 'undefined') return false;
+    try {
+      const selection = document.getSelection();
+      const range =
+        selection && selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+      if (
+        !range ||
+        !selection ||
+        !editor.contains(range.commonAncestorContainer)
+      ) {
+        return this.appendListAndFocus(html);
+      }
+      range.deleteContents();
+      const fragment = range.createContextualFragment(html);
+      const firstLi = fragment.querySelector?.('li') ?? null;
+      range.insertNode(fragment);
+      if (firstLi) {
+        this.collapseCaretInListItem(firstLi as HTMLElement);
+      } else {
+        range.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
+      editor.focus({ preventScroll: true });
+      return true;
+    } catch {
+      if (isDevMode()) console.warn('[SolarisRichText] List insert failed.');
+      return this.insertHtmlAtCaret(html);
+    }
+  }
+
+  private appendListAndFocus(html: string): boolean {
+    const editor = this.editor;
+    if (!editor || typeof document === 'undefined') return false;
+    const key = `solaris-list-${Date.now().toString(36)}${Math.floor(Math.random() * 1e6).toString(36)}`;
+    const tagged = html.replace(/^<(ul|ol)/i, `<$1 data-solaris-tmp="${key}"`);
+    // SECURITY_EXCEPTION: appending sanitized editor HTML requires native innerHTML; content comes from sanitizeRichTextHtml/built-in builders only.
+    editor.innerHTML += tagged;
+    if (tagged !== html) {
+      const list = editor.querySelector(`[data-solaris-tmp="${key}"]`);
+      if (list) {
+        list.removeAttribute('data-solaris-tmp');
+        const firstLi = list.querySelector('li');
+        if (firstLi) {
+          this.collapseCaretInListItem(firstLi as HTMLElement);
+        }
+      }
+    }
+    editor.focus({ preventScroll: true });
+    return true;
+  }
+
+  collapseCaretInListItem(li: HTMLElement): void {
+    try {
+      const selection = document.getSelection();
+      if (!selection) return;
+      const checkbox = li.querySelector?.(
+        'input[data-task-checkbox]',
+      ) as HTMLElement | null;
+      if (checkbox && this.isTaskItemTextEmpty(li)) {
+        this.placeCaretInEmptyTaskItem(selection, li);
+        return;
+      }
+      this.placeCaretAfterListMarker(selection, li, checkbox);
+      this.adjustCaretBeforeTrailingBreak(selection, li, checkbox);
+    } catch {
+      if (isDevMode()) console.warn('[SolarisRichText] List caret failed.');
+    }
+  }
+
+  private placeCaretInEmptyTaskItem(
+    selection: Selection,
+    li: HTMLElement,
+  ): void {
+    const anchor = this.ensureTaskCaretAnchor(li);
+    const range = document.createRange();
+    if (anchor) {
+      range.setStart(anchor, anchor.textContent?.length ?? 0);
+    } else {
+      range.selectNodeContents(li);
+    }
+    range.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+
+  private placeCaretAfterListMarker(
+    selection: Selection,
+    li: HTMLElement,
+    checkbox: Element | null,
+  ): void {
+    const range = document.createRange();
+    if (checkbox?.nextSibling) {
+      range.setStartAfter(checkbox);
+    } else if (checkbox && li.childNodes.length > 1) {
+      range.setStart(li, 1);
+    } else {
+      range.selectNodeContents(li);
+    }
+    range.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+
+  private adjustCaretBeforeTrailingBreak(
+    selection: Selection,
+    li: HTMLElement,
+    checkbox: Element | null,
+  ): void {
+    const onlyBreak =
+      li.childNodes.length === 1 && li.firstChild?.nodeName === 'BR';
+    const taskBreak =
+      checkbox != null &&
+      li.childNodes.length === 2 &&
+      li.lastChild?.nodeName === 'BR';
+    if (!onlyBreak && !taskBreak) return;
+    const anchor = checkbox?.nextSibling ?? li.firstChild;
+    if (!anchor) return;
+    const before = document.createRange();
+    before.setStartBefore(anchor);
+    before.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(before);
+  }
+
+  private ensureTaskCaretAnchor(li: HTMLElement): Text | null {
+    const existing = Array.from(li.childNodes).find(
+      (node) =>
+        node.nodeType === Node.TEXT_NODE && (node.textContent ?? '').length > 0,
+    ) as Text | undefined;
+    if (existing) return existing;
+    if (typeof document === 'undefined') return null;
+    const anchor = document.createTextNode('\u00a0');
+    const br = li.querySelector('br');
+    if (br) {
+      br.before(anchor);
+    } else {
+      li.appendChild(anchor);
+    }
+    return anchor;
+  }
+
+  private isTaskItemTextEmpty(li: HTMLElement): boolean {
+    const text = Array.from(li.childNodes)
+      .filter((node) => node.nodeName !== 'INPUT')
+      .map((node) => node.textContent ?? '')
+      .join('');
+    return text.replace(/[\u200b\u00a0]/g, '').trim().length === 0;
+  }
+
   private isCodeLineDiv(node: Node): node is HTMLElement {
     return (
       node instanceof Element &&

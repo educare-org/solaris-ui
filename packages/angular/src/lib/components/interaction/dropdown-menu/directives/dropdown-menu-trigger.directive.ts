@@ -495,6 +495,35 @@ export class SolarisDropdownMenuTriggerDirective {
     }
 
     this.overlayRef.updateSize(size);
+    this.forwardMenuSizeVars(minWidth, maxWidth);
+  }
+
+  private forwardMenuSizeVars(
+    minWidth: string | number | undefined,
+    maxWidth: string | number | undefined,
+  ): void {
+    // The menu wrapper caps itself with these vars (see _dropdown-menu.scss),
+    // independently from the overlay pane size above. Forwarding the trigger
+    // inputs as inherited vars keeps a single overridable ceiling: consumers
+    // tune width per usage without touching global styles.
+    const pane = this.overlayRef?.overlayElement ?? null;
+    if (!pane) return;
+    const toCss = (value: string | number | undefined): string | null => {
+      if (value === undefined) return null;
+      return typeof value === 'number' ? `${value}px` : value;
+    };
+    const min = toCss(minWidth);
+    const max = toCss(maxWidth);
+    if (min === null) {
+      pane.style.removeProperty('--solaris-dropdown-menu-min-width');
+    } else {
+      pane.style.setProperty('--solaris-dropdown-menu-min-width', min);
+    }
+    if (max === null) {
+      pane.style.removeProperty('--solaris-dropdown-menu-max-width');
+    } else {
+      pane.style.setProperty('--solaris-dropdown-menu-max-width', max);
+    }
   }
 
   private restoreFocus(): void {

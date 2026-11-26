@@ -41,6 +41,7 @@ export function stripHtmlToText(html: string): string {
     .replace(/<(br|p|h1|h2|h3|blockquote|li|tr)[^<>]*>/gi, ' ')
     .replace(/<[^<>]*>/g, '');
   return withoutTags
+    .replace(/&nbsp;|&#160;/gi, ' ')
     .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
@@ -84,7 +85,25 @@ export function sanitizeRichTextHtml(html: string): string {
     .replace(/\son\w+="[^"]*"/gi, '')
     .replace(/\son\w+='[^']*'/gi, '')
     .replace(/javascript:/gi, '');
-  return stripped.trim();
+  return upgradeLegacyTaskCheckboxes(stripped).trim();
+}
+
+function upgradeLegacyTaskCheckboxes(html: string): string {
+  return html.replace(
+    /<input([^<>]*?)type="checkbox"([^<>]*?)>/gi,
+    (_match: string, before: string, after: string) => {
+      let tag = `<input${before}type="checkbox"${after}>`;
+      tag = tag.replace(/\sdisabled(?:="[^"]*")?/gi, '');
+      tag = tag.replace(/\scontenteditable(?:="[^"]*")?/gi, '');
+      if (!/data-task-checkbox/i.test(tag)) {
+        tag = tag.replace(/<input/i, '<input data-task-checkbox');
+      }
+      if (!/tabindex=/i.test(tag)) {
+        tag = tag.replace(/<input/i, '<input tabindex="-1"');
+      }
+      return tag;
+    },
+  );
 }
 
 export function createEmptyValue(): SolarisRichTextValue {
@@ -162,6 +181,7 @@ export function toPlainText(value: SolarisRichTextValue): string {
 
 export function toMarkdown(value: SolarisRichTextValue): string {
   return stripZeroWidthSpaces(value.html)
+    .replace(/&nbsp;|&#160;/gi, ' ')
     .replace(/<strong>([\s\S]*?)<\/strong>/gi, '**$1**')
     .replace(/<em>([\s\S]*?)<\/em>/gi, '_$1_')
     .replace(/<s>([\s\S]*?)<\/s>/gi, '~~$1~~')
@@ -386,8 +406,6 @@ export type SolarisRichTextColor =
   | 'violetDark'
   | 'muted'
   | 'neutralDark'
-  // Jira-style content palette (fixed hues, theme-independent). Legacy
-  // system-coupled names above keep rendering existing content.
   | 'blue'
   | 'blueLight'
   | 'blueDark'
@@ -664,14 +682,15 @@ export function buildListHtml(
   return `<${kind}>${lis}</${kind}>`;
 }
 
+export function buildTaskItemHtml(text: string, checked = false): string {
+  const body = text.trim().length > 0 ? escapeHtml(text) : '&nbsp;<br />';
+  const state = checked ? ' checked' : '';
+  return `<li><input type="checkbox" data-task-checkbox${state} tabindex="-1" />${body}</li>`;
+}
+
 export function buildTaskListHtml(items: readonly string[]): string {
   const safeItems = items.length > 0 ? items : [''];
-  const lis = safeItems
-    .map(
-      (item) =>
-        `<li><input type="checkbox" disabled />${item.trim().length > 0 ? escapeHtml(item) : '<br />'}</li>`,
-    )
-    .join('');
+  const lis = safeItems.map((item) => buildTaskItemHtml(item)).join('');
   return `<ul data-task-list>${lis}</ul>`;
 }
 
@@ -787,13 +806,10 @@ export function stripZeroWidthSpaces(value: string): string {
 
 export function cleanCommittedHtml(html: string): string {
   return sanitizeRichTextHtml(stripZeroWidthSpaces(html))
-    .replace(/<(strong|em|u|s)(\s[^<>]*)?>\s*(<br\s*\/?>)?\s*<\/\1>/gi, '')
+    .replace(/<(strong|em|u|s)(\s[^<>]*)?>(?:\s|<br\s*\/?>)*<\/\1>/gi, '')
+    .replace(/<span(?=[^<>]*data-color)[^<>]*>(?:\s|<br\s*\/?>)*<\/span>/gi, '')
     .replace(
-      /<span(?=[^<>]*data-color)[^<>]*>\s*(<br\s*\/?>)?\s*<\/span>/gi,
-      '',
-    )
-    .replace(
-      /<span(?=[^<>]*data-highlight)[^<>]*>\s*(<br\s*\/?>)?\s*<\/span>/gi,
+      /<span(?=[^<>]*data-highlight)[^<>]*>(?:\s|<br\s*\/?>)*<\/span>/gi,
       '',
     )
     .replace(/<span class="solaris-image-resize-handle"[^<>]*><\/span>/gi, '')

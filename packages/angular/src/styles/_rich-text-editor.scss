@@ -65,7 +65,21 @@
 
 .solaris-rich-text-editor-area ul,
 .solaris-rich-text-editor-area ol {
-  padding-left: var(--solaris-spacing-5);
+  padding-left: var(--solaris-spacing-9);
+  list-style-position: outside;
+}
+
+.solaris-rich-text-editor-area ol {
+  list-style: none;
+  counter-reset: solaris-ol;
+}
+
+.solaris-rich-text-editor-area ol > li {
+  counter-increment: solaris-ol;
+}
+
+.solaris-rich-text-editor-area ol > li::before {
+  content: counters(solaris-ol, '.') '. ';
 }
 
 .solaris-rich-text-editor-area ul[data-task-list] {
@@ -73,9 +87,75 @@
   padding-left: var(--solaris-spacing-2);
 }
 
-.solaris-rich-text-editor-area ul[data-task-list] input[type='checkbox'] {
-  pointer-events: none;
-  margin-right: var(--solaris-spacing-2);
+.solaris-rich-text-editor-area ul[data-task-list] > li {
+  display: block;
+  position: relative;
+  padding-left: calc(var(--solaris-spacing-7) + var(--solaris-spacing-5));
+}
+
+.solaris-rich-text-editor-area ul[data-task-list] input[data-task-checkbox] {
+  left: 0;
+  margin: 0;
+  cursor: pointer;
+  appearance: none;
+  position: absolute;
+  box-sizing: border-box;
+  background: transparent;
+  width: var(--solaris-spacing-7);
+  height: var(--solaris-spacing-7);
+  font-size: var(--solaris-font-size-sm);
+  border-radius: var(--solaris-radius-sm);
+  color: var(--solaris-neutral-text-inverse);
+  top: calc((1.5em - var(--solaris-spacing-7)) / 2);
+  border: var(--solaris-spacing-1) solid var(--solaris-neutral-border-default);
+  transition:
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+.solaris-rich-text-editor-area
+  ul[data-task-list]
+  input[data-task-checkbox]:hover {
+  border-color: var(--solaris-neutral-text-body);
+}
+
+.solaris-rich-text-editor-area
+  ul[data-task-list]
+  input[data-task-checkbox]:focus-visible {
+  outline-offset: var(--solaris-focus-ring-offset);
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+}
+
+.solaris-rich-text-editor-area
+  ul[data-task-list]
+  input[data-task-checkbox]:checked {
+  background: var(--solaris-neutral-text-body);
+  border-color: var(--solaris-neutral-text-body);
+}
+
+.solaris-rich-text-editor-area
+  ul[data-task-list]
+  input[data-task-checkbox]:checked::after {
+  top: 50%;
+  left: 50%;
+  width: 9px;
+  height: 5px;
+  content: '';
+  display: block;
+  position: absolute;
+  border-left: 2px solid var(--solaris-neutral-text-inverse);
+  border-bottom: 2px solid var(--solaris-neutral-text-inverse);
+  transform: translate(-50%, calc(-50% - 2px)) rotate(-45deg);
+}
+
+.solaris-rich-text-editor-area
+  ul[data-task-list]
+  input[data-task-checkbox]:disabled {
+  cursor: not-allowed;
+  opacity: var(--solaris-opacity-50);
 }
 
 .solaris-rich-text-editor-area a {

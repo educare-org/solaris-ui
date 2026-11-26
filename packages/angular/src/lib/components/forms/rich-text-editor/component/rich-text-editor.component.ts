@@ -47,6 +47,7 @@ import {
   buildLinkHtml,
   buildListHtml,
   buildTableHtml,
+  buildTaskItemHtml,
   buildTaskListHtml,
   clampTableDimension,
   cleanCommittedHtml,
@@ -462,15 +463,19 @@ export class SolarisRichTextEditorComponent
 
   protected onEditorInput(event: Event): void {
     if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
-    const target = event.target as HTMLElement;
+    const origin = event.target as HTMLElement | null;
+    if (origin?.closest?.('input[data-task-checkbox]')) return;
+    this.normalizeTaskCheckboxesInDom();
+    const host = this.editorRef()?.nativeElement ?? null;
+    if (!host) return;
     // SECURITY_EXCEPTION: reading edited HTML requires the native property; same pattern as Angular CDK form controls. Read-only.
-    const rawHtml = target.innerHTML ?? '';
+    const rawHtml = host.innerHTML ?? '';
     if (this.contentFormat() === 'plain') {
       const text = stripHtmlToText(rawHtml);
       const expected = text.length > 0 ? `<p>${escapeHtml(text)}</p>` : '';
       if (rawHtml !== expected) {
         // SECURITY_EXCEPTION: plain mode normalizes pasted rich HTML to escaped paragraphs; write-only, prevents tag injection.
-        target.innerHTML = expected;
+        host.innerHTML = expected;
       }
       const max = this.maxLength();
       if (max !== undefined && Array.from(text).length > max) return;
@@ -512,6 +517,7 @@ export class SolarisRichTextEditorComponent
 
   ngAfterViewInit(): void {
     this.engine.bind(this.editorRef()?.nativeElement ?? null);
+    this.normalizeTaskCheckboxesInDom();
     if (this.autofocus() && !this.isEffectivelyDisabled()) {
       this.focus();
     }
@@ -522,6 +528,8 @@ export class SolarisRichTextEditorComponent
     if (this.handleResizeHandleKey(event)) return;
     if (this.handleLinkShortcut(event)) return;
     if (this.handleListShortcuts(event)) return;
+    if (this.handleTaskListEnter(event)) return;
+    if (this.handleListTab(event)) return;
     if (this.handleInlineShortcuts(event)) return;
     if (this.handleToolbarFocusShortcut(event)) return;
     if (this.handleMentionKeys(event)) return;
@@ -667,6 +675,7 @@ export class SolarisRichTextEditorComponent
 
   protected onEditorMousedown(event: MouseEvent): void {
     const target = event.target as HTMLElement | null;
+    if (target?.closest?.('input[data-task-checkbox]')) return;
     const handle = target?.closest?.(
       '.solaris-image-resize-handle',
     ) as HTMLElement | null;
@@ -1337,7 +1346,7 @@ export class SolarisRichTextEditorComponent
     this.engine.restoreSelection();
     const items = this.takeSelectedLines() ?? [''];
     const html = buildListHtml(kind, items);
-    if (this.engine.insertHtmlAtCaret(html)) {
+    if (this.engine.insertListAtCaret(html)) {
       this.emitFromDom(
         insertBlockEntry(
           this.value().blocks,
@@ -1346,6 +1355,7 @@ export class SolarisRichTextEditorComponent
         ),
       );
     }
+    this.refocusEditorAfterOverlayClose();
   }
 
   protected insertTaskList(): void {
@@ -1354,12 +1364,271 @@ export class SolarisRichTextEditorComponent
     this.engine.restoreSelection();
     const items = this.takeSelectedLines() ?? [''];
     const html = buildTaskListHtml(items);
-    if (this.engine.insertHtmlAtCaret(html)) {
+    if (this.engine.insertListAtCaret(html)) {
       this.emitFromDom(
         insertBlockEntry(this.value().blocks, 'bullet-list', items.join(' ')),
       );
     }
     this.refocusEditorAfterOverlayClose();
+  }
+
+  private handleTaskListEnter(event: KeyboardEvent): boolean {
+    if (event.key !== 'Enter') return false;
+    if (event.shiftKey || event.ctrlKey || event.metaKey || event.altKey)
+      return false;
+    if (typeof document === 'undefined') return false;
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!editor) return false;
+    const selection = document.getSelection();
+    if (!selection || selection.rangeCount === 0 || !selection.isCollapsed)
+      return false;
+    const range = selection.getRangeAt(0);
+    if (!editor.contains(range.commonAncestorContainer)) return false;
+    const host =
+      range.startContainer instanceof Element
+        ? range.startContainer
+        : (range.startContainer.parentElement ?? null);
+    const li = host?.closest?.('li') as HTMLElement | null;
+    if (!li || !editor.contains(li)) return false;
+    const list = li.parentElement;
+    if (list?.tagName !== 'UL' || !list.hasAttribute('data-task-list'))
+      return false;
+    event.preventDefault();
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) return true;
+    const text = (li.textContent ?? '').replace(/[\u200b\u00a0]/g, '').trim();
+    if (text.length === 0) {
+      this.exitTaskList(li, list);
+    } else {
+      this.splitTaskListItem(li);
+    }
+    return true;
+  }
+
+  private splitTaskListItem(current: HTMLElement): void {
+    if (typeof document === 'undefined') return;
+    const next = document.createElement('li');
+    // SECURITY_EXCEPTION: new task item uses the builder-escaped helper; no raw consumer HTML.
+    next.innerHTML = buildTaskItemHtml('').replace(/^<li>|<\/li>$/g, '');
+    current.after(next);
+    this.engine.collapseCaretInListItem(next);
+    this.editorRef()?.nativeElement.focus({ preventScroll: true });
+    this.emitFromDom();
+  }
+
+  private exitTaskList(li: HTMLElement, list: HTMLElement): void {
+    if (typeof document === 'undefined') return;
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!editor) return;
+    const paragraph = document.createElement('p');
+    paragraph.append(document.createElement('br'));
+    if (list.querySelectorAll('li').length <= 1) {
+      list.replaceWith(paragraph);
+    } else {
+      li.remove();
+      list.after(paragraph);
+    }
+    try {
+      const selection = document.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(paragraph);
+      range.collapse(true);
+      selection?.removeAllRanges();
+      selection?.addRange(range);
+      editor.focus({ preventScroll: true });
+    } catch {
+      if (isDevMode()) console.warn('[SolarisRichText] Task list exit failed.');
+    }
+    this.emitFromDom();
+  }
+
+  protected onEditorClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement | null;
+    this.normalizeTaskCheckboxesInDom();
+    const checkbox = target?.closest?.(
+      'input[data-task-checkbox]',
+    ) as HTMLInputElement | null;
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!checkbox || !editor?.contains(checkbox)) return;
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) {
+      event.preventDefault();
+      return;
+    }
+    if (checkbox.checked) {
+      checkbox.setAttribute('checked', '');
+    } else {
+      checkbox.removeAttribute('checked');
+    }
+    this.emitFromDom();
+  }
+
+  private handleListTab(event: KeyboardEvent): boolean {
+    if (event.key !== 'Tab') return false;
+    if (event.ctrlKey || event.metaKey || event.altKey) return false;
+    if (typeof document === 'undefined') return false;
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!editor) return false;
+    const selection = document.getSelection();
+    if (!selection || selection.rangeCount === 0 || !selection.isCollapsed)
+      return false;
+    const range = selection.getRangeAt(0);
+    if (!editor.contains(range.commonAncestorContainer)) return false;
+    const host =
+      range.startContainer instanceof Element
+        ? range.startContainer
+        : (range.startContainer.parentElement ?? null);
+    const li = host?.closest?.('li') as HTMLElement | null;
+    if (!li || !editor.contains(li)) return false;
+    const list = li.parentElement;
+    if (
+      !list ||
+      (list.tagName !== 'UL' && list.tagName !== 'OL') ||
+      !editor.contains(list)
+    )
+      return false;
+    event.preventDefault();
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) return true;
+    if (event.shiftKey) {
+      this.outdentListItem(li, list);
+    } else {
+      this.indentListItem(li, list);
+    }
+    return true;
+  }
+
+  private nestedListFor(
+    parent: HTMLElement,
+    reference: HTMLElement,
+  ): HTMLElement {
+    const tag = reference.tagName === 'OL' ? 'ol' : 'ul';
+    const nested = document.createElement(tag);
+    if (reference.hasAttribute('data-task-list')) {
+      nested.setAttribute('data-task-list', '');
+    }
+    parent.append(nested);
+    return nested;
+  }
+
+  private indentListItem(li: HTMLElement, list: HTMLElement): void {
+    const previous = li.previousElementSibling as HTMLElement | null;
+    if (previous?.tagName !== 'LI') return;
+    let nested = previous.lastElementChild as HTMLElement | null;
+    const sameKind =
+      nested?.tagName === list.tagName &&
+      nested.hasAttribute('data-task-list') ===
+        list.hasAttribute('data-task-list');
+    if (!sameKind) {
+      nested = this.nestedListFor(previous, list);
+    }
+    if (nested == null) return;
+    nested.append(li);
+    this.keepOrPlaceCaretInItem(li);
+    this.editorRef()?.nativeElement.focus({ preventScroll: true });
+    this.emitFromDom();
+  }
+
+  private outdentListItem(li: HTMLElement, list: HTMLElement): void {
+    const parentLi = list.parentElement;
+    if (parentLi?.tagName !== 'LI') {
+      this.exitListToParagraph(li, list);
+      return;
+    }
+    const grandList = parentLi.parentElement;
+    if (!grandList) return;
+    if (li.nextElementSibling) {
+      const remainder = this.nestedListFor(li, list);
+      while (li.nextElementSibling) {
+        remainder.append(li.nextElementSibling);
+      }
+      if (remainder.querySelectorAll('li').length === 0) {
+        remainder.remove();
+      }
+    }
+    parentLi.after(li);
+    if (list.querySelectorAll('li').length === 0) {
+      list.remove();
+    }
+    this.keepOrPlaceCaretInItem(li);
+    this.editorRef()?.nativeElement.focus({ preventScroll: true });
+    this.emitFromDom();
+  }
+
+  private keepOrPlaceCaretInItem(li: HTMLElement): void {
+    if (typeof document === 'undefined') {
+      this.engine.collapseCaretInListItem(li);
+      return;
+    }
+    try {
+      const selection = document.getSelection();
+      const range =
+        selection && selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+      if (
+        range &&
+        li.contains(range.commonAncestorContainer) &&
+        this.editorRef()?.nativeElement.contains(range.commonAncestorContainer)
+      ) {
+        return;
+      }
+    } catch {
+      if (isDevMode()) console.warn('[SolarisRichText] Caret keep failed.');
+    }
+    this.engine.collapseCaretInListItem(li);
+  }
+
+  private normalizeTaskCheckboxesInDom(): void {
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!editor || typeof document === 'undefined') return;
+    const stale = editor.querySelectorAll(
+      'ul[data-task-list] input[type="checkbox"][contenteditable], ul[data-task-list] input[type="checkbox"][disabled]',
+    );
+    if (stale.length === 0) return;
+    stale.forEach((node) => {
+      const input = node as HTMLInputElement;
+      input.removeAttribute('contenteditable');
+      input.removeAttribute('disabled');
+      if (!input.hasAttribute('data-task-checkbox')) {
+        input.setAttribute('data-task-checkbox', '');
+      }
+      if (!input.hasAttribute('tabindex')) {
+        input.setAttribute('tabindex', '-1');
+      }
+    });
+    this.emitFromDom();
+  }
+
+  private exitListToParagraph(li: HTMLElement, list: HTMLElement): void {
+    if (typeof document === 'undefined') return;
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!editor) return;
+    const paragraph = document.createElement('p');
+    const text = (li.textContent ?? '').replace(/[\u200b\u00a0]/g, '').trim();
+    if (li.querySelector('input[data-task-checkbox]')) {
+      paragraph.textContent = text;
+    } else if (text.length > 0) {
+      paragraph.textContent = text;
+    } else {
+      paragraph.append(document.createElement('br'));
+    }
+    if (list.querySelectorAll('li').length <= 1) {
+      list.replaceWith(paragraph);
+    } else if (li === list.firstElementChild) {
+      list.before(paragraph);
+      li.remove();
+    } else {
+      list.after(paragraph);
+      li.remove();
+    }
+    try {
+      const selection = document.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(paragraph);
+      range.collapse(false);
+      selection?.removeAllRanges();
+      selection?.addRange(range);
+      editor.focus({ preventScroll: true });
+    } catch {
+      if (isDevMode()) console.warn('[SolarisRichText] List exit failed.');
+    }
+    this.emitFromDom();
   }
 
   private takeSelectedLines(): readonly string[] | null {
@@ -1659,8 +1928,6 @@ export class SolarisRichTextEditorComponent
     range: Range,
     host: HTMLElement,
   ): void {
-    // Outermost first so a fully covered outer wrapper grows the range to
-    // include everything at once.
     for (const el of this.collectInlineWrapperCandidates(range, host)) {
       if (!host.contains(el)) continue;
       if (!this.rangeFullyCoversElement(range, el)) continue;
@@ -2194,10 +2461,6 @@ export class SolarisRichTextEditorComponent
 
   private readProbeForeground(): SolarisRgb | null {
     if (typeof document === 'undefined') return null;
-    // Why a probe inside the editing area: content color rules are scoped
-    // to `.solaris-rich-text-editor-area`, and the popover renders in a CDK
-    // overlay. Measuring here yields exactly what the editor renders, in
-    // the current theme.
     const area = this.editorRef()?.nativeElement ?? null;
     if (!area) return null;
     const probe = document.createElement('span');
@@ -2256,8 +2519,6 @@ export class SolarisRichTextEditorComponent
   }
 
   private readCanvasBackground(): SolarisRgb | null {
-    // The verdict must reflect the editing canvas in the current theme,
-    // not whatever surface happens to host the popover.
     let current: Element | null = this.editorRef()?.nativeElement ?? null;
     let hops = 0;
     while (current && hops < 20) {
