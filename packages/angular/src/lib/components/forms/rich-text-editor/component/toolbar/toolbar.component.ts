@@ -223,11 +223,6 @@ export class SolarisRichTextToolbarComponent {
     }
   }
 
-  setLinkPanel(url: string, text: string): void {
-    this.linkUrlChange.emit(url);
-    this.linkTextChange.emit(text);
-  }
-
   protected applyLinkFromPanel(): void {
     this.linkApply.emit({ url: this.linkUrl(), text: this.linkText() });
   }

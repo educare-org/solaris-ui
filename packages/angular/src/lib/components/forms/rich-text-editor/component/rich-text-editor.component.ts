@@ -1151,15 +1151,11 @@ export class SolarisRichTextEditorComponent
     if (this.contentFormat() !== 'rich') return;
     if (typeof document === 'undefined') return;
     this.engine.restoreSelection();
-    let selectedText = '';
+    const selectedText = '';
     try {
       const selected = this.engine.selectionInEditor();
       if (selected && !selected.range.collapsed) {
-        selectedText = this.applyBlockToRange(
-          tag,
-          selected.range,
-          selected.selection,
-        );
+        this.applyBlockToRange(tag, selected.range, selected.selection);
         return;
       }
       if (selected && this.transformCaretBlock(selected.range, tag)) {
@@ -1194,7 +1190,7 @@ export class SolarisRichTextEditorComponent
     tag: SolarisRichTextBlockTag,
     range: Range,
     selection: Selection,
-  ): string {
+  ): void {
     const selectedText = stripHtmlToText(range.toString());
     range.deleteContents();
     const wrapper = document.createElement('div');
@@ -1208,7 +1204,6 @@ export class SolarisRichTextEditorComponent
     this.emitFromDom(
       insertBlockEntry(this.value().blocks, blockKindForTag(tag), selectedText),
     );
-    return selectedText;
   }
 
   private transformCaretBlock(
