@@ -2,6 +2,37 @@ import { RICH_TEXT_ZERO_WIDTH_SPACE } from './rich-text-editor.utils';
 
 import type { SolarisRichTextInlineTag } from '../model/rich-text-editor.types';
 
+export const SOLARIS_RICH_TEXT_INLINE_TAG_NAMES: ReadonlySet<string> = new Set([
+  'STRONG',
+  'EM',
+  'U',
+  'S',
+  'CODE',
+  'SUB',
+  'SUP',
+]);
+
+export const SOLARIS_RICH_TEXT_BLOCK_BOUNDARY_TAG_NAMES: ReadonlySet<string> =
+  new Set([
+    'P',
+    'H1',
+    'H2',
+    'H3',
+    'BLOCKQUOTE',
+    'UL',
+    'OL',
+    'LI',
+    'PRE',
+    'FIGURE',
+    'TABLE',
+    'TBODY',
+    'THEAD',
+    'TR',
+    'TD',
+    'TH',
+    'DIV',
+  ]);
+
 export function closestTag(
   node: Node | null,
   upperTag: string,
@@ -56,10 +87,9 @@ export function expandRangeToInlineAncestors(
   range: Range,
   host: HTMLElement,
 ): void {
-  const inlineTags = new Set(['STRONG', 'EM', 'U', 'S', 'CODE', 'SUB', 'SUP']);
   const isInline = (el: Element | null): boolean => {
     if (!el || el === host) return false;
-    if (inlineTags.has(el.tagName)) return true;
+    if (SOLARIS_RICH_TEXT_INLINE_TAG_NAMES.has(el.tagName)) return true;
     return (
       el.tagName === 'SPAN' &&
       (el.hasAttribute('data-color') || el.hasAttribute('data-highlight'))

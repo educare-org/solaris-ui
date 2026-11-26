@@ -43,7 +43,6 @@ import {
   blockKindForTag,
   buildBlockHtml,
   buildCodeBlockHtml,
-  buildDataSpanHtml,
   buildImageFigureHtml,
   buildLinkHtml,
   buildListHtml,
@@ -81,6 +80,8 @@ import {
   expandRangeToInlineAncestors,
   isEmptyMarker,
   sharedInlineAncestor,
+  SOLARIS_RICH_TEXT_BLOCK_BOUNDARY_TAG_NAMES,
+  SOLARIS_RICH_TEXT_INLINE_TAG_NAMES,
 } from '../functions/rich-text-editor.dom';
 import type {
   SolarisRichTextActiveMark,
@@ -1612,30 +1613,261 @@ export class SolarisRichTextEditorComponent
     const selected = this.readDataSpanSelection(host);
     if (!selected) return false;
     const { range, selection } = selected;
-    expandRangeToInlineAncestors(range, host);
-    const text = stripHtmlToText(range.toString());
-    if (text.length === 0) return true;
-    const probe = document.createElement('div');
-    probe.appendChild(range.cloneContents());
-    const existingColor =
-      probe.querySelector('[data-color]')?.getAttribute('data-color') ??
-      'default';
-    const existingHighlight =
-      probe.querySelector('[data-highlight]')?.getAttribute('data-highlight') ??
-      'default';
-    const nextColor = attr === 'data-color' ? color : existingColor;
-    const nextHighlight = attr === 'data-highlight' ? color : existingHighlight;
-    const merged = buildDataSpanHtml({
-      color: nextColor as SolarisRichTextColor,
-      highlight: nextHighlight as SolarisRichTextHighlight,
-      text,
-    });
-    this.insertMergedSpan(range, selection, merged);
+    this.expandRangeToFullySelectedWrappers(range, host);
+    const fragment = range.extractContents();
+    const container = document.createElement('div');
+    container.appendChild(fragment);
+    for (const node of Array.from(container.childNodes)) {
+      if (
+        node.nodeType === Node.TEXT_NODE &&
+        (node.textContent ?? '').replace(/[\u200b\s]/g, '').length === 0
+      ) {
+        node.remove();
+      }
+    }
+    const hasVisible =
+      (container.textContent ?? '').replace(/\u200b/g, '').trim().length > 0 ||
+      container.querySelector('img, figure, table, input, br') !== null;
+    if (!hasVisible) {
+      range.insertNode(container);
+      container.replaceWith(...Array.from(container.childNodes));
+      return true;
+    }
+    this.applyDataAttrToContainer(container, attr, String(color));
+    const out = document.createDocumentFragment();
+    while (container.firstChild) out.appendChild(container.firstChild);
+    const first = out.firstChild;
+    const last = out.lastChild;
+    range.insertNode(out);
+    if (first && last) {
+      const select = document.createRange();
+      if (first === last && first instanceof Element) {
+        select.selectNodeContents(first);
+      } else {
+        select.setStartBefore(first);
+        select.setEndAfter(last);
+      }
+      selection.removeAllRanges();
+      selection.addRange(select);
+    }
     this.emitFromDom();
-    this.activeColor.set(nextColor as SolarisRichTextColor);
-    this.activeHighlight.set(nextHighlight as SolarisRichTextHighlight);
+    if (attr === 'data-color') {
+      this.activeColor.set(color as SolarisRichTextColor);
+    } else {
+      this.activeHighlight.set(color as SolarisRichTextHighlight);
+    }
     this.engine.rememberSelection();
     return true;
+  }
+
+  private expandRangeToFullySelectedWrappers(
+    range: Range,
+    host: HTMLElement,
+  ): void {
+    // Outermost first so a fully covered outer wrapper grows the range to
+    // include everything at once.
+    for (const el of this.collectInlineWrapperCandidates(range, host)) {
+      if (!host.contains(el)) continue;
+      if (!this.rangeFullyCoversElement(range, el)) continue;
+      try {
+        range.setStartBefore(el);
+        range.setEndAfter(el);
+      } catch {
+        if (isDevMode())
+          console.warn('[SolarisRichText] Span range expand failed.');
+      }
+    }
+  }
+
+  private collectInlineWrapperCandidates(
+    range: Range,
+    host: HTMLElement,
+  ): Element[] {
+    const candidates = new Set<Element>();
+    for (const node of [range.startContainer, range.endContainer]) {
+      this.collectWrapperAncestors(node, host, candidates);
+    }
+    return [...candidates].sort(
+      (a, b) => this.depthWithin(a, host) - this.depthWithin(b, host),
+    );
+  }
+
+  private collectWrapperAncestors(
+    node: Node | null,
+    host: HTMLElement,
+    out: Set<Element>,
+  ): void {
+    let el = node instanceof Element ? node : (node?.parentElement ?? null);
+    while (el && el !== host) {
+      if (
+        el.tagName === 'SPAN' ||
+        SOLARIS_RICH_TEXT_INLINE_TAG_NAMES.has(el.tagName)
+      ) {
+        out.add(el);
+      }
+      const parent = el.parentElement;
+      if (
+        !parent ||
+        parent === host ||
+        SOLARIS_RICH_TEXT_BLOCK_BOUNDARY_TAG_NAMES.has(parent.tagName)
+      ) {
+        break;
+      }
+      el = parent;
+    }
+  }
+
+  private depthWithin(el: Element, host: HTMLElement): number {
+    let depth = 0;
+    let current: Element | null = el;
+    while (current && current !== host) {
+      depth += 1;
+      current = current.parentElement;
+    }
+    return depth;
+  }
+
+  private rangeFullyCoversElement(range: Range, el: Element): boolean {
+    if (!el.firstChild) return true;
+    try {
+      let first: Node = el;
+      while (first.firstChild) first = first.firstChild;
+      let last: Node = el;
+      while (last.lastChild) last = last.lastChild;
+      const lastOffset =
+        last.nodeType === Node.TEXT_NODE
+          ? (last.textContent?.length ?? 0)
+          : last.childNodes.length;
+      const startProbe = document.createRange();
+      startProbe.setStart(first, 0);
+      startProbe.collapse(true);
+      const endProbe = document.createRange();
+      endProbe.setStart(last, lastOffset);
+      endProbe.collapse(true);
+      return (
+        range.compareBoundaryPoints(Range.START_TO_START, startProbe) <= 0 &&
+        range.compareBoundaryPoints(Range.END_TO_END, endProbe) >= 0
+      );
+    } catch {
+      return false;
+    }
+  }
+
+  private applyDataAttrToContainer(
+    container: HTMLElement,
+    attr: 'data-color' | 'data-highlight',
+    color: string,
+  ): void {
+    if (color === 'default') {
+      container.querySelectorAll(`span[${attr}]`).forEach((span) => {
+        span.removeAttribute(attr);
+        if (
+          !span.hasAttribute('data-color') &&
+          !span.hasAttribute('data-highlight')
+        ) {
+          span.replaceWith(...Array.from(span.childNodes));
+        }
+      });
+      return;
+    }
+    for (const span of Array.from(
+      container.querySelectorAll(`span[${attr}]`),
+    )) {
+      span.setAttribute(attr, color);
+    }
+    this.wrapBareInlineRuns(container, attr, color);
+    for (const block of Array.from(
+      container.querySelectorAll(
+        'p, h1, h2, h3, blockquote, li, pre, td, th, figcaption',
+      ),
+    )) {
+      if (container.contains(block)) {
+        this.wrapBareInlineRuns(block, attr, color);
+      }
+    }
+  }
+
+  private wrapBareInlineRuns(
+    parent: Element,
+    attr: 'data-color' | 'data-highlight',
+    color: string,
+  ): void {
+    const nodes = Array.from(parent.childNodes);
+    let run: Node[] = [];
+    const flush = (): void => {
+      if (run.length === 0) return;
+      const pending = run;
+      run = [];
+      const hasVisible = pending.some((node) => {
+        if (node.nodeType === Node.TEXT_NODE) {
+          return (node.textContent ?? '').trim().length > 0;
+        }
+        return node.nodeName !== 'BR';
+      });
+      if (!hasVisible) return;
+      if (
+        pending.length === 1 &&
+        pending[0] instanceof Element &&
+        (pending[0] as Element).tagName === 'SPAN' &&
+        !(pending[0] as Element).hasAttribute(attr)
+      ) {
+        (pending[0] as Element).setAttribute(attr, color);
+        return;
+      }
+      const outer = document.createElement('span');
+      outer.setAttribute(attr, color);
+      parent.insertBefore(outer, pending[0]);
+      for (const node of pending) outer.appendChild(node);
+      this.mergeSingleNestedSpan(outer, attr);
+    };
+    for (const node of nodes) {
+      if (
+        node instanceof Element &&
+        SOLARIS_RICH_TEXT_BLOCK_BOUNDARY_TAG_NAMES.has(node.tagName)
+      ) {
+        flush();
+        continue;
+      }
+      if (
+        node instanceof Element &&
+        node.tagName === 'SPAN' &&
+        node.getAttribute(attr) === color &&
+        node.parentNode === parent
+      ) {
+        flush();
+        continue;
+      }
+      run.push(node);
+    }
+    flush();
+  }
+
+  private mergeSingleNestedSpan(
+    outer: Element,
+    attr: 'data-color' | 'data-highlight',
+  ): void {
+    const only = Array.from(outer.childNodes).filter(
+      (node) =>
+        !(
+          node.nodeType === Node.TEXT_NODE &&
+          (node.textContent ?? '').trim().length === 0
+        ),
+    );
+    if (only.length !== 1) return;
+    const inner = only[0];
+    if (!(inner instanceof Element) || inner.tagName !== 'SPAN') return;
+    const other: 'data-color' | 'data-highlight' =
+      attr === 'data-color' ? 'data-highlight' : 'data-color';
+    if (
+      !outer.hasAttribute(other) &&
+      inner.hasAttribute(other) &&
+      !inner.hasAttribute(attr) &&
+      inner.childNodes.length > 0
+    ) {
+      outer.setAttribute(other, inner.getAttribute(other) ?? '');
+      outer.append(...Array.from(inner.childNodes));
+      inner.remove();
+    }
   }
 
   private applyDataSpanToCaret(
@@ -1658,27 +1890,6 @@ export class SolarisRichTextEditorComponent
       color as SolarisRichTextHighlight,
       this.activeHighlight,
     );
-  }
-
-  private insertMergedSpan(
-    range: Range,
-    selection: Selection,
-    html: string,
-  ): void {
-    range.deleteContents();
-    const fragment = range.createContextualFragment(html);
-    const node = fragment.firstChild;
-    if (!node) {
-      const fallback = document.createTextNode('');
-      range.insertNode(fallback);
-      selection.removeAllRanges();
-      return;
-    }
-    range.insertNode(fragment);
-    const select = document.createRange();
-    select.selectNodeContents(node);
-    selection.removeAllRanges();
-    selection.addRange(select);
   }
 
   private toggleCaretDataSpan<T extends string>(

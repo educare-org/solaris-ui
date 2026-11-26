@@ -1403,6 +1403,31 @@ describe('SolarisRichTextEditorComponent', () => {
     );
   });
 
+  it('preserves sub and bold when coloring only part of the text', () => {
+    create();
+    fixture.componentInstance.writeValue(
+      '<p>sdas<strong>bold</strong><sub>ss</sub></p>',
+    );
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const sub = area.querySelector('sub')?.firstChild as Node;
+    const range = document.createRange();
+    range.selectNodeContents(sub);
+    document.getSelection()?.removeAllRanges();
+    document.getSelection()?.addRange(range);
+    fixture.componentInstance['setColor']('danger');
+    expect(area.querySelector('sub')?.textContent).toBe('ss');
+    expect(area.querySelector('strong')?.textContent).toBe('bold');
+    expect(
+      area.querySelector('sub')?.closest('span[data-color="danger"]'),
+    ).toBeTruthy();
+    expect(
+      area.querySelector('strong')?.closest('span[data-color="danger"]'),
+    ).toBeNull();
+  });
+
   it('restores a blurred selection when toggling from the toolbar', () => {
     create();
     fixture.componentInstance.writeValue('<p>hello</p>');
