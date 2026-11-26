@@ -385,7 +385,36 @@ export type SolarisRichTextColor =
   | 'violetLight'
   | 'violetDark'
   | 'muted'
-  | 'neutralDark';
+  | 'neutralDark'
+  // Jira-style content palette (fixed hues, theme-independent). Legacy
+  // system-coupled names above keep rendering existing content.
+  | 'blue'
+  | 'blueLight'
+  | 'blueDark'
+  | 'petrol'
+  | 'petrolLight'
+  | 'petrolDark'
+  | 'green'
+  | 'greenLight'
+  | 'greenDark'
+  | 'lime'
+  | 'limeLight'
+  | 'limeDark'
+  | 'yellow'
+  | 'yellowLight'
+  | 'yellowDark'
+  | 'orange'
+  | 'orangeLight'
+  | 'orangeDark'
+  | 'red'
+  | 'redLight'
+  | 'redDark'
+  | 'magenta'
+  | 'magentaLight'
+  | 'magentaDark'
+  | 'purple'
+  | 'purpleLight'
+  | 'purpleDark';
 
 export type SolarisRichTextHighlight =
   | 'default'
@@ -396,7 +425,16 @@ export type SolarisRichTextHighlight =
   | 'info'
   | 'accent'
   | 'violet'
-  | 'neutral';
+  | 'neutral'
+  | 'blue'
+  | 'petrol'
+  | 'green'
+  | 'lime'
+  | 'yellow'
+  | 'orange'
+  | 'red'
+  | 'magenta'
+  | 'purple';
 
 export interface SolarisRichTextActiveScan {
   marks: Record<SolarisRichTextActiveMark, boolean>;
@@ -445,6 +483,33 @@ const ACTIVE_SPAN_COLORS: ReadonlySet<string> = new Set([
   'violetDark',
   'muted',
   'neutralDark',
+  'blue',
+  'blueLight',
+  'blueDark',
+  'petrol',
+  'petrolLight',
+  'petrolDark',
+  'green',
+  'greenLight',
+  'greenDark',
+  'lime',
+  'limeLight',
+  'limeDark',
+  'yellow',
+  'yellowLight',
+  'yellowDark',
+  'orange',
+  'orangeLight',
+  'orangeDark',
+  'red',
+  'redLight',
+  'redDark',
+  'magenta',
+  'magentaLight',
+  'magentaDark',
+  'purple',
+  'purpleLight',
+  'purpleDark',
 ]);
 
 export function createActiveScan(): SolarisRichTextActiveScan {

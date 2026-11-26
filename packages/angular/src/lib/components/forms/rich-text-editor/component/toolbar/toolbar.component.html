@@ -395,7 +395,7 @@
               [attr.data-active]="color() === swatch ? '' : null"
               [attr.aria-pressed]="color() === swatch"
               [attr.aria-label]="colorSwatchLabel(swatch)"
-              [attr.title]="colorSwatchLabel(swatch)"
+              [solarisTooltip]="colorSwatchLabel(swatch)"
               (click)="colorPick.emit(swatch)"
             >
               <span
@@ -421,27 +421,34 @@
           role="group"
           [attr.aria-label]="'solaris.rich-text.highlightLabel' | translate"
         >
-          @for (color of highlightColors; track color) {
+          @for (swatch of highlightColors; track swatch) {
             <button
               type="button"
               class="solaris-rich-text-swatch"
-              [attr.data-highlight]="color"
-              [attr.data-active]="highlight() === color ? '' : null"
-              [attr.aria-pressed]="highlight() === color"
-              [attr.aria-label]="colorSwatchLabel(color)"
-              [attr.title]="colorSwatchLabel(color)"
-              (click)="highlightPick.emit(color)"
+              [attr.data-highlight]="swatch"
+              [attr.data-active]="highlight() === swatch ? '' : null"
+              [attr.aria-pressed]="highlight() === swatch"
+              [attr.aria-label]="colorSwatchLabel(swatch)"
+              [solarisTooltip]="colorSwatchLabel(swatch)"
+              (click)="highlightPick.emit(swatch)"
             >
               <span
                 class="solaris-rich-text-swatch-dot"
-                [attr.data-highlight]="color"
+                [attr.data-highlight]="swatch"
               >
-                @if (highlight() === color) {
+                @if (highlight() === swatch) {
                   <solaris-icon
                     class="solaris-rich-text-swatch-check"
                     name="check"
                     [size]="14"
                   />
+                } @else {
+                  <span
+                    class="solaris-rich-text-swatch-letter"
+                    [attr.data-text-color]="color()"
+                    aria-hidden="true"
+                    >A</span
+                  >
                 }
               </span>
             </button>
@@ -493,7 +500,7 @@
             </span>
             <span
               class="solaris-rich-text-color-panel-accessibility-help"
-              [attr.title]="
+              [solarisTooltip]="
                 panelContrast.level === 'ok'
                   ? ('solaris.rich-text.colorAccessibilityOk' | translate)
                   : panelContrast.level === 'partial'

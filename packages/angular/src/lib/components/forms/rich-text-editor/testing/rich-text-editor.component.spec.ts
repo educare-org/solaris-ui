@@ -1355,10 +1355,33 @@ describe('SolarisRichTextEditorComponent', () => {
     expect(fixture.componentInstance['activeColor']()).toBe('primaryLight');
     selectAllText(area);
     fixture.componentInstance['setColor']('primaryDark');
-    expect(area.querySelectorAll('span[data-color]').length).toBe(1);
+    expect(area.querySelectorAll('span[data-color]')).toHaveLength(1);
     expect(
       area.querySelector('span[data-color="primaryDark"]')?.textContent,
     ).toBe('hello');
+  });
+
+  it('applies the fixed Jira-style palette and detects it in active states', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>hello</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    selectAllText(area);
+    fixture.componentInstance['setColor']('blue');
+    expect(area.querySelector('span[data-color="blue"]')?.textContent).toBe(
+      'hello',
+    );
+    fixture.componentInstance['updateActiveStates']();
+    expect(fixture.componentInstance['activeColor']()).toBe('blue');
+    selectAllText(area);
+    fixture.componentInstance['setHighlight']('lime');
+    const merged = area.querySelector('span[data-color="blue"]');
+    expect(merged?.textContent).toBe('hello');
+    expect(merged?.getAttribute('data-highlight')).toBe('lime');
+    fixture.componentInstance['updateActiveStates']();
+    expect(fixture.componentInstance['activeHighlight']()).toBe('lime');
   });
 
   it('replaces text color on a second pick without nesting', () => {

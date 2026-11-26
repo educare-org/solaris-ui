@@ -67,6 +67,8 @@ $-default-config: (
   }
 
   :root {
+    @include color.solaris-content-tokens;
+
     @if $density == compact {
       --solaris-density-default: compact;
     } @else if $density == comfortable {

@@ -5,6 +5,9 @@
 /// user content inside the editing area lives here, next to the other
 /// official component shells (`_textarea.scss`, `_input.scss`). Toolbar
 /// chrome stays in the component stylesheet.
+///
+/// The fixed Jira-style content palette lives in `token/color/_content.scss`
+/// (global `:root`, resolvable from CDK overlays too).
 
 .solaris-rich-text-editor-area {
   border: none;
@@ -20,14 +23,11 @@
 
 .solaris-rich-text-editor[data-variant='composer']
   .solaris-rich-text-editor-area {
-  // Fixed composer shell: one control row tall, capped so long drafts scroll
-  // instead of pushing the page. Both are deliberate interaction sizes,
-  // not spacing scale.
-  min-height: var(--solaris-control-height-normal-lg);
   overflow-y: auto;
   max-height: 200px;
   padding-top: var(--solaris-spacing-2);
   padding-bottom: var(--solaris-spacing-2);
+  min-height: var(--solaris-control-height-normal-lg);
 }
 
 .solaris-rich-text-editor[data-in-field] .solaris-rich-text-editor-area {
@@ -207,6 +207,118 @@
   color: var(--solaris-neutral-text-secondary);
 }
 
+.solaris-rich-text-editor-area span[data-color='neutralDark'] {
+  color: var(--solaris-neutral-text-inverse);
+}
+
+.solaris-rich-text-editor-area span[data-color='blue'] {
+  color: var(--solaris-rich-text-blue);
+}
+
+.solaris-rich-text-editor-area span[data-color='blueLight'] {
+  color: var(--solaris-rich-text-blue-light);
+}
+
+.solaris-rich-text-editor-area span[data-color='blueDark'] {
+  color: var(--solaris-rich-text-blue-dark);
+}
+
+.solaris-rich-text-editor-area span[data-color='petrol'] {
+  color: var(--solaris-rich-text-petrol);
+}
+
+.solaris-rich-text-editor-area span[data-color='petrolLight'] {
+  color: var(--solaris-rich-text-petrol-light);
+}
+
+.solaris-rich-text-editor-area span[data-color='petrolDark'] {
+  color: var(--solaris-rich-text-petrol-dark);
+}
+
+.solaris-rich-text-editor-area span[data-color='green'] {
+  color: var(--solaris-rich-text-green);
+}
+
+.solaris-rich-text-editor-area span[data-color='greenLight'] {
+  color: var(--solaris-rich-text-green-light);
+}
+
+.solaris-rich-text-editor-area span[data-color='greenDark'] {
+  color: var(--solaris-rich-text-green-dark);
+}
+
+.solaris-rich-text-editor-area span[data-color='lime'] {
+  color: var(--solaris-rich-text-lime);
+}
+
+.solaris-rich-text-editor-area span[data-color='limeLight'] {
+  color: var(--solaris-rich-text-lime-light);
+}
+
+.solaris-rich-text-editor-area span[data-color='limeDark'] {
+  color: var(--solaris-rich-text-lime-dark);
+}
+
+.solaris-rich-text-editor-area span[data-color='yellow'] {
+  color: var(--solaris-rich-text-yellow);
+}
+
+.solaris-rich-text-editor-area span[data-color='yellowLight'] {
+  color: var(--solaris-rich-text-yellow-light);
+}
+
+.solaris-rich-text-editor-area span[data-color='yellowDark'] {
+  color: var(--solaris-rich-text-yellow-dark);
+}
+
+.solaris-rich-text-editor-area span[data-color='orange'] {
+  color: var(--solaris-rich-text-orange);
+}
+
+.solaris-rich-text-editor-area span[data-color='orangeLight'] {
+  color: var(--solaris-rich-text-orange-light);
+}
+
+.solaris-rich-text-editor-area span[data-color='orangeDark'] {
+  color: var(--solaris-rich-text-orange-dark);
+}
+
+.solaris-rich-text-editor-area span[data-color='red'] {
+  color: var(--solaris-rich-text-red);
+}
+
+.solaris-rich-text-editor-area span[data-color='redLight'] {
+  color: var(--solaris-rich-text-red-light);
+}
+
+.solaris-rich-text-editor-area span[data-color='redDark'] {
+  color: var(--solaris-rich-text-red-dark);
+}
+
+.solaris-rich-text-editor-area span[data-color='magenta'] {
+  color: var(--solaris-rich-text-magenta);
+}
+
+.solaris-rich-text-editor-area span[data-color='magentaLight'] {
+  color: var(--solaris-rich-text-magenta-light);
+}
+
+.solaris-rich-text-editor-area span[data-color='magentaDark'] {
+  color: var(--solaris-rich-text-magenta-dark);
+}
+
+.solaris-rich-text-editor-area span[data-color='purple'] {
+  color: var(--solaris-rich-text-purple);
+}
+
+.solaris-rich-text-editor-area span[data-color='purpleLight'] {
+  color: var(--solaris-rich-text-purple-light);
+}
+
+.solaris-rich-text-editor-area span[data-color='purpleDark'] {
+  color: var(--solaris-rich-text-purple-dark);
+}
+
 .solaris-rich-text-editor-area span[data-highlight='primary'] {
   background: var(--solaris-primary-soft);
 }
@@ -237,6 +349,42 @@
 
 .solaris-rich-text-editor-area span[data-highlight='neutral'] {
   background: var(--solaris-neutral-subtle);
+}
+
+.solaris-rich-text-editor-area span[data-highlight='blue'] {
+  background: var(--solaris-rich-text-blue-dark);
+}
+
+.solaris-rich-text-editor-area span[data-highlight='petrol'] {
+  background: var(--solaris-rich-text-petrol-dark);
+}
+
+.solaris-rich-text-editor-area span[data-highlight='green'] {
+  background: var(--solaris-rich-text-green-dark);
+}
+
+.solaris-rich-text-editor-area span[data-highlight='lime'] {
+  background: var(--solaris-rich-text-lime-dark);
+}
+
+.solaris-rich-text-editor-area span[data-highlight='yellow'] {
+  background: var(--solaris-rich-text-yellow-dark);
+}
+
+.solaris-rich-text-editor-area span[data-highlight='orange'] {
+  background: var(--solaris-rich-text-orange-dark);
+}
+
+.solaris-rich-text-editor-area span[data-highlight='red'] {
+  background: var(--solaris-rich-text-red-dark);
+}
+
+.solaris-rich-text-editor-area span[data-highlight='magenta'] {
+  background: var(--solaris-rich-text-magenta-dark);
+}
+
+.solaris-rich-text-editor-area span[data-highlight='purple'] {
+  background: var(--solaris-rich-text-purple-dark);
 }
 
 .solaris-rich-text-editor-area span[data-mention] {
@@ -354,7 +502,6 @@
 
 .solaris-rich-text-editor-area th,
 .solaris-rich-text-editor-area td {
-  // Minimum tappable cell width; mirrors the normal-lg control height.
   min-width: var(--solaris-control-height-normal-lg);
   text-align: left;
   vertical-align: top;

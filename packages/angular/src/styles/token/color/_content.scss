@@ -1,0 +1,36 @@
+/// Fixed content palette for the rich-text editor.
+///
+/// User content (like Google Docs or Jira): identical in every theme and
+/// color scheme, never adaptive system tokens. Declared here so the
+/// `solaris/no-raw-design-values` rule accepts the Jira-style hues and so
+/// overlays (which render outside the editor host) resolve them globally.
+
+@mixin solaris-content-tokens {
+  --solaris-rich-text-blue-light: #8fb8f6;
+  --solaris-rich-text-blue: #4688ec;
+  --solaris-rich-text-blue-dark: #123263;
+  --solaris-rich-text-petrol-light: #9dd9ee;
+  --solaris-rich-text-petrol: #42b2d7;
+  --solaris-rich-text-petrol-dark: #164555;
+  --solaris-rich-text-green-light: #7ee2b8;
+  --solaris-rich-text-green: #2abb7f;
+  --solaris-rich-text-green-dark: #164b35;
+  --solaris-rich-text-lime-light: #b3df72;
+  --solaris-rich-text-lime: #82b536;
+  --solaris-rich-text-lime-dark: #37471f;
+  --solaris-rich-text-yellow-light: #eed12b;
+  --solaris-rich-text-yellow: #cf9f02;
+  --solaris-rich-text-yellow-dark: #533f04;
+  --solaris-rich-text-orange-light: #fbc828;
+  --solaris-rich-text-orange: #f68909;
+  --solaris-rich-text-orange-dark: #693200;
+  --solaris-rich-text-red-light: #fd9891;
+  --solaris-rich-text-red: #e2483d;
+  --solaris-rich-text-red-dark: #5d1f1a;
+  --solaris-rich-text-magenta-light: #f797d2;
+  --solaris-rich-text-magenta: #da62ac;
+  --solaris-rich-text-magenta-dark: #50253f;
+  --solaris-rich-text-purple-light: #d8a0f7;
+  --solaris-rich-text-purple: #bf63f7;
+  --solaris-rich-text-purple-dark: #48245d;
+}

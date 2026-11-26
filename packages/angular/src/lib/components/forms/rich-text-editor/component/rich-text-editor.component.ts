@@ -2183,12 +2183,8 @@ export class SolarisRichTextEditorComponent
   protected colorContrast(): { level: 'ok' | 'partial' | 'fail' } | null {
     if (typeof document === 'undefined') return null;
     try {
-      const preview = this.elementRef.nativeElement.querySelector(
-        '.solaris-rich-text-color-preview',
-      );
-      if (!preview) return null;
-      const foreground = parseCssRgb(getComputedStyle(preview).color);
-      const background = this.previewBackground(preview);
+      const foreground = this.readProbeForeground();
+      const background = this.readProbeBackground();
       if (!foreground || !background) return null;
       const ratio = contrastRatio(foreground, background);
       if (ratio >= SOLARIS_RICH_TEXT_CONTRAST_AA_RATIO) return { level: 'ok' };
@@ -2200,16 +2196,77 @@ export class SolarisRichTextEditorComponent
     }
   }
 
-  private previewBackground(element: Element): SolarisRgb | null {
-    let current: Element | null = element;
+  private readProbeForeground(): SolarisRgb | null {
+    if (typeof document === 'undefined') return null;
+    // Why a probe inside the editing area: content color rules are scoped
+    // to `.solaris-rich-text-editor-area`, and the popover renders in a CDK
+    // overlay. Measuring here yields exactly what the editor renders, in
+    // the current theme.
+    const area = this.editorRef()?.nativeElement ?? null;
+    if (!area) return null;
+    const probe = document.createElement('span');
+    const color = this.activeColor();
+    if (color !== 'default') probe.setAttribute('data-color', color);
+    return this.readProbeColor(area, probe);
+  }
+
+  private readProbeBackground(): SolarisRgb | null {
+    if (typeof document === 'undefined') return null;
+    const area = this.editorRef()?.nativeElement ?? null;
+    if (!area) return null;
+    const highlight = this.activeHighlight();
+    if (highlight !== 'default') {
+      const probe = document.createElement('span');
+      probe.setAttribute('data-highlight', highlight);
+      const tinted = this.readProbeBackgroundColor(area, probe);
+      if (tinted) return tinted;
+    }
+    return this.readCanvasBackground();
+  }
+
+  private readProbeColor(
+    area: HTMLElement,
+    probe: HTMLElement,
+  ): SolarisRgb | null {
+    probe.textContent = 'A';
+    probe.style.position = 'absolute';
+    probe.style.visibility = 'hidden';
+    probe.style.pointerEvents = 'none';
+    probe.setAttribute('aria-hidden', 'true');
+    area.appendChild(probe);
+    try {
+      return parseCssRgb(getComputedStyle(probe).color);
+    } finally {
+      probe.remove();
+    }
+  }
+
+  private readProbeBackgroundColor(
+    area: HTMLElement,
+    probe: HTMLElement,
+  ): SolarisRgb | null {
+    probe.textContent = 'A';
+    probe.style.position = 'absolute';
+    probe.style.visibility = 'hidden';
+    probe.style.pointerEvents = 'none';
+    probe.setAttribute('aria-hidden', 'true');
+    area.appendChild(probe);
+    try {
+      const parsed = parseCssRgba(getComputedStyle(probe).backgroundColor);
+      return parsed && parsed.alpha >= 1 ? parsed.color : null;
+    } finally {
+      probe.remove();
+    }
+  }
+
+  private readCanvasBackground(): SolarisRgb | null {
+    // The verdict must reflect the editing canvas in the current theme,
+    // not whatever surface happens to host the popover.
+    let current: Element | null = this.editorRef()?.nativeElement ?? null;
     let hops = 0;
-    while (current && hops < 6) {
-      // Why: skip the toolbar trigger itself (its pressed tint is chrome, not
-      // canvas) so the verdict reflects readability on the editing surface.
-      if (current.tagName !== 'BUTTON') {
-        const parsed = parseCssRgba(getComputedStyle(current).backgroundColor);
-        if (parsed && parsed.alpha >= 1) return parsed.color;
-      }
+    while (current && hops < 20) {
+      const parsed = parseCssRgba(getComputedStyle(current).backgroundColor);
+      if (parsed && parsed.alpha >= 1) return parsed.color;
       current = current.parentElement;
       hops += 1;
     }
