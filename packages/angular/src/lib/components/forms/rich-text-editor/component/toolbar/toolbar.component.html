@@ -13,7 +13,7 @@
         appearance="minimal"
         size="sm"
         [value]="blockTag()"
-        [triggerMinWidth]="224"
+        [triggerMinWidth]="144"
         (valueChange)="blockSelect.emit($any($event))"
         [ariaLabel]="'solaris.rich-text.blockStyle' | translate"
       >
@@ -70,6 +70,7 @@
             [solarisDropdownMenuMinWidth]="240"
             [solarisDropdownMenuMaxWidth]="320"
             [solarisDropdownMenuDisabled]="disabled() || readOnly()"
+            [solarisDropdownMenuRestoreFocus]="false"
             [disabled]="disabled() || readOnly()"
             [ariaLabel]="'solaris.rich-text.moreFormatting' | translate"
             [solarisTooltip]="'solaris.rich-text.moreFormatting' | translate"
@@ -111,48 +112,48 @@
             icon="letter-b"
             shortcut="Ctrl+B"
             labelKey="solaris.rich-text.bold"
-            (itemSelected)="inline.emit('strong')"
+            (itemSelected)="closeMenus(); inline.emit('strong')"
           />
           <solaris-dropdown-menu-item
             icon="italic"
             shortcut="Ctrl+I"
             labelKey="solaris.rich-text.italic"
-            (itemSelected)="inline.emit('em')"
+            (itemSelected)="closeMenus(); inline.emit('em')"
           />
           <solaris-dropdown-menu-item
             icon="underline"
             shortcut="Ctrl+U"
             labelKey="solaris.rich-text.underline"
-            (itemSelected)="inline.emit('u')"
+            (itemSelected)="closeMenus(); inline.emit('u')"
           />
           <solaris-dropdown-menu-item
             icon="strikethrough"
-            shortcut="Ctrl+Shift+S"
+            shortcut="Ctrl+Shift+5"
             labelKey="solaris.rich-text.strike"
-            (itemSelected)="inline.emit('s')"
+            (itemSelected)="closeMenus(); inline.emit('s')"
           />
           <solaris-dropdown-menu-item
             icon="code"
-            shortcut="Ctrl+Shift+M"
+            shortcut="Ctrl+Shift+9"
             labelKey="solaris.rich-text.inlineCode"
-            (itemSelected)="inlineCode.emit()"
+            (itemSelected)="closeMenus(); inlineCode.emit()"
           />
           <solaris-dropdown-menu-item
             icon="subscript"
             shortcut="Ctrl+,"
             labelKey="solaris.rich-text.subscript"
-            (itemSelected)="subscript.emit()"
+            (itemSelected)="closeMenus(); subscript.emit()"
           />
           <solaris-dropdown-menu-item
             icon="superscript"
             shortcut="Ctrl+."
             labelKey="solaris.rich-text.superscript"
-            (itemSelected)="superscript.emit()"
+            (itemSelected)="closeMenus(); superscript.emit()"
           />
           <solaris-dropdown-menu-item
             shortcut="Ctrl+\"
             labelKey="solaris.rich-text.clearFormatting"
-            (itemSelected)="clearFormat.emit()"
+            (itemSelected)="closeMenus(); clearFormat.emit()"
           />
         </solaris-dropdown-menu>
       </div>
@@ -188,6 +189,7 @@
             [solarisDropdownMenuMinWidth]="240"
             [solarisDropdownMenuMaxWidth]="320"
             [solarisDropdownMenuDisabled]="disabled() || readOnly()"
+            [solarisDropdownMenuRestoreFocus]="false"
             [disabled]="disabled() || readOnly()"
             [ariaLabel]="'solaris.rich-text.moreLists' | translate"
             [solarisTooltip]="'solaris.rich-text.moreLists' | translate"
@@ -200,19 +202,19 @@
             icon="list"
             shortcut="Ctrl+Shift+8"
             labelKey="solaris.rich-text.bulletList"
-            (itemSelected)="listInsert.emit('ul')"
+            (itemSelected)="closeMenus(); listInsert.emit('ul')"
           />
           <solaris-dropdown-menu-item
             icon="list-ordered"
             shortcut="Ctrl+Shift+7"
             labelKey="solaris.rich-text.orderedList"
-            (itemSelected)="listInsert.emit('ol')"
+            (itemSelected)="closeMenus(); listInsert.emit('ol')"
           />
           <solaris-dropdown-menu-item
             icon="list-todo"
             shortcut="Ctrl+Shift+6"
             labelKey="solaris.rich-text.taskList"
-            (itemSelected)="taskList.emit()"
+            (itemSelected)="closeMenus(); taskList.emit()"
           />
         </solaris-dropdown-menu>
         <solaris-button-group size="sm">
@@ -239,6 +241,7 @@
             solaris-dropdown-menu-trigger
             [solarisDropdownMenuTriggerFor]="alignMenu"
             [solarisDropdownMenuDisabled]="disabled() || readOnly()"
+            [solarisDropdownMenuRestoreFocus]="false"
             [disabled]="disabled() || readOnly()"
             [ariaLabel]="'solaris.rich-text.alignLabel' | translate"
             [solarisTooltip]="'solaris.rich-text.alignLabel' | translate"
@@ -250,22 +253,22 @@
           <solaris-dropdown-menu-item
             icon="text-align-start"
             labelKey="solaris.rich-text.alignLeft"
-            (itemSelected)="alignChange.emit('left')"
+            (itemSelected)="closeMenus(); alignChange.emit('left')"
           />
           <solaris-dropdown-menu-item
             icon="text-align-center"
             labelKey="solaris.rich-text.alignCenter"
-            (itemSelected)="alignChange.emit('center')"
+            (itemSelected)="closeMenus(); alignChange.emit('center')"
           />
           <solaris-dropdown-menu-item
             icon="text-align-end"
             labelKey="solaris.rich-text.alignRight"
-            (itemSelected)="alignChange.emit('right')"
+            (itemSelected)="closeMenus(); alignChange.emit('right')"
           />
           <solaris-dropdown-menu-item
             icon="text-align-justify"
             labelKey="solaris.rich-text.alignJustify"
-            (itemSelected)="alignChange.emit('justify')"
+            (itemSelected)="closeMenus(); alignChange.emit('justify')"
           />
         </solaris-dropdown-menu>
       </div>

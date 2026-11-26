@@ -751,6 +751,47 @@ describe('SolarisRichTextEditorComponent', () => {
     expect(fixture.componentInstance.value().text).toContain('hi');
   });
 
+  it('applies strike and inline code through number shortcuts', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>hi</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const selectText = (): void => {
+      area.focus();
+      const walker = document.createTreeWalker(area, NodeFilter.SHOW_TEXT);
+      let first = walker.nextNode() as Text | null;
+      while (first && (first.textContent ?? '').length === 0) {
+        first = walker.nextNode() as Text | null;
+      }
+      if (!first) return;
+      const range = document.createRange();
+      range.setStart(first, 0);
+      range.setEnd(first, first.length);
+      document.getSelection()?.removeAllRanges();
+      document.getSelection()?.addRange(range);
+    };
+    const pressCode = (code: string, key: string): void => {
+      fixture.componentInstance['onEditorKeydown'](
+        new KeyboardEvent('keydown', {
+          key,
+          code,
+          ctrlKey: true,
+          shiftKey: true,
+          bubbles: true,
+          cancelable: true,
+        }),
+      );
+    };
+    selectText();
+    pressCode('Digit5', '%');
+    expect(area.querySelector('s')?.textContent).toBe('hi');
+    selectText();
+    pressCode('Digit9', '(');
+    expect(area.querySelector('code')?.textContent).toBe('hi');
+  });
+
   it('inserts a task list with static checkboxes', () => {
     create();
     const area = fixture.nativeElement.querySelector(

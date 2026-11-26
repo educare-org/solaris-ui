@@ -577,11 +577,15 @@ export class SolarisRichTextEditorComponent
     if (!(event.ctrlKey || event.metaKey) || event.altKey) return false;
     const key = event.key.toLowerCase();
     if (!event.shiftKey) return this.handlePlainShortcuts(event, key);
-    if (key !== 's' && key !== 'm' && key !== 'z') return false;
+    const code = event.code;
+    const isStrike = key === 's' || key === '5' || code === 'Digit5';
+    const isCode = key === 'm' || key === '9' || code === 'Digit9';
+    const isRedo = key === 'z' || code === 'KeyZ';
+    if (!isStrike && !isCode && !isRedo) return false;
     event.preventDefault();
     if (this.isEffectivelyDisabled() || this.readonlyInput()) return true;
-    if (key === 's') this.toggleInline('s');
-    else if (key === 'm') this.toggleInlineCode();
+    if (isStrike) this.toggleInline('s');
+    else if (isCode) this.toggleInlineCode();
     else this.redo();
     return true;
   }

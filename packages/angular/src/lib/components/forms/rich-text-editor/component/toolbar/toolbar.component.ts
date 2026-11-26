@@ -79,6 +79,9 @@ export class SolarisRichTextToolbarComponent {
   private readonly translateService = inject(SolarisTranslateService);
 
   private readonly toolbarTooltips = viewChildren(SolarisTooltipDirective);
+  private readonly menuTriggers = viewChildren(
+    SolarisDropdownMenuTriggerDirective,
+  );
   private readonly linkPopoverTrigger = viewChild('linkTrigger', {
     read: SolarisPopoverTriggerDirective,
   });
@@ -190,6 +193,16 @@ export class SolarisRichTextToolbarComponent {
   @HostListener('click')
   protected dismissTooltips(): void {
     for (const tooltip of this.toolbarTooltips()) tooltip.close();
+  }
+
+  protected closeMenus(): void {
+    for (const trigger of this.menuTriggers()) {
+      try {
+        trigger.close();
+      } catch {
+        if (isDevMode()) console.warn('[SolarisRichText] Menu close failed.');
+      }
+    }
   }
 
   openLinkPanel(): void {
