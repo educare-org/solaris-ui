@@ -168,8 +168,6 @@ export class SolarisRichTextEditorComponent
 
   constructor() {
     super();
-    // The floating toolbar uses fixed positioning, so it must follow the
-    // selection on any scroll (capture catches nested scrollers too).
     if (typeof window === 'undefined') return;
     const repositionFloatingToolbar = (): void => {
       if (this.floatingVisible()) this.updateFloatingPosition();
@@ -1020,8 +1018,6 @@ export class SolarisRichTextEditorComponent
       const toolbar = host.querySelector<HTMLElement>(
         '.solaris-rich-text-toolbar--floating',
       );
-      // Fixed positioning escapes clipping ancestors (e.g. preview frames),
-      // so coordinates are viewport-relative. Same popover flip rule.
       const { top, left } = this.engine.floatingPlacement(
         rect,
         { width: window.innerWidth, height: window.innerHeight },
@@ -2274,9 +2270,6 @@ export class SolarisRichTextEditorComponent
   }
 
   protected pickTextColor(color: SolarisRichTextColor): void {
-    // Why: the panel stays open so text color and highlight can be chained
-    // without reopening; the popover directive itself closes on outside
-    // interaction or Escape.
     this.setColor(color);
   }
 

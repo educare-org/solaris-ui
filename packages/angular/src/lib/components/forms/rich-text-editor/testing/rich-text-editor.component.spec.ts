@@ -98,7 +98,7 @@ describe('SolarisRichTextEditorComponent', () => {
       cancelable: true,
     });
     fixture.componentInstance['onEditorKeydown'](event);
-    expect(emitted.length).toBe(1);
+    expect(emitted).toHaveLength(1);
   });
 
   it('submits the current value through the public method', () => {
@@ -107,7 +107,7 @@ describe('SolarisRichTextEditorComponent', () => {
     fixture.componentInstance.submitted.subscribe((v) => emitted.push(v));
     fixture.componentInstance.writeValue('<p>hi</p>');
     fixture.componentInstance.submit();
-    expect(emitted.length).toBe(1);
+    expect(emitted).toHaveLength(1);
     expect((emitted[0] as { text: string }).text).toBe('hi');
   });
 
@@ -117,11 +117,11 @@ describe('SolarisRichTextEditorComponent', () => {
     fixture.componentInstance.submitted.subscribe((v) => emitted.push(v));
     fixture.componentRef.setInput('disabled', true);
     fixture.componentInstance.submit();
-    expect(emitted.length).toBe(0);
+    expect(emitted).toHaveLength(0);
     fixture.componentRef.setInput('disabled', false);
     fixture.componentRef.setInput('readonly', true);
     fixture.componentInstance.submit();
-    expect(emitted.length).toBe(0);
+    expect(emitted).toHaveLength(0);
   });
 
   it('blocks input over maxLength', () => {
@@ -197,7 +197,7 @@ describe('SolarisRichTextEditorComponent', () => {
       '',
       'a.png',
     );
-    expect(rejected.length).toBe(1);
+    expect(rejected).toHaveLength(1);
     expect(
       validateImageSelection(
         { accept: 'image/png', maxSizeBytes: 10 },
@@ -263,7 +263,7 @@ describe('SolarisRichTextEditorComponent', () => {
     fixture.componentInstance['formatBlock']('pre');
     expect(area.querySelector('p')).toBeNull();
     const pres = area.querySelectorAll('pre');
-    expect(pres.length).toBe(1);
+    expect(pres).toHaveLength(1);
     expect(pres[0]?.getAttribute('data-language')).toBe('auto');
     expect(pres[0]?.hasAttribute('data-line-numbers')).toBe(true);
     const lines = pres[0]?.querySelectorAll('.solaris-rich-text-code-line');
@@ -271,7 +271,7 @@ describe('SolarisRichTextEditorComponent', () => {
     expect(lines?.[0]?.textContent).toBe('console.log(1)');
     expect(fixture.componentInstance.value().html).toContain('<pre');
     fixture.componentInstance['formatBlock']('pre');
-    expect(area.querySelectorAll('pre').length).toBe(1);
+    expect(area.querySelectorAll('pre')).toHaveLength(1);
   });
 
   it('splits code lines on Enter without leaving the block', () => {
@@ -291,7 +291,7 @@ describe('SolarisRichTextEditorComponent', () => {
     placeCaret(area, line.firstChild as Node, 4);
     area.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
     const lines = pre.querySelectorAll('.solaris-rich-text-code-line');
-    expect(lines.length).toBe(2);
+    expect(lines).toHaveLength(2);
     expect(lines[0]?.textContent).toBe('code');
     expect(lines[1]?.textContent).toBe('');
     expect(fixture.componentInstance.value().html).toContain('<pre');
@@ -315,7 +315,7 @@ describe('SolarisRichTextEditorComponent', () => {
     placeCaret(area, line.firstChild as Node, 6);
     area.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
     const lines = pre.querySelectorAll('.solaris-rich-text-code-line');
-    expect(lines.length).toBe(2);
+    expect(lines).toHaveLength(2);
     expect(lines[0]?.textContent).toBe('  code');
     expect(lines[1]?.textContent).toBe('  ');
   });
@@ -342,7 +342,7 @@ describe('SolarisRichTextEditorComponent', () => {
     placeCaret(area, second.firstChild as Node, 3);
     area.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
     const lines = getLines();
-    expect(lines.length).toBe(3);
+    expect(lines).toHaveLength(3);
     expect(lines[0]?.textContent).toBe('code');
     expect(lines[1]?.textContent).toBe('def');
     expect(lines[2]?.textContent).toBe('');
@@ -362,15 +362,15 @@ describe('SolarisRichTextEditorComponent', () => {
       (area.querySelector('pre') as HTMLElement).querySelectorAll(
         '.solaris-rich-text-code-line',
       );
-    expect(getLines().length).toBe(1);
+    expect(getLines()).toHaveLength(1);
     const first = getLines()[0] as HTMLElement;
     placeCaret(area, first.firstChild as Node, 0);
     area.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-    expect(getLines().length).toBe(2);
+    expect(getLines()).toHaveLength(2);
     const second = getLines()[1] as HTMLElement;
     placeCaret(area, second.firstChild as Node, 0);
     area.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-    expect(getLines().length).toBe(3);
+    expect(getLines()).toHaveLength(3);
   });
 
   it('inserts two spaces on Tab inside code', () => {
@@ -483,7 +483,7 @@ describe('SolarisRichTextEditorComponent', () => {
     placeCaret(area, line.firstChild as Node, 0);
     fixture.componentInstance['removeCodeBlock']();
     expect(area.querySelector('pre')).toBeNull();
-    expect(area.querySelectorAll('p').length).toBe(1);
+    expect(area.querySelectorAll('p')).toHaveLength(1);
     expect(fixture.componentInstance.value().html).not.toContain('<pre');
   });
 
@@ -914,9 +914,8 @@ describe('SolarisRichTextEditorComponent', () => {
       current += 100;
       commitTyping('<p>ten</p>');
       expect(
-        (fixture.componentInstance['historyPast']() as readonly unknown[])
-          .length,
-      ).toBe(1);
+        fixture.componentInstance['historyPast']() as readonly unknown[],
+      ).toHaveLength(1);
       fixture.componentInstance['undo']();
       expect(fixture.componentInstance.value().text).toBe('');
     } finally {
@@ -943,9 +942,8 @@ describe('SolarisRichTextEditorComponent', () => {
         true,
       );
       expect(
-        (fixture.componentInstance['historyPast']() as readonly unknown[])
-          .length,
-      ).toBe(2);
+        fixture.componentInstance['historyPast']() as readonly unknown[],
+      ).toHaveLength(2);
       fixture.componentInstance['undo']();
       expect(fixture.componentInstance.value().text).toBe('eu');
       fixture.componentInstance['undo']();
@@ -973,9 +971,8 @@ describe('SolarisRichTextEditorComponent', () => {
       current += 50;
       commitTyping('<p>ab</p>');
       expect(
-        (fixture.componentInstance['historyPast']() as readonly unknown[])
-          .length,
-      ).toBe(1);
+        fixture.componentInstance['historyPast']() as readonly unknown[],
+      ).toHaveLength(1);
       current += 50;
       fixture.componentInstance['commitValue'](
         normalizeEditorValue('<p>ab</p>'),
@@ -983,9 +980,8 @@ describe('SolarisRichTextEditorComponent', () => {
       current += 50;
       commitTyping('<p>abc</p>');
       expect(
-        (fixture.componentInstance['historyPast']() as readonly unknown[])
-          .length,
-      ).toBe(3);
+        fixture.componentInstance['historyPast']() as readonly unknown[],
+      ).toHaveLength(3);
     } finally {
       now.mockRestore();
     }
@@ -1191,7 +1187,7 @@ describe('SolarisRichTextEditorComponent', () => {
     fixture.componentInstance.imageRemoved.subscribe(() => removed.push(true));
     fixture.componentInstance['removeImage']();
     expect(area.querySelector('figure[data-image]')).toBeNull();
-    expect(removed.length).toBe(1);
+    expect(removed).toHaveLength(1);
   });
 
   it('closes the image panel releasing the figure selection', () => {
@@ -1255,7 +1251,7 @@ describe('SolarisRichTextEditorComponent', () => {
     try {
       fixture.componentInstance['copySelectedImage']();
       await Promise.resolve();
-      expect(written.length).toBe(1);
+      expect(written).toHaveLength(1);
       expect(written[0]).toContain('<figure data-image');
     } finally {
       Reflect.deleteProperty(window.navigator, 'clipboard');
@@ -1398,7 +1394,7 @@ describe('SolarisRichTextEditorComponent', () => {
     );
     selectAllText(area);
     fixture.componentInstance['setColor']('danger');
-    expect(area.querySelectorAll('span[data-color]').length).toBe(1);
+    expect(area.querySelectorAll('span[data-color]')).toHaveLength(1);
     expect(area.querySelector('span[data-color="danger"]')?.textContent).toBe(
       'hello',
     );
@@ -1418,7 +1414,7 @@ describe('SolarisRichTextEditorComponent', () => {
     expect(area.querySelector('span[data-highlight="info"]')).toBeTruthy();
     selectAllText(area);
     fixture.componentInstance['setHighlight']('success');
-    expect(area.querySelectorAll('span[data-highlight]').length).toBe(1);
+    expect(area.querySelectorAll('span[data-highlight]')).toHaveLength(1);
     expect(area.querySelector('span[data-highlight="success"]')).toBeTruthy();
     expect(area.querySelector('span[data-highlight="info"]')).toBeNull();
     expect(fixture.componentInstance['activeHighlight']()).toBe('success');
@@ -1613,7 +1609,7 @@ describe('rich-text-editor utils (F1 core)', () => {
 
   it('truncates to maxLength without splitting surrogate pairs', () => {
     const value = truncateToMaxLength(fromPlainText('abc👋def'), 4);
-    expect(Array.from(value.text).length).toBe(4);
+    expect(Array.from(value.text)).toHaveLength(4);
   });
 
   it('inserts mention blocks and filters fields', () => {
@@ -1623,7 +1619,7 @@ describe('rich-text-editor utils (F1 core)', () => {
     ];
     const blocks = insertMention(createEmptyValue().blocks, fields[0]);
     expect(blocks[blocks.length - 1]?.blockType).toBe('mention');
-    expect(filterFields(fields, 'em').length).toBe(1);
+    expect(filterFields(fields, 'em')).toHaveLength(1);
   });
 
   it('normalizes empty string to empty value', () => {
@@ -1641,8 +1637,8 @@ describe('rich-text-editor utils (F1 core)', () => {
     expect(buildTableHtml({ rows: 9, cols: 0 })).toContain('<table>');
     expect(clampTableDimension(9, 3)).toBe(5);
     expect(
-      insertTableBlock(createEmptyValue().blocks, { rows: 2, cols: 2 }).length,
-    ).toBe(2);
+      insertTableBlock(createEmptyValue().blocks, { rows: 2, cols: 2 }),
+    ).toHaveLength(2);
   });
 
   it('validates links and builds blocks, lists and colored spans', () => {
@@ -1660,8 +1656,8 @@ describe('rich-text-editor utils (F1 core)', () => {
     );
     expect(buildColorSpanHtml('default', 'hi')).toBe('hi');
     expect(
-      insertBlockEntry(createEmptyValue().blocks, 'quote', 'q').length,
-    ).toBe(2);
+      insertBlockEntry(createEmptyValue().blocks, 'quote', 'q'),
+    ).toHaveLength(2);
   });
 
   it('builds inline code and unwraps inline formatting', () => {
@@ -1730,7 +1726,7 @@ describe('rich-text-editor utils (F1 core)', () => {
     expect(buildTaskListHtml([])).toContain('data-task-list');
     expect(buildTaskListHtml([])).toContain('type="checkbox"');
     expect(buildTaskListHtml(['a<b'])).toContain('a&lt;b');
-    expect(buildTaskListHtml(['x', 'y']).split('<li>').length).toBe(3);
+    expect(buildTaskListHtml(['x', 'y']).split('<li>')).toHaveLength(3);
   });
 
   it('clamps image widths and strips resize chrome on commit', () => {
