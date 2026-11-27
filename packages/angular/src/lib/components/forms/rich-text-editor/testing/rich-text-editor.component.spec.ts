@@ -86,6 +86,54 @@ describe('SolarisRichTextEditorComponent', () => {
     expect(isEmptyValue(fixture.componentInstance.value())).toBe(true);
   });
 
+  it('paints preset values bound through the value model', () => {
+    create();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    expect(area.querySelector('p')).toBeNull();
+    fixture.componentRef.setInput(
+      'value',
+      normalizeEditorValue('<p>hello</p>'),
+    );
+    fixture.detectChanges();
+    expect(area.querySelector('p')?.textContent).toBe('hello');
+  });
+
+  it('keeps transient editing chrome on unfocused commits', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>hello</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area'
+    ) as HTMLElement;
+    const paragraph = area.querySelector('p') as HTMLElement;
+    paragraph.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+    expect(area.querySelector('.solaris-block-grip')).toBeTruthy();
+    // Same content committed while blurred (e.g. toolbar action): the value
+    // already matches, so the live DOM (and its grip) must be preserved.
+    fixture.componentRef.setInput(
+      'value',
+      normalizeEditorValue('<p>hello</p>'),
+    );
+    fixture.detectChanges();
+    expect(area.querySelector('.solaris-block-grip')).toBeTruthy();
+    expect(area.querySelector('p')?.textContent).toBe('hello');
+  });
+
+  it('syncs external changes while blurred', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>hello</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area'
+    ) as HTMLElement;
+    expect(area.querySelector('p')?.textContent).toBe('hello');
+    fixture.componentRef.setInput('value', normalizeEditorValue('<p>bye</p>'));
+    fixture.detectChanges();
+    expect(area.querySelector('p')?.textContent).toBe('bye');
+  });
+
   it('emits submitted on ctrl-enter in document variant', () => {
     create();
     const emitted: unknown[] = [];
@@ -1290,6 +1338,615 @@ describe('SolarisRichTextEditorComponent', () => {
     ).toBe('justify');
   });
 
+  it('inserts figures between paragraphs with the caret after the figure', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>hello</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const text = area.querySelector('p')?.firstChild as Node;
+    placeCaret(area, text, 5);
+    fixture.componentInstance['insertImageUrl'](
+      'https://example.com/a.png',
+      'Logo',
+      'a.png',
+    );
+    expect(area.querySelector('p figure[data-image]')).toBeNull();
+    const figure = area.querySelector('figure[data-image]');
+    expect(figure).toBeTruthy();
+    expect(figure?.nextElementSibling?.tagName).toBe('P');
+    const anchor = document.getSelection()?.anchorNode ?? null;
+    expect(figure?.contains(anchor)).toBe(false);
+  });
+
+  it('redirects typing inside a figure to after the figure', () => {
+    create();
+    fixture.componentInstance.writeValue(
+      '<figure data-image><img src="https://example.com/a.png" alt="Logo" /></figure>',
+    );
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const figure = area.querySelector('figure[data-image]') as HTMLElement;
+    const img = area.querySelector('img') as HTMLElement;
+    img.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    const caret = document.createRange();
+    caret.setStart(figure, figure.childNodes.length);
+    caret.collapse(true);
+    document.getSelection()?.removeAllRanges();
+    document.getSelection()?.addRange(caret);
+    const event = new InputEvent('beforeinput', {
+      inputType: 'insertText',
+      data: 'x',
+      bubbles: true,
+      cancelable: true,
+    });
+    fixture.componentInstance['onEditorBeforeinput'](event);
+    expect(event.defaultPrevented).toBe(true);
+    expect(figure.querySelector('img')).toBeTruthy();
+    expect(figure.textContent).not.toContain('x');
+    expect(area.textContent).toContain('x');
+    expect(figure.hasAttribute('data-selected')).toBe(false);
+  });
+
+  it('removes the figure on delete keys instead of trapping content', () => {
+    create();
+    fixture.componentInstance.writeValue(
+      '<figure data-image><img src="https://example.com/a.png" alt="Logo" /></figure>',
+    );
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const img = area.querySelector('img') as HTMLElement;
+    img.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    const removed: unknown[] = [];
+    fixture.componentInstance.imageRemoved.subscribe(() => removed.push(true));
+    const event = new InputEvent('beforeinput', {
+      inputType: 'deleteContentBackward',
+      bubbles: true,
+      cancelable: true,
+    });
+    fixture.componentInstance['onEditorBeforeinput'](event);
+    expect(event.defaultPrevented).toBe(true);
+    expect(area.querySelector('figure[data-image]')).toBeNull();
+    expect(removed).toHaveLength(1);
+  });
+
+  it('appends a trailing paragraph when wrap align is applied last', () => {
+    create();
+    fixture.componentInstance.writeValue(
+      '<figure data-image><img src="https://example.com/a.png" alt="Logo" /></figure>',
+    );
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const img = area.querySelector('img') as HTMLElement;
+    img.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    fixture.componentInstance['alignSelectedImage']('start-wrap');
+    const figure = area.querySelector('figure[data-image]');
+    expect(figure?.getAttribute('data-align')).toBe('start-wrap');
+    expect(figure?.nextElementSibling?.tagName).toBe('P');
+  });
+
+  it('moves the caret below a wrap figure on enter in an empty line beside it', () => {
+    create();
+    fixture.componentInstance.writeValue(
+      '<figure data-image data-align="start-wrap"><img src="https://example.com/a.png" alt="Logo" /></figure><p><br></p>',
+    );
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const figure = area.querySelector('figure[data-image]') as HTMLElement;
+    const paragraph = area.querySelector('p') as HTMLElement;
+    placeCaret(area, paragraph, 0);
+    vi.spyOn(figure, 'getBoundingClientRect').mockReturnValue({
+      bottom: 500,
+    } as DOMRect);
+    vi.spyOn(paragraph, 'getBoundingClientRect').mockReturnValue({
+      top: 100,
+    } as DOMRect);
+    const event = new KeyboardEvent('keydown', {
+      key: 'Enter',
+      bubbles: true,
+      cancelable: true,
+    });
+    fixture.componentInstance['onEditorKeydown'](event);
+    expect(event.defaultPrevented).toBe(true);
+    const exit = figure.nextElementSibling as HTMLElement | null;
+    expect(exit?.tagName).toBe('P');
+    expect(exit?.getAttribute('data-clear')).toBe('both');
+    const anchor = document.getSelection()?.anchorNode ?? null;
+    const anchorElement =
+      anchor instanceof Element ? anchor : anchor?.parentElement;
+    expect(exit?.contains(anchorElement ?? null)).toBe(true);
+  });
+
+  it('keeps native enter when the wrap figure is already above the caret', () => {
+    create();
+    fixture.componentInstance.writeValue(
+      '<figure data-image data-align="start-wrap"><img src="https://example.com/a.png" alt="Logo" /></figure><p><br></p>'
+    );
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area'
+    ) as HTMLElement;
+    const paragraph = area.querySelector('p') as HTMLElement;
+    placeCaret(area, paragraph, 0);
+    const event = new KeyboardEvent('keydown', {
+      key: 'Enter',
+      bubbles: true,
+      cancelable: true,
+    });
+    fixture.componentInstance['onEditorKeydown'](event);
+    expect(event.defaultPrevented).toBe(false);
+    expect(area.querySelector('p[data-clear]')).toBeNull();
+  });
+
+  it('keeps side text in place when exiting below a wrap figure', () => {
+    create();
+    fixture.componentInstance.writeValue(
+      '<figure data-image data-align="start-wrap"><img src="https://example.com/a.png" alt="Logo" /></figure><p>Teste</p><p><br></p>'
+    );
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area'
+    ) as HTMLElement;
+    const figure = area.querySelector('figure[data-image]') as HTMLElement;
+    const paragraphs = Array.from(area.querySelectorAll('p'));
+    expect(paragraphs).toHaveLength(2);
+    placeCaret(area, paragraphs[1], 0);
+    vi.spyOn(figure, 'getBoundingClientRect').mockReturnValue({
+      bottom: 500,
+    } as DOMRect);
+    vi.spyOn(paragraphs[1], 'getBoundingClientRect').mockReturnValue({
+      top: 100,
+    } as DOMRect);
+    const event = new KeyboardEvent('keydown', {
+      key: 'Enter',
+      bubbles: true,
+      cancelable: true,
+    });
+    fixture.componentInstance['onEditorKeydown'](event);
+    expect(event.defaultPrevented).toBe(true);
+    const after = Array.from(area.children);
+    expect(after[0]).toBe(figure);
+    expect(after[1]?.textContent).toBe('Teste');
+    expect(after[1]?.getAttribute('data-clear')).toBeNull();
+    expect(after[2]?.tagName).toBe('P');
+    expect(after[2]?.getAttribute('data-clear')).toBe('both');
+    const anchor = document.getSelection()?.anchorNode ?? null;
+    const anchorElement =
+      anchor instanceof Element ? anchor : anchor?.parentElement;
+    expect(after[2]?.contains(anchorElement ?? null)).toBe(true);
+  });
+
+  it('appends the jump target after existing side text', () => {
+    create();
+    fixture.componentInstance.writeValue(
+      '<figure data-image data-align="end-wrap"><img src="https://example.com/a.png" alt="Logo" /></figure><p>Teste</p>'
+    );
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area'
+    ) as HTMLElement;
+    const img = area.querySelector('img') as HTMLElement;
+    img.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    fixture.componentInstance['jumpCaretBelowImage']();
+    const figure = area.querySelector('figure[data-image]');
+    const after = Array.from(area.children);
+    expect(after[0]).toBe(figure);
+    expect(after[1]?.textContent).toBe('Teste');
+    expect(after[1]?.getAttribute('data-clear')).toBeNull();
+    expect(after[2]?.tagName).toBe('P');
+    expect(after[2]?.getAttribute('data-clear')).toBe('both');
+    expect(figure?.hasAttribute('data-selected')).toBe(false);
+  });
+
+  it('keeps native enter at the end of a text line beside a wrap figure', () => {
+    create();
+    fixture.componentInstance.writeValue(
+      '<figure data-image data-align="start-wrap"><img src="https://example.com/a.png" alt="Logo" /></figure><p>hello</p>'
+    );
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area'
+    ) as HTMLElement;
+    const text = area.querySelector('p')?.firstChild as Node;
+    placeCaret(area, text, 5);
+    const event = new KeyboardEvent('keydown', {
+      key: 'Enter',
+      bubbles: true,
+      cancelable: true,
+    });
+    fixture.componentInstance['onEditorKeydown'](event);
+    expect(event.defaultPrevented).toBe(false);
+    expect(area.querySelector('p[data-clear]')).toBeNull();
+  });
+
+  it('jumps the caret below the selected figure on demand', () => {
+    create();
+    fixture.componentInstance.writeValue(
+      '<figure data-image data-align="end-wrap"><img src="https://example.com/a.png" alt="Logo" /></figure>'
+    );
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area'
+    ) as HTMLElement;
+    const img = area.querySelector('img') as HTMLElement;
+    img.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    fixture.componentInstance['jumpCaretBelowImage']();
+    const figure = area.querySelector('figure[data-image]');
+    const exit = figure?.nextElementSibling as HTMLElement | null;
+    expect(exit?.tagName).toBe('P');
+    expect(exit?.getAttribute('data-clear')).toBe('both');
+    expect(figure?.hasAttribute('data-selected')).toBe(false);
+    const anchor = document.getSelection()?.anchorNode ?? null;
+    const anchorElement =
+      anchor instanceof Element ? anchor : anchor?.parentElement;
+    expect(exit?.contains(anchorElement ?? null)).toBe(true);
+  });
+
+  it('moves blocks with alt+arrow keys', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>one</p><p>two</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area'
+    ) as HTMLElement;
+    const first = area.querySelector('p') as HTMLElement;
+    placeCaret(area, first.firstChild as Node, 1);
+    fixture.componentInstance['onEditorKeydown'](
+      new KeyboardEvent('keydown', {
+        key: 'ArrowDown',
+        altKey: true,
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
+    expect(Array.from(area.children).map((child) => child.textContent)).toEqual([
+      'two',
+      'one',
+    ]);
+    const moved = area.querySelectorAll('p')[1] as HTMLElement;
+    placeCaret(area, moved.firstChild as Node, 1);
+    fixture.componentInstance['onEditorKeydown'](
+      new KeyboardEvent('keydown', {
+        key: 'ArrowUp',
+        altKey: true,
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
+    expect(Array.from(area.children).map((child) => child.textContent)).toEqual([
+      'one',
+      'two',
+    ]);
+  });
+
+  it('keeps the first block in place on alt+arrowup', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>one</p><p>two</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area'
+    ) as HTMLElement;
+    const first = area.querySelector('p') as HTMLElement;
+    placeCaret(area, first.firstChild as Node, 1);
+    const event = new KeyboardEvent('keydown', {
+      key: 'ArrowUp',
+      altKey: true,
+      bubbles: true,
+      cancelable: true,
+    });
+    fixture.componentInstance['onEditorKeydown'](event);
+    expect(event.defaultPrevented).toBe(true);
+    expect(Array.from(area.children).map((child) => child.textContent)).toEqual([
+      'one',
+      'two',
+    ]);
+  });
+
+  it('shows and hides the drag grip on block hover', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>one</p><p>two</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area'
+    ) as HTMLElement;
+    const first = area.querySelector('p') as HTMLElement;
+    first.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+    const grip = first.querySelector('.solaris-block-grip') as HTMLElement;
+    expect(grip).toBeTruthy();
+    expect(grip.getAttribute('draggable')).toBe('true');
+    expect(grip.getAttribute('title')).toBeNull();
+    first.dispatchEvent(
+      new MouseEvent('mouseout', { bubbles: true, relatedTarget: null }),
+    );
+    expect(area.querySelector('.solaris-block-grip')).toBeNull();
+  });
+
+  it('keeps the grip while crossing the padding gap toward it', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>one</p><p>two</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area'
+    ) as HTMLElement;
+    const first = area.querySelector('p') as HTMLElement;
+    first.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+    const grip = first.querySelector('.solaris-block-grip') as HTMLElement;
+    expect(grip).toBeTruthy();
+    // Pointer moves from the text into the editor padding between text and grip.
+    first.dispatchEvent(
+      new MouseEvent('mouseout', { bubbles: true, relatedTarget: area }),
+    );
+    expect(first.querySelector('.solaris-block-grip')).toBeTruthy();
+    // Pointer reaches the grip itself.
+    grip.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+    expect(first.querySelector('.solaris-block-grip')).toBeTruthy();
+    // Leaving the editor entirely removes it.
+    grip.dispatchEvent(
+      new MouseEvent('mouseout', {
+        bubbles: true,
+        relatedTarget: document.body,
+      }),
+    );
+    expect(area.querySelector('.solaris-block-grip')).toBeNull();
+  });
+
+  it('moves blocks with drag and drop, cleaning drag chrome on commit', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>one</p><p>two</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area'
+    ) as HTMLElement;
+    const first = area.querySelector('p') as HTMLElement;
+    first.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+    const grip = first.querySelector('.solaris-block-grip') as HTMLElement;
+    expect(grip).toBeTruthy();
+    grip.dispatchEvent(new MouseEvent('dragstart', { bubbles: true }));
+    area.dispatchEvent(
+      new MouseEvent('dragover', {
+        bubbles: true,
+        cancelable: true,
+        clientX: 4,
+        clientY: 4,
+      }),
+    );
+    expect(area.querySelector('.solaris-block-drop-line')).toBeTruthy();
+    area.dispatchEvent(new MouseEvent('drop', { bubbles: true }));
+    expect(Array.from(area.children).map((child) => child.textContent)).toEqual([
+      'two',
+      'one',
+    ]);
+    expect(area.querySelector('.solaris-block-drop-line')).toBeNull();
+    expect(fixture.componentInstance.value().html).not.toContain(
+      'solaris-block-grip',
+    );
+    expect(fixture.componentInstance.value().html).not.toContain(
+      'solaris-block-drop-line',
+    );
+  });
+
+  it('does not select the figure when grabbing its drag grip', () => {
+    create();
+    fixture.componentInstance.writeValue(
+      '<figure data-image><img src="https://example.com/a.png" alt="Logo" /></figure>',
+    );
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area'
+    ) as HTMLElement;
+    const figure = area.querySelector('figure[data-image]') as HTMLElement;
+    figure.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+    const grip = figure.querySelector('.solaris-block-grip') as HTMLElement;
+    expect(grip).toBeTruthy();
+    grip.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    expect(figure.hasAttribute('data-selected')).toBe(false);
+  });
+
+  it('moves list items with alt+arrow keys within their list', () => {
+    create();
+    fixture.componentInstance.writeValue('<ul><li>a</li><li>b</li></ul>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area'
+    ) as HTMLElement;
+    const items = () =>
+      Array.from(area.querySelectorAll('li')).map((li) => li.textContent);
+    const first = area.querySelector('li') as HTMLElement;
+    placeCaret(area, first.firstChild as Node, 1);
+    fixture.componentInstance['onEditorKeydown'](
+      new KeyboardEvent('keydown', {
+        key: 'ArrowDown',
+        altKey: true,
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
+    expect(items()).toEqual(['b', 'a']);
+    const moved = area.querySelectorAll('li')[1] as HTMLElement;
+    placeCaret(area, moved.firstChild as Node, 1);
+    fixture.componentInstance['onEditorKeydown'](
+      new KeyboardEvent('keydown', {
+        key: 'ArrowUp',
+        altKey: true,
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
+    expect(items()).toEqual(['a', 'b']);
+  });
+
+  it('drags list items between positions of the same list', () => {
+    create();
+    fixture.componentInstance.writeValue(
+      '<ul><li>one</li><li>two</li><li>three</li></ul>'
+    );
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area'
+    ) as HTMLElement;
+    const first = area.querySelector('li') as HTMLElement;
+    first.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+    const grip = first.querySelector('.solaris-block-grip') as HTMLElement;
+    expect(grip).toBeTruthy();
+    grip.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    grip.dispatchEvent(new MouseEvent('dragstart', { bubbles: true }));
+    area.dispatchEvent(
+      new MouseEvent('dragover', {
+        bubbles: true,
+        cancelable: true,
+        clientX: 4,
+        clientY: 4,
+      }),
+    );
+    expect(area.querySelector('.solaris-block-drop-line')).toBeTruthy();
+    area.dispatchEvent(new MouseEvent('drop', { bubbles: true }));
+    expect(
+      Array.from(area.querySelectorAll('li')).map((li) => li.textContent),
+    ).toEqual(['two', 'three', 'one']);
+    expect(fixture.componentInstance.value().html).not.toContain(
+      'solaris-block-grip',
+    );
+  });
+
+  it('drops blocks between blocks using viewport geometry', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>one</p><p>two</p><p>three</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area'
+    ) as HTMLElement;
+    const paragraphs = Array.from(area.querySelectorAll('p'));
+    const editorRect = { top: 200, height: 0 } as DOMRect;
+    const itemRects = [
+      { top: 210, height: 20 },
+      { top: 230, height: 20 },
+      { top: 250, height: 20 },
+    ];
+    vi.spyOn(area, 'getBoundingClientRect').mockReturnValue(editorRect);
+    Object.defineProperty(area, 'scrollHeight', {
+      value: 800,
+      configurable: true,
+    });
+    paragraphs.forEach((paragraph, index) => {
+      vi.spyOn(paragraph, 'getBoundingClientRect').mockReturnValue(
+        itemRects[index] as DOMRect,
+      );
+    });
+    const last = paragraphs[2] as HTMLElement;
+    last.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+    const grip = last.querySelector('.solaris-block-grip') as HTMLElement;
+    expect(grip).toBeTruthy();
+    grip.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    grip.dispatchEvent(new MouseEvent('dragstart', { bubbles: true }));
+    // Cursor over the first paragraph: 205 < 210 + 10 selects it as the drop target.
+    area.dispatchEvent(
+      new MouseEvent('dragover', {
+        bubbles: true,
+        cancelable: true,
+        clientX: 4,
+        clientY: 205,
+      }),
+    );
+    const line = area.querySelector('.solaris-block-drop-line') as HTMLElement;
+    expect(line).toBeTruthy();
+    expect(line.style.top).toBe('10px');
+    area.dispatchEvent(new MouseEvent('drop', { bubbles: true }));
+    expect(Array.from(area.children).map((child) => child.textContent)).toEqual([
+      'three',
+      'one',
+      'two',
+    ]);
+  });
+
+  it('moves the last block to the first position on a scrolled page', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>one</p><p>two</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area'
+    ) as HTMLElement;
+    // Simulate a scrolled page: viewport coords differ from editor coords.
+    vi.spyOn(area, 'getBoundingClientRect').mockReturnValue({
+      top: -300,
+      height: 600,
+    } as DOMRect);
+    Object.defineProperty(area, 'scrollHeight', {
+      value: 800,
+      configurable: true,
+    });
+    const paragraphs = Array.from(area.querySelectorAll('p'));
+    const itemRects = [
+      { top: 100, height: 20 },
+      { top: 130, height: 20 },
+    ];
+    paragraphs.forEach((paragraph, index) => {
+      vi.spyOn(paragraph, 'getBoundingClientRect').mockReturnValue(
+        itemRects[index] as DOMRect,
+      );
+    });
+    const last = paragraphs[1] as HTMLElement;
+    last.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+    const grip = last.querySelector('.solaris-block-grip') as HTMLElement;
+    grip.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    grip.dispatchEvent(new MouseEvent('dragstart', { bubbles: true }));
+    // Cursor over the first paragraph: 105 < 100 + 10 selects it.
+    area.dispatchEvent(
+      new MouseEvent('dragover', {
+        bubbles: true,
+        cancelable: true,
+        clientX: 4,
+        clientY: 105,
+      }),
+    );
+    const line = area.querySelector('.solaris-block-drop-line') as HTMLElement;
+    expect(line).toBeTruthy();
+    // Editor-relative position, clamped inside the content box.
+    expect(line.style.top).toBe('400px');
+    area.dispatchEvent(new MouseEvent('drop', { bubbles: true }));
+    expect(Array.from(area.children).map((child) => child.textContent)).toEqual([
+      'two',
+      'one',
+    ]);
+  });
+
+  it('ignores drops far away from the dragged list', () => {
+    create();
+    fixture.componentInstance.writeValue(
+      '<ul><li>one</li><li>two</li></ul><p>after</p>'
+    );
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area'
+    ) as HTMLElement;
+    const first = area.querySelector('li') as HTMLElement;
+    first.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+    const grip = first.querySelector('.solaris-block-grip') as HTMLElement;
+    grip.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    grip.dispatchEvent(new MouseEvent('dragstart', { bubbles: true }));
+    area.dispatchEvent(
+      new MouseEvent('dragover', {
+        bubbles: true,
+        cancelable: true,
+        clientX: 4,
+        clientY: 5000,
+      }),
+    );
+    expect(area.querySelector('.solaris-block-drop-line')).toBeNull();
+    area.dispatchEvent(new MouseEvent('drop', { bubbles: true }));
+    expect(
+      Array.from(area.querySelectorAll('li')).map((li) => li.textContent),
+    ).toEqual(['one', 'two']);
+  });
+
   it('reports justify alignment in active states', () => {
     create();
     fixture.componentInstance.writeValue('<p data-align="justify">hi</p>');
@@ -1757,6 +2414,11 @@ describe('rich-text-editor utils (F1 core)', () => {
     expect(
       cleanCommittedHtml('<figure data-image data-selected=""><br /></figure>'),
     ).toBe('<figure data-image><br /></figure>');
+    expect(
+      cleanCommittedHtml(
+        '<p><span class="solaris-block-grip" draggable="true"><svg></svg></span>hi</p><div class="solaris-block-drop-line"></div>',
+      ),
+    ).toBe('<p>hi</p>');
   });
 
   it('strips zero-width spaces and cleans empty inline tags', () => {

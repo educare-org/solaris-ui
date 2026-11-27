@@ -295,10 +295,17 @@ export class SolarisRichTextEditorComponent
   private readonly historyFuture = signal<readonly SolarisRichTextValue[]>([]);
   private lastHistoryAt: number | null = null;
   private lastHistoryKind: SolarisRichTextHistoryKind | null = null;
+  private draggingBlock: HTMLElement | null = null;
+  private dropTarget: HTMLElement | null = null;
+  private dropValid = false;
   protected readonly imagePanelVisible = signal(false);
   protected readonly imagePanelTop = signal(0);
   protected readonly imagePanelLeft = signal(0);
   protected readonly imageBordered = signal(false);
+  protected readonly imageLinkUrl = signal('');
+  protected readonly imageWidth = signal(0);
+  protected readonly imageHeight = signal(0);
+  protected readonly imageResizing = signal(false);
   protected readonly codePanelVisible = signal(false);
   protected readonly codePanelTop = signal(0);
   protected readonly codePanelLeft = signal(0);
@@ -494,6 +501,7 @@ export class SolarisRichTextEditorComponent
     this.normalizeTaskCheckboxesInDom();
     const host = this.editorRef()?.nativeElement ?? null;
     if (!host) return;
+    this.removeEmptyFigures(host);
     // SECURITY_EXCEPTION: reading edited HTML requires the native property; same pattern as Angular CDK form controls. Read-only.
     const rawHtml = host.innerHTML ?? '';
     if (this.contentFormat() === 'plain') {
@@ -533,6 +541,174 @@ export class SolarisRichTextEditorComponent
     this.editorFocused.emit();
   }
 
+  /**
+   * Keeps typed/pasted content out of `figure[data-image]`: with a figure
+   * selected, keystrokes would otherwise land inside the figure (below the
+   * image) instead of beside it. Text is redirected after the figure so
+   * floated (wrap) images actually wrap, and deletions remove the figure.
+   */
+  protected onEditorBeforeinput(event: Event): void {
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
+    if (typeof document === 'undefined') return;
+    const input = event as InputEvent;
+    if (input.inputType.startsWith('history')) return;
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!editor) return;
+    const selection = document.getSelection();
+    if (!selection || selection.rangeCount === 0) return;
+    const range = selection.getRangeAt(0);
+    if (!editor.contains(range.commonAncestorContainer)) return;
+    const figure =
+      this.figureOf(range.commonAncestorContainer) ??
+      this.figureOf(range.startContainer) ??
+      this.figureOf(range.endContainer);
+    if (!figure || !editor.contains(figure)) return;
+    event.preventDefault();
+    if (input.inputType.startsWith('delete')) {
+      if (input.inputType === 'deleteByCut') {
+        this.copyFigureMarkup(figure);
+      }
+      this.removeFigureNode(figure);
+      return;
+    }
+    this.engine.deselectFigure();
+    this.syncImagePanel();
+    const after = document.createRange();
+    after.setStartAfter(figure);
+    after.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(after);
+    if (
+      input.inputType === 'insertParagraph' ||
+      input.inputType === 'insertLineBreak'
+    ) {
+      this.insertParagraphAfterFigure(figure, input.inputType);
+      this.updateActiveStates();
+      this.emitFromDom();
+    } else if (
+      input.inputType === 'insertText' ||
+      input.inputType === 'insertCompositionText' ||
+      input.inputType === 'insertFromYank'
+    ) {
+      const native = this.insertTextAfterFigure(input.data ?? '');
+      this.updateActiveStates();
+      if (!native) this.emitFromDom();
+    } else if (
+      input.inputType === 'insertFromPaste' ||
+      input.inputType === 'insertFromDrop'
+    ) {
+      this.pasteAfterFigure(input);
+      this.updateActiveStates();
+      this.emitFromDom();
+    } else {
+      this.updateActiveStates();
+    }
+  }
+
+  private figureOf(node: Node | null): HTMLElement | null {
+    const el = node instanceof Element ? node : (node?.parentElement ?? null);
+    return (el?.closest?.('figure[data-image]') as HTMLElement | null) ?? null;
+  }
+
+  private copyFigureMarkup(figure: HTMLElement): void {
+    if (typeof navigator === 'undefined' || !navigator.clipboard) return;
+    const html = figure.outerHTML;
+    if (!html) return;
+    void navigator.clipboard.writeText(html).catch(() => {
+      if (isDevMode()) console.warn('[SolarisRichText] Image cut failed.');
+    });
+  }
+
+  private removeFigureNode(figure: HTMLElement): void {
+    if (typeof document === 'undefined') return;
+    try {
+      this.engine.deselectFigure();
+      const selection = document.getSelection();
+      const after = document.createRange();
+      after.setStartAfter(figure);
+      after.collapse(true);
+      figure.remove();
+      selection?.removeAllRanges();
+      selection?.addRange(after);
+    } catch {
+      figure.remove();
+    }
+    this.imageRemoved.emit();
+    this.updateActiveStates();
+    this.emitFromDom();
+    this.syncImagePanel();
+  }
+
+  private insertTextAfterFigure(data: string): boolean {
+    if (data.length === 0 || typeof document === 'undefined') return true;
+    try {
+      if (document.execCommand('insertText', false, data)) return true;
+    } catch {
+      // Fall through to the manual text-node insert below.
+    }
+    const selection = document.getSelection();
+    const range =
+      selection && selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+    if (!range) return true;
+    const text = document.createTextNode(data);
+    range.insertNode(text);
+    range.setStartAfter(text);
+    range.collapse(true);
+    selection?.removeAllRanges();
+    selection?.addRange(range);
+    return false;
+  }
+
+  private insertParagraphAfterFigure(
+    figure: HTMLElement,
+    kind: 'insertParagraph' | 'insertLineBreak',
+  ): void {
+    if (typeof document === 'undefined') return;
+    const selection = document.getSelection();
+    if (!selection || selection.rangeCount === 0) return;
+    const range = selection.getRangeAt(0);
+    if (kind === 'insertLineBreak') {
+      const br = document.createElement('br');
+      range.insertNode(br);
+      range.setStartAfter(br);
+      range.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      return;
+    }
+    const paragraph = document.createElement('p');
+    paragraph.append(document.createElement('br'));
+    figure.after(paragraph);
+    const caret = document.createRange();
+    caret.selectNodeContents(paragraph);
+    caret.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(caret);
+  }
+
+  private pasteAfterFigure(input: InputEvent): void {
+    if (typeof document === 'undefined') return;
+    const transfer = input.dataTransfer;
+    const html = transfer?.getData('text/html');
+    if (html && html.trim().length > 0) {
+      this.engine.insertHtmlAtCaret(sanitizeRichTextHtml(html));
+      return;
+    }
+    const text =
+      transfer?.getData('text/plain') ?? (input as InputEvent).data ?? '';
+    if (text.length > 0) this.insertTextAfterFigure(text);
+  }
+
+  private removeEmptyFigures(host: HTMLElement): void {
+    for (const figure of Array.from(
+      host.querySelectorAll('figure[data-image]'),
+    )) {
+      if (!figure.querySelector('img')) {
+        figure.remove();
+      }
+    }
+  }
+
   protected onEditorBlur(): void {
     this._focused.set(false);
     this.engine.rememberSelection();
@@ -556,6 +732,8 @@ export class SolarisRichTextEditorComponent
     if (this.handleAlignShortcuts(event)) return;
     if (this.handleListShortcuts(event)) return;
     if (this.handleTaskListEnter(event)) return;
+    if (this.handleWrapExitEnter(event)) return;
+    if (this.handleBlockMoveKey(event)) return;
     if (this.handleListTab(event)) return;
     if (this.handleInlineShortcuts(event)) return;
     if (this.handleToolbarFocusShortcut(event)) return;
@@ -720,14 +898,38 @@ export class SolarisRichTextEditorComponent
 
   protected onEditorMousedown(event: MouseEvent): void {
     const target = event.target as HTMLElement | null;
+    if (target?.closest?.('.solaris-block-grip')) return;
     if (target?.closest?.('input[data-task-checkbox]')) return;
     const handle = target?.closest?.(
       '.solaris-image-resize-handle',
     ) as HTMLElement | null;
     if (handle) {
       const figure = handle.closest('figure[data-image]') as HTMLElement | null;
-      if (figure)
-        this.engine.startFigureResize(event, figure, () => this.emitFromDom());
+      if (figure) {
+        const direction = (handle.getAttribute('data-direction') ??
+          'southeast') as 'west' | 'east' | 'southeast';
+        this.imageResizing.set(true);
+        this.engine.startFigureResize(
+          event,
+          figure,
+          () => {
+            this.imageResizing.set(false);
+            this.emitFromDom();
+            this.syncImagePanel();
+          },
+          direction,
+          (width) => {
+            this.imageWidth.set(Math.round(width));
+            const img = figure.querySelector('img');
+            if (img) {
+              const imgRect = img.getBoundingClientRect();
+              if (imgRect.height > 0) {
+                this.imageHeight.set(Math.round(imgRect.height));
+              }
+            }
+          },
+        );
+      }
       return;
     }
     if (typeof document === 'undefined') return;
@@ -753,6 +955,259 @@ export class SolarisRichTextEditorComponent
     } catch {
       if (isDevMode()) console.warn('[SolarisRichText] Figure select failed.');
     }
+  }
+
+  protected onEditorMouseover(event: MouseEvent): void {
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
+    if (typeof document === 'undefined') return;
+    if (this.contentFormat() !== 'rich') return;
+    const target = event.target as HTMLElement | null;
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!editor) return;
+    if (!this.draggingBlock) {
+      const block =
+        target && editor.contains(target)
+          ? this.movableBlockOf(target, editor)
+          : null;
+      if (block) this.engine.attachBlockGrip(block);
+    }
+    const figure = target?.closest?.(
+      'figure[data-image]',
+    ) as HTMLElement | null;
+    if (!figure || !editor?.contains(figure)) return;
+    if (figure.hasAttribute('data-selected')) return;
+    this.engine.attachHoverHandle(
+      figure,
+      this.translateService.translate('solaris.rich-text.imageResize'),
+    );
+  }
+
+  protected onEditorMouseout(event: MouseEvent): void {
+    if (typeof document === 'undefined') return;
+    const target = event.target as HTMLElement | null;
+    if (!this.draggingBlock) {
+      const editor = this.editorRef()?.nativeElement ?? null;
+      if (editor && target && editor.contains(target)) {
+        const block = this.movableBlockOf(target, editor);
+        const related = event.relatedTarget as HTMLElement | null;
+        const relatedInside = !!related && editor.contains(related);
+        const relatedBlock = relatedInside
+          ? this.movableBlockOf(related as HTMLElement, editor)
+          : null;
+        // Only release the grip when moving to another block or leaving the
+        // editor. Crossing editor chrome (e.g. the padding gap between text
+        // and grip) must keep it, otherwise it vanishes before the cursor
+        // reaches it.
+        const leftEditor = !related || !relatedInside;
+        if (
+          block &&
+          (leftEditor || (relatedBlock !== null && relatedBlock !== block))
+        ) {
+          this.engine.clearBlockGrip();
+        }
+      } else {
+        this.engine.clearBlockGrip();
+      }
+    }
+    const figure = target?.closest?.(
+      'figure[data-image]',
+    ) as HTMLElement | null;
+    if (!figure) return;
+    const related = (event.relatedTarget as HTMLElement | null)?.closest?.(
+      'figure[data-image]',
+    ) as HTMLElement | null;
+    if (related === figure) return;
+    this.engine.clearHoverHandle(figure);
+  }
+
+  private movableBlockOf(
+    node: Node | null,
+    editor: HTMLElement,
+  ): HTMLElement | null {
+    let el = node instanceof Element ? node : (node?.parentElement ?? null);
+    while (el && el !== editor) {
+      if (el.tagName === 'LI' && this.engine.isMovableBlock(el)) {
+        return el as HTMLElement;
+      }
+      if (el.parentElement === editor) break;
+      el = el.parentElement;
+    }
+    return el && el !== editor && this.engine.isMovableBlock(el)
+      ? (el as HTMLElement)
+      : null;
+  }
+
+  private handleBlockMoveKey(event: KeyboardEvent): boolean {
+    if (!event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+      return false;
+    }
+    if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return false;
+    if (typeof document === 'undefined') return false;
+    if (this.contentFormat() !== 'rich') return false;
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!editor) return false;
+    const selection = document.getSelection();
+    if (!selection || selection.rangeCount === 0) return false;
+    const range = selection.getRangeAt(0);
+    if (!editor.contains(range.commonAncestorContainer)) return false;
+    const block = this.movableBlockOf(range.commonAncestorContainer, editor);
+    if (!block || !block.parentElement) return false;
+    event.preventDefault();
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) return true;
+    const parent = block.parentElement;
+    const sibling =
+      event.key === 'ArrowUp'
+        ? block.previousElementSibling
+        : block.nextElementSibling;
+    if (
+      !(sibling instanceof HTMLElement) ||
+      sibling.parentElement !== parent ||
+      !this.engine.isMovableBlock(sibling)
+    ) {
+      return true;
+    }
+    if (event.key === 'ArrowUp') {
+      parent.insertBefore(block, sibling);
+    } else {
+      parent.insertBefore(block, sibling.nextSibling);
+    }
+    this.emitFromDom();
+    this.updateActiveStates();
+    this.syncImagePanel();
+    this.syncCodePanel();
+    return true;
+  }
+
+  protected onEditorDragstart(event: DragEvent): void {
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
+    if (this.contentFormat() !== 'rich') return;
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!editor) return;
+    const target = event.target as HTMLElement | null;
+    const grip = target?.closest?.('.solaris-block-grip') as HTMLElement | null;
+    const block = grip?.parentElement ?? null;
+    if (
+      !grip ||
+      !block ||
+      !editor.contains(block) ||
+      !this.engine.isMovableBlock(block)
+    ) {
+      return;
+    }
+    // Dim the source while dragging (removed again on drop/cancel and never committed).
+    block.setAttribute('data-dragging', '');
+    this.draggingBlock = block;
+    this.dropTarget = null;
+    this.dropValid = false;
+    try {
+      event.dataTransfer?.setData('text/plain', 'solaris-rich-text-block');
+      if (event.dataTransfer) event.dataTransfer.effectAllowed = 'move';
+      event.dataTransfer?.setDragImage?.(block, 0, 0);
+    } catch {
+      if (isDevMode()) console.warn('[SolarisRichText] Block drag failed.');
+    }
+  }
+
+  protected onEditorDragover(event: DragEvent): void {
+    const dragged = this.draggingBlock;
+    if (!dragged) return;
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!editor || !editor.contains(dragged)) return;
+    event.preventDefault();
+    if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
+    // NOTE: clientY is viewport-relative, so candidates are compared with
+    // getBoundingClientRect (also viewport-relative). Mixing clientY with
+    // offsetTop (editor-relative) pins the line at the end on scrolled pages.
+    const editorRect = editor.getBoundingClientRect();
+    const siblings = this.engine.movableSiblings(dragged);
+    let ref: HTMLElement | null = null;
+    for (const candidate of siblings) {
+      const rect = candidate.getBoundingClientRect();
+      if (event.clientY < rect.top + rect.height / 2) {
+        ref = candidate;
+        break;
+      }
+    }
+    if (!ref && !this.dropEndValid(dragged, event.clientY)) {
+      this.dropTarget = null;
+      this.dropValid = false;
+      this.engine.clearBlockDropLine();
+      return;
+    }
+    this.dropTarget = ref;
+    this.dropValid = true;
+    if (ref) {
+      const rect = ref.getBoundingClientRect();
+      this.engine.showBlockDropLine(
+        rect.top - editorRect.top + editor.scrollTop,
+      );
+      return;
+    }
+    const last = siblings.at(-1) ?? null;
+    if (last) {
+      const rect = last.getBoundingClientRect();
+      this.engine.showBlockDropLine(
+        rect.bottom - editorRect.top + editor.scrollTop,
+      );
+      return;
+    }
+    this.engine.showBlockDropLine(editor.scrollHeight);
+  }
+
+  private dropEndValid(dragged: HTMLElement, clientY: number): boolean {
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!editor) return false;
+    if (dragged.parentElement === editor) return true;
+    const container = dragged.parentElement;
+    if (!(container instanceof HTMLElement)) return false;
+    const rect = container.getBoundingClientRect();
+    return clientY >= rect.top - 8 && clientY <= rect.bottom + 32;
+  }
+
+  protected onEditorDrop(event: DragEvent): void {
+    const dragged = this.draggingBlock;
+    if (!dragged) return;
+    event.preventDefault();
+    const editor = this.editorRef()?.nativeElement ?? null;
+    const ref =
+      this.dropValid &&
+      this.dropTarget &&
+      editor?.contains(this.dropTarget)
+        ? this.dropTarget
+        : null;
+    const valid = this.dropValid;
+    this.draggingBlock = null;
+    this.dropTarget = null;
+    this.dropValid = false;
+    this.engine.clearBlockDropLine();
+    if (!editor || !editor.contains(dragged)) return;
+    dragged.removeAttribute('data-dragging');
+    if (!valid) return;
+    if (ref && (ref === dragged || ref === dragged.nextSibling)) return;
+    if (!ref && !dragged.nextSibling) return;
+    this.engine.moveBlockBefore(dragged, ref);
+    try {
+      const selection = document.getSelection();
+      const caret = document.createRange();
+      caret.selectNodeContents(dragged);
+      caret.collapse(true);
+      selection?.removeAllRanges();
+      selection?.addRange(caret);
+      editor.focus({ preventScroll: true });
+    } catch {
+      if (isDevMode()) console.warn('[SolarisRichText] Block drop failed.');
+    }
+    this.emitFromDom();
+    this.updateActiveStates();
+    this.syncImagePanel();
+  }
+
+  protected onEditorDragend(): void {
+    this.draggingBlock?.removeAttribute?.('data-dragging');
+    this.draggingBlock = null;
+    this.dropTarget = null;
+    this.dropValid = false;
+    this.engine.clearBlockDropLine();
   }
 
   protected onResizeHandleKeydown(event: KeyboardEvent): void {
@@ -781,6 +1236,7 @@ export class SolarisRichTextEditorComponent
       0;
     this.resizeFigure(figure, current + delta);
     this.emitFromDom();
+    this.syncImagePanel();
   }
 
   private syncFigureSelection(): void {
@@ -796,7 +1252,32 @@ export class SolarisRichTextEditorComponent
 
   protected alignSelectedImage(align: SolarisRichTextAlign): void {
     this.setAlign(align);
+    const figure = this.engine.selectedFigure();
+    let changed = false;
+    if (figure && (align === 'start-wrap' || align === 'end-wrap')) {
+      // One-time assist so text visibly fits beside the image right away.
+      // Afterwards the figure resizes freely like any other alignment.
+      const editor = this.editorRef()?.nativeElement ?? null;
+      if (editor) {
+        const half = Math.max(44, Math.round((editor.clientWidth - 2) / 2));
+        const current =
+          figure.getBoundingClientRect().width ||
+          Number.parseFloat(figure.style.width) ||
+          0;
+        if (current > half) {
+          this.resizeFigure(figure, half);
+          changed = true;
+        }
+      }
+      if (!figure.nextElementSibling && typeof document !== 'undefined') {
+        const paragraph = document.createElement('p');
+        paragraph.append(document.createElement('br'));
+        figure.after(paragraph);
+        changed = true;
+      }
+    }
     this.updateActiveStates();
+    if (changed) this.emitFromDom();
     this.syncImagePanel();
   }
 
@@ -852,9 +1333,11 @@ export class SolarisRichTextEditorComponent
 
   protected focusImageHandle(): void {
     if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
-    const handle = this.engine
-      .selectedFigure()
-      ?.querySelector<HTMLElement>('.solaris-image-resize-handle');
+    const figure = this.engine.selectedFigure();
+    const handle =
+      figure?.querySelector<HTMLElement>(
+        '.solaris-image-resize-handle--east',
+      ) ?? figure?.querySelector<HTMLElement>('.solaris-image-resize-handle');
     handle?.focus();
   }
 
@@ -868,6 +1351,107 @@ export class SolarisRichTextEditorComponent
     void navigator.clipboard.writeText(html).catch(() => {
       if (isDevMode()) console.warn('[SolarisRichText] Image copy failed.');
     });
+  }
+
+  protected prepareImageDialog(): void {
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
+    this.engine.restoreSelection();
+    this.imageLinkUrl.set('');
+  }
+
+  protected insertImageLink(url: string): void {
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
+    const safe = url.trim();
+    if (!isSafeHttpUrl(safe)) {
+      this.imageRejected.emit({ fileName: safe, error: 'type-not-allowed' });
+      return;
+    }
+    const fileName = safe.split('?')[0].split('/').pop() || 'image';
+    const alt = decodeURIComponent(fileName).replace(/\.[^.]+$/, '') || 'image';
+    this.insertImageUrl(safe, alt, fileName);
+    this.imageLinkUrl.set('');
+  }
+
+  protected updateImageAlt(alt: string): void {
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
+    const figure = this.engine.selectedFigure();
+    const img = figure?.querySelector('img');
+    if (!figure || !img) return;
+    const next = alt.trim();
+    if (next.length === 0) {
+      this.imageRejected.emit({
+        fileName: img.getAttribute('src') ?? '',
+        error: 'missing-alt',
+      });
+      return;
+    }
+    img.setAttribute('alt', next);
+    this.emitFromDom();
+    this.syncImagePanel();
+  }
+
+  protected toggleImageLink(url: string): void {
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
+    const figure = this.engine.selectedFigure();
+    const img = figure?.querySelector('img');
+    if (!figure || !img) return;
+    const existing = figure.querySelector('a');
+    if (existing) {
+      existing.replaceWith(...Array.from(existing.childNodes));
+      this.emitFromDom();
+      this.syncImagePanel();
+      return;
+    }
+    const safe = url.trim();
+    if (!isSafeHttpUrl(safe)) {
+      this.imageRejected.emit({ fileName: safe, error: 'type-not-allowed' });
+      return;
+    }
+    const anchor = document.createElement('a');
+    anchor.setAttribute('href', safe);
+    anchor.setAttribute('target', '_blank');
+    anchor.setAttribute('rel', 'noopener');
+    img.replaceWith(anchor);
+    anchor.appendChild(img);
+    this.emitFromDom();
+    this.syncImagePanel();
+  }
+
+  protected promptImageAlt(): void {
+    if (typeof window === 'undefined') return;
+    const figure = this.engine.selectedFigure();
+    const current = figure?.querySelector('img')?.getAttribute('alt') ?? '';
+    const next = window.prompt(
+      this.translateService.translate('solaris.rich-text.imageAltLabel'),
+      current,
+    );
+    if (next === null) return;
+    this.updateImageAlt(next);
+  }
+
+  protected promptImageLink(): void {
+    if (typeof window === 'undefined') return;
+    const figure = this.engine.selectedFigure();
+    const current = figure?.querySelector('a')?.getAttribute('href') ?? '';
+    const next = window.prompt(
+      this.translateService.translate('solaris.rich-text.imageLinkLabel'),
+      current,
+    );
+    if (next === null) return;
+    if (next.trim().length === 0) {
+      this.toggleImageLinkRemove();
+      return;
+    }
+    this.toggleImageLink(next);
+  }
+
+  private toggleImageLinkRemove(): void {
+    const figure = this.engine.selectedFigure();
+    const existing = figure?.querySelector('a');
+    if (!figure || !existing) return;
+    existing.replaceWith(...Array.from(existing.childNodes));
+    this.emitFromDom();
+    this.syncImagePanel();
   }
 
   private selectedCodeBlock(): HTMLElement | null {
@@ -1016,7 +1600,7 @@ export class SolarisRichTextEditorComponent
     try {
       const figure = editor.nativeElement.querySelector(
         'figure[data-image][data-selected]',
-      );
+      ) as HTMLElement | null;
       if (!figure) {
         this.imagePanelVisible.set(false);
         return;
@@ -1031,6 +1615,14 @@ export class SolarisRichTextEditorComponent
       this.imagePanelLeft.set(left);
       this.imagePanelTop.set(top);
       this.imageBordered.set(figure.hasAttribute('data-bordered'));
+      this.imageWidth.set(Math.round(rect.width));
+      const img = figure.querySelector('img');
+      if (img) {
+        const imgRect = img.getBoundingClientRect();
+        this.imageHeight.set(Math.round(imgRect.height));
+      } else {
+        this.imageHeight.set(Math.round(rect.height));
+      }
       this.imagePanelVisible.set(true);
     } catch {
       this.imagePanelVisible.set(false);
@@ -1447,6 +2039,161 @@ export class SolarisRichTextEditorComponent
       this.splitTaskListItem(li);
     }
     return true;
+  }
+
+  /**
+   * Exits a floated (wrap) image with Enter: when the caret sits in an empty
+   * block beside a wrap figure, Enter moves the caret to a cleared paragraph
+   * below the figure instead of stacking empty lines beside it. Enter at the
+   * end of a line with text keeps the native split so multiple lines can
+   * still be written beside the image.
+   */
+  private handleWrapExitEnter(event: KeyboardEvent): boolean {
+    if (event.key !== 'Enter') return false;
+    if (event.shiftKey || event.ctrlKey || event.metaKey || event.altKey)
+      return false;
+    if (typeof document === 'undefined') return false;
+    if (this.contentFormat() !== 'rich') return false;
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!editor) return false;
+    const selection = document.getSelection();
+    if (!selection || selection.rangeCount === 0 || !selection.isCollapsed)
+      return false;
+    const range = selection.getRangeAt(0);
+    if (!editor.contains(range.commonAncestorContainer)) return false;
+    const block = this.wrapExitBlockOf(range.startContainer, editor);
+    if (!block || !this.isEmptyBlock(block)) return false;
+    const figure = this.nearestWrapFigureBefore(block);
+    if (!figure || !editor.contains(figure)) return false;
+    try {
+      const figureRect = figure.getBoundingClientRect();
+      const blockRect = block.getBoundingClientRect();
+      if (figureRect.bottom <= blockRect.top + 4) return false;
+    } catch {
+      return false;
+    }
+    event.preventDefault();
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) return true;
+    this.exitWrapBelow(figure, block);
+    return true;
+  }
+
+  private wrapExitBlockOf(
+    node: Node | null,
+    editor: HTMLElement,
+  ): HTMLElement | null {
+    let el = node instanceof Element ? node : (node?.parentElement ?? null);
+    while (
+      el &&
+      el !== editor &&
+      !/^(P|H1|H2|H3|BLOCKQUOTE|DIV)$/.test(el.tagName)
+    ) {
+      el = el.parentElement;
+    }
+    return el && el !== editor ? (el as HTMLElement) : null;
+  }
+
+  private isEmptyBlock(block: HTMLElement): boolean {
+    const text = (block.textContent ?? '').replace(
+      /[\u200b\u00a0\s]/g,
+      '',
+    );
+    if (text.length > 0) return false;
+    return !block.querySelector('img, table, figure, input, [data-mention]');
+  }
+
+  private nearestWrapFigureBefore(
+    block: HTMLElement,
+  ): HTMLElement | null {
+    let sibling = block.previousElementSibling;
+    while (sibling) {
+      if (
+        sibling instanceof HTMLElement &&
+        sibling.tagName === 'FIGURE' &&
+        sibling.hasAttribute('data-image')
+      ) {
+        const align = sibling.getAttribute('data-align');
+        if (align === 'start-wrap' || align === 'end-wrap') return sibling;
+        return null;
+      }
+      sibling = sibling.previousElementSibling;
+    }
+    return null;
+  }
+
+  private exitWrapBelow(
+    figure: HTMLElement,
+    currentBlock: HTMLElement | null,
+  ): void {
+    if (typeof document === 'undefined') return;
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!editor) return;
+    // Never displace existing content: when the caret is already on an empty
+    // line after the figure, that line itself becomes the cleared exit line.
+    // Otherwise (e.g. panel button) append the exit after the following text.
+    let target: HTMLElement | null = null;
+    if (
+      currentBlock &&
+      currentBlock.parentElement === figure.parentElement &&
+      currentBlock !== figure &&
+      this.isEmptyBlock(currentBlock) &&
+      Boolean(
+        figure.compareDocumentPosition(currentBlock) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+      )
+    ) {
+      target = currentBlock;
+    } else {
+      target = this.exitTargetAfterFigure(figure);
+    }
+    target.setAttribute('data-clear', 'both');
+    this.engine.deselectFigure();
+    this.updateActiveStates();
+    this.emitFromDom();
+    this.syncImagePanel();
+    editor.focus({ preventScroll: true });
+    try {
+      const selection = document.getSelection();
+      const caret = document.createRange();
+      caret.selectNodeContents(target);
+      caret.collapse(true);
+      selection?.removeAllRanges();
+      selection?.addRange(caret);
+    } catch {
+      if (isDevMode()) console.warn('[SolarisRichText] Wrap exit failed.');
+    }
+  }
+
+  /**
+   * Finds the exit paragraph after a figure without moving existing content:
+   * reuses a trailing empty paragraph, otherwise appends a new one after the
+   * run of text blocks that follows the figure.
+   */
+  private exitTargetAfterFigure(figure: HTMLElement): HTMLElement {
+    let last: HTMLElement | null = null;
+    let sibling = figure.nextElementSibling;
+    while (
+      sibling instanceof HTMLElement &&
+      /^(P|H1|H2|H3|BLOCKQUOTE)$/.test(sibling.tagName)
+    ) {
+      last = sibling;
+      sibling = sibling.nextElementSibling;
+    }
+    if (last && this.isEmptyBlock(last)) return last;
+    const paragraph = document.createElement('p');
+    paragraph.append(document.createElement('br'));
+    (last ?? figure).after(paragraph);
+    return paragraph;
+  }
+
+  protected jumpCaretBelowImage(): void {
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
+    if (this.contentFormat() !== 'rich') return;
+    const figure = this.engine.selectedFigure();
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!figure || !editor || !editor.contains(figure)) return;
+    this.exitWrapBelow(figure, null);
+    this.refocusEditorAfterOverlayClose();
   }
 
   private splitTaskListItem(current: HTMLElement): void {
@@ -2429,7 +3176,7 @@ export class SolarisRichTextEditorComponent
       this.imageRejected.emit({ fileName, error: 'missing-alt' });
       return;
     }
-    if (this.engine.insertHtmlAtCaret(figure)) {
+    if (this.engine.insertFigureAtCaret(figure)) {
       this.emitFromDom();
     } else {
       this.commitValue({
@@ -2568,8 +3315,6 @@ export class SolarisRichTextEditorComponent
       '.solaris-rich-text-toolbar',
     ) as HTMLElement | null;
     if (toolbar) {
-      // The block-style select always stays first (and exists in both modes),
-      // so it never moves: only the groups/dividers to its right slide.
       const sliding = Array.from(toolbar.children).slice(1);
       sliding.forEach((child, index) => {
         if (!(child instanceof HTMLElement)) return;

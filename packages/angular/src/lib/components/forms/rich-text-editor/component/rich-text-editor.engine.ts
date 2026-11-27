@@ -7,9 +7,14 @@ import {
 import {
   RICH_TEXT_ZERO_WIDTH_SPACE,
   clampImageWidth,
+  snapImageWidth,
   stripHtmlToText,
 } from '../functions/rich-text-editor.utils';
-import { SOLARIS_RICH_TEXT_CODE_LINE_CLASS } from '../model/rich-text-editor.defaults';
+import {
+  SOLARIS_RICH_TEXT_IMAGE_SNAP_STEP,
+  SOLARIS_RICH_TEXT_IMAGE_SNAP_TOLERANCE_PX,
+  SOLARIS_RICH_TEXT_CODE_LINE_CLASS,
+} from '../model/rich-text-editor.defaults';
 
 const CODE_BLOCK_TAG_NAMES: ReadonlySet<string> = new Set([
   'DIV',
@@ -22,9 +27,29 @@ const CODE_BLOCK_TAG_NAMES: ReadonlySet<string> = new Set([
   'H3',
 ]);
 
+const MOVABLE_BLOCK_TAG_NAMES: ReadonlySet<string> = new Set([
+  'P',
+  'H1',
+  'H2',
+  'H3',
+  'BLOCKQUOTE',
+  'PRE',
+  'UL',
+  'OL',
+  'LI',
+  'FIGURE',
+  'TABLE',
+  'HR',
+  'DIV',
+]);
+
+const BLOCK_GRIP_SVG =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="18" r="1"/></svg>';
+
 export class SolarisRichTextEditingEngine {
   private editor: HTMLElement | null = null;
   private lastRange: Range | null = null;
+  private gripAttached = false;
 
   bind(editor: HTMLElement | null): void {
     this.editor = editor;
@@ -291,6 +316,83 @@ export class SolarisRichTextEditingEngine {
         return false;
       }
     }
+  }
+
+  /**
+   * Inserts a `figure[data-image]` block at the caret without nesting it
+   * inside a paragraph: the enclosing paragraph is split so the figure lands
+   * between two blocks and the caret moves to the block after the figure.
+   * Falls back to {@link insertHtmlAtCaret} outside splittable blocks.
+   */
+  insertFigureAtCaret(html: string): boolean {
+    const editor = this.editor;
+    if (!editor || typeof document === 'undefined') return false;
+    try {
+      const selection = document.getSelection();
+      if (!selection || selection.rangeCount === 0) {
+        // SECURITY_EXCEPTION: appending sanitized editor HTML requires native innerHTML; content comes from sanitizeRichTextHtml/built-in builders only.
+        editor.innerHTML += html;
+        return true;
+      }
+      const range = selection.getRangeAt(0);
+      if (!editor.contains(range.commonAncestorContainer)) {
+        // SECURITY_EXCEPTION: appending sanitized editor HTML requires native innerHTML; content comes from sanitizeRichTextHtml/built-in builders only.
+        editor.innerHTML += html;
+        return true;
+      }
+      const block = this.splittableBlockOf(range.startContainer, editor);
+      if (!block) return this.insertHtmlAtCaret(html);
+      range.deleteContents();
+      const afterRange = document.createRange();
+      afterRange.setStart(range.startContainer, range.startOffset);
+      afterRange.setEndAfter(block.lastChild ?? block);
+      const afterFrag = afterRange.extractContents();
+      const leftoverVisible =
+        (block.textContent ?? '').replace(/[\u200b\s]/g, '').length > 0 ||
+        block.querySelector('img, table, figure, input, br') !== null;
+      if (!leftoverVisible) {
+        block.append(document.createElement('br'));
+      }
+      const fragment = range.createContextualFragment(html);
+      const hasVisible =
+        (afterFrag.textContent ?? '').replace(/[\u200b\s]/g, '').length > 0 ||
+        afterFrag.querySelector?.('img, table, figure, input, br') !== null;
+      const tag = block.tagName.toLowerCase();
+      const next = document.createElement(tag === 'blockquote' ? 'p' : tag);
+      if (hasVisible) {
+        next.append(afterFrag);
+      } else {
+        next.append(document.createElement('br'));
+      }
+      block.after(next);
+      block.after(fragment);
+      const caret = document.createRange();
+      caret.selectNodeContents(next);
+      caret.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(caret);
+      editor.focus();
+      return true;
+    } catch {
+      if (isDevMode())
+        console.warn('[SolarisRichText] Figure insert failed.');
+      return this.insertHtmlAtCaret(html);
+    }
+  }
+
+  private splittableBlockOf(
+    node: Node | null,
+    editor: HTMLElement,
+  ): HTMLElement | null {
+    let el = node instanceof Element ? node : (node?.parentElement ?? null);
+    while (
+      el &&
+      el !== editor &&
+      !/^(P|H1|H2|H3|BLOCKQUOTE)$/.test(el.tagName)
+    ) {
+      el = el.parentElement;
+    }
+    return el && el !== editor ? (el as HTMLElement) : null;
   }
 
   insertListAtCaret(html: string): boolean {
@@ -569,6 +671,107 @@ export class SolarisRichTextEditingEngine {
     return editor.querySelector('figure[data-image][data-selected]');
   }
 
+  isMovableBlock(node: Node | null): node is HTMLElement {
+    return (
+      node instanceof HTMLElement &&
+      MOVABLE_BLOCK_TAG_NAMES.has(node.tagName) &&
+      !node.classList.contains('solaris-block-drop-line') &&
+      !node.classList.contains('solaris-image-snap-guides')
+    );
+  }
+
+  topLevelBlocks(): HTMLElement[] {
+    const editor = this.editor;
+    if (!editor || typeof document === 'undefined') return [];
+    return Array.from(editor.children).filter((child): child is HTMLElement =>
+      this.isMovableBlock(child),
+    );
+  }
+
+  movableSiblings(block: HTMLElement): HTMLElement[] {
+    const parent = block.parentElement;
+    if (!parent || typeof document === 'undefined') return [];
+    return Array.from(parent.children).filter(
+      (child): child is HTMLElement =>
+        child !== block && this.isMovableBlock(child),
+    );
+  }
+
+  attachBlockGrip(block: HTMLElement): void {
+    if (typeof document === 'undefined') return;
+    if (block.querySelector(':scope > .solaris-block-grip')) {
+      this.gripAttached = true;
+      return;
+    }
+    this.clearBlockGrip();
+    const grip = document.createElement('span');
+    grip.className = 'solaris-block-grip';
+    grip.setAttribute('contenteditable', 'false');
+    grip.setAttribute('draggable', 'true');
+    grip.setAttribute('aria-hidden', 'true');
+    // SECURITY_EXCEPTION: static six-dot grip glyph (same artwork as the
+    // solaris grip-vertical icon); no consumer HTML.
+    grip.innerHTML = BLOCK_GRIP_SVG;
+    block.prepend(grip);
+    this.gripAttached = true;
+  }
+
+  clearBlockGrip(): void {
+    if (!this.gripAttached) return;
+    const editor = this.editor;
+    if (!editor || typeof document === 'undefined') return;
+    editor
+      .querySelectorAll('.solaris-block-grip')
+      .forEach((node) => node.remove());
+    this.gripAttached = false;
+  }
+
+  showBlockDropLine(topPx: number): void {
+    const editor = this.editor;
+    if (!editor || typeof document === 'undefined') return;
+    let line = editor.querySelector(
+      '.solaris-block-drop-line',
+    ) as HTMLElement | null;
+    if (!line) {
+      line = document.createElement('div');
+      line.className = 'solaris-block-drop-line';
+      line.setAttribute('contenteditable', 'false');
+      line.setAttribute('aria-hidden', 'true');
+      editor.append(line);
+    }
+    // Keep the line strictly inside the content box: anything computed
+    // outside of it (stale rects, scrolled layouts) would read as a stray
+    // line outside the field.
+    const max = Math.max(editor.scrollHeight - 2, 0);
+    line.style.top = `${Math.min(Math.max(0, Math.round(topPx)), max)}px`;
+  }
+
+  clearBlockDropLine(): void {
+    const editor = this.editor;
+    if (!editor || typeof document === 'undefined') return;
+    editor
+      .querySelectorAll('.solaris-block-drop-line')
+      .forEach((node) => node.remove());
+  }
+
+  moveBlockBefore(block: HTMLElement, ref: HTMLElement | null): void {
+    const parent = block.parentElement;
+    if (!parent || !parent.contains(block)) return;
+    if (ref === block) return;
+    if (ref && ref.parentElement === parent) {
+      parent.insertBefore(block, ref);
+      return;
+    }
+    if (
+      !ref &&
+      (parent === this.editor ||
+        parent.tagName === 'UL' ||
+        parent.tagName === 'OL')
+    ) {
+      parent.append(block);
+    }
+  }
+
   private findFigureFromSelection(): HTMLElement | null {
     const editor = this.editor;
     if (!editor) return null;
@@ -592,11 +795,14 @@ export class SolarisRichTextEditingEngine {
       );
       if (selected && selected !== target) {
         selected.removeAttribute('data-selected');
-        selected.querySelector('.solaris-image-resize-handle')?.remove();
+        selected
+          .querySelectorAll('.solaris-image-resize-handle')
+          .forEach((node) => node.remove());
       }
       if (target && !target.hasAttribute('data-selected')) {
         target.setAttribute('data-selected', '');
-        this.attachResizeHandle(target, resizeLabel);
+        target.removeAttribute('data-hover');
+        this.attachResizeHandles(target, resizeLabel);
       }
       return target;
     } catch {
@@ -607,15 +813,49 @@ export class SolarisRichTextEditingEngine {
   }
 
   attachResizeHandle(target: HTMLElement, resizeLabel: string): void {
-    const handle = document.createElement('span');
-    handle.className = 'solaris-image-resize-handle';
-    handle.setAttribute('contenteditable', 'false');
-    handle.setAttribute('role', 'slider');
-    handle.setAttribute('tabindex', '0');
-    handle.setAttribute('aria-label', resizeLabel);
-    handle.setAttribute('aria-valuemin', '44');
-    target.appendChild(handle);
+    this.attachResizeHandles(target, resizeLabel);
+  }
+
+  attachResizeHandles(target: HTMLElement, resizeLabel: string): void {
+    const existing = target.querySelectorAll('.solaris-image-resize-handle');
+    if (existing.length > 0) {
+      this.resizeFigure(target, target.getBoundingClientRect().width);
+      return;
+    }
+    for (const direction of ['west', 'east'] as const) {
+      const handle = document.createElement('span');
+      handle.className = `solaris-image-resize-handle solaris-image-resize-handle--${direction}`;
+      handle.setAttribute('contenteditable', 'false');
+      handle.setAttribute('data-direction', direction);
+      handle.setAttribute('role', 'slider');
+      handle.setAttribute('tabindex', direction === 'east' ? '0' : '-1');
+      handle.setAttribute('aria-label', resizeLabel);
+      handle.setAttribute('aria-valuemin', '44');
+      handle.setAttribute(
+        'aria-hidden',
+        direction === 'east' ? 'false' : 'true',
+      );
+      target.appendChild(handle);
+    }
     this.resizeFigure(target, target.getBoundingClientRect().width);
+  }
+
+  attachHoverHandle(target: HTMLElement, resizeLabel: string): void {
+    if (target.hasAttribute('data-selected')) return;
+    if (target.querySelector('.solaris-image-resize-handle')) return;
+    this.attachResizeHandles(target, resizeLabel);
+    target.setAttribute('data-hover', '');
+  }
+
+  clearHoverHandle(target: HTMLElement): void {
+    if (target.hasAttribute('data-selected')) {
+      target.removeAttribute('data-hover');
+      return;
+    }
+    target.removeAttribute('data-hover');
+    target
+      .querySelectorAll('.solaris-image-resize-handle')
+      .forEach((node) => node.remove());
   }
 
   deselectFigure(): void {
@@ -624,7 +864,17 @@ export class SolarisRichTextEditingEngine {
     const selected = editor.querySelector('figure[data-image][data-selected]');
     if (selected) {
       selected.removeAttribute('data-selected');
-      selected.querySelector('.solaris-image-resize-handle')?.remove();
+      selected
+        .querySelectorAll('.solaris-image-resize-handle')
+        .forEach((node) => node.remove());
+    }
+    for (const hovered of Array.from(
+      editor.querySelectorAll('figure[data-image][data-hover]'),
+    )) {
+      hovered.removeAttribute('data-hover');
+      hovered
+        .querySelectorAll('.solaris-image-resize-handle')
+        .forEach((node) => node.remove());
     }
     try {
       const selection = document.getSelection();
@@ -653,11 +903,20 @@ export class SolarisRichTextEditingEngine {
     }
   }
 
-  resizeFigure(figure: HTMLElement, widthPx: number): void {
+  resizeFigure(figure: HTMLElement, widthPx: number, snap = true): void {
     const editor = this.editor;
     if (!editor) return;
     const max = Math.max(44, editor.clientWidth - 2);
-    const width = clampImageWidth(Math.round(widthPx), 44, max);
+    let rounded = Math.round(widthPx);
+    if (snap && !Number.isNaN(rounded)) {
+      rounded = snapImageWidth(
+        rounded,
+        max,
+        SOLARIS_RICH_TEXT_IMAGE_SNAP_STEP,
+        SOLARIS_RICH_TEXT_IMAGE_SNAP_TOLERANCE_PX,
+      );
+    }
+    const width = clampImageWidth(rounded, 44, max);
     figure.style.width = `${width}px`;
     describeFigureWidth(figure, width, max);
   }
@@ -666,21 +925,78 @@ export class SolarisRichTextEditingEngine {
     event: MouseEvent,
     figure: HTMLElement,
     onDone: () => void,
+    direction: 'west' | 'east' | 'southeast' = 'southeast',
+    onMove?: (widthPx: number, snapped: boolean) => void,
   ): void {
     event.preventDefault();
+    const editor = this.editor;
+    const editorMax = editor ? Math.max(44, editor.clientWidth - 2) : 0;
     const startX = event.clientX;
     const startWidth =
       figure.getBoundingClientRect().width ||
       Number.parseFloat(figure.style.width) ||
       0;
-    const move = (e: PointerEvent): void => {
-      this.resizeFigure(figure, startWidth + (e.clientX - startX));
-    };
-    const up = (): void => {
+    const sign = direction === 'west' ? -1 : 1;
+    figure.setAttribute('data-resizing', '');
+    const badge = document.createElement('span');
+    badge.className = 'solaris-image-size-badge';
+    badge.setAttribute('contenteditable', 'false');
+    badge.setAttribute('aria-hidden', 'true');
+    badge.textContent = `${Math.round(startWidth)} px`;
+    figure.appendChild(badge);
+    let guides: HTMLElement | null = null;
+    if (editor && editorMax > 0) {
+      guides = document.createElement('div');
+      guides.className = 'solaris-image-snap-guides';
+      guides.setAttribute('contenteditable', 'false');
+      guides.setAttribute('aria-hidden', 'true');
+      for (let step = 1; step <= 9; step += 1) {
+        const line = document.createElement('span');
+        line.className = 'solaris-image-snap-guide';
+        line.style.left = `${Math.round(editorMax * step * SOLARIS_RICH_TEXT_IMAGE_SNAP_STEP)}px`;
+        guides.appendChild(line);
+      }
+      editor.appendChild(guides);
+    }
+    const finish = (): void => {
       window.removeEventListener('pointermove', move);
       window.removeEventListener('pointerup', up);
       window.removeEventListener('pointercancel', up);
+      badge.remove();
+      guides?.remove();
+      figure.removeAttribute('data-resizing');
+      figure.removeAttribute('data-snapped');
       onDone();
+    };
+    const move = (e: PointerEvent): void => {
+      const snap = !e.altKey;
+      const raw = startWidth + (e.clientX - startX) * sign;
+      this.resizeFigure(figure, raw, snap);
+      const width =
+        Number.parseFloat(figure.style.width) || Math.round(raw);
+      badge.textContent = `${Math.round(width)} px`;
+      let snapped = false;
+      if (snap && editorMax > 0) {
+        const stepPx = editorMax * SOLARIS_RICH_TEXT_IMAGE_SNAP_STEP;
+        if (stepPx > 0) {
+          const nearest = Math.round(width / stepPx) * stepPx;
+          snapped =
+            Math.abs(width - nearest) <=
+            SOLARIS_RICH_TEXT_IMAGE_SNAP_TOLERANCE_PX;
+        }
+        if (!snapped) snapped = Math.abs(raw - width) > 0.5;
+      }
+      if (snapped) {
+        figure.setAttribute('data-snapped', '');
+        badge.setAttribute('data-snapped', '');
+      } else {
+        figure.removeAttribute('data-snapped');
+        badge.removeAttribute('data-snapped');
+      }
+      onMove?.(Math.round(width), snapped);
+    };
+    const up = (): void => {
+      finish();
     };
     if (typeof window !== 'undefined') {
       window.addEventListener('pointermove', move);
