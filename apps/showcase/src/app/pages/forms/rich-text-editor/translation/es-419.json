@@ -19,7 +19,7 @@
     "description": "Editor de texto enriquecido nativo con contenteditable, variantes document y composer, pills y contador.",
     "document": {
       "label": "Texto del recibo",
-      "note": "Variante de campo con barra fija. Escribe { para insertar un campo."
+      "note": "Haz clic en la vista previa para editar, como en Jira. Guardar confirma el borrador; Cancelar lo descarta."
     },
     "fields": {
       "formatHide": "Ocultar formato",

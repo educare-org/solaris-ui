@@ -41,7 +41,28 @@ export class RichTextEditorPageObject {
     return this.page.locator('[role="menuitem"]').nth(optionIndex);
   }
 
+  menuRadioItem(optionIndex = 0): Locator {
+    // Why: radio menu items (e.g. the align menu) render as menuitemradio.
+    return this.page.locator('[role="menuitemradio"]').nth(optionIndex);
+  }
+
   logEntries(): Locator {
     return this.page.locator('.rich-text-editor-showcase__log li');
+  }
+
+  documentDemo(): Locator {
+    return this.page.locator('.rich-text-editor-showcase__document');
+  }
+
+  documentArea(): Locator {
+    return this.documentDemo().locator('.solaris-rich-text-editor-area');
+  }
+
+  documentParagraph(index: number): Locator {
+    return this.documentArea().locator(':scope > p').nth(index);
+  }
+
+  documentDropLine(): Locator {
+    return this.documentArea().locator('.solaris-block-drop-line');
   }
 }

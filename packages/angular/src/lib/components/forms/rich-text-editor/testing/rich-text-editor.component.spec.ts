@@ -105,7 +105,7 @@ describe('SolarisRichTextEditorComponent', () => {
     fixture.componentInstance.writeValue('<p>hello</p>');
     fixture.detectChanges();
     const area = fixture.nativeElement.querySelector(
-      '.solaris-rich-text-editor-area'
+      '.solaris-rich-text-editor-area',
     ) as HTMLElement;
     const paragraph = area.querySelector('p') as HTMLElement;
     paragraph.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
@@ -126,7 +126,7 @@ describe('SolarisRichTextEditorComponent', () => {
     fixture.componentInstance.writeValue('<p>hello</p>');
     fixture.detectChanges();
     const area = fixture.nativeElement.querySelector(
-      '.solaris-rich-text-editor-area'
+      '.solaris-rich-text-editor-area',
     ) as HTMLElement;
     expect(area.querySelector('p')?.textContent).toBe('hello');
     fixture.componentRef.setInput('value', normalizeEditorValue('<p>bye</p>'));
@@ -1469,11 +1469,11 @@ describe('SolarisRichTextEditorComponent', () => {
   it('keeps native enter when the wrap figure is already above the caret', () => {
     create();
     fixture.componentInstance.writeValue(
-      '<figure data-image data-align="start-wrap"><img src="https://example.com/a.png" alt="Logo" /></figure><p><br></p>'
+      '<figure data-image data-align="start-wrap"><img src="https://example.com/a.png" alt="Logo" /></figure><p><br></p>',
     );
     fixture.detectChanges();
     const area = fixture.nativeElement.querySelector(
-      '.solaris-rich-text-editor-area'
+      '.solaris-rich-text-editor-area',
     ) as HTMLElement;
     const paragraph = area.querySelector('p') as HTMLElement;
     placeCaret(area, paragraph, 0);
@@ -1490,11 +1490,11 @@ describe('SolarisRichTextEditorComponent', () => {
   it('keeps side text in place when exiting below a wrap figure', () => {
     create();
     fixture.componentInstance.writeValue(
-      '<figure data-image data-align="start-wrap"><img src="https://example.com/a.png" alt="Logo" /></figure><p>Teste</p><p><br></p>'
+      '<figure data-image data-align="start-wrap"><img src="https://example.com/a.png" alt="Logo" /></figure><p>Teste</p><p><br></p>',
     );
     fixture.detectChanges();
     const area = fixture.nativeElement.querySelector(
-      '.solaris-rich-text-editor-area'
+      '.solaris-rich-text-editor-area',
     ) as HTMLElement;
     const figure = area.querySelector('figure[data-image]') as HTMLElement;
     const paragraphs = Array.from(area.querySelectorAll('p'));
@@ -1528,11 +1528,11 @@ describe('SolarisRichTextEditorComponent', () => {
   it('appends the jump target after existing side text', () => {
     create();
     fixture.componentInstance.writeValue(
-      '<figure data-image data-align="end-wrap"><img src="https://example.com/a.png" alt="Logo" /></figure><p>Teste</p>'
+      '<figure data-image data-align="end-wrap"><img src="https://example.com/a.png" alt="Logo" /></figure><p>Teste</p>',
     );
     fixture.detectChanges();
     const area = fixture.nativeElement.querySelector(
-      '.solaris-rich-text-editor-area'
+      '.solaris-rich-text-editor-area',
     ) as HTMLElement;
     const img = area.querySelector('img') as HTMLElement;
     img.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
@@ -1550,11 +1550,11 @@ describe('SolarisRichTextEditorComponent', () => {
   it('keeps native enter at the end of a text line beside a wrap figure', () => {
     create();
     fixture.componentInstance.writeValue(
-      '<figure data-image data-align="start-wrap"><img src="https://example.com/a.png" alt="Logo" /></figure><p>hello</p>'
+      '<figure data-image data-align="start-wrap"><img src="https://example.com/a.png" alt="Logo" /></figure><p>hello</p>',
     );
     fixture.detectChanges();
     const area = fixture.nativeElement.querySelector(
-      '.solaris-rich-text-editor-area'
+      '.solaris-rich-text-editor-area',
     ) as HTMLElement;
     const text = area.querySelector('p')?.firstChild as Node;
     placeCaret(area, text, 5);
@@ -1571,11 +1571,11 @@ describe('SolarisRichTextEditorComponent', () => {
   it('jumps the caret below the selected figure on demand', () => {
     create();
     fixture.componentInstance.writeValue(
-      '<figure data-image data-align="end-wrap"><img src="https://example.com/a.png" alt="Logo" /></figure>'
+      '<figure data-image data-align="end-wrap"><img src="https://example.com/a.png" alt="Logo" /></figure>',
     );
     fixture.detectChanges();
     const area = fixture.nativeElement.querySelector(
-      '.solaris-rich-text-editor-area'
+      '.solaris-rich-text-editor-area',
     ) as HTMLElement;
     const img = area.querySelector('img') as HTMLElement;
     img.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
@@ -1596,7 +1596,7 @@ describe('SolarisRichTextEditorComponent', () => {
     fixture.componentInstance.writeValue('<p>one</p><p>two</p>');
     fixture.detectChanges();
     const area = fixture.nativeElement.querySelector(
-      '.solaris-rich-text-editor-area'
+      '.solaris-rich-text-editor-area',
     ) as HTMLElement;
     const first = area.querySelector('p') as HTMLElement;
     placeCaret(area, first.firstChild as Node, 1);
@@ -1608,10 +1608,9 @@ describe('SolarisRichTextEditorComponent', () => {
         cancelable: true,
       }),
     );
-    expect(Array.from(area.children).map((child) => child.textContent)).toEqual([
-      'two',
-      'one',
-    ]);
+    expect(Array.from(area.children).map((child) => child.textContent)).toEqual(
+      ['two', 'one'],
+    );
     const moved = area.querySelectorAll('p')[1] as HTMLElement;
     placeCaret(area, moved.firstChild as Node, 1);
     fixture.componentInstance['onEditorKeydown'](
@@ -1622,10 +1621,9 @@ describe('SolarisRichTextEditorComponent', () => {
         cancelable: true,
       }),
     );
-    expect(Array.from(area.children).map((child) => child.textContent)).toEqual([
-      'one',
-      'two',
-    ]);
+    expect(Array.from(area.children).map((child) => child.textContent)).toEqual(
+      ['one', 'two'],
+    );
   });
 
   it('keeps the first block in place on alt+arrowup', () => {
@@ -1633,7 +1631,7 @@ describe('SolarisRichTextEditorComponent', () => {
     fixture.componentInstance.writeValue('<p>one</p><p>two</p>');
     fixture.detectChanges();
     const area = fixture.nativeElement.querySelector(
-      '.solaris-rich-text-editor-area'
+      '.solaris-rich-text-editor-area',
     ) as HTMLElement;
     const first = area.querySelector('p') as HTMLElement;
     placeCaret(area, first.firstChild as Node, 1);
@@ -1645,24 +1643,42 @@ describe('SolarisRichTextEditorComponent', () => {
     });
     fixture.componentInstance['onEditorKeydown'](event);
     expect(event.defaultPrevented).toBe(true);
-    expect(Array.from(area.children).map((child) => child.textContent)).toEqual([
-      'one',
-      'two',
-    ]);
+    expect(Array.from(area.children).map((child) => child.textContent)).toEqual(
+      ['one', 'two'],
+    );
   });
+
+  function dispatchBlockPointer(
+    target: HTMLElement,
+    type: 'pointerdown' | 'pointermove' | 'pointerup' | 'pointercancel',
+    clientX = 4,
+    clientY = 4,
+  ): void {
+    target.dispatchEvent(
+      new PointerEvent(type, {
+        bubbles: true,
+        cancelable: true,
+        button: 0,
+        pointerId: 1,
+        isPrimary: true,
+        clientX,
+        clientY,
+      }),
+    );
+  }
 
   it('shows and hides the drag grip on block hover', () => {
     create();
     fixture.componentInstance.writeValue('<p>one</p><p>two</p>');
     fixture.detectChanges();
     const area = fixture.nativeElement.querySelector(
-      '.solaris-rich-text-editor-area'
+      '.solaris-rich-text-editor-area',
     ) as HTMLElement;
     const first = area.querySelector('p') as HTMLElement;
     first.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
     const grip = first.querySelector('.solaris-block-grip') as HTMLElement;
     expect(grip).toBeTruthy();
-    expect(grip.getAttribute('draggable')).toBe('true');
+    expect(grip.getAttribute('draggable')).toBe('false');
     expect(grip.getAttribute('title')).toBeNull();
     first.dispatchEvent(
       new MouseEvent('mouseout', { bubbles: true, relatedTarget: null }),
@@ -1675,7 +1691,7 @@ describe('SolarisRichTextEditorComponent', () => {
     fixture.componentInstance.writeValue('<p>one</p><p>two</p>');
     fixture.detectChanges();
     const area = fixture.nativeElement.querySelector(
-      '.solaris-rich-text-editor-area'
+      '.solaris-rich-text-editor-area',
     ) as HTMLElement;
     const first = area.querySelector('p') as HTMLElement;
     first.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
@@ -1704,27 +1720,19 @@ describe('SolarisRichTextEditorComponent', () => {
     fixture.componentInstance.writeValue('<p>one</p><p>two</p>');
     fixture.detectChanges();
     const area = fixture.nativeElement.querySelector(
-      '.solaris-rich-text-editor-area'
+      '.solaris-rich-text-editor-area',
     ) as HTMLElement;
     const first = area.querySelector('p') as HTMLElement;
     first.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
     const grip = first.querySelector('.solaris-block-grip') as HTMLElement;
     expect(grip).toBeTruthy();
-    grip.dispatchEvent(new MouseEvent('dragstart', { bubbles: true }));
-    area.dispatchEvent(
-      new MouseEvent('dragover', {
-        bubbles: true,
-        cancelable: true,
-        clientX: 4,
-        clientY: 4,
-      }),
-    );
+    dispatchBlockPointer(grip, 'pointerdown', 0, 0);
+    dispatchBlockPointer(area, 'pointermove', 6, 1);
     expect(area.querySelector('.solaris-block-drop-line')).toBeTruthy();
-    area.dispatchEvent(new MouseEvent('drop', { bubbles: true }));
-    expect(Array.from(area.children).map((child) => child.textContent)).toEqual([
-      'two',
-      'one',
-    ]);
+    dispatchBlockPointer(area, 'pointerup', 6, 1);
+    expect(Array.from(area.children).map((child) => child.textContent)).toEqual(
+      ['two', 'one'],
+    );
     expect(area.querySelector('.solaris-block-drop-line')).toBeNull();
     expect(fixture.componentInstance.value().html).not.toContain(
       'solaris-block-grip',
@@ -1741,7 +1749,7 @@ describe('SolarisRichTextEditorComponent', () => {
     );
     fixture.detectChanges();
     const area = fixture.nativeElement.querySelector(
-      '.solaris-rich-text-editor-area'
+      '.solaris-rich-text-editor-area',
     ) as HTMLElement;
     const figure = area.querySelector('figure[data-image]') as HTMLElement;
     figure.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
@@ -1756,7 +1764,7 @@ describe('SolarisRichTextEditorComponent', () => {
     fixture.componentInstance.writeValue('<ul><li>a</li><li>b</li></ul>');
     fixture.detectChanges();
     const area = fixture.nativeElement.querySelector(
-      '.solaris-rich-text-editor-area'
+      '.solaris-rich-text-editor-area',
     ) as HTMLElement;
     const items = () =>
       Array.from(area.querySelectorAll('li')).map((li) => li.textContent);
@@ -1787,28 +1795,21 @@ describe('SolarisRichTextEditorComponent', () => {
   it('drags list items between positions of the same list', () => {
     create();
     fixture.componentInstance.writeValue(
-      '<ul><li>one</li><li>two</li><li>three</li></ul>'
+      '<ul><li>one</li><li>two</li><li>three</li></ul>',
     );
     fixture.detectChanges();
     const area = fixture.nativeElement.querySelector(
-      '.solaris-rich-text-editor-area'
+      '.solaris-rich-text-editor-area',
     ) as HTMLElement;
     const first = area.querySelector('li') as HTMLElement;
     first.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
     const grip = first.querySelector('.solaris-block-grip') as HTMLElement;
     expect(grip).toBeTruthy();
     grip.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
-    grip.dispatchEvent(new MouseEvent('dragstart', { bubbles: true }));
-    area.dispatchEvent(
-      new MouseEvent('dragover', {
-        bubbles: true,
-        cancelable: true,
-        clientX: 4,
-        clientY: 4,
-      }),
-    );
+    dispatchBlockPointer(grip, 'pointerdown', 0, 0);
+    dispatchBlockPointer(area, 'pointermove', 6, 1);
     expect(area.querySelector('.solaris-block-drop-line')).toBeTruthy();
-    area.dispatchEvent(new MouseEvent('drop', { bubbles: true }));
+    dispatchBlockPointer(area, 'pointerup', 6, 1);
     expect(
       Array.from(area.querySelectorAll('li')).map((li) => li.textContent),
     ).toEqual(['two', 'three', 'one']);
@@ -1822,7 +1823,7 @@ describe('SolarisRichTextEditorComponent', () => {
     fixture.componentInstance.writeValue('<p>one</p><p>two</p><p>three</p>');
     fixture.detectChanges();
     const area = fixture.nativeElement.querySelector(
-      '.solaris-rich-text-editor-area'
+      '.solaris-rich-text-editor-area',
     ) as HTMLElement;
     const paragraphs = Array.from(area.querySelectorAll('p'));
     const editorRect = { top: 200, height: 0 } as DOMRect;
@@ -1846,25 +1847,16 @@ describe('SolarisRichTextEditorComponent', () => {
     const grip = last.querySelector('.solaris-block-grip') as HTMLElement;
     expect(grip).toBeTruthy();
     grip.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
-    grip.dispatchEvent(new MouseEvent('dragstart', { bubbles: true }));
+    dispatchBlockPointer(grip, 'pointerdown', 4, 260);
     // Cursor over the first paragraph: 205 < 210 + 10 selects it as the drop target.
-    area.dispatchEvent(
-      new MouseEvent('dragover', {
-        bubbles: true,
-        cancelable: true,
-        clientX: 4,
-        clientY: 205,
-      }),
-    );
+    dispatchBlockPointer(area, 'pointermove', 4, 205);
     const line = area.querySelector('.solaris-block-drop-line') as HTMLElement;
     expect(line).toBeTruthy();
     expect(line.style.top).toBe('10px');
-    area.dispatchEvent(new MouseEvent('drop', { bubbles: true }));
-    expect(Array.from(area.children).map((child) => child.textContent)).toEqual([
-      'three',
-      'one',
-      'two',
-    ]);
+    dispatchBlockPointer(area, 'pointerup', 4, 205);
+    expect(Array.from(area.children).map((child) => child.textContent)).toEqual(
+      ['three', 'one', 'two'],
+    );
   });
 
   it('moves the last block to the first position on a scrolled page', () => {
@@ -1872,7 +1864,7 @@ describe('SolarisRichTextEditorComponent', () => {
     fixture.componentInstance.writeValue('<p>one</p><p>two</p>');
     fixture.detectChanges();
     const area = fixture.nativeElement.querySelector(
-      '.solaris-rich-text-editor-area'
+      '.solaris-rich-text-editor-area',
     ) as HTMLElement;
     // Simulate a scrolled page: viewport coords differ from editor coords.
     vi.spyOn(area, 'getBoundingClientRect').mockReturnValue({
@@ -1897,54 +1889,142 @@ describe('SolarisRichTextEditorComponent', () => {
     last.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
     const grip = last.querySelector('.solaris-block-grip') as HTMLElement;
     grip.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
-    grip.dispatchEvent(new MouseEvent('dragstart', { bubbles: true }));
+    dispatchBlockPointer(grip, 'pointerdown', 4, 140);
     // Cursor over the first paragraph: 105 < 100 + 10 selects it.
-    area.dispatchEvent(
-      new MouseEvent('dragover', {
-        bubbles: true,
-        cancelable: true,
-        clientX: 4,
-        clientY: 105,
-      }),
-    );
+    dispatchBlockPointer(area, 'pointermove', 4, 105);
     const line = area.querySelector('.solaris-block-drop-line') as HTMLElement;
     expect(line).toBeTruthy();
     // Editor-relative position, clamped inside the content box.
     expect(line.style.top).toBe('400px');
-    area.dispatchEvent(new MouseEvent('drop', { bubbles: true }));
-    expect(Array.from(area.children).map((child) => child.textContent)).toEqual([
-      'two',
-      'one',
-    ]);
+    dispatchBlockPointer(area, 'pointerup', 4, 105);
+    expect(Array.from(area.children).map((child) => child.textContent)).toEqual(
+      ['two', 'one'],
+    );
   });
 
   it('ignores drops far away from the dragged list', () => {
     create();
     fixture.componentInstance.writeValue(
-      '<ul><li>one</li><li>two</li></ul><p>after</p>'
+      '<ul><li>one</li><li>two</li></ul><p>after</p>',
     );
     fixture.detectChanges();
     const area = fixture.nativeElement.querySelector(
-      '.solaris-rich-text-editor-area'
+      '.solaris-rich-text-editor-area',
     ) as HTMLElement;
     const first = area.querySelector('li') as HTMLElement;
     first.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
     const grip = first.querySelector('.solaris-block-grip') as HTMLElement;
     grip.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
-    grip.dispatchEvent(new MouseEvent('dragstart', { bubbles: true }));
-    area.dispatchEvent(
-      new MouseEvent('dragover', {
-        bubbles: true,
-        cancelable: true,
-        clientX: 4,
-        clientY: 5000,
-      }),
-    );
+    dispatchBlockPointer(grip, 'pointerdown', 4, 4);
+    dispatchBlockPointer(area, 'pointermove', 4, 5000);
     expect(area.querySelector('.solaris-block-drop-line')).toBeNull();
-    area.dispatchEvent(new MouseEvent('drop', { bubbles: true }));
+    dispatchBlockPointer(area, 'pointerup', 4, 5000);
     expect(
       Array.from(area.querySelectorAll('li')).map((li) => li.textContent),
     ).toEqual(['one', 'two']);
+  });
+
+  it('treats the dragged block slot as a no-op without moving the line to the end', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>one</p><p>two</p><p>three</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const paragraphs = Array.from(area.querySelectorAll('p'));
+    const editorRect = { top: 200, height: 0 } as DOMRect;
+    const itemRects = [
+      { top: 210, height: 20 },
+      { top: 230, height: 20 },
+      { top: 250, height: 20 },
+    ];
+    vi.spyOn(area, 'getBoundingClientRect').mockReturnValue(editorRect);
+    Object.defineProperty(area, 'scrollHeight', {
+      value: 800,
+      configurable: true,
+    });
+    paragraphs.forEach((paragraph, index) => {
+      vi.spyOn(paragraph, 'getBoundingClientRect').mockReturnValue(
+        itemRects[index] as DOMRect,
+      );
+    });
+    const last = paragraphs[2] as HTMLElement;
+    last.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+    const grip = last.querySelector('.solaris-block-grip') as HTMLElement;
+    expect(grip).toBeTruthy();
+    grip.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    dispatchBlockPointer(grip, 'pointerdown', 4, 200);
+    // Cursor over the dragged block itself: no line, no valid drop target.
+    dispatchBlockPointer(area, 'pointermove', 4, 255);
+    expect(area.querySelector('.solaris-block-drop-line')).toBeNull();
+    dispatchBlockPointer(area, 'pointerup', 4, 255);
+    expect(Array.from(area.children).map((child) => child.textContent)).toEqual(
+      ['one', 'two', 'three'],
+    );
+  });
+
+  it('drops on the center of the first block when moving the last one up', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>one</p><p>two</p><p>three</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const paragraphs = Array.from(area.querySelectorAll('p'));
+    const editorRect = { top: 200, height: 0 } as DOMRect;
+    const itemRects = [
+      { top: 210, height: 20 },
+      { top: 230, height: 20 },
+      { top: 250, height: 20 },
+    ];
+    vi.spyOn(area, 'getBoundingClientRect').mockReturnValue(editorRect);
+    Object.defineProperty(area, 'scrollHeight', {
+      value: 800,
+      configurable: true,
+    });
+    paragraphs.forEach((paragraph, index) => {
+      vi.spyOn(paragraph, 'getBoundingClientRect').mockReturnValue(
+        itemRects[index] as DOMRect,
+      );
+    });
+    const last = paragraphs[2] as HTMLElement;
+    last.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+    const grip = last.querySelector('.solaris-block-grip') as HTMLElement;
+    grip.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    dispatchBlockPointer(grip, 'pointerdown', 4, 260);
+    // Exact midpoint of the first block (210 + 20 / 2) still targets it.
+    dispatchBlockPointer(area, 'pointermove', 4, 220);
+    const line = area.querySelector('.solaris-block-drop-line') as HTMLElement;
+    expect(line).toBeTruthy();
+    expect(line.style.top).toBe('10px');
+    dispatchBlockPointer(area, 'pointerup', 4, 220);
+    expect(Array.from(area.children).map((child) => child.textContent)).toEqual(
+      ['three', 'one', 'two'],
+    );
+  });
+
+  it('clears the drop line when the pointer leaves the editor mid-drag', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>one</p><p>two</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const first = area.querySelector('p') as HTMLElement;
+    first.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+    const grip = first.querySelector('.solaris-block-grip') as HTMLElement;
+    grip.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    dispatchBlockPointer(grip, 'pointerdown', 0, 0);
+    dispatchBlockPointer(area, 'pointermove', 6, 1);
+    expect(area.querySelector('.solaris-block-drop-line')).toBeTruthy();
+    // Pointer capture keeps events flowing outside: leaving the field
+    // clears the line instead of parking it on the content edge.
+    dispatchBlockPointer(area, 'pointermove', 6, 5000);
+    expect(area.querySelector('.solaris-block-drop-line')).toBeNull();
+    dispatchBlockPointer(area, 'pointerup', 6, 5000);
+    expect(Array.from(area.children).map((child) => child.textContent)).toEqual(
+      ['one', 'two'],
+    );
   });
 
   it('reports justify alignment in active states', () => {

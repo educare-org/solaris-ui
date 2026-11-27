@@ -19,7 +19,7 @@
     "description": "Native contenteditable rich text editor with document and composer variants, form-field pills and char count.",
     "document": {
       "label": "Receipt text",
-      "note": "Field-like variant with fixed toolbar. Type { to insert a form field."
+      "note": "Click the preview to edit, like in Jira. Save confirms the draft; Cancel discards it."
     },
     "fields": {
       "formatHide": "Hide formatting",

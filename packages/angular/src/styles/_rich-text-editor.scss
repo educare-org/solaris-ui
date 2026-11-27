@@ -681,8 +681,7 @@
   border-radius: var(--solaris-radius-sm);
   background: var(--solaris-neutral-text-body);
   color: var(--solaris-neutral-text-inverse);
-  border: var(--solaris-border-width-sm) solid
-    var(--solaris-neutral-text-body);
+  border: var(--solaris-border-width-sm) solid var(--solaris-neutral-text-body);
   white-space: nowrap;
   pointer-events: none;
   z-index: var(--solaris-z-index-raised);
@@ -720,7 +719,10 @@
 .solaris-rich-text-editor-area > ol,
 .solaris-rich-text-editor-area > table,
 .solaris-rich-text-editor-area > hr,
-.solaris-rich-text-editor-area > div {
+// NOTE: the drop indicator is the only direct-child div that must stay
+// absolutely positioned; the relative rule below would otherwise win on
+// specificity and park it in flow below the content (outside the field).
+.solaris-rich-text-editor-area > div:not(.solaris-block-drop-line) {
   position: relative;
 }
 
@@ -729,7 +731,14 @@
 // tight padding (blocks still move there with Alt+ArrowUp/Down).
 .solaris-rich-text-editor:not([data-variant='composer'])
   .solaris-rich-text-editor-area {
-  padding-left: calc(var(--solaris-rich-text-padding-x) + 22px);
+  padding-left: calc(var(--solaris-rich-text-padding-x) + 18px);
+}
+
+// Empty editors have no blocks to grab, so the grip lane collapses and the
+// caret/placeholder align with the regular field padding.
+.solaris-rich-text-editor:not([data-variant='composer'])
+  .solaris-rich-text-editor-area[data-empty] {
+  padding-left: var(--solaris-rich-text-padding-x);
 }
 
 .solaris-rich-text-editor-area li {
@@ -743,11 +752,11 @@
 .solaris-block-grip {
   position: absolute;
   top: 2px;
-  left: -22px;
+  left: -18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
+  width: 16px;
   height: 20px;
   border-radius: var(--solaris-radius-sm);
   color: var(--solaris-neutral-text-secondary);
@@ -767,8 +776,8 @@
 
 .solaris-block-grip svg {
   display: block;
-  width: 16px;
-  height: 16px;
+  width: 12px;
+  height: 12px;
 }
 
 .solaris-block-drop-line {

@@ -39,7 +39,15 @@ export const RICH_TEXT_EDITOR_SHOWCASE_IMPORT_CODE =
   "import { SolarisRichTextEditorComponent, SolarisFormFieldComponent } from '@solaris-ui/angular';";
 
 export const RICH_TEXT_EDITOR_SHOWCASE_BASIC_CODE = [
-  '<solaris-rich-text-editor placeholder="Description" [maxLength]="300" />',
+  '@if (editing) {',
+  '  <solaris-rich-text-editor [(value)]="draft" [maxLength]="300" />',
+  '  <button solaris-button (click)="saved.set(draft()); editing.set(false)">Save</button>',
+  '  <button solaris-button (click)="draft.set(saved()); editing.set(false)">Cancel</button>',
+  '} @else {',
+  '  <div role="button" tabindex="0" (click)="draft.set(saved()); editing.set(true)">',
+  '    <solaris-rich-text-view [value]="saved()" />',
+  '  </div>',
+  '}',
 ].join('\n');
 
 export const RICH_TEXT_EDITOR_SHOWCASE_FIELDS_CODE = [

@@ -1,3 +1,46 @@
+.rich-text-editor-showcase__document {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-3);
+  width: 100%;
+}
+
+.rich-text-editor-showcase__document-view {
+  width: 100%;
+  cursor: pointer;
+  padding: var(--solaris-spacing-3) var(--solaris-spacing-4);
+  border-radius: var(--solaris-radius-md);
+  transition: background-color var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+.rich-text-editor-showcase__document-view:hover {
+  background: var(--solaris-neutral-subtle);
+}
+
+.rich-text-editor-showcase__document-view:focus-visible {
+  outline-offset: var(--solaris-focus-ring-offset);
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+}
+
+.rich-text-editor-showcase__document-actions {
+  display: flex;
+  gap: var(--solaris-spacing-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rich-text-editor-showcase__document-view {
+    animation: none;
+    transition: none;
+  }
+}
+
+[data-reduced-motion='true'] .rich-text-editor-showcase__document-view {
+  animation: none;
+  transition: none;
+}
+
 .rich-text-editor-showcase__fields-demo {
   display: flex;
   flex-direction: column;

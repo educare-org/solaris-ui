@@ -19,7 +19,7 @@
     "description": "Editor de texto rico nativo com contenteditable, variantes document e composer, pills de formulário e contador.",
     "document": {
       "label": "Texto do recibo",
-      "note": "Variante de campo com toolbar fixa. Digite { para inserir um campo do formulário."
+      "note": "Clique na visualização para editar, como no Jira. Salvar confirma o rascunho; Cancelar descarta."
     },
     "fields": {
       "formatHide": "Ocultar formatação",

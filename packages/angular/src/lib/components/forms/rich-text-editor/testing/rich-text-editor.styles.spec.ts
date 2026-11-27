@@ -22,9 +22,7 @@ describe('rich-text-editor content shell', () => {
   });
 
   it('aligns ordered numbers with bullet markers in the same gutter', () => {
-    expect(shell).toContain(
-      ".solaris-rich-text-editor-area ol > li::marker",
-    );
+    expect(shell).toContain('.solaris-rich-text-editor-area ol > li::marker');
     expect(shell).not.toContain('ol > li::before');
   });
 
@@ -34,11 +32,20 @@ describe('rich-text-editor content shell', () => {
     expect(shell).toContain('position: absolute');
   });
 
+  it('keeps the drop line absolutely positioned inside the editor', () => {
+    expect(shell).toContain('div:not(.solaris-block-drop-line)');
+    expect(shell).toContain('.solaris-block-drop-line');
+  });
+
   it('reserves a grip gutter without shifting text', () => {
     expect(shell).toContain(
-      '.solaris-rich-text-editor:not([data-variant=\'composer\'])',
+      ".solaris-rich-text-editor:not([data-variant='composer'])",
     );
     expect(shell).toContain('padding-left: calc(');
-    expect(shell).toContain('left: -22px');
+    expect(shell).toContain('left: -18px');
+  });
+
+  it('collapses the grip gutter when the editor is empty', () => {
+    expect(shell).toContain('.solaris-rich-text-editor-area[data-empty]');
   });
 });

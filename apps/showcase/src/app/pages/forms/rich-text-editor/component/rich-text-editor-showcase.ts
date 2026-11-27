@@ -101,6 +101,37 @@ export class RichTextEditorShowcasePage {
 
   protected readonly notesControl = new FormControl('');
 
+  protected readonly documentEditing = signal(false);
+
+  protected readonly documentSaved = signal<SolarisRichTextValue>({
+    html: RICH_TEXT_EDITOR_SHOWCASE_PREVIEW_HTML,
+    text: RICH_TEXT_EDITOR_SHOWCASE_PREVIEW_TEXT,
+    blocks: [],
+    version: 1,
+  });
+
+  protected readonly documentDraft = signal<SolarisRichTextValue>({
+    html: RICH_TEXT_EDITOR_SHOWCASE_PREVIEW_HTML,
+    text: RICH_TEXT_EDITOR_SHOWCASE_PREVIEW_TEXT,
+    blocks: [],
+    version: 1,
+  });
+
+  protected startDocumentEdit(): void {
+    this.documentDraft.set(this.documentSaved());
+    this.documentEditing.set(true);
+  }
+
+  protected saveDocumentEdit(): void {
+    this.documentSaved.set(this.documentDraft());
+    this.documentEditing.set(false);
+  }
+
+  protected cancelDocumentEdit(): void {
+    this.documentDraft.set(this.documentSaved());
+    this.documentEditing.set(false);
+  }
+
   protected readonly descriptionEditing = signal(false);
 
   protected readonly descriptionSaved = signal<SolarisRichTextValue>({

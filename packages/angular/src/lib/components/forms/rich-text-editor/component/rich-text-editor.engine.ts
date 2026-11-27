@@ -374,8 +374,7 @@ export class SolarisRichTextEditingEngine {
       editor.focus();
       return true;
     } catch {
-      if (isDevMode())
-        console.warn('[SolarisRichText] Figure insert failed.');
+      if (isDevMode()) console.warn('[SolarisRichText] Figure insert failed.');
       return this.insertHtmlAtCaret(html);
     }
   }
@@ -688,15 +687,6 @@ export class SolarisRichTextEditingEngine {
     );
   }
 
-  movableSiblings(block: HTMLElement): HTMLElement[] {
-    const parent = block.parentElement;
-    if (!parent || typeof document === 'undefined') return [];
-    return Array.from(parent.children).filter(
-      (child): child is HTMLElement =>
-        child !== block && this.isMovableBlock(child),
-    );
-  }
-
   attachBlockGrip(block: HTMLElement): void {
     if (typeof document === 'undefined') return;
     if (block.querySelector(':scope > .solaris-block-grip')) {
@@ -707,7 +697,10 @@ export class SolarisRichTextEditingEngine {
     const grip = document.createElement('span');
     grip.className = 'solaris-block-grip';
     grip.setAttribute('contenteditable', 'false');
-    grip.setAttribute('draggable', 'true');
+    // Pointer-driven drag: the grip is not a native drag source, so the
+    // browser never starts an HTML5 drag (and its drop caret never fights
+    // the drop line). Movement is tracked with pointer capture instead.
+    grip.setAttribute('draggable', 'false');
     grip.setAttribute('aria-hidden', 'true');
     // SECURITY_EXCEPTION: static six-dot grip glyph (same artwork as the
     // solaris grip-vertical icon); no consumer HTML.
@@ -972,8 +965,7 @@ export class SolarisRichTextEditingEngine {
       const snap = !e.altKey;
       const raw = startWidth + (e.clientX - startX) * sign;
       this.resizeFigure(figure, raw, snap);
-      const width =
-        Number.parseFloat(figure.style.width) || Math.round(raw);
+      const width = Number.parseFloat(figure.style.width) || Math.round(raw);
       badge.textContent = `${Math.round(width)} px`;
       let snapped = false;
       if (snap && editorMax > 0) {

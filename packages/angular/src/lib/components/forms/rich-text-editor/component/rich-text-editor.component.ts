@@ -123,6 +123,12 @@ type RichTextEditorValueInput =
   | null
   | undefined;
 
+/** Pointer travel that arms a block drag (avoids arming on grip clicks). */
+const BLOCK_DRAG_ACTIVATE_PX = 5;
+
+/** Vertical leeway before a captured pointer counts as outside the field. */
+const BLOCK_DRAG_OUTSIDE_TOLERANCE_PX = 4;
+
 @Component({
   selector: 'solaris-rich-text-editor',
   standalone: true,
@@ -295,6 +301,14 @@ export class SolarisRichTextEditorComponent
   private readonly historyFuture = signal<readonly SolarisRichTextValue[]>([]);
   private lastHistoryAt: number | null = null;
   private lastHistoryKind: SolarisRichTextHistoryKind | null = null;
+  private pendingBlockDrag: {
+    block: HTMLElement;
+    pointerId: number;
+    startX: number;
+    startY: number;
+    active: boolean;
+  } | null = null;
+  private suppressClickAfterBlockDrag = false;
   private draggingBlock: HTMLElement | null = null;
   private dropTarget: HTMLElement | null = null;
   private dropValid = false;
@@ -964,7 +978,7 @@ export class SolarisRichTextEditorComponent
     const target = event.target as HTMLElement | null;
     const editor = this.editorRef()?.nativeElement ?? null;
     if (!editor) return;
-    if (!this.draggingBlock) {
+    if (!this.draggingBlock && !this.pendingBlockDrag) {
       const block =
         target && editor.contains(target)
           ? this.movableBlockOf(target, editor)
@@ -985,7 +999,7 @@ export class SolarisRichTextEditorComponent
   protected onEditorMouseout(event: MouseEvent): void {
     if (typeof document === 'undefined') return;
     const target = event.target as HTMLElement | null;
-    if (!this.draggingBlock) {
+    if (!this.draggingBlock && !this.pendingBlockDrag) {
       const editor = this.editorRef()?.nativeElement ?? null;
       if (editor && target && editor.contains(target)) {
         const block = this.movableBlockOf(target, editor);
@@ -1078,9 +1092,11 @@ export class SolarisRichTextEditorComponent
     return true;
   }
 
-  protected onEditorDragstart(event: DragEvent): void {
+  protected onEditorPointerdown(event: PointerEvent): void {
     if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
     if (this.contentFormat() !== 'rich') return;
+    if (event.button !== 0 || event.isPrimary === false) return;
+    if (typeof document === 'undefined') return;
     const editor = this.editorRef()?.nativeElement ?? null;
     if (!editor) return;
     const target = event.target as HTMLElement | null;
@@ -1094,97 +1110,96 @@ export class SolarisRichTextEditorComponent
     ) {
       return;
     }
-    // Dim the source while dragging (removed again on drop/cancel and never committed).
-    block.setAttribute('data-dragging', '');
-    this.draggingBlock = block;
-    this.dropTarget = null;
-    this.dropValid = false;
+    // Pointer-driven move: capture the pointer so moves outside the field
+    // keep flowing here (the line then clears instead of freezing), and stop
+    // the press from starting a text selection or a native drag.
+    event.preventDefault();
     try {
-      event.dataTransfer?.setData('text/plain', 'solaris-rich-text-block');
-      if (event.dataTransfer) event.dataTransfer.effectAllowed = 'move';
-      event.dataTransfer?.setDragImage?.(block, 0, 0);
+      if (typeof editor.setPointerCapture === 'function') {
+        editor.setPointerCapture(event.pointerId);
+      }
     } catch {
       if (isDevMode()) console.warn('[SolarisRichText] Block drag failed.');
     }
+    this.pendingBlockDrag = {
+      block,
+      pointerId: event.pointerId ?? 0,
+      startX: event.clientX,
+      startY: event.clientY,
+      active: false,
+    };
   }
 
-  protected onEditorDragover(event: DragEvent): void {
-    const dragged = this.draggingBlock;
-    if (!dragged) return;
+  protected onEditorPointermove(event: PointerEvent): void {
+    const pending = this.pendingBlockDrag;
+    if (!pending || (event.pointerId ?? 0) !== pending.pointerId) return;
+    if (typeof document === 'undefined') return;
     const editor = this.editorRef()?.nativeElement ?? null;
-    if (!editor || !editor.contains(dragged)) return;
-    event.preventDefault();
-    if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
-    // NOTE: clientY is viewport-relative, so candidates are compared with
-    // getBoundingClientRect (also viewport-relative). Mixing clientY with
-    // offsetTop (editor-relative) pins the line at the end on scrolled pages.
-    const editorRect = editor.getBoundingClientRect();
-    const siblings = this.engine.movableSiblings(dragged);
-    let ref: HTMLElement | null = null;
-    for (const candidate of siblings) {
-      const rect = candidate.getBoundingClientRect();
-      if (event.clientY < rect.top + rect.height / 2) {
-        ref = candidate;
-        break;
-      }
+    if (!editor || !editor.contains(pending.block)) {
+      this.cancelBlockDrag();
+      return;
     }
-    if (!ref && !this.dropEndValid(dragged, event.clientY)) {
+    if (!pending.active) {
+      const moved = Math.max(
+        Math.abs(event.clientX - pending.startX),
+        Math.abs(event.clientY - pending.startY),
+      );
+      if (moved <= BLOCK_DRAG_ACTIVATE_PX) return;
+      pending.active = true;
+      // Dim the source while dragging (removed again on drop/cancel and never committed).
+      pending.block.setAttribute('data-dragging', '');
+      this.draggingBlock = pending.block;
       this.dropTarget = null;
       this.dropValid = false;
-      this.engine.clearBlockDropLine();
-      return;
     }
-    this.dropTarget = ref;
-    this.dropValid = true;
-    if (ref) {
-      const rect = ref.getBoundingClientRect();
-      this.engine.showBlockDropLine(
-        rect.top - editorRect.top + editor.scrollTop,
-      );
-      return;
-    }
-    const last = siblings.at(-1) ?? null;
-    if (last) {
-      const rect = last.getBoundingClientRect();
-      this.engine.showBlockDropLine(
-        rect.bottom - editorRect.top + editor.scrollTop,
-      );
-      return;
-    }
-    this.engine.showBlockDropLine(editor.scrollHeight);
+    this.updateBlockDropIndicator(event.clientY);
   }
 
-  private dropEndValid(dragged: HTMLElement, clientY: number): boolean {
-    const editor = this.editorRef()?.nativeElement ?? null;
-    if (!editor) return false;
-    if (dragged.parentElement === editor) return true;
-    const container = dragged.parentElement;
-    if (!(container instanceof HTMLElement)) return false;
-    const rect = container.getBoundingClientRect();
-    return clientY >= rect.top - 8 && clientY <= rect.bottom + 32;
-  }
-
-  protected onEditorDrop(event: DragEvent): void {
-    const dragged = this.draggingBlock;
-    if (!dragged) return;
-    event.preventDefault();
+  protected onEditorPointerup(event: PointerEvent): void {
+    const pending = this.pendingBlockDrag;
+    if (!pending || (event.pointerId ?? 0) !== pending.pointerId) return;
+    const dragged = pending.block;
+    const wasActive = pending.active;
     const editor = this.editorRef()?.nativeElement ?? null;
     const ref =
+      wasActive &&
       this.dropValid &&
       this.dropTarget &&
       editor?.contains(this.dropTarget)
         ? this.dropTarget
         : null;
-    const valid = this.dropValid;
+    const valid = wasActive && this.dropValid;
+    this.releaseBlockDragPointer(editor, event.pointerId);
+    this.pendingBlockDrag = null;
     this.draggingBlock = null;
     this.dropTarget = null;
     this.dropValid = false;
     this.engine.clearBlockDropLine();
     if (!editor || !editor.contains(dragged)) return;
     dragged.removeAttribute('data-dragging');
+    if (!wasActive) return;
+    // A completed press-and-move never acts as a click afterwards.
+    this.suppressClickAfterBlockDrag = true;
     if (!valid) return;
-    if (ref && (ref === dragged || ref === dragged.nextSibling)) return;
-    if (!ref && !dragged.nextSibling) return;
+    // Identity drops (the block is already in place) must not dirty the
+    // value: look past transient chrome for the movable block that follows
+    // the dragged one. The grip lives inside the block and the drop line is
+    // gone by now, so only real blocks can match.
+    let next: HTMLElement | null = null;
+    for (
+      let sibling = dragged.nextElementSibling;
+      sibling !== null;
+      sibling = sibling.nextElementSibling
+    ) {
+      if (
+        sibling instanceof HTMLElement &&
+        this.engine.isMovableBlock(sibling)
+      ) {
+        next = sibling;
+        break;
+      }
+    }
+    if (ref === dragged || ref === next || (!ref && next === null)) return;
     this.engine.moveBlockBefore(dragged, ref);
     try {
       const selection = document.getSelection();
@@ -1202,12 +1217,131 @@ export class SolarisRichTextEditorComponent
     this.syncImagePanel();
   }
 
-  protected onEditorDragend(): void {
-    this.draggingBlock?.removeAttribute?.('data-dragging');
+  protected onEditorPointercancel(event: PointerEvent): void {
+    const pending = this.pendingBlockDrag;
+    if (!pending || (event.pointerId ?? 0) !== pending.pointerId) return;
+    this.releaseBlockDragPointer(
+      this.editorRef()?.nativeElement ?? null,
+      event.pointerId,
+    );
+    this.cancelBlockDrag();
+  }
+
+  private releaseBlockDragPointer(
+    editor: HTMLElement | null,
+    pointerId: number,
+  ): void {
+    try {
+      if (
+        editor &&
+        typeof editor.releasePointerCapture === 'function' &&
+        editor.hasPointerCapture?.(pointerId) === true
+      ) {
+        editor.releasePointerCapture(pointerId);
+      }
+    } catch {
+      if (isDevMode()) console.warn('[SolarisRichText] Block drag failed.');
+    }
+  }
+
+  private cancelBlockDrag(): void {
+    this.pendingBlockDrag?.block.removeAttribute?.('data-dragging');
+    this.pendingBlockDrag = null;
     this.draggingBlock = null;
     this.dropTarget = null;
     this.dropValid = false;
     this.engine.clearBlockDropLine();
+  }
+
+  private clearBlockDropState(): void {
+    this.dropTarget = null;
+    this.dropValid = false;
+    this.engine.clearBlockDropLine();
+  }
+
+  private updateBlockDropIndicator(clientY: number): void {
+    const dragged = this.draggingBlock;
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!dragged || !editor || !editor.contains(dragged)) {
+      this.clearBlockDropState();
+      return;
+    }
+    // NOTE: clientY is viewport-relative, so candidates are compared with
+    // getBoundingClientRect (also viewport-relative). Mixing clientY with
+    // offsetTop (editor-relative) pins the line at the end on scrolled pages.
+    const editorRect = editor.getBoundingClientRect();
+    // Pointer capture keeps events flowing outside the field: leaving it
+    // vertically invalidates the move and clears the line instead of
+    // parking it on the content edge.
+    if (
+      clientY < editorRect.top - BLOCK_DRAG_OUTSIDE_TOLERANCE_PX ||
+      clientY > editorRect.bottom + BLOCK_DRAG_OUTSIDE_TOLERANCE_PX
+    ) {
+      this.clearBlockDropState();
+      return;
+    }
+    // Scan the full ordered block list (dragged block included) so the
+    // pointer maps to the insertion slot it visually points at. Pointing at
+    // the dragged block's own slot is a no-op instead of a misleading jump
+    // to the end of the field.
+    const parent = dragged.parentElement;
+    const blocks: HTMLElement[] =
+      parent === null
+        ? []
+        : Array.from(parent.children).filter((child): child is HTMLElement =>
+            this.engine.isMovableBlock(child),
+          );
+    const selfIndex = blocks.indexOf(dragged);
+    let insertion = blocks.length;
+    for (let index = 0; index < blocks.length; index += 1) {
+      const rect = blocks[index].getBoundingClientRect();
+      if (clientY <= rect.top + rect.height / 2) {
+        insertion = index;
+        break;
+      }
+    }
+    const isSelfSlot =
+      selfIndex !== -1 &&
+      (insertion === selfIndex || insertion === selfIndex + 1);
+    if (
+      isSelfSlot ||
+      (insertion === blocks.length && !this.dropEndValid(dragged, clientY))
+    ) {
+      this.clearBlockDropState();
+      return;
+    }
+    const ref = insertion < blocks.length ? blocks[insertion] : null;
+    this.dropTarget = ref;
+    this.dropValid = true;
+    if (ref) {
+      const rect = ref.getBoundingClientRect();
+      this.engine.showBlockDropLine(
+        rect.top - editorRect.top + editor.scrollTop,
+      );
+      return;
+    }
+    // End of the dragged block's container: keep the indicator on the last
+    // visible edge inside the field (list bottom for items, content bottom
+    // for top-level blocks) so it never parks outside of it.
+    const container = parent ?? editor;
+    const containerRect =
+      container === editor ? editorRect : container.getBoundingClientRect();
+    this.engine.showBlockDropLine(
+      Math.min(
+        editor.scrollHeight,
+        containerRect.bottom - editorRect.top + editor.scrollTop,
+      ),
+    );
+  }
+
+  private dropEndValid(dragged: HTMLElement, clientY: number): boolean {
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!editor) return false;
+    if (dragged.parentElement === editor) return true;
+    const container = dragged.parentElement;
+    if (!(container instanceof HTMLElement)) return false;
+    const rect = container.getBoundingClientRect();
+    return clientY >= rect.top - 8 && clientY <= rect.bottom + 32;
   }
 
   protected onResizeHandleKeydown(event: KeyboardEvent): void {
@@ -2094,17 +2228,12 @@ export class SolarisRichTextEditorComponent
   }
 
   private isEmptyBlock(block: HTMLElement): boolean {
-    const text = (block.textContent ?? '').replace(
-      /[\u200b\u00a0\s]/g,
-      '',
-    );
+    const text = (block.textContent ?? '').replace(/[\u200b\u00a0\s]/g, '');
     if (text.length > 0) return false;
     return !block.querySelector('img, table, figure, input, [data-mention]');
   }
 
-  private nearestWrapFigureBefore(
-    block: HTMLElement,
-  ): HTMLElement | null {
+  private nearestWrapFigureBefore(block: HTMLElement): HTMLElement | null {
     let sibling = block.previousElementSibling;
     while (sibling) {
       if (
@@ -2234,6 +2363,10 @@ export class SolarisRichTextEditorComponent
   }
 
   protected onEditorClick(event: MouseEvent): void {
+    if (this.suppressClickAfterBlockDrag) {
+      this.suppressClickAfterBlockDrag = false;
+      return;
+    }
     const target = event.target as HTMLElement | null;
     this.normalizeTaskCheckboxesInDom();
     const checkbox = target?.closest?.(

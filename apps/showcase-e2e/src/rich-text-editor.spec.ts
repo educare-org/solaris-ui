@@ -71,8 +71,8 @@ test.describe('Rich Text Editor', () => {
       process.platform === 'darwin' ? 'Meta+A' : 'Control+A',
     );
     await richText.toolbarButton('color', 0).click();
-    await richText.colorPanel().locator('button[data-color="primary"]').click();
-    await expect(area.locator('span[data-color="primary"]')).toContainText(
+    await richText.colorPanel().locator('button[data-color="blue"]').click();
+    await expect(area.locator('span[data-color="blue"]')).toContainText(
       'hello',
     );
   });
@@ -144,9 +144,9 @@ test.describe('Rich Text Editor', () => {
     const area = richText.area(0);
     await area.click();
     await richText.toolbarButton('color', 0).click();
-    await richText.colorPanel().locator('button[data-color="primary"]').click();
+    await richText.colorPanel().locator('button[data-color="blue"]').click();
     await page.keyboard.type('hello');
-    await expect(area.locator('span[data-color="primary"]')).toContainText(
+    await expect(area.locator('span[data-color="blue"]')).toContainText(
       'hello',
     );
   });
@@ -162,11 +162,11 @@ test.describe('Rich Text Editor', () => {
     await richText.listboxOption(1).click();
     await area.click();
     await richText.toolbarButton('align-more', 0).click();
-    await richText.menuItem(3).click();
+    await richText.menuRadioItem(3).click();
     await expect(area.locator('h1')).toHaveCSS('text-align', 'justify');
   });
 
-  test('extended palette applies danger to selected text', async ({ page }) => {
+  test('fixed palette applies red to selected text', async ({ page }) => {
     const area = richText.area(0);
     await area.click();
     await page.keyboard.type('hello');
@@ -174,10 +174,8 @@ test.describe('Rich Text Editor', () => {
       process.platform === 'darwin' ? 'Meta+A' : 'Control+A',
     );
     await richText.toolbarButton('color', 0).click();
-    await richText.colorPanel().locator('button[data-color="danger"]').click();
-    await expect(area.locator('span[data-color="danger"]')).toContainText(
-      'hello',
-    );
+    await richText.colorPanel().locator('button[data-color="red"]').click();
+    await expect(area.locator('span[data-color="red"]')).toContainText('hello');
   });
 
   test('color popover applies and removes highlight', async ({ page }) => {
@@ -190,9 +188,9 @@ test.describe('Rich Text Editor', () => {
     await richText.toolbarButton('color', 0).click();
     await richText
       .colorPanel()
-      .locator('button[data-highlight="info"]')
+      .locator('button[data-highlight="green"]')
       .click();
-    await expect(area.locator('span[data-highlight="info"]')).toContainText(
+    await expect(area.locator('span[data-highlight="green"]')).toContainText(
       'hello',
     );
     await area.click();
@@ -409,6 +407,9 @@ test.describe('Rich Text Editor', () => {
       'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
       'base64',
     );
+    // Why: the file input lives inside the image popover dialog, so open it
+    // before uploading (the dialog closes itself on file selection).
+    await richText.toolbarButton('image', 0).click();
     await page
       .locator('.solaris-rich-text-file-input')
       .first()
@@ -417,7 +418,8 @@ test.describe('Rich Text Editor', () => {
     await expect(figure).toBeVisible();
     await figure.click();
     await page.keyboard.press('Shift+ArrowLeft');
-    const handle = figure.locator('.solaris-image-resize-handle');
+    // Why: the figure exposes west (hidden) and east (focusable) handles.
+    const handle = figure.locator('.solaris-image-resize-handle--east');
     await expect(handle).toBeVisible();
     await handle.click();
     await page.keyboard.press('ArrowRight');
@@ -426,9 +428,7 @@ test.describe('Rich Text Editor', () => {
     await expect(figure).toHaveAttribute('style', /width/);
   });
 
-  test('image options panel aligns, resizes by preset and removes', async ({
-    page,
-  }) => {
+  test('image options panel aligns, borders and removes', async ({ page }) => {
     const area = richText.area(0);
     await area.click();
     await page.keyboard.type('hi');
@@ -436,6 +436,9 @@ test.describe('Rich Text Editor', () => {
       'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
       'base64',
     );
+    // Why: the file input lives inside the image popover dialog, so open it
+    // before uploading (the dialog closes itself on file selection).
+    await richText.toolbarButton('image', 0).click();
     await page
       .locator('.solaris-rich-text-file-input')
       .first()
@@ -449,8 +452,6 @@ test.describe('Rich Text Editor', () => {
     await expect(figure).toHaveAttribute('data-align', 'center');
     await panel.locator('[data-action="image-align-right"]').click();
     await expect(figure).toHaveAttribute('data-align', 'right');
-    await panel.locator('[data-action="image-preset-m"]').click();
-    await expect(figure).toHaveAttribute('style', /width/);
     await panel.locator('[data-action="image-border"]').click();
     await expect(figure).toHaveAttribute('data-bordered', '');
     await page.keyboard.press('Escape');
@@ -463,8 +464,8 @@ test.describe('Rich Text Editor', () => {
     await figure.click();
     await expect(panel).toBeVisible();
     await panel.locator('[data-action="image-more"]').click();
-    await expect(richText.menuItem(2)).toBeVisible();
-    await richText.menuItem(2).click();
+    await expect(richText.menuItem(5)).toBeVisible();
+    await richText.menuItem(5).click();
     await expect(figure).toHaveCount(0);
     await expect(panel).toBeHidden();
   });
@@ -533,7 +534,7 @@ test.describe('Rich Text Editor', () => {
     await richText.toolbarButton('color', 0).click();
     const panel = richText.colorPanel();
     await expect(panel).toBeVisible();
-    await panel.locator('button[data-color="warningLight"]').click();
+    await panel.locator('button[data-color="yellowLight"]').click();
     await expect(
       panel.locator('.solaris-rich-text-color-panel-accessibility'),
     ).toBeVisible();
@@ -542,14 +543,14 @@ test.describe('Rich Text Editor', () => {
     ).toContainText('Inaccessible');
     await expect(
       panel.locator('.solaris-rich-text-color-panel-accessibility-help'),
-    ).toHaveAttribute('title', /does not meet/);
-    await panel.locator('button[data-color="primaryLight"]').click();
+    ).toHaveAttribute('aria-label', /does not meet/);
+    await panel.locator('button[data-color="blue"]').click();
     await expect(
       panel.locator('.solaris-rich-text-color-panel-accessibility-level'),
     ).toContainText('Partially accessible');
     await expect(
       panel.locator('.solaris-rich-text-color-panel-accessibility-help'),
-    ).toHaveAttribute('title', /large text only/);
+    ).toHaveAttribute('aria-label', /large text only/);
     await panel.locator('button[data-color="default"]').click();
     await expect(
       panel.locator('.solaris-rich-text-color-panel-accessibility-level'),
@@ -562,15 +563,15 @@ test.describe('Rich Text Editor', () => {
     await page.keyboard.press('ControlOrMeta+a');
     await richText.toolbarButton('color', 0).click();
     const panel = richText.colorPanel();
-    await panel.locator('button[data-color="primaryLight"]').click();
+    await panel.locator('button[data-color="blueLight"]').click();
     await expect(
-      richText.area(0).locator('span[data-color="primaryLight"]'),
+      richText.area(0).locator('span[data-color="blueLight"]'),
     ).toContainText('hello');
     await expect(
       richText
         .toolbarButton('color', 0)
         .locator('.solaris-rich-text-color-preview'),
-    ).toHaveAttribute('data-color', 'primaryLight');
+    ).toHaveAttribute('data-color', 'blueLight');
   });
 
   test('color panel renders ten hues with three tones each', async () => {
@@ -582,7 +583,7 @@ test.describe('Rich Text Editor', () => {
     ).toHaveCount(30);
     await expect(
       panel.locator('.solaris-rich-text-color-grid--highlight button'),
-    ).toHaveCount(8);
+    ).toHaveCount(10);
   });
 
   test('color and highlight chain without reopening the panel', async ({
@@ -593,13 +594,13 @@ test.describe('Rich Text Editor', () => {
     await page.keyboard.press('ControlOrMeta+a');
     await richText.toolbarButton('color', 0).click();
     const panel = richText.colorPanel();
-    await panel.locator('button[data-color="primary"]').click();
+    await panel.locator('button[data-color="blue"]').click();
     await expect(panel).toBeVisible();
-    await panel.locator('button[data-highlight="info"]').click();
+    await panel.locator('button[data-highlight="green"]').click();
     await expect(panel).toBeVisible();
-    const merged = richText.area(0).locator('span[data-color="primary"]');
+    const merged = richText.area(0).locator('span[data-color="blue"]');
     await expect(merged).toContainText('hello');
-    await expect(merged).toHaveAttribute('data-highlight', 'info');
+    await expect(merged).toHaveAttribute('data-highlight', 'green');
   });
 
   test('every text and highlight swatch applies its own color', async ({
@@ -607,45 +608,47 @@ test.describe('Rich Text Editor', () => {
   }) => {
     const textColors = [
       'default',
-      'primaryLight',
-      'successLight',
-      'warningLight',
-      'dangerLight',
-      'infoLight',
-      'accentLight',
-      'cyanLight',
-      'pinkLight',
-      'violetLight',
+      'blueLight',
+      'petrolLight',
+      'greenLight',
+      'limeLight',
+      'yellowLight',
+      'orangeLight',
+      'redLight',
+      'magentaLight',
+      'purpleLight',
       'muted',
-      'primary',
-      'success',
-      'warning',
-      'danger',
-      'info',
-      'accent',
-      'cyan',
-      'pink',
-      'violet',
+      'blue',
+      'petrol',
+      'green',
+      'lime',
+      'yellow',
+      'orange',
+      'red',
+      'magenta',
+      'purple',
       'neutralDark',
-      'primaryDark',
-      'successDark',
-      'warningDark',
-      'dangerDark',
-      'infoDark',
-      'accentDark',
-      'cyanDark',
-      'pinkDark',
-      'violetDark',
+      'blueDark',
+      'petrolDark',
+      'greenDark',
+      'limeDark',
+      'yellowDark',
+      'orangeDark',
+      'redDark',
+      'magentaDark',
+      'purpleDark',
     ];
     const highlightColors = [
-      'primary',
-      'success',
-      'warning',
-      'danger',
-      'info',
-      'accent',
-      'violet',
       'neutral',
+      'blue',
+      'petrol',
+      'green',
+      'lime',
+      'yellow',
+      'orange',
+      'red',
+      'magenta',
+      'purple',
     ];
     await richText.area(0).click();
     await page.keyboard.type('hello');
@@ -697,7 +700,7 @@ test.describe('Rich Text Editor', () => {
     const before = await panel.evaluate(
       (el) => (el as HTMLElement).offsetWidth,
     );
-    await panel.locator('button[data-color="warningLight"]').click();
+    await panel.locator('button[data-color="yellowLight"]').click();
     const after = await panel.evaluate((el) => (el as HTMLElement).offsetWidth);
     expect(before).toBe(after);
   });
@@ -705,17 +708,34 @@ test.describe('Rich Text Editor', () => {
   test('form-field shell matches the standalone editor shell', async ({
     page,
   }) => {
-    const standalone = richText.editor(0);
-    const standaloneBorder = await standalone.evaluate(
-      (el) => getComputedStyle(el).borderTopColor,
-    );
+    // The document demo starts as a preview (Jira-style click-to-edit), so
+    // enter edit mode to get the standalone editor shell for comparison.
+    await page.locator('[data-action="document-view"]').click();
+    const standalone = richText
+      .documentDemo()
+      .locator('solaris-rich-text-editor');
+    await expect(standalone).toBeVisible();
+    // Blur again and wait out the border-color transition: a focused editor
+    // uses the subtle border token, while the comparison target is the
+    // resting default border.
+    await page.locator('h1').click();
     const wrapper = page
       .locator(
         'solaris-form-field:has(solaris-rich-text-editor) .solaris-form-field__control-wrapper',
       )
       .first();
     await expect(wrapper).toBeVisible();
-    await expect(wrapper).toHaveCSS('border-top-color', standaloneBorder);
+    const wrapperBorder = await wrapper.evaluate(
+      (el) => getComputedStyle(el).borderTopColor,
+    );
+    await expect
+      .poll(
+        async () =>
+          standalone.evaluate((el) => getComputedStyle(el).borderTopColor),
+        { timeout: 5000 },
+      )
+      .toBe(wrapperBorder);
+    const standaloneBorder = wrapperBorder;
     const inFieldToolbar = page
       .locator('solaris-rich-text-editor[data-in-field]')
       .first()
@@ -743,8 +763,10 @@ test.describe('Rich Text Editor', () => {
     await richText.toolbarButton('color', 0).click();
     const panel = richText.colorPanel();
     await expect(panel).toBeVisible();
-    await panel.locator('button[data-color="primary"]').click();
-    const swatch = panel.locator('button[data-color="primary"]');
+    const swatch = panel.locator('button[data-color="blue"]');
+    await expect(swatch).toBeVisible();
+    await swatch.click();
+    await expect(swatch).toBeVisible();
     await expect(
       swatch.locator('.solaris-rich-text-swatch-check'),
     ).toBeVisible();
@@ -754,5 +776,105 @@ test.describe('Rich Text Editor', () => {
   test('360px layout keeps the editor usable', async ({ page }) => {
     await page.setViewportSize({ width: 360, height: 800 });
     await expect(richText.area(0)).toBeVisible();
+  });
+
+  test('drags the last document block above the first with the grip', async ({
+    page,
+  }) => {
+    await page.locator('[data-action="document-view"]').click();
+    const area = richText.documentArea();
+    await expect(area).toBeVisible();
+    const last = richText.documentParagraph(1);
+    await expect(last).toContainText('Detalhes');
+    await last.hover();
+    const grip = last.locator('.solaris-block-grip');
+    await expect(grip).toBeVisible();
+    const gripBox = await grip.boundingBox();
+    const firstBox = await richText.documentParagraph(0).boundingBox();
+    expect(gripBox).not.toBeNull();
+    expect(firstBox).not.toBeNull();
+    if (!gripBox || !firstBox) return;
+    await page.mouse.move(
+      gripBox.x + gripBox.width / 2,
+      gripBox.y + gripBox.height / 2,
+    );
+    await page.mouse.down();
+    await page.mouse.move(
+      firstBox.x + firstBox.width / 2,
+      firstBox.y + firstBox.height / 2,
+      { steps: 12 },
+    );
+    await expect(richText.documentDropLine()).toBeVisible();
+    await page.mouse.up();
+    await expect(richText.documentParagraph(0)).toContainText('Detalhes');
+    await expect(richText.documentDropLine()).toHaveCount(0);
+  });
+
+  test('drop indicator stays inside the editor while dragging', async ({
+    page,
+  }) => {
+    await page.locator('[data-action="document-view"]').click();
+    const area = richText.documentArea();
+    await expect(area).toBeVisible();
+    const last = richText.documentParagraph(1);
+    await last.hover();
+    const grip = last.locator('.solaris-block-grip');
+    const gripBox = await grip.boundingBox();
+    expect(gripBox).not.toBeNull();
+    if (!gripBox) return;
+    await page.mouse.move(
+      gripBox.x + gripBox.width / 2,
+      gripBox.y + gripBox.height / 2,
+    );
+    await page.mouse.down();
+    const firstBox = await richText.documentParagraph(0).boundingBox();
+    expect(firstBox).not.toBeNull();
+    if (!firstBox) {
+      await page.mouse.up();
+      return;
+    }
+    await page.mouse.move(
+      firstBox.x + firstBox.width / 2,
+      firstBox.y + firstBox.height / 2,
+      { steps: 12 },
+    );
+    const lineBox = await richText.documentDropLine().boundingBox();
+    const areaBox = await area.boundingBox();
+    expect(lineBox).not.toBeNull();
+    expect(areaBox).not.toBeNull();
+    if (lineBox && areaBox) {
+      expect(lineBox.y).toBeGreaterThanOrEqual(areaBox.y - 1);
+      expect(lineBox.y + lineBox.height).toBeLessThanOrEqual(
+        areaBox.y + areaBox.height + 1,
+      );
+    }
+    await page.mouse.up();
+    await expect(richText.documentDropLine()).toHaveCount(0);
+  });
+
+  test('releasing outside the editor cancels the block move', async ({
+    page,
+  }) => {
+    await page.locator('[data-action="document-view"]').click();
+    const area = richText.documentArea();
+    await expect(area).toBeVisible();
+    const before = await area.locator(':scope > p').allTextContents();
+    const last = richText.documentParagraph(1);
+    await last.hover();
+    const grip = last.locator('.solaris-block-grip');
+    const gripBox = await grip.boundingBox();
+    expect(gripBox).not.toBeNull();
+    if (!gripBox) return;
+    await page.mouse.move(
+      gripBox.x + gripBox.width / 2,
+      gripBox.y + gripBox.height / 2,
+    );
+    await page.mouse.down();
+    await page.mouse.move(gripBox.x, gripBox.y - 300, { steps: 8 });
+    await expect(richText.documentDropLine()).toHaveCount(0);
+    await page.mouse.up();
+    await expect(area.locator(':scope > p').allTextContents()).resolves.toEqual(
+      before,
+    );
   });
 });
