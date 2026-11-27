@@ -9,6 +9,7 @@
   font-family: var(--solaris-font-family-sans), system-ui;
   padding: var(--solaris-rich-text-padding-y) var(--solaris-rich-text-padding-x);
   position: relative;
+  --solaris-rich-text-grip-gutter: var(--solaris-spacing-8);
 }
 
 .solaris-rich-text-editor[data-variant='composer']
@@ -73,10 +74,6 @@
   content: counters(solaris-ol, '.') '. ';
 }
 
-// Lists that flow beside a left-floated image establish their own block
-// formatting context so markers (and task checkboxes) render beside the
-// float instead of hidden underneath it. Right floats never cover the
-// left-side markers, so no rule is needed for them.
 .solaris-rich-text-editor-area figure[data-align='start-wrap'] ~ ul,
 .solaris-rich-text-editor-area figure[data-align='start-wrap'] ~ ol {
   display: flow-root;
@@ -147,7 +144,8 @@
   content: '';
   display: block;
   position: absolute;
-  transform: translate(-50%, calc(-50% - 2px)) rotate(-45deg);
+  transform: translate(-50%, calc(-50% - var(--solaris-spacing-2)))
+    rotate(-45deg);
   border-left: var(--solaris-border-width-md) solid
     var(--solaris-neutral-text-inverse);
   border-bottom: var(--solaris-border-width-md) solid
@@ -556,10 +554,10 @@
   margin: 0 0 var(--solaris-spacing-2);
   border-radius: var(--solaris-radius-sm);
   transition:
-    outline-color var(--solaris-motion-duration-fast, 120ms)
-      var(--solaris-motion-easing-standard, ease),
-    box-shadow var(--solaris-motion-duration-fast, 120ms)
-      var(--solaris-motion-easing-standard, ease);
+    outline-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    box-shadow var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
 }
 
 .solaris-rich-text-editor-area figure[data-image] img {
@@ -610,25 +608,24 @@
 
 .solaris-rich-text-editor-area figure[data-image]:hover,
 .solaris-rich-text-editor-area figure[data-image][data-hover] {
-  outline: var(--solaris-border-width-md, 2px) solid
-    var(--solaris-primary-solid);
+  outline: var(--solaris-border-width-md) solid var(--solaris-primary-solid);
   outline-offset: 0;
 }
 
 .solaris-rich-text-editor-area figure[data-image][data-selected] {
-  outline: var(--solaris-border-width-md, 2px) solid
-    var(--solaris-primary-solid);
+  outline: var(--solaris-border-width-md) solid var(--solaris-primary-solid);
   outline-offset: 0;
 }
 
 .solaris-image-resize-handle {
+  opacity: var(--solaris-opacity-0);
+  border: none;
   position: absolute;
   touch-action: none;
-  opacity: 0;
-  transition: opacity 120ms ease;
-  background: var(--solaris-neutral-text-secondary);
-  border: none;
   z-index: var(--solaris-z-index-content);
+  background: var(--solaris-neutral-text-secondary);
+  transition: opacity var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
 }
 
 .solaris-rich-text-editor-area
@@ -637,7 +634,7 @@
 .solaris-rich-text-editor-area
   figure[data-image][data-hover]
   .solaris-image-resize-handle {
-  opacity: 1;
+  opacity: var(--solaris-opacity-100);
 }
 
 .solaris-rich-text-editor-area
@@ -646,7 +643,7 @@
 .solaris-rich-text-editor-area
   figure[data-image][data-resizing]
   .solaris-image-resize-handle {
-  opacity: 1;
+  opacity: var(--solaris-opacity-100);
   background: var(--solaris-primary-solid);
 }
 
@@ -654,63 +651,62 @@
 .solaris-image-resize-handle--west {
   top: 50%;
   width: 5px;
-  height: 40px;
   cursor: ew-resize;
   transform: translateY(-50%);
-  border-radius: var(--solaris-radius-pill, 999px);
+  height: var(--solaris-spacing-12);
+  border-radius: var(--solaris-radius-full);
 }
 
 .solaris-image-resize-handle--east {
-  right: -2px;
+  right: calc(-1 * var(--solaris-spacing-2));
 }
 
 .solaris-image-resize-handle--west {
-  left: -2px;
+  left: calc(-1 * var(--solaris-spacing-2));
 }
 
 .solaris-rich-text-editor-area figure[data-image][data-resizing] {
-  outline: var(--solaris-border-width-md, 2px) solid
-    var(--solaris-primary-solid);
+  outline: var(--solaris-border-width-md) solid var(--solaris-primary-solid);
   outline-offset: 0;
 }
 
 .solaris-image-size-badge {
-  position: absolute;
-  right: -8px;
   top: 50%;
-  transform: translate(100%, -50%);
-  font-size: var(--solaris-font-size-xs);
   line-height: 1;
-  padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
-  border-radius: var(--solaris-radius-sm);
-  background: var(--solaris-neutral-text-body);
-  color: var(--solaris-neutral-text-inverse);
-  border: var(--solaris-border-width-sm) solid var(--solaris-neutral-text-body);
+  position: absolute;
   white-space: nowrap;
   pointer-events: none;
+  transform: translate(100%, -50%);
   z-index: var(--solaris-z-index-raised);
+  font-size: var(--solaris-font-size-xs);
+  border-radius: var(--solaris-radius-sm);
+  color: var(--solaris-neutral-text-inverse);
+  right: calc(-1 * var(--solaris-spacing-5));
+  background: var(--solaris-neutral-text-body);
+  padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
+  border: var(--solaris-border-width-sm) solid var(--solaris-neutral-text-body);
 }
 
 .solaris-image-size-badge[data-snapped] {
+  color: var(--solaris-primary-on-solid);
   background: var(--solaris-primary-solid);
   border-color: var(--solaris-primary-solid);
-  color: var(--solaris-primary-on-solid);
 }
 
 .solaris-image-snap-guides {
-  position: absolute;
   inset: 0;
+  position: absolute;
   pointer-events: none;
   z-index: var(--solaris-z-index-base);
 }
 
 .solaris-image-snap-guide {
-  position: absolute;
   top: 0;
   bottom: 0;
-  width: 1px;
-  background: var(--solaris-neutral-border-strong);
   opacity: 0.6;
+  position: absolute;
+  width: var(--solaris-spacing-1);
+  background: var(--solaris-neutral-border-strong);
 }
 
 .solaris-rich-text-editor-area > p,
@@ -723,20 +719,12 @@
 .solaris-rich-text-editor-area > ol,
 .solaris-rich-text-editor-area > table,
 .solaris-rich-text-editor-area > hr,
-// NOTE: the drop indicator is the only direct-child div that must stay
-// absolutely positioned; the relative rule below would otherwise win on
-// specificity and park it in flow below the content (outside the field).
 .solaris-rich-text-editor-area > div:not(.solaris-block-drop-line) {
   position: relative;
 }
 
-// Reserved drag-grip gutter: document editors keep a fixed symmetric lane so
-// the grip appears without ever shifting or covering text. Composer keeps its
-// tight padding (blocks still move there with Alt+ArrowUp/Down).
 .solaris-rich-text-editor:not([data-variant='composer'])
   .solaris-rich-text-editor-area {
-  --solaris-rich-text-grip-gutter: var(--solaris-spacing-7);
-
   padding-left: calc(
     var(--solaris-rich-text-padding-x) + var(--solaris-rich-text-grip-gutter)
   );
@@ -745,8 +733,6 @@
   );
 }
 
-// Empty editors have no blocks to grab, so the grip lane collapses and the
-// caret/placeholder align with the regular field padding.
 .solaris-rich-text-editor:not([data-variant='composer'])
   .solaris-rich-text-editor-area[data-empty] {
   padding-inline: var(--solaris-rich-text-padding-x);
@@ -757,26 +743,38 @@
 }
 
 .solaris-rich-text-editor-area [data-dragging] {
-  opacity: 0.45;
+  opacity: var(--solaris-opacity-50);
+}
+
+@keyframes solaris-block-grip-enter {
+  from {
+    opacity: var(--solaris-opacity-0);
+    transform: translateX(calc(-1 * var(--solaris-motion-translate-sm)));
+  }
+
+  to {
+    opacity: var(--solaris-opacity-100);
+    transform: translateX(0);
+  }
 }
 
 .solaris-block-grip {
-  position: absolute;
-  top: 2px;
-  left: calc(
-    -1 * var(--solaris-rich-text-grip-gutter, var(--solaris-spacing-7))
-  );
+  cursor: grab;
   display: flex;
+  position: absolute;
+  touch-action: none;
   align-items: center;
   justify-content: center;
-  width: var(--solaris-spacing-7);
-  height: 20px;
-  border-radius: var(--solaris-radius-sm);
-  color: var(--solaris-neutral-text-secondary);
-  background: var(--solaris-rich-text-bg);
-  cursor: grab;
-  touch-action: none;
+  top: var(--solaris-spacing-2);
+  width: var(--solaris-spacing-8);
+  height: var(--solaris-spacing-9);
   z-index: var(--solaris-z-index-content);
+  border-radius: var(--solaris-radius-sm);
+  background: var(--solaris-rich-text-bg);
+  color: var(--solaris-neutral-text-secondary);
+  left: calc(-1 * var(--solaris-rich-text-grip-gutter));
+  animation: solaris-block-grip-enter var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
 }
 
 .solaris-block-grip:hover {
@@ -789,30 +787,28 @@
 
 .solaris-block-grip svg {
   display: block;
-  width: 12px;
-  height: 12px;
+  width: var(--solaris-spacing-6);
+  height: var(--solaris-spacing-6);
 }
 
 .solaris-block-drop-line {
   position: absolute;
+  pointer-events: none;
+  height: var(--solaris-spacing-2);
+  z-index: var(--solaris-z-index-content);
+  background: var(--solaris-primary-solid);
+  border-radius: var(--solaris-radius-full);
+  margin-top: calc(-1 * var(--solaris-spacing-1));
   left: calc(
-    var(--solaris-rich-text-padding-x) +
-      var(--solaris-rich-text-grip-gutter, var(--solaris-spacing-7))
+    var(--solaris-rich-text-padding-x) + var(--solaris-rich-text-grip-gutter)
   );
   right: calc(
-    var(--solaris-rich-text-padding-x) +
-      var(--solaris-rich-text-grip-gutter, var(--solaris-spacing-7))
+    var(--solaris-rich-text-padding-x) + var(--solaris-rich-text-grip-gutter)
   );
-  height: 2px;
-  margin-top: -1px;
-  border-radius: var(--solaris-radius-full);
-  background: var(--solaris-primary-solid);
-  pointer-events: none;
-  z-index: var(--solaris-z-index-content);
 }
 
 .solaris-image-resize-handle:focus-visible {
-  opacity: 1;
+  opacity: var(--solaris-opacity-100);
   outline-offset: var(--solaris-focus-ring-offset);
   outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
     var(--solaris-focus-ring-color);
@@ -825,10 +821,10 @@
 
 .solaris-rich-text-editor-area th,
 .solaris-rich-text-editor-area td {
-  min-width: var(--solaris-control-height-normal-lg);
   text-align: left;
   vertical-align: top;
   padding: var(--solaris-spacing-2);
+  min-width: var(--solaris-control-height-normal-lg);
   border: var(--solaris-rich-text-border-width) solid
     var(--solaris-rich-text-border-color);
 }
@@ -844,10 +840,6 @@ solaris-form-field[data-appearance='outline']:has(solaris-rich-text-editor)
   );
 }
 
-// Read-only view: same content shell, no editing affordances. The view
-// reuses `.solaris-rich-text-editor-area` for identical typography and gets
-// its own marker class to neutralize interactive states (hover outlines,
-// task-checkbox toggling).
 .solaris-rich-text-view-content {
   min-height: 0;
 }
@@ -862,13 +854,15 @@ solaris-form-field[data-appearance='outline']:has(solaris-rich-text-editor)
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .solaris-rich-text-editor-area {
+  .solaris-rich-text-editor-area,
+  .solaris-block-grip {
     animation: none;
     transition: none;
   }
 }
 
-[data-reduced-motion='true'] .solaris-rich-text-editor-area {
+[data-reduced-motion='true'] .solaris-rich-text-editor-area,
+[data-reduced-motion='true'] .solaris-block-grip {
   animation: none;
   transition: none;
 }

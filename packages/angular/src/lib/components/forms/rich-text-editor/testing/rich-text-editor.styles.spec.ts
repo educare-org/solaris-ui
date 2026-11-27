@@ -31,6 +31,25 @@ describe('rich-text-editor content shell', () => {
     expect(shell).toContain('padding-right: var(--solaris-spacing-2)');
   });
 
+  it('animates the drag grip entrance with motion and opacity tokens', () => {
+    expect(shell).toContain('@keyframes solaris-block-grip-enter');
+    expect(shell).toContain('animation: solaris-block-grip-enter');
+    expect(shell).toContain('var(--solaris-motion-duration-fast)');
+    expect(shell).toContain('var(--solaris-motion-easing-decelerate)');
+    expect(shell).toContain('var(--solaris-motion-translate-sm)');
+    expect(shell).toContain('var(--solaris-opacity-0)');
+    expect(shell).toContain('var(--solaris-opacity-50)');
+    expect(shell).toContain('var(--solaris-opacity-100)');
+  });
+
+  it('keeps the content shell free of raw motion values and fallbacks', () => {
+    expect(shell).not.toContain('120ms');
+    expect(shell).not.toContain('radius-pill');
+    expect(shell).not.toContain('opacity: 0.45');
+    expect(shell).not.toContain('border-width-md,');
+    expect(shell).not.toContain('easing-standard,');
+  });
+
   it('floats the drag grip outside the text flow with a grab cursor', () => {
     expect(shell).toContain('.solaris-block-grip');
     expect(shell).toContain('cursor: grab');
@@ -49,7 +68,9 @@ describe('rich-text-editor content shell', () => {
     expect(shell).toContain('padding-left: calc(');
     expect(shell).toContain('padding-right: calc(');
     expect(shell).toContain('--solaris-rich-text-grip-gutter');
-    expect(shell).toContain('var(--solaris-spacing-7)');
+    expect(shell).toContain(
+      '--solaris-rich-text-grip-gutter: var(--solaris-spacing-8)',
+    );
   });
 
   it('collapses the grip gutter when the editor is empty', () => {
