@@ -5,10 +5,7 @@ import {
   inject,
   input,
 } from '@angular/core';
-import {
-  DomSanitizer,
-  type SafeHtml,
-} from '@angular/platform-browser';
+import { DomSanitizer, type SafeHtml } from '@angular/platform-browser';
 
 import {
   SOLARIS_RICH_TEXT_ALLOWED_ATTRIBUTES,
@@ -76,18 +73,16 @@ const VIEW_ALLOWED_ATTRIBUTES: ReadonlySet<string> = new Set([
 export class SolarisRichTextViewComponent {
   private readonly sanitizer = inject(DomSanitizer);
 
-  readonly value = input<
-    SolarisRichTextValue | string | null | undefined
-  >(undefined);
+  readonly value = input<SolarisRichTextValue | string | null | undefined>(
+    undefined,
+  );
   readonly ariaLabel = input<string | undefined>(undefined);
 
   protected readonly normalized = computed(() =>
     normalizeEditorValue(this.value()),
   );
 
-  protected readonly isEmpty = computed(() =>
-    isEmptyValue(this.normalized()),
-  );
+  protected readonly isEmpty = computed(() => isEmptyValue(this.normalized()));
 
   protected readonly regionRole = computed(() =>
     this.ariaLabel() ? 'region' : null,
@@ -101,9 +96,7 @@ export class SolarisRichTextViewComponent {
     // bypassing Angular sanitization, which would otherwise strip the
     // data-* attributes the content shell relies on (align, colors,
     // figures, task lists). Never bypass unsanitized consumer HTML.
-    return this.sanitizer.bypassSecurityTrustHtml(
-      this.sanitizeViewHtml(html),
-    );
+    return this.sanitizer.bypassSecurityTrustHtml(this.sanitizeViewHtml(html));
   });
 
   private sanitizeViewHtml(html: string): string {
@@ -166,11 +159,7 @@ export class SolarisRichTextViewComponent {
     const tag = el.tagName.toLowerCase();
     for (const attr of Array.from(el.attributes)) {
       if (
-        !this.isAllowedViewAttribute(
-          tag,
-          attr.name.toLowerCase(),
-          attr.value,
-        )
+        !this.isAllowedViewAttribute(tag, attr.name.toLowerCase(), attr.value)
       ) {
         el.removeAttribute(attr.name);
       }

@@ -58,7 +58,9 @@ describe('SolarisRichTextViewComponent', () => {
     expect(content()?.querySelector('svg')).toBeNull();
     expect(content()?.innerHTML).not.toContain('onerror');
     expect(content()?.innerHTML).not.toContain('javascript:');
-    expect(content()?.querySelector('a[href="https://example.com"]')).toBeTruthy();
+    expect(
+      content()?.querySelector('a[href="https://example.com"]'),
+    ).toBeTruthy();
     expect(content()?.textContent).toContain('hi');
   });
 
@@ -82,12 +84,10 @@ describe('SolarisRichTextViewComponent', () => {
     create();
     fixture.componentRef.setInput(
       'value',
-      '<ul data-task-list><li><input type="checkbox" data-task-checkbox tabindex="-1" />done</li></ul><p><input type="text" value="nope" /></p>'
+      '<ul data-task-list><li><input type="checkbox" data-task-checkbox tabindex="-1" />done</li></ul><p><input type="text" value="nope" /></p>',
     );
     fixture.detectChanges();
-    expect(
-      content()?.querySelector('input[data-task-checkbox]'),
-    ).toBeTruthy();
+    expect(content()?.querySelector('input[data-task-checkbox]')).toBeTruthy();
     expect(content()?.querySelector('input[type="text"]')).toBeNull();
   });
 
