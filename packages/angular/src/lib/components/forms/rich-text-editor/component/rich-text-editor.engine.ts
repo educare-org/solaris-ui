@@ -318,12 +318,6 @@ export class SolarisRichTextEditingEngine {
     }
   }
 
-  /**
-   * Inserts a `figure[data-image]` block at the caret without nesting it
-   * inside a paragraph: the enclosing paragraph is split so the figure lands
-   * between two blocks and the caret moves to the block after the figure.
-   * Falls back to {@link insertHtmlAtCaret} outside splittable blocks.
-   */
   insertFigureAtCaret(html: string): boolean {
     const editor = this.editor;
     if (!editor || typeof document === 'undefined') return false;
@@ -394,6 +388,37 @@ export class SolarisRichTextEditingEngine {
     return el && el !== editor ? (el as HTMLElement) : null;
   }
 
+  private splitBlockAroundRange(
+    range: Range,
+    editor: HTMLElement,
+  ): { block: HTMLElement; next: HTMLElement } | null {
+    const block = this.splittableBlockOf(range.startContainer, editor);
+    if (!block) return null;
+    range.deleteContents();
+    const afterRange = document.createRange();
+    afterRange.setStart(range.startContainer, range.startOffset);
+    afterRange.setEndAfter(block.lastChild ?? block);
+    const afterFrag = afterRange.extractContents();
+    const leftoverVisible =
+      (block.textContent ?? '').replace(/[\u200b\s]/g, '').length > 0 ||
+      block.querySelector('img, table, figure, input, br') !== null;
+    if (!leftoverVisible) {
+      block.append(document.createElement('br'));
+    }
+    const hasVisible =
+      (afterFrag.textContent ?? '').replace(/[\u200b\s]/g, '').length > 0 ||
+      afterFrag.querySelector?.('img, table, figure, input, br') !== null;
+    const tag = block.tagName.toLowerCase();
+    const next = document.createElement(tag === 'blockquote' ? 'p' : tag);
+    if (hasVisible) {
+      next.append(afterFrag);
+    } else {
+      next.append(document.createElement('br'));
+    }
+    block.after(next);
+    return { block, next };
+  }
+
   insertListAtCaret(html: string): boolean {
     const editor = this.editor;
     if (!editor || typeof document === 'undefined') return false;
@@ -407,6 +432,23 @@ export class SolarisRichTextEditingEngine {
         !editor.contains(range.commonAncestorContainer)
       ) {
         return this.appendListAndFocus(html);
+      }
+      const split = this.splitBlockAroundRange(range, editor);
+      if (split) {
+        const fragment = range.createContextualFragment(html);
+        const firstLi = fragment.querySelector?.('li') ?? null;
+        split.block.after(fragment);
+        if (firstLi) {
+          this.collapseCaretInListItem(firstLi as HTMLElement);
+        } else {
+          const caret = document.createRange();
+          caret.selectNodeContents(split.next);
+          caret.collapse(true);
+          selection.removeAllRanges();
+          selection.addRange(caret);
+        }
+        editor.focus({ preventScroll: true });
+        return true;
       }
       range.deleteContents();
       const fragment = range.createContextualFragment(html);
@@ -424,6 +466,60 @@ export class SolarisRichTextEditingEngine {
     } catch {
       if (isDevMode()) console.warn('[SolarisRichText] List insert failed.');
       return this.insertHtmlAtCaret(html);
+    }
+  }
+
+  insertTableAtCaret(html: string): boolean {
+    const editor = this.editor;
+    if (!editor || typeof document === 'undefined') return false;
+    try {
+      const selection = document.getSelection();
+      const range =
+        selection && selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+      if (
+        !range ||
+        !selection ||
+        !editor.contains(range.commonAncestorContainer)
+      ) {
+        // SECURITY_EXCEPTION: appending sanitized editor HTML requires native innerHTML; content comes from sanitizeRichTextHtml/built-in builders only.
+        editor.innerHTML += html;
+        this.focusFirstTableCell();
+        return true;
+      }
+      const split = this.splitBlockAroundRange(range, editor);
+      if (split) {
+        const fragment = range.createContextualFragment(html);
+        split.block.after(fragment);
+        this.focusFirstTableCell();
+        editor.focus({ preventScroll: true });
+        return true;
+      }
+      range.deleteContents();
+      const fragment = range.createContextualFragment(html);
+      range.insertNode(fragment);
+      this.focusFirstTableCell();
+      editor.focus({ preventScroll: true });
+      return true;
+    } catch {
+      if (isDevMode()) console.warn('[SolarisRichText] Table insert failed.');
+      return this.insertHtmlAtCaret(html);
+    }
+  }
+
+  private focusFirstTableCell(): void {
+    try {
+      const editor = this.editor;
+      const selection = document.getSelection();
+      if (!editor || !selection) return;
+      const cell = editor.querySelector('table th, table td');
+      if (!cell) return;
+      const caret = document.createRange();
+      caret.selectNodeContents(cell);
+      caret.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(caret);
+    } catch {
+      if (isDevMode()) console.warn('[SolarisRichText] Table caret failed.');
     }
   }
 
@@ -679,14 +775,6 @@ export class SolarisRichTextEditingEngine {
     );
   }
 
-  topLevelBlocks(): HTMLElement[] {
-    const editor = this.editor;
-    if (!editor || typeof document === 'undefined') return [];
-    return Array.from(editor.children).filter((child): child is HTMLElement =>
-      this.isMovableBlock(child),
-    );
-  }
-
   attachBlockGrip(block: HTMLElement): void {
     if (typeof document === 'undefined') return;
     if (block.querySelector(':scope > .solaris-block-grip')) {
@@ -697,9 +785,6 @@ export class SolarisRichTextEditingEngine {
     const grip = document.createElement('span');
     grip.className = 'solaris-block-grip';
     grip.setAttribute('contenteditable', 'false');
-    // Pointer-driven drag: the grip is not a native drag source, so the
-    // browser never starts an HTML5 drag (and its drop caret never fights
-    // the drop line). Movement is tracked with pointer capture instead.
     grip.setAttribute('draggable', 'false');
     grip.setAttribute('aria-hidden', 'true');
     // SECURITY_EXCEPTION: static six-dot grip glyph (same artwork as the
@@ -732,9 +817,6 @@ export class SolarisRichTextEditingEngine {
       line.setAttribute('aria-hidden', 'true');
       editor.append(line);
     }
-    // Keep the line strictly inside the content box: anything computed
-    // outside of it (stale rects, scrolled layouts) would read as a stray
-    // line outside the field.
     const max = Math.max(editor.scrollHeight - 2, 0);
     line.style.top = `${Math.min(Math.max(0, Math.round(topPx)), max)}px`;
   }
@@ -749,10 +831,10 @@ export class SolarisRichTextEditingEngine {
 
   moveBlockBefore(block: HTMLElement, ref: HTMLElement | null): void {
     const parent = block.parentElement;
-    if (!parent || !parent.contains(block)) return;
+    if (!parent?.contains(block)) return;
     if (ref === block) return;
-    if (ref && ref.parentElement === parent) {
-      parent.insertBefore(block, ref);
+    if (ref?.parentElement === parent) {
+      ref.before(block);
       return;
     }
     if (
@@ -803,10 +885,6 @@ export class SolarisRichTextEditingEngine {
         console.warn('[SolarisRichText] Figure selection failed.');
       return null;
     }
-  }
-
-  attachResizeHandle(target: HTMLElement, resizeLabel: string): void {
-    this.attachResizeHandles(target, resizeLabel);
   }
 
   attachResizeHandles(target: HTMLElement, resizeLabel: string): void {

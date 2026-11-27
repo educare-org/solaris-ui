@@ -877,4 +877,25 @@ test.describe('Rich Text Editor', () => {
       before,
     );
   });
+
+  test('composer Aa toggle stays reachable in plain mode', async ({ page }) => {
+    const composer = page
+      .locator('solaris-rich-text-editor[data-variant="composer"]')
+      .first();
+    const area = composer.locator('.solaris-rich-text-editor-area');
+    await area.click();
+    await page.keyboard.type('dsads');
+    await page.keyboard.press(
+      process.platform === 'darwin' ? 'Meta+A' : 'Control+A',
+    );
+    const toolbar = composer.locator('.solaris-rich-text-toolbar--floating');
+    await expect(toolbar).toBeVisible();
+    await composer.locator('[data-action="format"]').click();
+    await expect(composer).toHaveAttribute('data-format', 'plain');
+    // The toggle itself must survive the switch, otherwise composer users
+    // are trapped in plain text with no way back to rich.
+    await expect(toolbar).toBeVisible();
+    await composer.locator('[data-action="format"]').click();
+    await expect(composer).toHaveAttribute('data-format', 'rich');
+  });
 });

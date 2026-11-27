@@ -59,7 +59,7 @@ export const RICH_TEXT_EDITOR_SHOWCASE_FIELDS_CODE = [
 
 export const RICH_TEXT_EDITOR_SHOWCASE_COMPOSER_CODE = [
   '<div class="composer-box">',
-  '  <solaris-rich-text-editor #composer variant="composer" [toolbarDisplay]="formattingVisible() ? undefined : \'hidden\'" (submitted)="send($event)" />',
+  '  <solaris-rich-text-editor #composer variant="composer" clearOnSubmit [toolbarDisplay]="formattingVisible() ? undefined : \'hidden\'" (submitted)="send($event)" />',
   '  <button solaris-button class="composer-box__format" (click)="formattingVisible.set(!formattingVisible())">Toggle formatting</button>',
   '  <button solaris-button class="composer-box__send" (click)="composer.submit()">Send</button>',
   '</div>',

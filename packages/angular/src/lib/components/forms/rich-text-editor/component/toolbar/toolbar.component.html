@@ -10,12 +10,13 @@
   >
     <div class="solaris-rich-text-toolbar-group">
       <solaris-select
-        appearance="minimal"
         size="sm"
+        appearance="minimal"
         [value]="blockTag()"
         [triggerMinWidth]="144"
         (valueChange)="blockSelect.emit($any($event))"
         [ariaLabel]="'solaris.rich-text.blockStyle' | translate"
+        [disabled]="disabled() || readOnly() || contentFormat() !== 'rich'"
       >
         <solaris-option value="p">{{
           'solaris.rich-text.paragraph' | translate
@@ -560,7 +561,7 @@
         [solarisPopoverAutoFocus]="'first-tabbable'"
         solarisPopoverPadding="lg"
         (click)="prepareImagePanel()"
-        [disabled]="disabled() || readOnly()"
+        [disabled]="disabled() || readOnly() || contentFormat() !== 'rich'"
         [attr.aria-label]="'solaris.rich-text.image' | translate"
         [solarisTooltip]="'solaris.rich-text.image' | translate"
       >
@@ -573,7 +574,7 @@
         appearance="ghost"
         size="sm"
         (click)="tableInsert.emit()"
-        [disabled]="disabled() || readOnly()"
+        [disabled]="disabled() || readOnly() || contentFormat() !== 'rich'"
         [attr.aria-label]="'solaris.rich-text.table' | translate"
         [solarisTooltip]="'solaris.rich-text.table' | translate"
       >

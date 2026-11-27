@@ -92,6 +92,7 @@ import type {
   SolarisRichTextCodeLanguage,
   SolarisRichTextContentFormat,
   SolarisRichTextDensity,
+  SolarisRichTextEditorValueInput,
   SolarisRichTextField,
   SolarisRichTextImageOptions,
   SolarisRichTextImagePreset,
@@ -105,6 +106,8 @@ import type {
   SolarisRichTextVariant,
 } from '../model/rich-text-editor.types';
 import {
+  SOLARIS_RICH_TEXT_BLOCK_DRAG_ACTIVATE_PX,
+  SOLARIS_RICH_TEXT_BLOCK_DRAG_OUTSIDE_TOLERANCE_PX,
   SOLARIS_RICH_TEXT_CONTRAST_AA_LARGE_RATIO,
   SOLARIS_RICH_TEXT_CONTRAST_AA_RATIO,
   SOLARIS_RICH_TEXT_FORMAT_SWITCH_DURATION_MS,
@@ -116,18 +119,6 @@ import {
   SOLARIS_RICH_TEXT_INLINE_TAG_SHORTCUTS,
   SOLARIS_RICH_TEXT_MAX_HISTORY,
 } from '../model/rich-text-editor.defaults';
-
-type RichTextEditorValueInput =
-  | SolarisRichTextValue
-  | string
-  | null
-  | undefined;
-
-/** Pointer travel that arms a block drag (avoids arming on grip clicks). */
-const BLOCK_DRAG_ACTIVATE_PX = 5;
-
-/** Vertical leeway before a captured pointer counts as outside the field. */
-const BLOCK_DRAG_OUTSIDE_TOLERANCE_PX = 4;
 
 @Component({
   selector: 'solaris-rich-text-editor',
@@ -188,21 +179,16 @@ export class SolarisRichTextEditorComponent
     this.destroyRef.onDestroy(() => {
       window.removeEventListener('scroll', repositionFloatingToolbar, true);
       window.removeEventListener('resize', repositionFloatingToolbar);
+      this.revokeAllObjectUrls();
     });
     effect(() => {
       const next = this.value();
       const editor = this.editorRef()?.nativeElement ?? null;
       if (!editor || typeof document === 'undefined') return;
-      // While typing, the DOM is the source of truth (committed on input).
       if (this._focused()) return;
       // SECURITY_EXCEPTION: reading edited HTML to compare with the model;
-      // same pattern as Angular CDK form controls. Read-only.
       const current = editor.innerHTML ?? '';
       if (current === next.html) return;
-      // Transient editing chrome (grips, resize handles, selection and drag
-      // flags) lives only in the DOM: when the committed value matches the
-      // cleaned DOM, data is already in sync and replacing innerHTML would
-      // wipe an in-progress interaction (selection, drag, open figure).
       if (cleanCommittedHtml(current) === next.html) return;
       // SECURITY_EXCEPTION: syncing external/programmatic values (e.g. an
       // initial [(value)] without ControlValueAccessor) requires writing
@@ -248,6 +234,9 @@ export class SolarisRichTextEditorComponent
   readonly toolbarPreset = input<SolarisRichTextToolbarPreset>();
   readonly contentFormat = model<SolarisRichTextContentFormat>('rich');
   readonly submitTrigger = input<SolarisRichTextSubmitTrigger>();
+  readonly clearOnSubmit = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
   readonly fields = input<readonly SolarisRichTextField[]>([]);
   readonly fieldTrigger = input<'{' | '@'>('{');
   readonly autofocus = input<boolean>(false);
@@ -367,7 +356,6 @@ export class SolarisRichTextEditorComponent
   protected readonly showFloatingToolbar = computed(
     () =>
       this.isFloatingToolbar() &&
-      this.contentFormat() === 'rich' &&
       this.floatingVisible() &&
       !this.isEffectivelyDisabled() &&
       !this.readonlyInput(),
@@ -486,14 +474,23 @@ export class SolarisRichTextEditorComponent
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched: () => void = () => {};
 
-  writeValue(input: RichTextEditorValueInput): void {
+  writeValue(input: SolarisRichTextEditorValueInput): void {
     this.value.set(normalizeEditorValue(input));
     this.syncEditorDom();
   }
 
   submit(): void {
     if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
+    this.emitSubmitted();
+  }
+
+  private emitSubmitted(): void {
     this.submitted.emit(this.value());
+    if (!this.clearOnSubmit()) return;
+    this.commitValue(createEmptyValue(), false);
+    this.syncEditorDom();
+    this.updateActiveStates();
+    this.focus();
   }
 
   registerOnChange(fn: (value: SolarisRichTextValue) => void): void {
@@ -521,12 +518,17 @@ export class SolarisRichTextEditorComponent
     if (this.contentFormat() === 'plain') {
       const text = stripHtmlToText(rawHtml);
       const expected = text.length > 0 ? `<p>${escapeHtml(text)}</p>` : '';
+      const max = this.maxLength();
+      if (max !== undefined && Array.from(text).length > max) {
+        // SECURITY_EXCEPTION: reverting over-limit input to the last committed HTML; write-only.
+        host.innerHTML = this.value().html;
+        this.placeCaretAtEnd(host);
+        return;
+      }
       if (rawHtml !== expected) {
         // SECURITY_EXCEPTION: plain mode normalizes pasted rich HTML to escaped paragraphs; write-only, prevents tag injection.
         host.innerHTML = expected;
       }
-      const max = this.maxLength();
-      if (max !== undefined && Array.from(text).length > max) return;
       const next: SolarisRichTextValue = {
         html: expected,
         text,
@@ -538,7 +540,12 @@ export class SolarisRichTextEditorComponent
     }
     const text = stripHtmlToText(rawHtml);
     const max = this.maxLength();
-    if (max !== undefined && Array.from(text).length > max) return;
+    if (max !== undefined && Array.from(text).length > max) {
+      // SECURITY_EXCEPTION: reverting over-limit input to the last committed HTML; write-only.
+      host.innerHTML = this.value().html;
+      this.placeCaretAtEnd(host);
+      return;
+    }
     const next: SolarisRichTextValue = {
       html: rawHtml,
       text,
@@ -555,43 +562,68 @@ export class SolarisRichTextEditorComponent
     this.editorFocused.emit();
   }
 
-  /**
-   * Keeps typed/pasted content out of `figure[data-image]`: with a figure
-   * selected, keystrokes would otherwise land inside the figure (below the
-   * image) instead of beside it. Text is redirected after the figure so
-   * floated (wrap) images actually wrap, and deletions remove the figure.
-   */
   protected onEditorBeforeinput(event: Event): void {
     if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
     if (typeof document === 'undefined') return;
+    const context = this.figureBeforeinputContext(event);
+    if (!context) return;
+    event.preventDefault();
+    if (context.input.inputType.startsWith('delete')) {
+      this.handleFigureDeleteInput(context);
+      return;
+    }
+    this.moveCaretAfterFigure(context);
+    this.dispatchFigureInput(context);
+  }
+
+  private figureBeforeinputContext(event: Event): {
+    input: InputEvent;
+    figure: HTMLElement;
+    editor: HTMLElement;
+  } | null {
     const input = event as InputEvent;
-    if (input.inputType.startsWith('history')) return;
+    if (input.inputType.startsWith('history')) return null;
     const editor = this.editorRef()?.nativeElement ?? null;
-    if (!editor) return;
+    if (!editor) return null;
     const selection = document.getSelection();
-    if (!selection || selection.rangeCount === 0) return;
+    if (!selection || selection.rangeCount === 0) return null;
     const range = selection.getRangeAt(0);
-    if (!editor.contains(range.commonAncestorContainer)) return;
+    if (!editor.contains(range.commonAncestorContainer)) return null;
     const figure =
       this.figureOf(range.commonAncestorContainer) ??
       this.figureOf(range.startContainer) ??
       this.figureOf(range.endContainer);
-    if (!figure || !editor.contains(figure)) return;
-    event.preventDefault();
-    if (input.inputType.startsWith('delete')) {
-      if (input.inputType === 'deleteByCut') {
-        this.copyFigureMarkup(figure);
-      }
-      this.removeFigureNode(figure);
-      return;
+    if (!figure || !editor.contains(figure)) return null;
+    return { input, figure, editor };
+  }
+
+  private handleFigureDeleteInput(context: {
+    input: InputEvent;
+    figure: HTMLElement;
+  }): void {
+    if (context.input.inputType === 'deleteByCut') {
+      this.copyFigureMarkup(context.figure);
     }
+    this.removeFigureNode(context.figure);
+  }
+
+  private moveCaretAfterFigure(context: { figure: HTMLElement }): void {
     this.engine.deselectFigure();
     this.syncImagePanel();
+    const selection = document.getSelection();
+    if (!selection) return;
     const after = document.createRange();
-    after.setStartAfter(figure);
+    after.setStartAfter(context.figure);
     after.collapse(true);
     selection.removeAllRanges();
     selection.addRange(after);
+  }
+
+  private dispatchFigureInput(context: {
+    input: InputEvent;
+    figure: HTMLElement;
+  }): void {
+    const { input, figure } = context;
     if (
       input.inputType === 'insertParagraph' ||
       input.inputType === 'insertLineBreak'
@@ -599,7 +631,9 @@ export class SolarisRichTextEditorComponent
       this.insertParagraphAfterFigure(figure, input.inputType);
       this.updateActiveStates();
       this.emitFromDom();
-    } else if (
+      return;
+    }
+    if (
       input.inputType === 'insertText' ||
       input.inputType === 'insertCompositionText' ||
       input.inputType === 'insertFromYank'
@@ -607,16 +641,18 @@ export class SolarisRichTextEditorComponent
       const native = this.insertTextAfterFigure(input.data ?? '');
       this.updateActiveStates();
       if (!native) this.emitFromDom();
-    } else if (
+      return;
+    }
+    if (
       input.inputType === 'insertFromPaste' ||
       input.inputType === 'insertFromDrop'
     ) {
       this.pasteAfterFigure(input);
       this.updateActiveStates();
       this.emitFromDom();
-    } else {
-      this.updateActiveStates();
+      return;
     }
+    this.updateActiveStates();
   }
 
   private figureOf(node: Node | null): HTMLElement | null {
@@ -641,10 +677,12 @@ export class SolarisRichTextEditorComponent
       const after = document.createRange();
       after.setStartAfter(figure);
       after.collapse(true);
+      this.revokeFigureObjectUrl(figure);
       figure.remove();
       selection?.removeAllRanges();
       selection?.addRange(after);
     } catch {
+      this.revokeFigureObjectUrl(figure);
       figure.remove();
     }
     this.imageRemoved.emit();
@@ -748,6 +786,7 @@ export class SolarisRichTextEditorComponent
     if (this.handleTaskListEnter(event)) return;
     if (this.handleWrapExitEnter(event)) return;
     if (this.handleBlockMoveKey(event)) return;
+    if (this.handleTableTab(event)) return;
     if (this.handleListTab(event)) return;
     if (this.handleInlineShortcuts(event)) return;
     if (this.handleToolbarFocusShortcut(event)) return;
@@ -890,7 +929,7 @@ export class SolarisRichTextEditorComponent
       (trigger === 'both' && isEnter && (withMod || !event.shiftKey));
     if (!shouldSubmit) return false;
     event.preventDefault();
-    this.submitted.emit(this.value());
+    this.emitSubmitted();
     return true;
   }
 
@@ -999,38 +1038,51 @@ export class SolarisRichTextEditorComponent
   protected onEditorMouseout(event: MouseEvent): void {
     if (typeof document === 'undefined') return;
     const target = event.target as HTMLElement | null;
-    if (!this.draggingBlock && !this.pendingBlockDrag) {
-      const editor = this.editorRef()?.nativeElement ?? null;
-      if (editor && target && editor.contains(target)) {
-        const block = this.movableBlockOf(target, editor);
-        const related = event.relatedTarget as HTMLElement | null;
-        const relatedInside = !!related && editor.contains(related);
-        const relatedBlock = relatedInside
-          ? this.movableBlockOf(related as HTMLElement, editor)
-          : null;
-        // Only release the grip when moving to another block or leaving the
-        // editor. Crossing editor chrome (e.g. the padding gap between text
-        // and grip) must keep it, otherwise it vanishes before the cursor
-        // reaches it.
-        const leftEditor = !related || !relatedInside;
-        if (
-          block &&
-          (leftEditor || (relatedBlock !== null && relatedBlock !== block))
-        ) {
-          this.engine.clearBlockGrip();
-        }
-      } else {
-        this.engine.clearBlockGrip();
-      }
+    this.maybeClearBlockGrip(target, event.relatedTarget as HTMLElement | null);
+    this.maybeClearFigureHover(
+      target,
+      event.relatedTarget as HTMLElement | null,
+    );
+  }
+
+  private maybeClearBlockGrip(
+    target: HTMLElement | null,
+    related: HTMLElement | null,
+  ): void {
+    if (this.draggingBlock || this.pendingBlockDrag) return;
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!editor || !target || !editor.contains(target)) {
+      this.engine.clearBlockGrip();
+      return;
     }
+    const block = this.movableBlockOf(target, editor);
+    const relatedInside = !!related && editor.contains(related);
+    const relatedBlock = relatedInside
+      ? this.movableBlockOf(related as HTMLElement, editor)
+      : null;
+    const leftEditor = !related || !relatedInside;
+    const movedToOther =
+      relatedBlock !== null &&
+      relatedBlock !== block &&
+      (block === null ||
+        (!relatedBlock.contains(block) && !block.contains(relatedBlock)));
+    if (block && (leftEditor || movedToOther)) {
+      this.engine.clearBlockGrip();
+    }
+  }
+
+  private maybeClearFigureHover(
+    target: HTMLElement | null,
+    related: HTMLElement | null,
+  ): void {
     const figure = target?.closest?.(
       'figure[data-image]',
     ) as HTMLElement | null;
     if (!figure) return;
-    const related = (event.relatedTarget as HTMLElement | null)?.closest?.(
+    const relatedFigure = (related as HTMLElement | null)?.closest?.(
       'figure[data-image]',
     ) as HTMLElement | null;
-    if (related === figure) return;
+    if (relatedFigure === figure) return;
     this.engine.clearHoverHandle(figure);
   }
 
@@ -1065,7 +1117,7 @@ export class SolarisRichTextEditorComponent
     const range = selection.getRangeAt(0);
     if (!editor.contains(range.commonAncestorContainer)) return false;
     const block = this.movableBlockOf(range.commonAncestorContainer, editor);
-    if (!block || !block.parentElement) return false;
+    if (!block?.parentElement) return false;
     event.preventDefault();
     if (this.isEffectivelyDisabled() || this.readonlyInput()) return true;
     const parent = block.parentElement;
@@ -1081,7 +1133,7 @@ export class SolarisRichTextEditorComponent
       return true;
     }
     if (event.key === 'ArrowUp') {
-      parent.insertBefore(block, sibling);
+      sibling.before(block);
     } else {
       parent.insertBefore(block, sibling.nextSibling);
     }
@@ -1110,9 +1162,6 @@ export class SolarisRichTextEditorComponent
     ) {
       return;
     }
-    // Pointer-driven move: capture the pointer so moves outside the field
-    // keep flowing here (the line then clears instead of freezing), and stop
-    // the press from starting a text selection or a native drag.
     event.preventDefault();
     try {
       if (typeof editor.setPointerCapture === 'function') {
@@ -1132,10 +1181,10 @@ export class SolarisRichTextEditorComponent
 
   protected onEditorPointermove(event: PointerEvent): void {
     const pending = this.pendingBlockDrag;
-    if (!pending || (event.pointerId ?? 0) !== pending.pointerId) return;
+    if ((event.pointerId ?? 0) !== pending?.pointerId) return;
     if (typeof document === 'undefined') return;
     const editor = this.editorRef()?.nativeElement ?? null;
-    if (!editor || !editor.contains(pending.block)) {
+    if (!editor?.contains(pending.block)) {
       this.cancelBlockDrag();
       return;
     }
@@ -1144,9 +1193,8 @@ export class SolarisRichTextEditorComponent
         Math.abs(event.clientX - pending.startX),
         Math.abs(event.clientY - pending.startY),
       );
-      if (moved <= BLOCK_DRAG_ACTIVATE_PX) return;
+      if (moved <= SOLARIS_RICH_TEXT_BLOCK_DRAG_ACTIVATE_PX) return;
       pending.active = true;
-      // Dim the source while dragging (removed again on drop/cancel and never committed).
       pending.block.setAttribute('data-dragging', '');
       this.draggingBlock = pending.block;
       this.dropTarget = null;
@@ -1157,37 +1205,59 @@ export class SolarisRichTextEditorComponent
 
   protected onEditorPointerup(event: PointerEvent): void {
     const pending = this.pendingBlockDrag;
-    if (!pending || (event.pointerId ?? 0) !== pending.pointerId) return;
+    if ((event.pointerId ?? 0) !== pending?.pointerId) return;
     const dragged = pending.block;
     const wasActive = pending.active;
     const editor = this.editorRef()?.nativeElement ?? null;
-    const ref =
-      wasActive &&
-      this.dropValid &&
-      this.dropTarget &&
-      editor?.contains(this.dropTarget)
-        ? this.dropTarget
-        : null;
+    const ref = this.resolveDropReference(editor, wasActive);
     const valid = wasActive && this.dropValid;
-    this.releaseBlockDragPointer(editor, event.pointerId);
+    this.teardownBlockDrag(editor, event.pointerId);
+    if (!editor?.contains(dragged)) return;
+    dragged.removeAttribute('data-dragging');
+    if (!wasActive) return;
+    this.suppressClickAfterBlockDrag = true;
+    if (!valid || this.isIdentityDrop(dragged, ref)) return;
+    this.engine.moveBlockBefore(dragged, ref);
+    this.placeCaretInDroppedBlock(editor, dragged);
+    this.emitFromDom();
+    this.updateActiveStates();
+    this.syncImagePanel();
+  }
+
+  private resolveDropReference(
+    editor: HTMLElement | null,
+    wasActive: boolean,
+  ): HTMLElement | null {
+    if (!wasActive || !this.dropValid || !this.dropTarget) return null;
+    if (!editor?.contains(this.dropTarget)) return null;
+    return this.dropTarget;
+  }
+
+  private teardownBlockDrag(
+    editor: HTMLElement | null,
+    pointerId: number,
+  ): void {
+    this.releaseBlockDragPointer(editor, pointerId);
     this.pendingBlockDrag = null;
     this.draggingBlock = null;
     this.dropTarget = null;
     this.dropValid = false;
     this.engine.clearBlockDropLine();
-    if (!editor || !editor.contains(dragged)) return;
-    dragged.removeAttribute('data-dragging');
-    if (!wasActive) return;
-    // A completed press-and-move never acts as a click afterwards.
-    this.suppressClickAfterBlockDrag = true;
-    if (!valid) return;
-    // Identity drops (the block is already in place) must not dirty the
-    // value: look past transient chrome for the movable block that follows
-    // the dragged one. The grip lives inside the block and the drop line is
-    // gone by now, so only real blocks can match.
-    let next: HTMLElement | null = null;
+  }
+
+  private isIdentityDrop(
+    dragged: HTMLElement,
+    ref: HTMLElement | null,
+  ): boolean {
+    if (ref === dragged) return true;
+    const next = this.nextMovableSibling(dragged);
+    if (ref === next) return true;
+    return !ref && next === null;
+  }
+
+  private nextMovableSibling(block: HTMLElement): HTMLElement | null {
     for (
-      let sibling = dragged.nextElementSibling;
+      let sibling = block.nextElementSibling;
       sibling !== null;
       sibling = sibling.nextElementSibling
     ) {
@@ -1195,12 +1265,16 @@ export class SolarisRichTextEditorComponent
         sibling instanceof HTMLElement &&
         this.engine.isMovableBlock(sibling)
       ) {
-        next = sibling;
-        break;
+        return sibling;
       }
     }
-    if (ref === dragged || ref === next || (!ref && next === null)) return;
-    this.engine.moveBlockBefore(dragged, ref);
+    return null;
+  }
+
+  private placeCaretInDroppedBlock(
+    editor: HTMLElement,
+    dragged: HTMLElement,
+  ): void {
     try {
       const selection = document.getSelection();
       const caret = document.createRange();
@@ -1212,14 +1286,11 @@ export class SolarisRichTextEditorComponent
     } catch {
       if (isDevMode()) console.warn('[SolarisRichText] Block drop failed.');
     }
-    this.emitFromDom();
-    this.updateActiveStates();
-    this.syncImagePanel();
   }
 
   protected onEditorPointercancel(event: PointerEvent): void {
     const pending = this.pendingBlockDrag;
-    if (!pending || (event.pointerId ?? 0) !== pending.pointerId) return;
+    if ((event.pointerId ?? 0) !== pending?.pointerId) return;
     this.releaseBlockDragPointer(
       this.editorRef()?.nativeElement ?? null,
       event.pointerId,
@@ -1235,7 +1306,7 @@ export class SolarisRichTextEditorComponent
       if (
         editor &&
         typeof editor.releasePointerCapture === 'function' &&
-        editor.hasPointerCapture?.(pointerId) === true
+        editor.hasPointerCapture?.(pointerId)
       ) {
         editor.releasePointerCapture(pointerId);
       }
@@ -1262,28 +1333,20 @@ export class SolarisRichTextEditorComponent
   private updateBlockDropIndicator(clientY: number): void {
     const dragged = this.draggingBlock;
     const editor = this.editorRef()?.nativeElement ?? null;
-    if (!dragged || !editor || !editor.contains(dragged)) {
+    if (!dragged || !editor?.contains(dragged)) {
       this.clearBlockDropState();
       return;
     }
-    // NOTE: clientY is viewport-relative, so candidates are compared with
-    // getBoundingClientRect (also viewport-relative). Mixing clientY with
-    // offsetTop (editor-relative) pins the line at the end on scrolled pages.
     const editorRect = editor.getBoundingClientRect();
-    // Pointer capture keeps events flowing outside the field: leaving it
-    // vertically invalidates the move and clears the line instead of
-    // parking it on the content edge.
     if (
-      clientY < editorRect.top - BLOCK_DRAG_OUTSIDE_TOLERANCE_PX ||
-      clientY > editorRect.bottom + BLOCK_DRAG_OUTSIDE_TOLERANCE_PX
+      clientY <
+        editorRect.top - SOLARIS_RICH_TEXT_BLOCK_DRAG_OUTSIDE_TOLERANCE_PX ||
+      clientY >
+        editorRect.bottom + SOLARIS_RICH_TEXT_BLOCK_DRAG_OUTSIDE_TOLERANCE_PX
     ) {
       this.clearBlockDropState();
       return;
     }
-    // Scan the full ordered block list (dragged block included) so the
-    // pointer maps to the insertion slot it visually points at. Pointing at
-    // the dragged block's own slot is a no-op instead of a misleading jump
-    // to the end of the field.
     const parent = dragged.parentElement;
     const blocks: HTMLElement[] =
       parent === null
@@ -1320,9 +1383,6 @@ export class SolarisRichTextEditorComponent
       );
       return;
     }
-    // End of the dragged block's container: keep the indicator on the last
-    // visible edge inside the field (list bottom for items, content bottom
-    // for top-level blocks) so it never parks outside of it.
     const container = parent ?? editor;
     const containerRect =
       container === editor ? editorRect : container.getBoundingClientRect();
@@ -1389,8 +1449,6 @@ export class SolarisRichTextEditorComponent
     const figure = this.engine.selectedFigure();
     let changed = false;
     if (figure && (align === 'start-wrap' || align === 'end-wrap')) {
-      // One-time assist so text visibly fits beside the image right away.
-      // Afterwards the figure resizes freely like any other alignment.
       const editor = this.editorRef()?.nativeElement ?? null;
       if (editor) {
         const half = Math.max(44, Math.round((editor.clientWidth - 2) / 2));
@@ -1452,10 +1510,33 @@ export class SolarisRichTextEditorComponent
     if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
     const figure = this.engine.selectedFigure();
     if (!figure) return;
+    this.revokeFigureObjectUrl(figure);
     figure.remove();
     this.emitFromDom();
     this.imageRemoved.emit();
     this.syncImagePanel();
+  }
+
+  private revokeFigureObjectUrl(figure: HTMLElement): void {
+    const src = figure.querySelector('img')?.getAttribute('src') ?? '';
+    if (!src.startsWith('blob:')) return;
+    const index = this.objectUrls.indexOf(src);
+    if (index !== -1) this.objectUrls.splice(index, 1);
+    try {
+      URL.revokeObjectURL(src);
+    } catch {
+      if (isDevMode()) console.warn('[SolarisRichText] Image revoke failed.');
+    }
+  }
+
+  private revokeAllObjectUrls(): void {
+    for (const url of this.objectUrls.splice(0)) {
+      try {
+        URL.revokeObjectURL(url);
+      } catch {
+        if (isDevMode()) console.warn('[SolarisRichText] Image revoke failed.');
+      }
+    }
   }
 
   @HostListener('keydown.escape')
@@ -1768,7 +1849,7 @@ export class SolarisRichTextEditorComponent
       this.floatingVisible.set(false);
       return;
     }
-    if (!this.isFloatingToolbar() || this.contentFormat() !== 'rich') {
+    if (!this.isFloatingToolbar()) {
       this.floatingVisible.set(false);
       return;
     }
@@ -2175,13 +2256,6 @@ export class SolarisRichTextEditorComponent
     return true;
   }
 
-  /**
-   * Exits a floated (wrap) image with Enter: when the caret sits in an empty
-   * block beside a wrap figure, Enter moves the caret to a cleared paragraph
-   * below the figure instead of stacking empty lines beside it. Enter at the
-   * end of a line with text keeps the native split so multiple lines can
-   * still be written beside the image.
-   */
   private handleWrapExitEnter(event: KeyboardEvent): boolean {
     if (event.key !== 'Enter') return false;
     if (event.shiftKey || event.ctrlKey || event.metaKey || event.altKey)
@@ -2257,13 +2331,9 @@ export class SolarisRichTextEditorComponent
     if (typeof document === 'undefined') return;
     const editor = this.editorRef()?.nativeElement ?? null;
     if (!editor) return;
-    // Never displace existing content: when the caret is already on an empty
-    // line after the figure, that line itself becomes the cleared exit line.
-    // Otherwise (e.g. panel button) append the exit after the following text.
     let target: HTMLElement | null = null;
     if (
-      currentBlock &&
-      currentBlock.parentElement === figure.parentElement &&
+      currentBlock?.parentElement === figure.parentElement &&
       currentBlock !== figure &&
       this.isEmptyBlock(currentBlock) &&
       Boolean(
@@ -2320,7 +2390,7 @@ export class SolarisRichTextEditorComponent
     if (this.contentFormat() !== 'rich') return;
     const figure = this.engine.selectedFigure();
     const editor = this.editorRef()?.nativeElement ?? null;
-    if (!figure || !editor || !editor.contains(figure)) return;
+    if (!figure || !editor?.contains(figure)) return;
     this.exitWrapBelow(figure, null);
     this.refocusEditorAfterOverlayClose();
   }
@@ -2384,6 +2454,112 @@ export class SolarisRichTextEditorComponent
       checkbox.removeAttribute('checked');
     }
     this.emitFromDom();
+  }
+
+  private handleTableTab(event: KeyboardEvent): boolean {
+    if (event.key !== 'Tab') return false;
+    if (event.ctrlKey || event.metaKey || event.altKey) return false;
+    if (typeof document === 'undefined') return false;
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!editor) return false;
+    const selection = document.getSelection();
+    if (!selection || selection.rangeCount === 0 || !selection.isCollapsed)
+      return false;
+    const range = selection.getRangeAt(0);
+    if (!editor.contains(range.commonAncestorContainer)) return false;
+    const cell = this.closestTableCell(range.startContainer, editor);
+    if (!cell || !editor.contains(cell)) return false;
+    event.preventDefault();
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) return true;
+    this.moveTableCaret(editor, cell, !event.shiftKey);
+    this.updateActiveStates();
+    return true;
+  }
+
+  private closestTableCell(
+    node: Node | null,
+    editor: HTMLElement,
+  ): HTMLElement | null {
+    let el = node instanceof Element ? node : (node?.parentElement ?? null);
+    while (el && el !== editor) {
+      if (el.tagName === 'TD' || el.tagName === 'TH') {
+        return el as HTMLElement;
+      }
+      el = el.parentElement;
+    }
+    return null;
+  }
+
+  private moveTableCaret(
+    editor: HTMLElement,
+    cell: HTMLElement,
+    forward: boolean,
+  ): void {
+    const table = cell.closest('table');
+    if (!table || !editor.contains(table)) return;
+    const cells = Array.from(table.querySelectorAll('th, td')).filter(
+      (candidate): candidate is HTMLElement =>
+        candidate instanceof HTMLElement ? editor.contains(candidate) : false,
+    );
+    const index = cells.indexOf(cell);
+    if (index === -1) return;
+    const target = forward ? cells[index + 1] : cells[index - 1];
+    if (target) {
+      this.collapseCaretInCell(target, forward);
+      return;
+    }
+    if (forward) {
+      this.focusParagraphAfterTable(editor, table);
+    } else {
+      this.focusEndOfPreviousBlock(editor, table, cell);
+    }
+  }
+
+  private collapseCaretInCell(cell: HTMLElement, atStart: boolean): void {
+    try {
+      const selection = document.getSelection();
+      if (!selection) return;
+      const caret = document.createRange();
+      caret.selectNodeContents(cell);
+      caret.collapse(atStart);
+      selection.removeAllRanges();
+      selection.addRange(caret);
+      this.editorRef()?.nativeElement.focus({ preventScroll: true });
+    } catch {
+      if (isDevMode()) console.warn('[SolarisRichText] Table caret failed.');
+    }
+  }
+
+  private focusParagraphAfterTable(editor: HTMLElement, table: Element): void {
+    let next = table.nextElementSibling;
+    while (next && !(next instanceof HTMLElement)) {
+      next = next.nextElementSibling;
+    }
+    let paragraph =
+      next instanceof HTMLElement &&
+      /^(P|H1|H2|H3|BLOCKQUOTE)$/.test(next.tagName)
+        ? next
+        : null;
+    if (!paragraph) {
+      paragraph = document.createElement('p');
+      paragraph.append(document.createElement('br'));
+      table.after(paragraph);
+      this.emitFromDom();
+    }
+    this.collapseCaretInCell(paragraph, true);
+  }
+
+  private focusEndOfPreviousBlock(
+    editor: HTMLElement,
+    table: Element,
+    cell: HTMLElement,
+  ): void {
+    const previous = table.previousElementSibling;
+    if (previous instanceof HTMLElement && editor.contains(previous)) {
+      this.collapseCaretInCell(previous, false);
+      return;
+    }
+    this.collapseCaretInCell(cell, false);
   }
 
   private handleListTab(event: KeyboardEvent): boolean {
@@ -2710,7 +2886,10 @@ export class SolarisRichTextEditorComponent
     if (this.contentFormat() !== 'rich') return;
     this.engine.restoreSelection();
     const safeUrl = url.trim();
-    if (!isSafeHttpUrl(safeUrl)) return;
+    if (!isSafeHttpUrl(safeUrl)) {
+      this.clearLinkPanel();
+      return;
+    }
     const label = text.trim();
     if (this.applyLinkToSelection(safeUrl, label)) return;
     const fallbackLabel = label || safeUrl;
@@ -3284,7 +3463,7 @@ export class SolarisRichTextEditorComponent
       cols: safeCols,
       headerRow,
     });
-    if (this.engine.insertHtmlAtCaret(html)) {
+    if (this.engine.insertTableAtCaret(html)) {
       this.emitFromDom(nextBlocks);
     } else {
       this.commitValue({
@@ -3411,7 +3590,21 @@ export class SolarisRichTextEditorComponent
         false,
       );
     } else if (this.lastRichValue) {
-      this.commitValue(this.lastRichValue, false);
+      const currentText = toPlainText(this.value());
+      const savedText = toPlainText(this.lastRichValue);
+      if (currentText !== savedText) {
+        this.commitValue(
+          {
+            html: `<p>${escapeHtml(currentText)}</p>`,
+            text: currentText,
+            blocks: this.lastRichValue.blocks,
+            version: 1,
+          },
+          false,
+        );
+      } else {
+        this.commitValue(this.lastRichValue, false);
+      }
       this.lastRichValue = null;
     }
     this.contentFormat.set(format);
@@ -3708,6 +3901,21 @@ export class SolarisRichTextEditorComponent
   private refocusEditorAfterOverlayClose(): void {
     if (typeof document === 'undefined') return;
     setTimeout(() => this.focus(), 0);
+  }
+
+  private placeCaretAtEnd(host: HTMLElement): void {
+    if (typeof document === 'undefined') return;
+    try {
+      const selection = document.getSelection();
+      if (!selection) return;
+      const caret = document.createRange();
+      caret.selectNodeContents(host);
+      caret.collapse(false);
+      selection.removeAllRanges();
+      selection.addRange(caret);
+    } catch {
+      if (isDevMode()) console.warn('[SolarisRichText] Caret restore failed.');
+    }
   }
 
   private detectFieldTrigger(text: string): void {

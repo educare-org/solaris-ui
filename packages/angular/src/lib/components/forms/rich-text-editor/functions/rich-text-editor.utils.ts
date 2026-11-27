@@ -85,7 +85,38 @@ export function sanitizeRichTextHtml(html: string): string {
     .replace(/\son\w+="[^"]*"/gi, '')
     .replace(/\son\w+='[^']*'/gi, '')
     .replace(/javascript:/gi, '');
-  return upgradeLegacyTaskCheckboxes(stripped).trim();
+  return wrapBareImages(upgradeLegacyTaskCheckboxes(stripped)).trim();
+}
+
+export function wrapBareImages(html: string): string {
+  const segments = html.split(/(<figure\b[^<>]*>[\s\S]*?<\/figure>)/gi);
+  return segments
+    .map((segment, index) =>
+      index % 2 === 1
+        ? segment
+        : segment.replace(/<img\b[^<>]*>/gi, wrapBareImageTag),
+    )
+    .join('');
+}
+
+function wrapBareImageTag(tag: string): string {
+  const alt = readImageAttribute(tag, 'alt');
+  if (alt.trim().length === 0) return '';
+  const src = readImageAttribute(tag, 'src');
+  if (src.trim().length === 0) return '';
+  return `<figure data-image>${tag}</figure>`;
+}
+
+function readImageAttribute(tag: string, name: string): string {
+  const quoted = new RegExp(
+    String.raw`${name}\s*=\s*"([^"]*)"|${name}\s*=\s*'([^']*)'`,
+    'i',
+  ).exec(tag);
+  if (quoted) return quoted[1] ?? quoted[2] ?? '';
+  const unquoted = new RegExp(String.raw`${name}\s*=\s*([^\s>]+)`, 'i').exec(
+    tag,
+  );
+  return unquoted?.[1] ?? '';
 }
 
 function upgradeLegacyTaskCheckboxes(html: string): string {

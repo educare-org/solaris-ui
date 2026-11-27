@@ -7,6 +7,7 @@ export type {
   SolarisRichTextBlockType,
   SolarisRichTextContentFormat,
   SolarisRichTextDensity,
+  SolarisRichTextEditorValueInput,
   SolarisRichTextField,
   SolarisRichTextImageOptions,
   SolarisRichTextInlineTag,
@@ -22,6 +23,8 @@ export type {
 export {
   SOLARIS_RICH_TEXT_ALLOWED_ATTRIBUTES,
   SOLARIS_RICH_TEXT_ALLOWED_TAGS,
+  SOLARIS_RICH_TEXT_BLOCK_DRAG_ACTIVATE_PX,
+  SOLARIS_RICH_TEXT_BLOCK_DRAG_OUTSIDE_TOLERANCE_PX,
   SOLARIS_RICH_TEXT_DEFAULT_MAX_TABLE_COLS,
   SOLARIS_RICH_TEXT_DEFAULT_MAX_TABLE_ROWS,
   SOLARIS_RICH_TEXT_IMAGE_SNAP_STEP,
@@ -66,6 +69,7 @@ export {
   truncateToMaxLength,
   unwrapInlineFormatting,
   validateImageSelection,
+  wrapBareImages,
 } from './functions/rich-text-editor.utils';
 export type {
   SolarisRichTextAlign,

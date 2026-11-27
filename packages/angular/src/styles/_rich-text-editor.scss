@@ -760,7 +760,7 @@
   height: 20px;
   border-radius: var(--solaris-radius-sm);
   color: var(--solaris-neutral-text-secondary);
-  background: transparent;
+  background: var(--solaris-rich-text-bg);
   cursor: grab;
   touch-action: none;
   z-index: var(--solaris-z-index-content);

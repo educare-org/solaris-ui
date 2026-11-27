@@ -46,6 +46,7 @@ import {
   truncateToMaxLength,
   unwrapInlineFormatting,
   validateImageSelection,
+  wrapBareImages,
 } from '../functions/rich-text-editor.utils';
 import { SOLARIS_RICH_TEXT_HISTORY_IDLE_MS } from '../model/rich-text-editor.defaults';
 
@@ -234,6 +235,112 @@ describe('SolarisRichTextEditorComponent', () => {
     expect(emitted).toEqual([{ rows: 2, cols: 2 }]);
     expect(fixture.componentInstance.value().html).toContain('<table>');
     expect(fixture.componentInstance.value().html).toContain('scope="col"');
+  });
+
+  it('moves between table cells with Tab and Shift+Tab', () => {
+    create();
+    fixture.componentInstance['insertTable'](2, 2, true);
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const cells = Array.from(area.querySelectorAll('th, td'));
+    expect(cells.length).toBe(4);
+    const focusedCell = (): Element | null => {
+      const anchor = document.getSelection()?.anchorNode ?? null;
+      const el =
+        anchor instanceof Element ? anchor : (anchor?.parentElement ?? null);
+      if (!el) return null;
+      if (el.tagName === 'TH' || el.tagName === 'TD') return el;
+      return el.closest?.('th,td') ?? null;
+    };
+    placeCaret(area, cells[0].firstChild as Node, 0);
+    fixture.componentInstance['onEditorKeydown'](
+      new KeyboardEvent('keydown', { key: 'Tab', bubbles: true }),
+    );
+    expect(focusedCell()).toBe(cells[1]);
+    fixture.componentInstance['onEditorKeydown'](
+      new KeyboardEvent('keydown', {
+        key: 'Tab',
+        shiftKey: true,
+        bubbles: true,
+      }),
+    );
+    expect(focusedCell()).toBe(cells[0]);
+  });
+
+  it('exits to a paragraph after the table on Tab from the last cell', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>before</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const paragraph = area.querySelector('p') as HTMLElement;
+    placeCaret(area, paragraph.firstChild as Node, 6);
+    fixture.componentInstance['insertTable'](1, 1, true);
+    fixture.detectChanges();
+    const cells = Array.from(area.querySelectorAll('th, td'));
+    placeCaret(area, cells[cells.length - 1].firstChild as Node, 0);
+    fixture.componentInstance['onEditorKeydown'](
+      new KeyboardEvent('keydown', { key: 'Tab', bubbles: true }),
+    );
+    const selection = document.getSelection();
+    const anchor = selection?.anchorNode as Node | null;
+    const host =
+      anchor instanceof Element ? anchor : (anchor?.parentElement ?? null);
+    expect(host?.closest?.('table')).toBeNull();
+    expect(host?.closest?.('p')).toBeTruthy();
+  });
+
+  it('clears the editor on submit when clearOnSubmit is set', () => {
+    create();
+    fixture.componentRef.setInput('clearOnSubmit', true);
+    fixture.detectChanges();
+    const emitted: unknown[] = [];
+    fixture.componentInstance.submitted.subscribe((v) => emitted.push(v));
+    fixture.componentInstance.writeValue('<p>ping</p>');
+    fixture.detectChanges();
+    fixture.componentInstance.submit();
+    expect(emitted).toHaveLength(1);
+    expect(fixture.componentInstance.value().text).toBe('');
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    expect(area.textContent?.trim() ?? '').toBe('');
+  });
+
+  it('keeps the value on submit by default', () => {
+    create();
+    const emitted: unknown[] = [];
+    fixture.componentInstance.submitted.subscribe((v) => emitted.push(v));
+    fixture.componentInstance.writeValue('<p>ping</p>');
+    fixture.detectChanges();
+    fixture.componentInstance.submit();
+    expect(emitted).toHaveLength(1);
+    expect(fixture.componentInstance.value().text).toBe('ping');
+  });
+
+  it('keeps the floating toolbar reachable in plain mode', () => {
+    create();
+    fixture.componentRef.setInput('toolbarDisplay', 'floating');
+    fixture.componentInstance['contentFormat'].set('plain');
+    fixture.componentInstance['floatingVisible'].set(true);
+    fixture.detectChanges();
+    expect(fixture.componentInstance['showFloatingToolbar']()).toBe(true);
+    const host = fixture.nativeElement as HTMLElement;
+    expect(
+      (host.querySelector('[data-action="format"]') as HTMLButtonElement)
+        ?.disabled,
+    ).toBe(false);
+    expect(
+      (host.querySelector('[data-action="image"]') as HTMLButtonElement)
+        ?.disabled,
+    ).toBe(true);
+    expect(
+      (host.querySelector('[data-action="table"]') as HTMLButtonElement)
+        ?.disabled,
+    ).toBe(true);
   });
 
   it('rejects images without alt and validates accept/size', () => {
@@ -2345,6 +2452,24 @@ describe('rich-text-editor utils (F1 core)', () => {
     expect(clean).not.toContain('<script>');
     expect(clean).not.toContain('onclick');
     expect(clean).not.toContain('javascript:');
+  });
+
+  it('wraps pasted bare images with alt in figures', () => {
+    expect(
+      sanitizeRichTextHtml('<p>a</p><img src="x.png" alt="Logo"><p>b</p>'),
+    ).toContain('<figure data-image><img src="x.png" alt="Logo"></figure>');
+    expect(
+      sanitizeRichTextHtml(
+        '<figure data-image><img src="x.png" alt="Logo"></figure>',
+      ),
+    ).not.toContain('<figure data-image><figure');
+  });
+
+  it('drops pasted images without alt text', () => {
+    expect(sanitizeRichTextHtml('<p>a</p><img src="x">')).not.toContain('<img');
+    expect(sanitizeRichTextHtml('<p>a</p><img src="x" alt="">')).not.toContain(
+      '<img',
+    );
   });
 
   it('counts chars and words with emoji', () => {

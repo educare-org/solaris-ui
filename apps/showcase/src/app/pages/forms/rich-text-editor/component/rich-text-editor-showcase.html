@@ -166,6 +166,7 @@
         <solaris-rich-text-editor
           #composer
           variant="composer"
+          clearOnSubmit
           [toolbarDisplay]="formattingVisible() ? undefined : 'hidden'"
           [placeholder]="'rich-text-editor.composer.label' | translate"
           (submitted)="onComposerSubmit($event)"

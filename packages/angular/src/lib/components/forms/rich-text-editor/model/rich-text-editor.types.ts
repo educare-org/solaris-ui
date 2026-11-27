@@ -114,3 +114,9 @@ export interface SolarisRichTextImageOptions {
 }
 
 export type SolarisRichTextImagePreset = 'S' | 'M' | 'L' | 'original';
+
+export type SolarisRichTextEditorValueInput =
+  | SolarisRichTextValue
+  | string
+  | null
+  | undefined;

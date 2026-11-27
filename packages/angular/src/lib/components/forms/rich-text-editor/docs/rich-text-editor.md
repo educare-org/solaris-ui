@@ -8,7 +8,7 @@ Use `document` for descriptions, templates and payment-form text blocks. Use `co
 
 ## API
 
-Inputs: `value` (model object, `writeValue` also accepts HTML string), `variant`, `appearance`, `size`, `density`, `radius`, `placeholder/placeholderKey`, `ariaLabel/ariaLabelKey`, `disabled/readonly/required/invalid`, `maxLength`, `showCharCount`, `toolbarDisplay`, `toolbarPreset`, `contentFormat` (model `rich|plain`, toggled by the `Aa` toolbar action), `submitTrigger`, `fields`, `fieldTrigger`, `imageUpload { accept, maxSizeBytes }`, `autofocus`.
+Inputs: `value` (model object, `writeValue` also accepts HTML string), `variant`, `appearance`, `size`, `density`, `radius`, `placeholder/placeholderKey`, `ariaLabel/ariaLabelKey`, `disabled/readonly/required/invalid`, `maxLength`, `showCharCount`, `toolbarDisplay`, `toolbarPreset`, `contentFormat` (model `rich|plain`, toggled by the `Aa` toolbar action), `submitTrigger`, `clearOnSubmit` (resets to empty after `submitted`, chat-style; default `false`), `fields`, `fieldTrigger`, `imageUpload { accept, maxSizeBytes }`, `autofocus`.
 
 Toolbar: block style select + inline split button (bold primary + chevron menu), color popover button (Jira-style: `A` in a color-bordered 24px square with thinner glyph, tooltip "Text and highlight color" suppressed while its panel is open, pressed tint while a color or highlight is active; 10-column text grid with light/mid/dark tones per hue + 8 highlight swatches; selected swatches show a contrast-safe check instead of an outline; outline full-width "Remove highlight" action; compact "Accessibility • level" tag with a native-title `?` help), lists split button (bullets primary + chevron menu: bullets/ordered/tasks) + undo/redo pair, align split button (current-alignment primary + chevron menu with radio-checked left/center/right/justify), link popover (URL + optional display text, `Ctrl/Cmd+K`), `Aa` plain toggle, image popover with `solaris-tabs` (`Arquivo`/`Link` with underline indicator + fade transition; file tab: full-width `Carregar` + hidden file input with `PNG, JPG, GIF ou WebP` hint; link tab: URL field + dashed preview with `Carregar pré-visualização`, `Cancelar`/`Inserir`), table. Task lists render static checkboxes (no state sync in v1). Groups separated by `solaris-divider` components; the bar wraps on narrow screens and active items get a marked background (state also exposed via `aria-pressed`, `aria-checked` on the align menu, translated tooltips). Toolbar buttons render at 36px with a 44px pointer hit area; all labels/tooltips resolve through the reactive `translate` pipe so they follow locale changes.
 
@@ -16,7 +16,7 @@ Colors apply user-chosen text color (`data-color`) and highlight (`data-highligh
 
 Outputs: `htmlChange`, `editorFocused`, `editorBlurred`, `selectionChange`, `submitted` (`valueChange` and `contentFormatChange` are auto-emitted by the `value`/`contentFormat` models — never declare them explicitly), `mentionInserted`, `imageAdded/imageRejected/imageRemoved`, `tableInserted`.
 
-Public method `submit()` emits `submitted` with the current value (even when empty, like `Enter`); it is a noop when disabled or readonly.
+Public method `submit()` emits `submitted` with the current value (even when empty, like `Enter`); it is a noop when disabled or readonly. With `clearOnSubmit` the editor resets to empty after emitting (without pushing an undo step) and keeps focus.
 
 The host is a single shared shell (border + radius + bottom-divided toolbar, footer/count inside). Inside `solaris-form-field` the host carries `data-in-field` and drops its own border, background and radius so the field provides the shell (mirrors the textarea contract); the field wrapper resting border is raised to `neutral-border-default` so the in-field shell matches the standalone shell strength (focus/invalid/appearance states still win).
 
@@ -26,7 +26,7 @@ Value shape: `{ html, text, blocks, version: 1 }`. `maxLength` counts visible `t
 
 `solaris-rich-text-view` renders a committed value without any editing chrome: inputs are `value` (same `SolarisRichTextValue | string | null` shape) and optional `ariaLabel` (adds `role="region"` only when set). The content reuses the editor content shell, so view and edit render identically (same typography, alignment, floats, colors, tables, code lines).
 
-Sanitization: committed HTML is allowlist-sanitized in an inert template (only the component allowlist of tags/attributes; links restricted to `http(s)`/`mailto:`/`tel`/relative, image sources to `http(s)`/`blob:`/`data:image`, inline styles to `width`/`max-width` in `px`, classes to the code-line class) before bypassing Angular sanitization, which would otherwise strip the `data-*` attributes the shell relies on. Task checkboxes render inert (`pointer-events: none`). SSR renders an empty shell and hydrates content on the client.
+Sanitization: committed HTML strips `script`/`style`/`iframe`, `on*` handlers and `javascript:` URLs on commit; the toolbar only creates `http(s)` links and `http(s)` image URLs (file uploads create short-lived `blob:` URLs that are revoked on remove/destroy — upload on `imageAdded` and rewrite to a permanent URL before saving). Re-sanitize on render (defense in depth). Task checkboxes render inert (`pointer-events: none`). SSR renders an empty shell and hydrates content on the client.
 
 ## Persisting values
 
@@ -36,7 +36,7 @@ The component is transport-agnostic: persist on `htmlChange`/`submitted` (or rea
 
 `role="textbox" aria-multiline`, labelled by `ariaLabel` or placeholder fallback; `aria-invalid` + `aria-describedby` via form-field; toolbar `role="toolbar"` with `role="separator"` dividers; every toolbar control has a translated tooltip + `aria-label`; link button opens a `dialog` popover with labelled URL/display-text fields (autofocus on the URL field, `Esc` closes); toggles expose `aria-pressed`; mention listbox uses `aria-activedescendant` + `aria-selected`; `Esc` closes the mention menu; count is `role="status" aria-live="polite"`; focus-visible rings; readonly distinct from disabled; reduced-motion doubled guard.
 
-Keyboard: `Ctrl/Cmd+B/I/U` (bold/italic/underline), `Ctrl+Shift+5` (strikethrough, legacy `Ctrl+Shift+S` still works but conflicts with Windows screenshot/save), `Ctrl+Shift+9` (inline code, legacy `Ctrl+Shift+M` still works but conflicts with devtools), `Ctrl/Cmd+,` (subscript), `Ctrl/Cmd+.` (superscript), `Ctrl/Cmd+\` (clear formatting), `Alt+ArrowUp/Down` (move current block up/down), `Ctrl+Shift+L/C/R/J` (align left/center/right/justify), `Ctrl+Shift+8/7/6` (bulleted/ordered/task list), `Ctrl/Cmd+Z` (undo), `Ctrl+Shift+Z` / `Ctrl/Cmd+Y` (redo), `Ctrl/Cmd+K` opens the link popover, `Alt+F10` focuses the toolbar, `ArrowUp/Down + Enter/Esc` in the mention menu, `Tab/Shift+Tab` moves through table cells (native), `Enter/Shift+Enter/Ctrl+Enter` per `submitTrigger`. Clearing removes strong/em/u/s/code/sub/sup/color spans plus block `data-align` from the selection and keeps links, highlights, mentions and pills; on a collapsed caret it clears the current block alignment. History is capped at 50 entries; fast typing coalesces into one undo step per session (pauses at or above 1000ms or any toolbar action start a new step, so one word typed at once undoes in a single step); format toggles do not push history. Blocks can be reordered by dragging the ⋮⋮ grip that appears on hover — including individual list items within their own list — with a blue drop line marking the landing position inside the editor; drops outside the dragged list are ignored. `Alt+ArrowUp/Down` moves the current block or list item the same way for keyboard users; moving pushes history so it undoes in a single step.
+Keyboard: `Ctrl/Cmd+B/I/U` (bold/italic/underline), `Ctrl+Shift+5` (strikethrough, legacy `Ctrl+Shift+S` still works but conflicts with Windows screenshot/save), `Ctrl+Shift+9` (inline code, legacy `Ctrl+Shift+M` still works but conflicts with devtools), `Ctrl/Cmd+,` (subscript), `Ctrl/Cmd+.` (superscript), `Ctrl/Cmd+\` (clear formatting), `Alt+ArrowUp/Down` (move current block up/down), `Ctrl+Shift+L/C/R/J` (align left/center/right/justify), `Ctrl+Shift+8/7/6` (bulleted/ordered/task list), `Ctrl/Cmd+Z` (undo), `Ctrl+Shift+Z` / `Ctrl/Cmd+Y` (redo), `Ctrl/Cmd+K` opens the link popover, `Alt+F10` focuses the toolbar, `ArrowUp/Down + Enter/Esc` in the mention menu, `Tab/Shift+Tab` moves through table cells (Tab on the last cell exits to a paragraph after the table, created when missing), `Enter/Shift+Enter/Ctrl+Enter` per `submitTrigger`. Clearing removes strong/em/u/s/code/sub/sup/color spans plus block `data-align` from the selection and keeps links, highlights, mentions and pills; on a collapsed caret it clears the current block alignment. History is capped at 50 entries; fast typing coalesces into one undo step per session (pauses at or above 1000ms or any toolbar action start a new step, so one word typed at once undoes in a single step); format toggles do not push history. Blocks can be reordered by dragging the ⋮⋮ grip that appears on hover — including individual list items within their own list — with a blue drop line marking the landing position inside the editor; drops outside the dragged list are ignored. `Alt+ArrowUp/Down` moves the current block or list item the same way for keyboard users; moving pushes history so it undoes in a single step.
 
 Motion signature: content-format (`Aa`) switch crossfades the editing area while the toolbar groups to the right of the block-style select play a short horizontal slide (`translateX ±12px` + fade, 300ms `normal`, standard easing, WAAPI fire-and-forget after render, 20ms stagger per group). The block select always stays first and exists in both modes, so it never moves; the toolbar container and its border are never animated and keep their natural height throughout — no `height`/`overflow` animation, so the editor below never shifts mid-play (compositor-only properties per the motion guidance). Reduced motion (media query or `data-reduced-motion`) skips the whole play; SSR/jsdom without `animate` or `requestAnimationFrame` renders the end state synchronously. No other enter/exit animation (instant state, same information without motion); only focus-ring color transitions on `fast` tokens; floating toolbar repositions instantly on selection change; every transition ships the doubled reduced-motion guard (media query + `data-reduced-motion`), which also disables the `Aa` animation, as does any environment without WAAPI (SSR/jsdom).
 
@@ -49,15 +49,15 @@ Motion signature: content-format (`Aa`) switch crossfades the editing area while
   <solaris-rich-text-editor [fields]="fields" [maxLength]="300" />
 </solaris-form-field>
 
-<solaris-rich-text-editor variant="composer" (submitted)="send($event)" />
+<solaris-rich-text-editor variant="composer" clearOnSubmit (submitted)="send($event)" />
 
 @if (editing) {
-  <solaris-rich-text-editor [(value)]="draft" [maxLength]="300" />
-  <button solaris-button (click)="saved.set(draft()); editing.set(false)">Save</button>
-  <button solaris-button (click)="draft.set(saved()); editing.set(false)">Cancel</button>
+<solaris-rich-text-editor [(value)]="draft" [maxLength]="300" />
+<button solaris-button (click)="saved.set(draft()); editing.set(false)">Save</button>
+<button solaris-button (click)="draft.set(saved()); editing.set(false)">Cancel</button>
 } @else {
-  <solaris-rich-text-view [value]="saved()" />
-  <button solaris-button (click)="draft.set(saved()); editing.set(true)">Edit</button>
+<solaris-rich-text-view [value]="saved()" />
+<button solaris-button (click)="draft.set(saved()); editing.set(true)">Edit</button>
 }
 ```
 
@@ -65,7 +65,7 @@ Tables insert as semantic `table/tbody/tr/th(scope=col)/td` (no merge/sort/neste
 
 ## Composer floating toolbar
 
-With `toolbarDisplay="floating"` (default in `composer`), the toolbar positions above the current text selection (`Selection`/`Range` geometry, SSR-guarded) and hides when the selection collapses, in `plain` format, or when disabled/readonly.
+With `toolbarDisplay="floating"` (default in `composer`), the toolbar positions above the current text selection (`Selection`/`Range` geometry, SSR-guarded) and hides when the selection collapses or when disabled/readonly. In `plain` format it stays reachable with only the format toggle enabled (block style, image and table are disabled), so composer users can always switch back to rich.
 
 ## CSS Variables
 
