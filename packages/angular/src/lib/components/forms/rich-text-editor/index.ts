@@ -1,4 +1,5 @@
 export { SolarisRichTextEditorComponent } from './component/rich-text-editor.component';
+export { SolarisRichTextViewComponent } from './component/view/view.component';
 export type {
   SolarisRichTextActiveMark,
   SolarisRichTextAppearance,

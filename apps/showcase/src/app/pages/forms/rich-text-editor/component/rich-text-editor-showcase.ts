@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import {
@@ -7,6 +7,7 @@ import {
   SolarisFormFieldComponent,
   SolarisPreviewCodeComponent,
   SolarisRichTextEditorComponent,
+  SolarisRichTextViewComponent,
   SolarisTabComponent,
   SolarisTabPanelComponent,
   SolarisTabsComponent,
@@ -36,6 +37,9 @@ import {
   RICH_TEXT_EDITOR_SHOWCASE_INSTALL_COMMANDS,
   RICH_TEXT_EDITOR_SHOWCASE_NEXT,
   RICH_TEXT_EDITOR_SHOWCASE_PREV,
+  RICH_TEXT_EDITOR_SHOWCASE_PREVIEW_CODE,
+  RICH_TEXT_EDITOR_SHOWCASE_PREVIEW_HTML,
+  RICH_TEXT_EDITOR_SHOWCASE_PREVIEW_TEXT,
   RICH_TEXT_EDITOR_SHOWCASE_REACTIVE_CODE,
   RICH_TEXT_EDITOR_SHOWCASE_SLUG,
   RICH_TEXT_EDITOR_SHOWCASE_STATES_CODE,
@@ -52,6 +56,7 @@ import {
     SolarisFormFieldComponent,
     SolarisPreviewCodeComponent,
     SolarisRichTextEditorComponent,
+    SolarisRichTextViewComponent,
     SolarisTabComponent,
     SolarisTabPanelComponent,
     SolarisTabsComponent,
@@ -87,6 +92,7 @@ export class RichTextEditorShowcasePage {
     RICH_TEXT_EDITOR_SHOWCASE_APPEARANCE_FILLED_CODE;
   protected readonly statesCode = RICH_TEXT_EDITOR_SHOWCASE_STATES_CODE;
   protected readonly reactiveCode = RICH_TEXT_EDITOR_SHOWCASE_REACTIVE_CODE;
+  protected readonly previewCode = RICH_TEXT_EDITOR_SHOWCASE_PREVIEW_CODE;
 
   protected readonly fields: readonly SolarisRichTextField[] = [
     { id: 'full-name', label: 'Full name', key: 'fullName' },
@@ -94,6 +100,41 @@ export class RichTextEditorShowcasePage {
   ];
 
   protected readonly notesControl = new FormControl('');
+
+  protected readonly descriptionEditing = signal(false);
+
+  protected readonly descriptionSaved = signal<SolarisRichTextValue>({
+    html: RICH_TEXT_EDITOR_SHOWCASE_PREVIEW_HTML,
+    text: RICH_TEXT_EDITOR_SHOWCASE_PREVIEW_TEXT,
+    blocks: [],
+    version: 1,
+  });
+
+  protected readonly descriptionDraft = signal<SolarisRichTextValue>({
+    html: RICH_TEXT_EDITOR_SHOWCASE_PREVIEW_HTML,
+    text: RICH_TEXT_EDITOR_SHOWCASE_PREVIEW_TEXT,
+    blocks: [],
+    version: 1,
+  });
+
+  protected readonly descriptionDirty = computed(
+    () => this.descriptionDraft().html !== this.descriptionSaved().html,
+  );
+
+  protected startDescriptionEdit(): void {
+    this.descriptionDraft.set(this.descriptionSaved());
+    this.descriptionEditing.set(true);
+  }
+
+  protected saveDescriptionEdit(): void {
+    this.descriptionSaved.set(this.descriptionDraft());
+    this.descriptionEditing.set(false);
+  }
+
+  protected cancelDescriptionEdit(): void {
+    this.descriptionDraft.set(this.descriptionSaved());
+    this.descriptionEditing.set(false);
+  }
 
   protected readonly submittedLog = signal<readonly SolarisRichTextValue[]>([]);
 

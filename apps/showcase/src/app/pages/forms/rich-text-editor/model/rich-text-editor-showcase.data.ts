@@ -31,6 +31,7 @@ export const RICH_TEXT_EDITOR_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'composer', labelKey: 'rich-text-editor.section.composer' },
   { anchor: 'states', labelKey: 'rich-text-editor.section.states' },
   { anchor: 'form', labelKey: 'rich-text-editor.section.form' },
+  { anchor: 'preview', labelKey: 'rich-text-editor.section.preview' },
   { anchor: 'installation', labelKey: 'rich-text-editor.section.installation' },
 ];
 
@@ -83,6 +84,26 @@ export const RICH_TEXT_EDITOR_SHOWCASE_REACTIVE_CODE = [
   '<solaris-form-field label="Notes">',
   '  <solaris-rich-text-editor [formControl]="notesControl" placeholder="Notes" />',
   '</solaris-form-field>',
+].join('\n');
+
+export const RICH_TEXT_EDITOR_SHOWCASE_PREVIEW_HTML = [
+  '<p><strong>Objetivo:</strong> validar o PIX Automático em Parâmetros do Sistema.</p>',
+  '<ul><li>Conferir a documentação funcional</li><li>Validar a criação do parâmetro</li></ul>',
+  '<p>Detalhes em <a href="https://example.com/docs" target="_blank" rel="noopener">documento funcional</a>.</p>',
+].join('');
+
+export const RICH_TEXT_EDITOR_SHOWCASE_PREVIEW_TEXT =
+  'Objetivo: validar o PIX Automático em Parâmetros do Sistema. Conferir a documentação funcional Validar a criação do parâmetro Detalhes em documento funcional.';
+
+export const RICH_TEXT_EDITOR_SHOWCASE_PREVIEW_CODE = [
+  '@if (editing) {',
+  '  <solaris-rich-text-editor [(value)]="draft" [maxLength]="300" />',
+  '  <button solaris-button (click)="saved.set(draft()); editing.set(false)">Save</button>',
+  '  <button solaris-button (click)="draft.set(saved()); editing.set(false)">Cancel</button>',
+  '} @else {',
+  '  <solaris-rich-text-view [value]="saved()" />',
+  '  <button solaris-button (click)="draft.set(saved()); editing.set(true)">Edit</button>',
+  '}',
 ].join('\n');
 
 export { SHOWCASE_INSTALL_COMMANDS as RICH_TEXT_EDITOR_SHOWCASE_INSTALL_COMMANDS } from '../../../shared/showcase-page-utils';

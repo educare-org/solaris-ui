@@ -7,6 +7,7 @@ import {
   Component,
   computed,
   DestroyRef,
+  effect,
   ElementRef,
   forwardRef,
   HostListener,
@@ -68,6 +69,7 @@ import {
   parseCssRgba,
   removeHighlightSpans,
   RICH_TEXT_ZERO_WIDTH_SPACE,
+  sanitizeRichTextHtml,
   shouldCoalesceHistory,
   stripHtmlToText,
   toPlainText,
@@ -180,6 +182,26 @@ export class SolarisRichTextEditorComponent
     this.destroyRef.onDestroy(() => {
       window.removeEventListener('scroll', repositionFloatingToolbar, true);
       window.removeEventListener('resize', repositionFloatingToolbar);
+    });
+    effect(() => {
+      const next = this.value();
+      const editor = this.editorRef()?.nativeElement ?? null;
+      if (!editor || typeof document === 'undefined') return;
+      // While typing, the DOM is the source of truth (committed on input).
+      if (this._focused()) return;
+      // SECURITY_EXCEPTION: reading edited HTML to compare with the model;
+      // same pattern as Angular CDK form controls. Read-only.
+      const current = editor.innerHTML ?? '';
+      if (current === next.html) return;
+      // Transient editing chrome (grips, resize handles, selection and drag
+      // flags) lives only in the DOM: when the committed value matches the
+      // cleaned DOM, data is already in sync and replacing innerHTML would
+      // wipe an in-progress interaction (selection, drag, open figure).
+      if (cleanCommittedHtml(current) === next.html) return;
+      // SECURITY_EXCEPTION: syncing external/programmatic values (e.g. an
+      // initial [(value)] without ControlValueAccessor) requires writing
+      // native innerHTML; same pattern as writeValue below. Write-only.
+      editor.innerHTML = next.html;
     });
   }
 

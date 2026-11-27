@@ -1,0 +1,26 @@
+:host {
+  --solaris-rich-text-radius: var(--solaris-radius-md);
+  --solaris-rich-text-bg: transparent;
+  --solaris-rich-text-padding-x: 0;
+  --solaris-rich-text-padding-y: 0;
+  --solaris-rich-text-min-height: 0;
+  --solaris-rich-text-color: var(--solaris-neutral-text-body);
+  --solaris-rich-text-border-width: var(--solaris-border-width-sm);
+  --solaris-rich-text-border-color: var(--solaris-neutral-border-default);
+
+  display: block;
+  color: var(--solaris-rich-text-color);
+  font-family: var(--solaris-font-family-sans), system-ui;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    animation: none;
+    transition: none;
+  }
+}
+
+:host-context([data-reduced-motion='true']) {
+  animation: none;
+  transition: none;
+}

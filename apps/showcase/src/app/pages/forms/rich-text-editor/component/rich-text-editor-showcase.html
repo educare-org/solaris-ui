@@ -204,6 +204,70 @@
     </solaris-preview-code>
   </app-docs-section>
 
+  <app-docs-section anchor="preview" titleKey="rich-text-editor.section.preview">
+    <p class="rich-text-editor-showcase__note">
+      {{ 'rich-text-editor.preview.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="previewCode" language="html">
+      <div class="rich-text-editor-showcase__preview">
+        <div class="rich-text-editor-showcase__preview-header">
+          <span class="rich-text-editor-showcase__preview-title">{{
+            'rich-text-editor.preview.title' | translate
+          }}</span>
+          @if (descriptionDirty()) {
+            <span class="rich-text-editor-showcase__preview-dirty">{{
+              'rich-text-editor.preview.unsaved' | translate
+            }}</span>
+          }
+          @if (!descriptionEditing()) {
+            <button
+              solaris-button
+              size="sm"
+              type="button"
+              [attr.data-action]="'preview-edit'"
+              (click)="startDescriptionEdit()"
+            >
+              {{ 'rich-text-editor.preview.edit' | translate }}
+            </button>
+          }
+        </div>
+        @if (descriptionEditing()) {
+          <solaris-rich-text-editor
+            [(value)]="descriptionDraft"
+            [maxLength]="300"
+            [placeholder]="'rich-text-editor.preview.label' | translate"
+          />
+          <div class="rich-text-editor-showcase__preview-actions">
+            <button
+              solaris-button
+              size="sm"
+              type="button"
+              [attr.data-action]="'preview-save'"
+              (click)="saveDescriptionEdit()"
+            >
+              {{ 'rich-text-editor.preview.save' | translate }}
+            </button>
+            <button
+              solaris-button
+              size="sm"
+              appearance="ghost"
+              type="button"
+              [attr.data-action]="'preview-cancel'"
+              (click)="cancelDescriptionEdit()"
+            >
+              {{ 'rich-text-editor.preview.cancel' | translate }}
+            </button>
+          </div>
+        } @else {
+          <solaris-rich-text-view
+            [value]="descriptionSaved()"
+            [ariaLabel]="'rich-text-editor.preview.label' | translate"
+          />
+        }
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
   <app-docs-section
     anchor="installation"
     titleKey="rich-text-editor.section.installation"

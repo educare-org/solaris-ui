@@ -20,7 +20,17 @@ Public method `submit()` emits `submitted` with the current value (even when emp
 
 The host is a single shared shell (border + radius + bottom-divided toolbar, footer/count inside). Inside `solaris-form-field` the host carries `data-in-field` and drops its own border, background and radius so the field provides the shell (mirrors the textarea contract); the field wrapper resting border is raised to `neutral-border-default` so the in-field shell matches the standalone shell strength (focus/invalid/appearance states still win).
 
-Value shape: `{ html, text, blocks, version: 1 }`. `maxLength` counts visible `text` (pills count as label length).
+Value shape: `{ html, text, blocks, version: 1 }`. `maxLength` counts visible `text` (pills count as label length). Programmatic `value` updates paint the editor automatically while it is not focused, so `[(value)]` with a preset works without `ControlValueAccessor`.
+
+## Read-only view
+
+`solaris-rich-text-view` renders a committed value without any editing chrome: inputs are `value` (same `SolarisRichTextValue | string | null` shape) and optional `ariaLabel` (adds `role="region"` only when set). The content reuses the editor content shell, so view and edit render identically (same typography, alignment, floats, colors, tables, code lines).
+
+Sanitization: committed HTML is allowlist-sanitized in an inert template (only the component allowlist of tags/attributes; links restricted to `http(s)`/`mailto:`/`tel`/relative, image sources to `http(s)`/`blob:`/`data:image`, inline styles to `width`/`max-width` in `px`, classes to the code-line class) before bypassing Angular sanitization, which would otherwise strip the `data-*` attributes the shell relies on. Task checkboxes render inert (`pointer-events: none`). SSR renders an empty shell and hydrates content on the client.
+
+## Persisting values
+
+The component is transport-agnostic: persist on `htmlChange`/`submitted` (or read `value()`). Recommended columns: `content_html TEXT` (source of truth, rendered back through the view), `content_text TEXT` (generated for search/listing without parsing HTML), `content_version SMALLINT` + `updated_at` (the `version: 1` field already supports future schema migrations). Re-sanitize on render (defense in depth â€” the stored HTML was already sanitized on commit). Local file uploads produce `blob:` URLs that do not survive reload: upload the file to permanent storage on `imageAdded` (or an async `imageUpload` hook) and rewrite the figure `src` to the permanent URL before saving.
 
 ## Accessibility
 

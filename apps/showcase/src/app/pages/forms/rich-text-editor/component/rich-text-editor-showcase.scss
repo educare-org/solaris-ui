@@ -57,3 +57,30 @@
   flex-direction: column;
   gap: var(--solaris-spacing-2);
 }
+
+.rich-text-editor-showcase__preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-3);
+  width: 100%;
+}
+
+.rich-text-editor-showcase__preview-header {
+  display: flex;
+  align-items: center;
+  gap: var(--solaris-spacing-3);
+}
+
+.rich-text-editor-showcase__preview-title {
+  font-weight: var(--solaris-font-weight-medium);
+}
+
+.rich-text-editor-showcase__preview-dirty {
+  font-size: var(--solaris-font-size-xs);
+  color: var(--solaris-warning-solid);
+}
+
+.rich-text-editor-showcase__preview-actions {
+  display: flex;
+  gap: var(--solaris-spacing-2);
+}

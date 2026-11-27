@@ -39,6 +39,15 @@
       "empty": "Nothing submitted yet.",
       "title": "Submitted values"
     },
+    "preview": {
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "label": "Work description",
+      "note": "Switch between reading and editing. Edits become a draft until you Save; Cancel discards them.",
+      "save": "Save",
+      "title": "Description",
+      "unsaved": "Unsaved changes"
+    },
     "section": {
       "appearances": "Appearances",
       "composer": "Composer",
@@ -46,6 +55,7 @@
       "fields": "Form fields",
       "form": "Form integration",
       "installation": "Installation",
+      "preview": "Preview and editing",
       "states": "States"
     },
     "states": {

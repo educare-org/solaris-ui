@@ -39,6 +39,15 @@
       "empty": "Nada enviado ainda.",
       "title": "Valores enviados"
     },
+    "preview": {
+      "cancel": "Cancelar",
+      "edit": "Editar",
+      "label": "Descrição do trabalho",
+      "note": "Alterne entre leitura e edição. Edições viram rascunho até Salvar; Cancelar descarta.",
+      "save": "Salvar",
+      "title": "Descrição",
+      "unsaved": "Alterações não salvas"
+    },
     "section": {
       "appearances": "Aparências",
       "composer": "Composer",
@@ -46,6 +55,7 @@
       "fields": "Campos do formulário",
       "form": "Integração com formulário",
       "installation": "Instalação",
+      "preview": "Visualização e edição",
       "states": "Estados"
     },
     "states": {

@@ -741,6 +741,7 @@ export type {
 } from './lib/components/forms/textarea/model/textarea.types';
 
 export { SolarisRichTextEditorComponent } from './lib/components/forms/rich-text-editor/component/rich-text-editor.component';
+export { SolarisRichTextViewComponent } from './lib/components/forms/rich-text-editor/component/view/view.component';
 export type {
   SolarisRichTextAppearance,
   SolarisRichTextBlock,
