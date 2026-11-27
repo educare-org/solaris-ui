@@ -26,6 +26,11 @@ describe('rich-text-editor content shell', () => {
     expect(shell).not.toContain('ol > li::before');
   });
 
+  it('keeps list gutters symmetric on both sides', () => {
+    expect(shell).toContain('padding-right: var(--solaris-spacing-9)');
+    expect(shell).toContain('padding-right: var(--solaris-spacing-2)');
+  });
+
   it('floats the drag grip outside the text flow with a grab cursor', () => {
     expect(shell).toContain('.solaris-block-grip');
     expect(shell).toContain('cursor: grab');
@@ -37,12 +42,14 @@ describe('rich-text-editor content shell', () => {
     expect(shell).toContain('.solaris-block-drop-line');
   });
 
-  it('reserves a grip gutter without shifting text', () => {
+  it('reserves a symmetric grip gutter without shifting text', () => {
     expect(shell).toContain(
       ".solaris-rich-text-editor:not([data-variant='composer'])",
     );
     expect(shell).toContain('padding-left: calc(');
-    expect(shell).toContain('left: -18px');
+    expect(shell).toContain('padding-right: calc(');
+    expect(shell).toContain('--solaris-rich-text-grip-gutter');
+    expect(shell).toContain('var(--solaris-spacing-7)');
   });
 
   it('collapses the grip gutter when the editor is empty', () => {

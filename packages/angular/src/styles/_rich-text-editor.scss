@@ -56,6 +56,7 @@
 .solaris-rich-text-editor-area ul,
 .solaris-rich-text-editor-area ol {
   padding-left: var(--solaris-spacing-9);
+  padding-right: var(--solaris-spacing-9);
   list-style-position: outside;
 }
 
@@ -84,6 +85,7 @@
 .solaris-rich-text-editor-area ul[data-task-list] {
   list-style: none;
   padding-left: var(--solaris-spacing-2);
+  padding-right: var(--solaris-spacing-2);
 }
 
 .solaris-rich-text-editor-area ul[data-task-list] > li {
@@ -145,9 +147,11 @@
   content: '';
   display: block;
   position: absolute;
-  border-left: 2px solid var(--solaris-neutral-text-inverse);
-  border-bottom: 2px solid var(--solaris-neutral-text-inverse);
   transform: translate(-50%, calc(-50% - 2px)) rotate(-45deg);
+  border-left: var(--solaris-border-width-md) solid
+    var(--solaris-neutral-text-inverse);
+  border-bottom: var(--solaris-border-width-md) solid
+    var(--solaris-neutral-text-inverse);
 }
 
 .solaris-rich-text-editor-area
@@ -726,19 +730,26 @@
   position: relative;
 }
 
-// Reserved drag-grip gutter: document editors keep a fixed left lane so the
-// grip appears without ever shifting or covering text. Composer keeps its
+// Reserved drag-grip gutter: document editors keep a fixed symmetric lane so
+// the grip appears without ever shifting or covering text. Composer keeps its
 // tight padding (blocks still move there with Alt+ArrowUp/Down).
 .solaris-rich-text-editor:not([data-variant='composer'])
   .solaris-rich-text-editor-area {
-  padding-left: calc(var(--solaris-rich-text-padding-x) + 18px);
+  --solaris-rich-text-grip-gutter: var(--solaris-spacing-7);
+
+  padding-left: calc(
+    var(--solaris-rich-text-padding-x) + var(--solaris-rich-text-grip-gutter)
+  );
+  padding-right: calc(
+    var(--solaris-rich-text-padding-x) + var(--solaris-rich-text-grip-gutter)
+  );
 }
 
 // Empty editors have no blocks to grab, so the grip lane collapses and the
 // caret/placeholder align with the regular field padding.
 .solaris-rich-text-editor:not([data-variant='composer'])
   .solaris-rich-text-editor-area[data-empty] {
-  padding-left: var(--solaris-rich-text-padding-x);
+  padding-inline: var(--solaris-rich-text-padding-x);
 }
 
 .solaris-rich-text-editor-area li {
@@ -752,11 +763,13 @@
 .solaris-block-grip {
   position: absolute;
   top: 2px;
-  left: -18px;
+  left: calc(
+    -1 * var(--solaris-rich-text-grip-gutter, var(--solaris-spacing-7))
+  );
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 16px;
+  width: var(--solaris-spacing-7);
   height: 20px;
   border-radius: var(--solaris-radius-sm);
   color: var(--solaris-neutral-text-secondary);
@@ -782,8 +795,14 @@
 
 .solaris-block-drop-line {
   position: absolute;
-  left: var(--solaris-rich-text-padding-x);
-  right: var(--solaris-rich-text-padding-x);
+  left: calc(
+    var(--solaris-rich-text-padding-x) +
+      var(--solaris-rich-text-grip-gutter, var(--solaris-spacing-7))
+  );
+  right: calc(
+    var(--solaris-rich-text-padding-x) +
+      var(--solaris-rich-text-grip-gutter, var(--solaris-spacing-7))
+  );
   height: 2px;
   margin-top: -1px;
   border-radius: var(--solaris-radius-full);

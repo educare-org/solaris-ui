@@ -536,6 +536,7 @@ export class SolarisRichTextEditorComponent
         version: 1,
       };
       this.commitValue(next, true, true);
+      this.engine.rememberSelection();
       return;
     }
     const text = stripHtmlToText(rawHtml);
@@ -544,6 +545,7 @@ export class SolarisRichTextEditorComponent
       // SECURITY_EXCEPTION: reverting over-limit input to the last committed HTML; write-only.
       host.innerHTML = this.value().html;
       this.placeCaretAtEnd(host);
+      this.engine.rememberSelection();
       return;
     }
     const next: SolarisRichTextValue = {
@@ -555,6 +557,7 @@ export class SolarisRichTextEditorComponent
     this.commitValue(next, true, true);
     this.detectFieldTrigger(text);
     this.normalizeActiveCodeBlock();
+    this.engine.rememberSelection();
   }
 
   protected onEditorFocus(): void {
@@ -638,9 +641,9 @@ export class SolarisRichTextEditorComponent
       input.inputType === 'insertCompositionText' ||
       input.inputType === 'insertFromYank'
     ) {
-      const native = this.insertTextAfterFigure(input.data ?? '');
+      this.insertTextAfterFigure(input.data ?? '');
       this.updateActiveStates();
-      if (!native) this.emitFromDom();
+      this.emitFromDom();
       return;
     }
     if (
@@ -691,24 +694,23 @@ export class SolarisRichTextEditorComponent
     this.syncImagePanel();
   }
 
-  private insertTextAfterFigure(data: string): boolean {
-    if (data.length === 0 || typeof document === 'undefined') return true;
+  private insertTextAfterFigure(data: string): void {
+    if (data.length === 0 || typeof document === 'undefined') return;
     try {
-      if (document.execCommand('insertText', false, data)) return true;
+      const selection = document.getSelection();
+      const range =
+        selection && selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+      if (!range) return;
+      const text = document.createTextNode(data);
+      range.insertNode(text);
+      range.setStartAfter(text);
+      range.collapse(true);
+      selection?.removeAllRanges();
+      selection?.addRange(range);
     } catch {
-      // Fall through to the manual text-node insert below.
+      if (isDevMode())
+        console.warn('[SolarisRichText] Text insert after image failed.');
     }
-    const selection = document.getSelection();
-    const range =
-      selection && selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
-    if (!range) return true;
-    const text = document.createTextNode(data);
-    range.insertNode(text);
-    range.setStartAfter(text);
-    range.collapse(true);
-    selection?.removeAllRanges();
-    selection?.addRange(range);
-    return false;
   }
 
   private insertParagraphAfterFigure(
@@ -778,20 +780,25 @@ export class SolarisRichTextEditorComponent
   }
 
   protected onEditorKeydown(event: KeyboardEvent): void {
-    if (this.handleCodeKey(event)) return;
-    if (this.handleResizeHandleKey(event)) return;
-    if (this.handleLinkShortcut(event)) return;
-    if (this.handleAlignShortcuts(event)) return;
-    if (this.handleListShortcuts(event)) return;
-    if (this.handleTaskListEnter(event)) return;
-    if (this.handleWrapExitEnter(event)) return;
-    if (this.handleBlockMoveKey(event)) return;
-    if (this.handleTableTab(event)) return;
-    if (this.handleListTab(event)) return;
-    if (this.handleInlineShortcuts(event)) return;
-    if (this.handleToolbarFocusShortcut(event)) return;
-    if (this.handleMentionKeys(event)) return;
-    if (this.handleSubmitKey(event)) return;
+    const handlers: Array<(e: KeyboardEvent) => boolean> = [
+      (e) => this.handleCodeKey(e),
+      (e) => this.handleResizeHandleKey(e),
+      (e) => this.handleLinkShortcut(e),
+      (e) => this.handleAlignShortcuts(e),
+      (e) => this.handleListShortcuts(e),
+      (e) => this.handleTaskListEnter(e),
+      (e) => this.handleWrapExitEnter(e),
+      (e) => this.handleBlockMoveKey(e),
+      (e) => this.handleTableTab(e),
+      (e) => this.handleListTab(e),
+      (e) => this.handleInlineShortcuts(e),
+      (e) => this.handleToolbarFocusShortcut(e),
+      (e) => this.handleMentionKeys(e),
+      (e) => this.handleSubmitKey(e),
+    ];
+    for (const handle of handlers) {
+      if (handle(event)) return;
+    }
     if (event.key === 'Escape' && this.mentionOpen()) {
       this.mentionOpen.set(false);
     }
@@ -942,6 +949,7 @@ export class SolarisRichTextEditorComponent
   }
 
   private refreshSelectionState(): void {
+    this.engine.rememberSelection();
     this.selectionChange.emit();
     this.updateActiveStates();
     this.updateFloatingPosition();
@@ -2196,6 +2204,10 @@ export class SolarisRichTextEditorComponent
     if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
     if (this.contentFormat() !== 'rich') return;
     this.engine.restoreSelection();
+    if (this.transformCaretBlockToList(kind)) {
+      this.refocusEditorAfterOverlayClose();
+      return;
+    }
     const items = this.takeSelectedLines() ?? [''];
     const html = buildListHtml(kind, items);
     if (this.engine.insertListAtCaret(html)) {
@@ -2214,6 +2226,10 @@ export class SolarisRichTextEditorComponent
     if (this.isEffectivelyDisabled() || this.readonlyInput()) return;
     if (this.contentFormat() !== 'rich') return;
     this.engine.restoreSelection();
+    if (this.transformCaretBlockToTaskList()) {
+      this.refocusEditorAfterOverlayClose();
+      return;
+    }
     const items = this.takeSelectedLines() ?? [''];
     const html = buildTaskListHtml(items);
     if (this.engine.insertListAtCaret(html)) {
@@ -2222,6 +2238,252 @@ export class SolarisRichTextEditorComponent
       );
     }
     this.refocusEditorAfterOverlayClose();
+  }
+
+  private transformCaretBlockToList(kind: 'ul' | 'ol'): boolean {
+    if (typeof document === 'undefined') return false;
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!editor) return false;
+    const selection = document.getSelection();
+    if (!selection || selection.rangeCount === 0 || !selection.isCollapsed)
+      return false;
+    const range = selection.getRangeAt(0);
+    if (!editor.contains(range.commonAncestorContainer)) return false;
+    const block = this.caretConvertibleBlock(range.startContainer, editor);
+    if (!block)
+      return this.transformBareTextLineToList(kind, range, selection, editor);
+    const text = (block.textContent ?? '').replace(/[\u200b\u00a0]/g, '');
+    const list = document.createElement(kind);
+    const li = document.createElement('li');
+    if (text.trim().length === 0) {
+      li.append(document.createElement('br'));
+    } else {
+      while (block.firstChild) li.append(block.firstChild);
+    }
+    list.append(li);
+    block.replaceWith(list);
+    const caret = document.createRange();
+    caret.selectNodeContents(li);
+    caret.collapse(false);
+    selection.removeAllRanges();
+    selection.addRange(caret);
+    editor.focus({ preventScroll: true });
+    this.emitFromDom(
+      insertBlockEntry(
+        this.value().blocks,
+        kind === 'ul' ? 'bullet-list' : 'ordered-list',
+        text.trim(),
+      ),
+    );
+    return true;
+  }
+
+  private transformCaretBlockToTaskList(): boolean {
+    if (typeof document === 'undefined') return false;
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!editor) return false;
+    const selection = document.getSelection();
+    if (!selection || selection.rangeCount === 0 || !selection.isCollapsed)
+      return false;
+    const range = selection.getRangeAt(0);
+    if (!editor.contains(range.commonAncestorContainer)) return false;
+    const block = this.caretConvertibleBlock(range.startContainer, editor);
+    if (!block)
+      return this.transformBareTextLineToTaskList(range, selection, editor);
+    const text = (block.textContent ?? '').replace(/[\u200b\u00a0]/g, '');
+    const list = document.createElement('ul');
+    list.setAttribute('data-task-list', '');
+    const li = document.createElement('li');
+    const checkbox = document.createElement('input');
+    checkbox.setAttribute('type', 'checkbox');
+    checkbox.setAttribute('data-task-checkbox', '');
+    checkbox.setAttribute('tabindex', '-1');
+    li.append(checkbox);
+    if (text.trim().length === 0) {
+      li.append(document.createTextNode(' '), document.createElement('br'));
+    } else {
+      while (block.firstChild) li.append(block.firstChild);
+    }
+    list.append(li);
+    block.replaceWith(list);
+    const caret = document.createRange();
+    caret.selectNodeContents(li);
+    caret.collapse(false);
+    selection.removeAllRanges();
+    selection.addRange(caret);
+    editor.focus({ preventScroll: true });
+    this.emitFromDom(
+      insertBlockEntry(this.value().blocks, 'bullet-list', text.trim()),
+    );
+    return true;
+  }
+
+  private caretConvertibleBlock(
+    node: Node | null,
+    editor: HTMLElement,
+  ): HTMLElement | null {
+    let el = node instanceof Element ? node : (node?.parentElement ?? null);
+    while (
+      el &&
+      el !== editor &&
+      !/^(P|H1|H2|H3|DIV|BLOCKQUOTE)$/.test(el.tagName)
+    ) {
+      el = el.parentElement;
+    }
+    if (!el || el === editor || !editor.contains(el)) return null;
+    if (el.closest('li, ul[data-task-list], ol, ul')) return null;
+    return el as HTMLElement;
+  }
+
+  private transformBareTextLineToList(
+    kind: 'ul' | 'ol',
+    range: Range,
+    selection: Selection,
+    editor: HTMLElement,
+  ): boolean {
+    const line = this.bareTextLineAroundCaret(range, editor);
+    if (!line) return false;
+    const list = document.createElement(kind);
+    const li = document.createElement('li');
+    return this.convertBareTextRunToListItem(
+      line,
+      list,
+      li,
+      kind === 'ul' ? 'bullet-list' : 'ordered-list',
+      selection,
+      editor,
+    );
+  }
+
+  private transformBareTextLineToTaskList(
+    range: Range,
+    selection: Selection,
+    editor: HTMLElement,
+  ): boolean {
+    const line = this.bareTextLineAroundCaret(range, editor);
+    if (!line) return false;
+    const list = document.createElement('ul');
+    list.setAttribute('data-task-list', '');
+    const li = document.createElement('li');
+    const checkbox = document.createElement('input');
+    checkbox.setAttribute('type', 'checkbox');
+    checkbox.setAttribute('data-task-checkbox', '');
+    checkbox.setAttribute('tabindex', '-1');
+    li.append(checkbox);
+    return this.convertBareTextRunToListItem(
+      line,
+      list,
+      li,
+      'bullet-list',
+      selection,
+      editor,
+    );
+  }
+
+  private convertBareTextRunToListItem(
+    line: { nodes: Node[]; anchor: Node; offset: number },
+    list: HTMLElement,
+    li: HTMLElement,
+    blockKind: 'bullet-list' | 'ordered-list',
+    selection: Selection,
+    editor: HTMLElement,
+  ): boolean {
+    const { nodes, anchor, offset } = line;
+    const first = nodes[0];
+    if (!first.parentNode) return false;
+    const text = nodes
+      .map((node) => node.textContent ?? '')
+      .join('')
+      .replace(/[\u200b\u00a0]/g, '');
+    first.parentNode.insertBefore(list, first);
+    list.append(li);
+    if (text.trim().length === 0) {
+      li.append(document.createElement('br'));
+    } else {
+      for (const node of nodes) li.append(node);
+    }
+    const caret = document.createRange();
+    if (anchor.nodeType === Node.TEXT_NODE && li.contains(anchor)) {
+      const max = anchor.textContent?.length ?? 0;
+      caret.setStart(anchor, Math.min(offset, max));
+      caret.collapse(true);
+    } else {
+      caret.selectNodeContents(li);
+      caret.collapse(false);
+    }
+    selection.removeAllRanges();
+    selection.addRange(caret);
+    editor.focus({ preventScroll: true });
+    this.emitFromDom(
+      insertBlockEntry(this.value().blocks, blockKind, text.trim()),
+    );
+    return true;
+  }
+
+  private bareTextLineAroundCaret(
+    range: Range,
+    editor: HTMLElement,
+  ): { nodes: Node[]; anchor: Node; offset: number } | null {
+    const stopTags = new Set([
+      'P',
+      'H1',
+      'H2',
+      'H3',
+      'H4',
+      'H5',
+      'H6',
+      'DIV',
+      'BLOCKQUOTE',
+      'PRE',
+      'LI',
+      'UL',
+      'OL',
+      'TABLE',
+      'FIGURE',
+      'FIGCAPTION',
+      'THEAD',
+      'TBODY',
+      'TFOOT',
+      'TR',
+      'TD',
+      'TH',
+      'HR',
+      'BR',
+    ]);
+    const anchor = range.startContainer;
+    const offset = range.startOffset;
+    const kids = Array.from(editor.childNodes);
+    let start: number;
+    let end: number;
+    if (anchor === editor) {
+      start = Math.max(0, Math.min(offset, kids.length));
+      end = start;
+    } else {
+      let top: Node | null = anchor;
+      while (
+        top !== null &&
+        top.parentNode !== null &&
+        top.parentNode !== editor
+      ) {
+        const parent: Node = top.parentNode;
+        if (parent instanceof Element && stopTags.has(parent.tagName))
+          return null;
+        top = parent;
+      }
+      if (!top || top.parentNode !== editor) return null;
+      if (top instanceof Element && stopTags.has(top.tagName)) return null;
+      const index = kids.indexOf(top as ChildNode);
+      if (index === -1) return null;
+      start = index;
+      end = index + 1;
+    }
+    const isStop = (node: Node): boolean =>
+      node instanceof Element && stopTags.has(node.tagName);
+    while (start > 0 && !isStop(kids[start - 1])) start -= 1;
+    while (end < kids.length && !isStop(kids[end])) end += 1;
+    const nodes = kids.slice(start, end);
+    if (nodes.length === 0) return null;
+    return { nodes, anchor, offset };
   }
 
   private handleTaskListEnter(event: KeyboardEvent): boolean {
@@ -2531,6 +2793,7 @@ export class SolarisRichTextEditorComponent
   }
 
   private focusParagraphAfterTable(editor: HTMLElement, table: Element): void {
+    if (!editor.contains(table)) return;
     let next = table.nextElementSibling;
     while (next && !(next instanceof HTMLElement)) {
       next = next.nextElementSibling;

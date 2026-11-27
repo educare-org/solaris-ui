@@ -354,6 +354,18 @@ test.describe('Rich Text Editor', () => {
     await expect(area.locator('ul:not([data-task-list])')).toBeVisible();
   });
 
+  test('toolbar bullet button converts the current line instead of appending an empty item', async ({
+    page,
+  }) => {
+    const area = richText.area(0);
+    await area.click();
+    await page.keyboard.type('Teste');
+    await richText.toolbarButton('bullet-list', 0).click();
+    const items = area.locator('ul:not([data-task-list]) > li');
+    await expect(items).toHaveCount(1);
+    await expect(items.first()).toContainText('Teste');
+  });
+
   test('toolbar tooltip text contrasts with its background', async ({
     page,
   }) => {
