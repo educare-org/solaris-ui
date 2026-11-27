@@ -32,6 +32,9 @@ import {
 import { SolarisDividerComponent } from '../../../../data-display/divider';
 import { SolarisSelectComponent } from '../../../../forms/select';
 import { SolarisOptionComponent } from '../../../../forms/option';
+import { SolarisTabsComponent } from '../../../../navigation/tabs/components/root/component/tabs.component';
+import { SolarisTabComponent } from '../../../../navigation/tabs/components/tab/component/tab.component';
+import { SolarisTabPanelComponent } from '../../../../navigation/tabs/components/tab-panel/component/tab-panel.component';
 import {
   SolarisTranslatePipe,
   SolarisTranslateService,
@@ -70,6 +73,9 @@ import type {
     SolarisDividerComponent,
     SolarisSelectComponent,
     SolarisOptionComponent,
+    SolarisTabsComponent,
+    SolarisTabComponent,
+    SolarisTabPanelComponent,
     SolarisTranslatePipe,
   ],
   templateUrl: './toolbar.component.html',
@@ -84,6 +90,9 @@ export class SolarisRichTextToolbarComponent {
     SolarisDropdownMenuTriggerDirective,
   );
   private readonly linkPopoverTrigger = viewChild('linkTrigger', {
+    read: SolarisPopoverTriggerDirective,
+  });
+  private readonly imagePopoverTrigger = viewChild('imageTrigger', {
     read: SolarisPopoverTriggerDirective,
   });
 
@@ -184,6 +193,8 @@ export class SolarisRichTextToolbarComponent {
   readonly linkApply = output<SolarisRichTextLinkDraft>();
   readonly formatToggle = output<void>();
   readonly imageFile = output<Event>();
+  readonly imageLinkApply = output<string>();
+  readonly imagePrepare = output<void>();
   readonly tableInsert = output<void>();
 
   readonly linkUrl = input<string>('');
@@ -191,7 +202,13 @@ export class SolarisRichTextToolbarComponent {
   readonly linkText = input<string>('');
   readonly linkTextChange = output<string>();
 
+  readonly imageLinkUrl = input<string>('');
+  readonly imageLinkUrlChange = output<string>();
+
   protected readonly colorPanelOpen = signal(false);
+  protected readonly imageTab = signal<'file' | 'link'>('file');
+  protected readonly imagePreviewUrl = signal<string>('');
+  protected readonly imagePreviewError = signal(false);
 
   protected readonly alignIcon = computed(() => {
     switch (this.align()) {
@@ -223,7 +240,13 @@ export class SolarisRichTextToolbarComponent {
 
   protected readonly alignValue = computed<SolarisRichTextAlign>(() => {
     const current = this.align();
-    return current === 'mixed' ? 'left' : current;
+    if (current === 'mixed') return 'left';
+    return current;
+  });
+
+  protected readonly isWrapAlign = computed(() => {
+    const current = this.align();
+    return current === 'start-wrap' || current === 'end-wrap';
   });
 
   @HostListener('click')
@@ -261,6 +284,62 @@ export class SolarisRichTextToolbarComponent {
 
   protected applyLinkFromPanel(): void {
     this.linkApply.emit({ url: this.linkUrl(), text: this.linkText() });
+  }
+
+  openImagePanel(): void {
+    try {
+      this.imagePopoverTrigger()?.open();
+    } catch {
+      if (isDevMode())
+        console.warn('[SolarisRichText] Image popover open failed.');
+    }
+  }
+
+  closeImagePanel(): void {
+    try {
+      this.imagePopoverTrigger()?.close();
+    } catch {
+      if (isDevMode())
+        console.warn('[SolarisRichText] Image popover close failed.');
+    }
+  }
+
+  protected prepareImagePanel(): void {
+    this.imageTab.set('file');
+    this.imagePreviewUrl.set('');
+    this.imagePreviewError.set(false);
+    this.imagePrepare.emit();
+  }
+
+  protected setImageTab(tab: string | number | undefined): void {
+    if (tab !== 'file' && tab !== 'link') return;
+    this.imageTab.set(tab);
+    this.imagePreviewError.set(false);
+  }
+
+  protected loadImagePreview(): void {
+    const url = this.imageLinkUrl().trim();
+    if (url.length === 0) return;
+    this.imagePreviewError.set(false);
+    this.imagePreviewUrl.set(url);
+  }
+
+  protected onImagePreviewError(): void {
+    this.imagePreviewError.set(true);
+  }
+
+  protected applyImageLinkFromPanel(): void {
+    const url = this.imageLinkUrl().trim();
+    if (url.length === 0) return;
+    this.imageLinkApply.emit(url);
+    this.closeImagePanel();
+  }
+
+  protected clearImagePanel(): void {
+    this.imageLinkUrlChange.emit('');
+    this.imagePreviewUrl.set('');
+    this.imagePreviewError.set(false);
+    this.imageTab.set('file');
   }
 
   protected colorSwatchLabel(color: string): string {

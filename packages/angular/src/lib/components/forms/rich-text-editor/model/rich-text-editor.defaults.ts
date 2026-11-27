@@ -27,6 +27,10 @@ export const SOLARIS_RICH_TEXT_IMAGE_PRESET_WIDTHS: Record<
   number
 > = { S: 0.25, M: 0.5, L: 0.75 };
 
+export const SOLARIS_RICH_TEXT_IMAGE_SNAP_STEP = 0.1;
+
+export const SOLARIS_RICH_TEXT_IMAGE_SNAP_TOLERANCE_PX = 8;
+
 export const SOLARIS_RICH_TEXT_INLINE_TAG_SHORTCUTS: Record<
   string,
   SolarisRichTextInlineTag
@@ -126,4 +130,9 @@ export const SOLARIS_RICH_TEXT_ALLOWED_ATTRIBUTES: readonly string[] = [
   'data-task-list',
   'data-language',
   'data-line-numbers',
+  'data-align',
+  'data-bordered',
+  'data-clear',
+  'data-color',
+  'style',
 ];

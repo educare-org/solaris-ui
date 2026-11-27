@@ -76,11 +76,13 @@ export function describeFigureWidth(
   width: number,
   max: number,
 ): void {
-  const handle = figure.querySelector('.solaris-image-resize-handle');
-  handle?.setAttribute('aria-valuemax', String(max));
-  handle?.setAttribute('aria-valuenow', String(width));
-  handle?.setAttribute('aria-valuetext', `${width} pixels`);
-  handle?.setAttribute('title', `${width} px`);
+  const handles = figure.querySelectorAll('.solaris-image-resize-handle');
+  for (const handle of Array.from(handles)) {
+    handle.setAttribute('aria-valuemax', String(max));
+    handle.setAttribute('aria-valuenow', String(width));
+    handle.setAttribute('aria-valuetext', `${width} pixels`);
+    handle.setAttribute('title', `${width} px`);
+  }
 }
 
 export function expandRangeToInlineAncestors(

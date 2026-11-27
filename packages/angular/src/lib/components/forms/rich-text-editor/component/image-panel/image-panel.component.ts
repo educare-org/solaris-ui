@@ -6,11 +6,11 @@ import {
   output,
 } from '@angular/core';
 
-import { SolarisButtonDirective } from '../../../../actions/button';
 import { SolarisButtonGroupComponent } from '../../../../actions/button-group';
 import { SolarisIconButtonDirective } from '../../../../actions/icon-button';
 import { SolarisIconComponent } from '../../../../icon';
 import { SolarisTooltipDirective } from '../../../../interaction/tooltip';
+import { SolarisDividerComponent } from '../../../../data-display/divider';
 import {
   SolarisDropdownMenuComponent,
   SolarisDropdownMenuItemComponent,
@@ -25,11 +25,11 @@ import type { SolarisRichTextAlign } from '../../functions/rich-text-editor.util
   selector: 'solaris-rich-text-image-panel',
   standalone: true,
   imports: [
-    SolarisButtonDirective,
     SolarisButtonGroupComponent,
     SolarisIconButtonDirective,
     SolarisIconComponent,
     SolarisTooltipDirective,
+    SolarisDividerComponent,
     SolarisDropdownMenuComponent,
     SolarisDropdownMenuTriggerDirective,
     SolarisDropdownMenuItemComponent,
@@ -46,6 +46,11 @@ export class SolarisRichTextImagePanelComponent {
   readonly bordered = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
+  readonly width = input<number>(0);
+  readonly height = input<number>(0);
+  readonly resizing = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
   readonly disabled = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
@@ -59,4 +64,7 @@ export class SolarisRichTextImagePanelComponent {
   readonly remove = output<void>();
   readonly focusHandle = output<void>();
   readonly copied = output<void>();
+  readonly linkRequest = output<void>();
+  readonly altRequest = output<void>();
+  readonly jumpBelow = output<void>();
 }

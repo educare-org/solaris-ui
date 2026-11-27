@@ -1,14 +1,3 @@
-/// Solaris UI — Rich Text Editor content styles.
-///
-/// Uncompiled editor content (inserted through `innerHTML`) cannot match
-/// Angular emulated-encapsulation attributes, so every rule that targets
-/// user content inside the editing area lives here, next to the other
-/// official component shells (`_textarea.scss`, `_input.scss`). Toolbar
-/// chrome stays in the component stylesheet.
-///
-/// The fixed Jira-style content palette lives in `token/color/_content.scss`
-/// (global `:root`, resolvable from CDK overlays too).
-
 .solaris-rich-text-editor-area {
   border: none;
   border-radius: 0;
@@ -19,6 +8,7 @@
   min-height: var(--solaris-rich-text-min-height);
   font-family: var(--solaris-font-family-sans), system-ui;
   padding: var(--solaris-rich-text-padding-y) var(--solaris-rich-text-padding-x);
+  position: relative;
 }
 
 .solaris-rich-text-editor[data-variant='composer']
@@ -78,8 +68,17 @@
   counter-increment: solaris-ol;
 }
 
-.solaris-rich-text-editor-area ol > li::before {
+.solaris-rich-text-editor-area ol > li::marker {
   content: counters(solaris-ol, '.') '. ';
+}
+
+// Lists that flow beside a left-floated image establish their own block
+// formatting context so markers (and task checkboxes) render beside the
+// float instead of hidden underneath it. Right floats never cover the
+// left-side markers, so no rule is needed for them.
+.solaris-rich-text-editor-area figure[data-align='start-wrap'] ~ ul,
+.solaris-rich-text-editor-area figure[data-align='start-wrap'] ~ ol {
+  display: flow-root;
 }
 
 .solaris-rich-text-editor-area ul[data-task-list] {
@@ -173,6 +172,10 @@
 
 .solaris-rich-text-editor-area [data-align='right'] {
   text-align: right;
+}
+
+.solaris-rich-text-editor-area [data-clear='both'] {
+  clear: both;
 }
 
 .solaris-rich-text-editor-area th[data-align='center'],
@@ -544,14 +547,24 @@
 
 .solaris-rich-text-editor-area figure[data-image] {
   position: relative;
+  width: fit-content;
+  max-width: 100%;
   margin: 0 0 var(--solaris-spacing-2);
+  border-radius: var(--solaris-radius-sm);
+  transition:
+    outline-color var(--solaris-motion-duration-fast, 120ms)
+      var(--solaris-motion-easing-standard, ease),
+    box-shadow var(--solaris-motion-duration-fast, 120ms)
+      var(--solaris-motion-easing-standard, ease);
 }
 
 .solaris-rich-text-editor-area figure[data-image] img {
   display: block;
+  width: 100%;
+  height: auto;
   max-width: 100%;
   user-select: none;
-  border-radius: var(--solaris-radius-sm);
+  border-radius: inherit;
 }
 
 .solaris-rich-text-editor-area figure[data-image][data-bordered] img {
@@ -563,33 +576,215 @@
   background: transparent;
 }
 
+.solaris-rich-text-editor-area figure[data-image][data-align='center'] {
+  margin-inline: auto;
+}
+
 .solaris-rich-text-editor-area figure[data-image][data-align='center'] img {
   margin-inline: auto;
+}
+
+.solaris-rich-text-editor-area figure[data-image][data-align='right'] {
+  margin-left: auto;
 }
 
 .solaris-rich-text-editor-area figure[data-image][data-align='right'] img {
   margin-left: auto;
 }
 
+.solaris-rich-text-editor-area figure[data-image][data-align='start-wrap'] {
+  float: left;
+  clear: left;
+  margin: 0 var(--solaris-spacing-4) var(--solaris-spacing-2) 0;
+}
+
+.solaris-rich-text-editor-area figure[data-image][data-align='end-wrap'] {
+  float: right;
+  clear: right;
+  margin: 0 0 var(--solaris-spacing-2) var(--solaris-spacing-4);
+}
+
+.solaris-rich-text-editor-area figure[data-image]:hover,
+.solaris-rich-text-editor-area figure[data-image][data-hover] {
+  outline: var(--solaris-border-width-md, 2px) solid
+    var(--solaris-primary-solid);
+  outline-offset: 0;
+}
+
 .solaris-rich-text-editor-area figure[data-image][data-selected] {
-  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
-    var(--solaris-focus-ring-color);
-  outline-offset: var(--solaris-focus-ring-offset);
+  outline: var(--solaris-border-width-md, 2px) solid
+    var(--solaris-primary-solid);
+  outline-offset: 0;
 }
 
 .solaris-image-resize-handle {
-  right: 0;
-  bottom: 0;
   position: absolute;
   touch-action: none;
-  cursor: nwse-resize;
-  width: var(--solaris-spacing-6);
-  height: var(--solaris-spacing-6);
-  border-radius: var(--solaris-radius-sm);
+  opacity: 0;
+  transition: opacity 120ms ease;
+  background: var(--solaris-neutral-text-secondary);
+  border: none;
+  z-index: var(--solaris-z-index-content);
+}
+
+.solaris-rich-text-editor-area
+  figure[data-image]:hover
+  .solaris-image-resize-handle,
+.solaris-rich-text-editor-area
+  figure[data-image][data-hover]
+  .solaris-image-resize-handle {
+  opacity: 1;
+}
+
+.solaris-rich-text-editor-area
+  figure[data-image][data-selected]
+  .solaris-image-resize-handle,
+.solaris-rich-text-editor-area
+  figure[data-image][data-resizing]
+  .solaris-image-resize-handle {
+  opacity: 1;
   background: var(--solaris-primary-solid);
 }
 
+.solaris-image-resize-handle--east,
+.solaris-image-resize-handle--west {
+  top: 50%;
+  width: 5px;
+  height: 40px;
+  cursor: ew-resize;
+  transform: translateY(-50%);
+  border-radius: var(--solaris-radius-pill, 999px);
+}
+
+.solaris-image-resize-handle--east {
+  right: -2px;
+}
+
+.solaris-image-resize-handle--west {
+  left: -2px;
+}
+
+.solaris-rich-text-editor-area figure[data-image][data-resizing] {
+  outline: var(--solaris-border-width-md, 2px) solid
+    var(--solaris-primary-solid);
+  outline-offset: 0;
+}
+
+.solaris-image-size-badge {
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  transform: translate(100%, -50%);
+  font-size: var(--solaris-font-size-xs);
+  line-height: 1;
+  padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
+  border-radius: var(--solaris-radius-sm);
+  background: var(--solaris-neutral-text-body);
+  color: var(--solaris-neutral-text-inverse);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-text-body);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: var(--solaris-z-index-raised);
+}
+
+.solaris-image-size-badge[data-snapped] {
+  background: var(--solaris-primary-solid);
+  border-color: var(--solaris-primary-solid);
+  color: var(--solaris-primary-on-solid);
+}
+
+.solaris-image-snap-guides {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: var(--solaris-z-index-base);
+}
+
+.solaris-image-snap-guide {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--solaris-neutral-border-strong);
+  opacity: 0.6;
+}
+
+.solaris-rich-text-editor-area > p,
+.solaris-rich-text-editor-area > h1,
+.solaris-rich-text-editor-area > h2,
+.solaris-rich-text-editor-area > h3,
+.solaris-rich-text-editor-area > blockquote,
+.solaris-rich-text-editor-area > pre,
+.solaris-rich-text-editor-area > ul,
+.solaris-rich-text-editor-area > ol,
+.solaris-rich-text-editor-area > table,
+.solaris-rich-text-editor-area > hr,
+.solaris-rich-text-editor-area > div {
+  position: relative;
+}
+
+// Reserved drag-grip gutter: document editors keep a fixed left lane so the
+// grip appears without ever shifting or covering text. Composer keeps its
+// tight padding (blocks still move there with Alt+ArrowUp/Down).
+.solaris-rich-text-editor:not([data-variant='composer'])
+  .solaris-rich-text-editor-area {
+  padding-left: calc(var(--solaris-rich-text-padding-x) + 22px);
+}
+
+.solaris-rich-text-editor-area li {
+  position: relative;
+}
+
+.solaris-rich-text-editor-area [data-dragging] {
+  opacity: 0.45;
+}
+
+.solaris-block-grip {
+  position: absolute;
+  top: 2px;
+  left: -22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--solaris-radius-sm);
+  color: var(--solaris-neutral-text-secondary);
+  background: transparent;
+  cursor: grab;
+  touch-action: none;
+  z-index: var(--solaris-z-index-content);
+}
+
+.solaris-block-grip:hover {
+  background: var(--solaris-neutral-subtle);
+}
+
+.solaris-block-grip:active {
+  cursor: grabbing;
+}
+
+.solaris-block-grip svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+.solaris-block-drop-line {
+  position: absolute;
+  left: var(--solaris-rich-text-padding-x);
+  right: var(--solaris-rich-text-padding-x);
+  height: 2px;
+  margin-top: -1px;
+  border-radius: var(--solaris-radius-full);
+  background: var(--solaris-primary-solid);
+  pointer-events: none;
+  z-index: var(--solaris-z-index-content);
+}
+
 .solaris-image-resize-handle:focus-visible {
+  opacity: 1;
   outline-offset: var(--solaris-focus-ring-offset);
   outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
     var(--solaris-focus-ring-color);
@@ -619,6 +814,23 @@ solaris-form-field[data-appearance='outline']:has(solaris-rich-text-editor)
   --solaris-form-field-control-border-color: var(
     --solaris-neutral-border-default
   );
+}
+
+// Read-only view: same content shell, no editing affordances. The view
+// reuses `.solaris-rich-text-editor-area` for identical typography and gets
+// its own marker class to neutralize interactive states (hover outlines,
+// task-checkbox toggling).
+.solaris-rich-text-view-content {
+  min-height: 0;
+}
+
+.solaris-rich-text-view-content figure[data-image]:hover,
+.solaris-rich-text-view-content figure[data-image][data-hover] {
+  outline: none;
+}
+
+.solaris-rich-text-view-content input[data-task-checkbox] {
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

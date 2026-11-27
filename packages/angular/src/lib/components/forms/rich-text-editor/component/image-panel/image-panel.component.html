@@ -1,116 +1,139 @@
 <div
-  class="solaris-rich-text-image-panel"
+  role="toolbar"
   [style.top.px]="top()"
   [style.left.px]="left()"
-  role="toolbar"
+  class="solaris-rich-text-image-panel"
+  [attr.data-resizing]="resizing() ? '' : null"
   [attr.aria-label]="'solaris.rich-text.imageOptions' | translate"
 >
+  @if (resizing()) {
+    <div class="solaris-rich-text-image-panel-info">
+      <span class="solaris-rich-text-image-panel-dims">
+        {{ 'solaris.rich-text.imageWidth' | translate }} {{ width() }}
+        {{ 'solaris.rich-text.imageHeight' | translate }} {{ height() }}
+      </span>
+    </div>
+    <solaris-divider orientation="vertical" spacing="sm" [decorative]="false" />
+  }
   <solaris-button-group size="sm">
     <button
-      solaris-icon-button
-      appearance="ghost"
       size="sm"
       type="button"
-      [attr.data-action]="'image-align-left'"
-      (click)="alignChange.emit('left')"
-      [pressed]="align() === 'left'"
-      [disabled]="disabled() || readOnly()"
-      [ariaLabel]="'solaris.rich-text.alignLeft' | translate"
-      [solarisTooltip]="'solaris.rich-text.alignLeft' | translate"
-    >
-      <solaris-icon name="text-align-start" [size]="16" />
-    </button>
-    <button
-      solaris-icon-button
       appearance="ghost"
-      size="sm"
-      type="button"
-      [attr.data-action]="'image-align-center'"
-      (click)="alignChange.emit('center')"
+      solaris-icon-button
       [pressed]="align() === 'center'"
       [disabled]="disabled() || readOnly()"
+      [attr.data-action]="'image-align-center'"
+      (click)="alignChange.emit('center')"
       [ariaLabel]="'solaris.rich-text.alignCenter' | translate"
       [solarisTooltip]="'solaris.rich-text.alignCenter' | translate"
     >
       <solaris-icon name="text-align-center" [size]="16" />
     </button>
     <button
-      solaris-icon-button
-      appearance="ghost"
       size="sm"
       type="button"
-      [attr.data-action]="'image-align-right'"
-      (click)="alignChange.emit('right')"
+      appearance="ghost"
+      solaris-icon-button
+      [pressed]="align() === 'left'"
+      [disabled]="disabled() || readOnly()"
+      [attr.data-action]="'image-align-left'"
+      (click)="alignChange.emit('left')"
+      [ariaLabel]="'solaris.rich-text.alignLeft' | translate"
+      [solarisTooltip]="'solaris.rich-text.alignLeft' | translate"
+    >
+      <solaris-icon name="text-align-start" [size]="16" />
+    </button>
+    <button
+      size="sm"
+      type="button"
+      appearance="ghost"
+      solaris-icon-button
       [pressed]="align() === 'right'"
       [disabled]="disabled() || readOnly()"
+      [attr.data-action]="'image-align-right'"
+      (click)="alignChange.emit('right')"
       [ariaLabel]="'solaris.rich-text.alignRight' | translate"
       [solarisTooltip]="'solaris.rich-text.alignRight' | translate"
     >
       <solaris-icon name="text-align-end" [size]="16" />
     </button>
-  </solaris-button-group>
-  <solaris-button-group size="sm">
     <button
-      solaris-button
+      solaris-icon-button
+      appearance="ghost"
       size="sm"
       type="button"
-      [attr.data-action]="'image-preset-s'"
-      (click)="presetChange.emit('S')"
+      [attr.data-action]="'image-align-justify'"
+      (click)="alignChange.emit('justify')"
+      [pressed]="align() === 'justify'"
       [disabled]="disabled() || readOnly()"
-      [attr.aria-label]="'solaris.rich-text.imageSizeSmall' | translate"
-      [attr.title]="'solaris.rich-text.imageSizeSmall' | translate"
+      [ariaLabel]="'solaris.rich-text.alignJustify' | translate"
+      [solarisTooltip]="'solaris.rich-text.alignJustify' | translate"
     >
-      S
-    </button>
-    <button
-      solaris-button
-      size="sm"
-      type="button"
-      [attr.data-action]="'image-preset-m'"
-      (click)="presetChange.emit('M')"
-      [disabled]="disabled() || readOnly()"
-      [attr.aria-label]="'solaris.rich-text.imageSizeMedium' | translate"
-      [attr.title]="'solaris.rich-text.imageSizeMedium' | translate"
-    >
-      M
-    </button>
-    <button
-      solaris-button
-      size="sm"
-      type="button"
-      [attr.data-action]="'image-preset-l'"
-      (click)="presetChange.emit('L')"
-      [disabled]="disabled() || readOnly()"
-      [attr.aria-label]="'solaris.rich-text.imageSizeLarge' | translate"
-      [attr.title]="'solaris.rich-text.imageSizeLarge' | translate"
-    >
-      L
-    </button>
-    <button
-      solaris-button
-      size="sm"
-      type="button"
-      [attr.data-action]="'image-preset-original'"
-      (click)="presetChange.emit('original')"
-      [disabled]="disabled() || readOnly()"
-      [attr.aria-label]="'solaris.rich-text.imageSizeOriginal' | translate"
-    >
-      {{ 'solaris.rich-text.imageSizeOriginal' | translate }}
+      <solaris-icon name="text-align-justify" [size]="16" />
     </button>
     <button
       solaris-icon-button
       appearance="ghost"
       size="sm"
       type="button"
-      [attr.data-action]="'image-remove'"
-      (click)="remove.emit()"
+      [attr.data-action]="'image-align-wrap-start'"
+      (click)="alignChange.emit('start-wrap')"
+      [pressed]="align() === 'start-wrap'"
       [disabled]="disabled() || readOnly()"
-      [ariaLabel]="'solaris.rich-text.imageRemove' | translate"
-      [solarisTooltip]="'solaris.rich-text.imageRemove' | translate"
+      [ariaLabel]="'solaris.rich-text.imageAlignWrapStart' | translate"
+      [solarisTooltip]="'solaris.rich-text.imageAlignWrapStart' | translate"
     >
-      <solaris-icon name="trash" [size]="16" />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M21 12h-8" />
+        <path d="M21 19H7" />
+        <path d="M21 5H3" />
+        <rect x="3.5" y="9.5" width="4.5" height="4.5" />
+      </svg>
+    </button>
+    <button
+      solaris-icon-button
+      appearance="ghost"
+      size="sm"
+      type="button"
+      [attr.data-action]="'image-align-wrap-end'"
+      (click)="alignChange.emit('end-wrap')"
+      [pressed]="align() === 'end-wrap'"
+      [disabled]="disabled() || readOnly()"
+      [ariaLabel]="'solaris.rich-text.imageAlignWrapEnd' | translate"
+      [solarisTooltip]="'solaris.rich-text.imageAlignWrapEnd' | translate"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M11 12H3" />
+        <path d="M17 19H3" />
+        <path d="M21 5H3" />
+        <rect x="16.5" y="9.5" width="4.5" height="4.5" />
+      </svg>
     </button>
   </solaris-button-group>
+  <solaris-divider orientation="vertical" spacing="sm" [decorative]="false" />
   <solaris-button-group size="sm">
     <button
       solaris-icon-button
@@ -124,7 +147,27 @@
       [ariaLabel]="'solaris.rich-text.imageBorder' | translate"
       [solarisTooltip]="'solaris.rich-text.imageBorder' | translate"
     >
-      <solaris-icon name="square" [size]="16" />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <rect
+          x="4"
+          y="4"
+          width="16"
+          height="16"
+          rx="2"
+          stroke-dasharray="3 2"
+        />
+      </svg>
     </button>
     <button
       solaris-icon-button
@@ -139,14 +182,29 @@
       [ariaLabel]="'solaris.rich-text.imageMoreOptions' | translate"
       [solarisTooltip]="'solaris.rich-text.imageMoreOptions' | translate"
     >
-      <solaris-icon name="chevron-down" [size]="16" />
+      <solaris-icon name="ellipsis" [size]="16" />
     </button>
   </solaris-button-group>
   <solaris-dropdown-menu #imageMoreMenu>
     <solaris-dropdown-menu-item
+      icon="link"
+      labelKey="solaris.rich-text.imageAddLink"
+      (itemSelected)="linkRequest.emit()"
+    />
+    <solaris-dropdown-menu-item
+      icon="case-sensitive"
+      labelKey="solaris.rich-text.imageAddAlt"
+      (itemSelected)="altRequest.emit()"
+    />
+    <solaris-dropdown-menu-item
       icon="expand"
       labelKey="solaris.rich-text.imageResize"
       (itemSelected)="focusHandle.emit()"
+    />
+    <solaris-dropdown-menu-item
+      icon="down-arrow"
+      labelKey="solaris.rich-text.imageJumpBelow"
+      (itemSelected)="jumpBelow.emit()"
     />
     <solaris-dropdown-menu-item
       icon="copy"

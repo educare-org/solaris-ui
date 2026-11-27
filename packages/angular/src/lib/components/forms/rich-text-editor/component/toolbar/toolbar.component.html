@@ -84,26 +84,26 @@
           #colorTrigger
           appearance="ghost"
           solaris-icon-button
-          [attr.data-action]="'color'"
           solaris-popover-trigger
-          [solarisPopoverTriggerFor]="colorPanel"
-          [solarisPopoverDisabled]="
-            disabled() || readOnly() || contentFormat() !== 'rich'
-          "
-          [solarisPopoverAriaHasPopup]="'dialog'"
           solarisPopoverPadding="lg"
+          [attr.data-action]="'color'"
+          [disabled]="disabled() || readOnly()"
+          [solarisPopoverTriggerFor]="colorPanel"
+          [solarisPopoverAriaHasPopup]="'dialog'"
+          [solarisTooltipDisabled]="colorPanelOpen()"
           (solarisPopoverOpened)="colorPanelOpen.set(true)"
           (solarisPopoverClosed)="colorPanelOpen.set(false)"
           [pressed]="color() !== 'default' || highlight() !== 'default'"
-          [disabled]="disabled() || readOnly()"
           [ariaLabel]="'solaris.rich-text.colorAndHighlight' | translate"
           [solarisTooltip]="'solaris.rich-text.colorAndHighlight' | translate"
-          [solarisTooltipDisabled]="colorPanelOpen()"
+          [solarisPopoverDisabled]="
+            disabled() || readOnly() || contentFormat() !== 'rich'
+          "
         >
           <span
-            class="solaris-rich-text-color-preview"
             [attr.data-color]="color()"
             [attr.data-highlight]="highlight()"
+            class="solaris-rich-text-color-preview"
             >A</span
           >
         </button>
@@ -549,10 +549,17 @@
       <button
         type="button"
         [attr.data-action]="'image'"
+        #imageTrigger
         solaris-icon-button
         appearance="ghost"
         size="sm"
-        (click)="imageInput.click()"
+        solaris-popover-trigger
+        [solarisPopoverTriggerFor]="imagePanel"
+        [solarisPopoverDisabled]="disabled() || readOnly()"
+        [solarisPopoverAriaHasPopup]="'dialog'"
+        [solarisPopoverAutoFocus]="'first-tabbable'"
+        solarisPopoverPadding="lg"
+        (click)="prepareImagePanel()"
         [disabled]="disabled() || readOnly()"
         [attr.aria-label]="'solaris.rich-text.image' | translate"
         [solarisTooltip]="'solaris.rich-text.image' | translate"
@@ -572,14 +579,129 @@
       >
         <solaris-icon name="table" [size]="16" />
       </button>
-      <input
-        #imageInput
-        type="file"
-        class="solaris-rich-text-file-input"
-        [accept]="imageAccept()"
-        (change)="imageFile.emit($event)"
-        hidden
-      />
     </div>
+    <ng-template #imagePanel="solarisPopover" solaris-popover>
+      <div
+        class="solaris-rich-text-image-dialog"
+        role="dialog"
+        [attr.aria-label]="'solaris.rich-text.image' | translate"
+      >
+        <solaris-tabs
+          size="sm"
+          [value]="imageTab()"
+          (valueChange)="setImageTab($any($event))"
+          [ariaLabel]="'solaris.rich-text.image' | translate"
+        >
+          <solaris-tab value="file">{{
+            'solaris.rich-text.imageFileTab' | translate
+          }}</solaris-tab>
+          <solaris-tab value="link">{{
+            'solaris.rich-text.imageLinkTab' | translate
+          }}</solaris-tab>
+          <solaris-tab-panel value="file">
+            <div class="solaris-rich-text-image-file">
+              <button
+                solaris-button
+                appearance="outline"
+                size="md"
+                type="button"
+                [fullWidth]="true"
+                [attr.data-action]="'image-upload'"
+                (click)="imageInput.click()"
+                [disabled]="disabled() || readOnly()"
+              >
+                <solaris-icon name="upload" [size]="16" />
+                {{ 'solaris.rich-text.imageUpload' | translate }}
+              </button>
+              <input
+                #imageInput
+                type="file"
+                class="solaris-rich-text-file-input"
+                [accept]="imageAccept()"
+                (change)="imageFile.emit($event); closeImagePanel()"
+                hidden
+              />
+              <p class="solaris-rich-text-image-hint">
+                {{ 'solaris.rich-text.imageFileHint' | translate }}
+              </p>
+            </div>
+          </solaris-tab-panel>
+          <solaris-tab-panel value="link">
+            <div class="solaris-rich-text-image-link">
+              <solaris-form-field
+                [label]="'solaris.rich-text.imageLinkLabel' | translate"
+              >
+                <input
+                  solaris-input
+                  type="url"
+                  placeholder="https://"
+                  [value]="imageLinkUrl()"
+                  (input)="imageLinkUrlChange.emit($any($event.target).value)"
+                  (keydown.enter)="loadImagePreview()"
+                  [attr.aria-label]="
+                    'solaris.rich-text.imageLinkLabel' | translate
+                  "
+                />
+              </solaris-form-field>
+              <div
+                class="solaris-rich-text-image-preview"
+                [attr.data-empty]="
+                  !imagePreviewUrl() || imagePreviewError() ? '' : null
+                "
+              >
+                @if (imagePreviewUrl() && !imagePreviewError()) {
+                  <img
+                    [src]="imagePreviewUrl()"
+                    alt=""
+                    (error)="onImagePreviewError()"
+                  />
+                } @else {
+                  <button
+                    solaris-button
+                    appearance="ghost"
+                    size="sm"
+                    type="button"
+                    [attr.data-action]="'image-preview'"
+                    (click)="loadImagePreview()"
+                    [disabled]="!imageLinkUrl()"
+                  >
+                    <solaris-icon name="expand" [size]="16" />
+                    {{ 'solaris.rich-text.imageLoadPreview' | translate }}
+                  </button>
+                  @if (imagePreviewError()) {
+                    <p class="solaris-rich-text-image-error" role="alert">
+                      {{ 'solaris.rich-text.imagePreviewError' | translate }}
+                    </p>
+                  }
+                }
+              </div>
+              <div class="solaris-rich-text-image-dialog-actions">
+                <button
+                  solaris-button
+                  appearance="ghost"
+                  size="sm"
+                  type="button"
+                  [attr.data-action]="'image-cancel'"
+                  (click)="clearImagePanel(); closeImagePanel()"
+                >
+                  {{ 'solaris.rich-text.imageCancel' | translate }}
+                </button>
+                <button
+                  solaris-button
+                  appearance="solid"
+                  size="sm"
+                  type="button"
+                  [attr.data-action]="'image-insert'"
+                  (click)="applyImageLinkFromPanel()"
+                  [disabled]="!imagePreviewUrl() || imagePreviewError()"
+                >
+                  {{ 'solaris.rich-text.imageInsert' | translate }}
+                </button>
+              </div>
+            </div>
+          </solaris-tab-panel>
+        </solaris-tabs>
+      </div>
+    </ng-template>
   </div>
 }

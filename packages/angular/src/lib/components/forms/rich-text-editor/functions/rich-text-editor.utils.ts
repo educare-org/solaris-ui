@@ -373,7 +373,13 @@ export type SolarisRichTextBlockTag =
   | 'blockquote'
   | 'pre';
 
-export type SolarisRichTextAlign = 'left' | 'center' | 'right' | 'justify';
+export type SolarisRichTextAlign =
+  | 'left'
+  | 'center'
+  | 'right'
+  | 'justify'
+  | 'start-wrap'
+  | 'end-wrap';
 
 export type SolarisRichTextColor =
   | 'default'
@@ -580,7 +586,13 @@ function accumulateBlockState(
   }
   if (el.hasAttribute('data-align')) {
     const aligned = el.getAttribute('data-align');
-    if (aligned === 'center' || aligned === 'right' || aligned === 'justify') {
+    if (
+      aligned === 'center' ||
+      aligned === 'right' ||
+      aligned === 'justify' ||
+      aligned === 'start-wrap' ||
+      aligned === 'end-wrap'
+    ) {
       scan.align = aligned;
     }
   }
@@ -790,6 +802,22 @@ export function clampImageWidth(px: number, min: number, max: number): number {
   return Math.min(Math.max(Math.floor(px), floor), ceiling);
 }
 
+export function snapImageWidth(
+  px: number,
+  max: number,
+  step = 0.1,
+  tolerancePx = 8,
+): number {
+  if (!Number.isFinite(px) || !Number.isFinite(max) || max <= 0) return px;
+  const safeStep = step > 0 && step <= 1 ? step : 0.1;
+  const steps = Math.round(1 / safeStep);
+  for (let i = 1; i <= steps; i += 1) {
+    const snap = Math.round(max * i * safeStep);
+    if (Math.abs(px - snap) <= tolerancePx) return snap;
+  }
+  return Math.round(px);
+}
+
 export function insertBlockEntry(
   blocks: readonly SolarisRichTextBlock[],
   blockType: SolarisRichTextBlock['blockType'],
@@ -812,8 +840,16 @@ export function cleanCommittedHtml(html: string): string {
       /<span(?=[^<>]*data-highlight)[^<>]*>(?:\s|<br\s*\/?>)*<\/span>/gi,
       '',
     )
-    .replace(/<span class="solaris-image-resize-handle"[^<>]*><\/span>/gi, '')
-    .replace(/\sdata-selected=""/gi, '');
+    .replace(/<span[^<>]*solaris-image-resize-handle[^<>]*><\/span>/gi, '')
+    .replace(/<span[^<>]*solaris-block-grip[^<>]*>[\s\S]*?<\/span>/gi, '')
+    .replace(/<div[^<>]*solaris-block-drop-line[^<>]*><\/div>/gi, '')
+    .replace(/<span[^<>]*solaris-image-size-badge[^<>]*>.*?<\/span>/gi, '')
+    .replace(/<div[^<>]*solaris-image-snap-guides[^<>]*>.*?<\/div>/gi, '')
+    .replace(/\sdata-selected=""/gi, '')
+    .replace(/\sdata-hover=""/gi, '')
+    .replace(/\sdata-resizing=""/gi, '')
+    .replace(/\sdata-snapped=""/gi, '')
+    .replace(/\sdata-dragging=""/gi, '');
 }
 
 export function insertTableBlock(

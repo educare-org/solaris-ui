@@ -24,6 +24,8 @@ export {
   SOLARIS_RICH_TEXT_ALLOWED_TAGS,
   SOLARIS_RICH_TEXT_DEFAULT_MAX_TABLE_COLS,
   SOLARIS_RICH_TEXT_DEFAULT_MAX_TABLE_ROWS,
+  SOLARIS_RICH_TEXT_IMAGE_SNAP_STEP,
+  SOLARIS_RICH_TEXT_IMAGE_SNAP_TOLERANCE_PX,
   SOLARIS_RICH_TEXT_MAX_HISTORY,
 } from './model/rich-text-editor.defaults';
 export {
@@ -38,6 +40,7 @@ export {
   buildTaskListHtml,
   clampTableDimension,
   clampImageWidth,
+  snapImageWidth,
   cleanCommittedHtml,
   createEmptyValue,
   filterFields,

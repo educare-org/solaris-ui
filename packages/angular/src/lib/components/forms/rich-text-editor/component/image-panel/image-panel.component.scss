@@ -1,14 +1,37 @@
 .solaris-rich-text-image-panel {
   display: flex;
-  flex-wrap: wrap;
   position: absolute;
   align-items: center;
   gap: var(--solaris-spacing-2);
-  padding: var(--solaris-spacing-2);
+  padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
   box-shadow: var(--solaris-shadow-md);
   z-index: var(--solaris-z-index-raised);
   background: var(--solaris-rich-text-bg);
-  border-radius: var(--solaris-rich-text-radius);
+  border-radius: var(--solaris-radius-md);
   border: var(--solaris-rich-text-border-width) solid
     var(--solaris-rich-text-border-color);
+  max-width: min(640px, calc(100% - var(--solaris-spacing-4)));
+  white-space: nowrap;
+}
+
+.solaris-rich-text-image-panel solaris-divider[data-orientation='vertical'] {
+  height: auto;
+  align-self: stretch;
+  min-height: var(--solaris-spacing-11);
+  margin-block: calc(-1 * var(--solaris-spacing-2));
+}
+
+.solaris-rich-text-image-panel-info {
+  display: flex;
+  align-items: center;
+  gap: var(--solaris-spacing-3);
+  padding-inline: var(--solaris-spacing-1);
+  font-size: var(--solaris-font-size-xs);
+  color: var(--solaris-neutral-text-secondary);
+  white-space: nowrap;
+}
+
+.solaris-rich-text-image-panel-dims {
+  display: inline-flex;
+  gap: var(--solaris-spacing-2);
 }
