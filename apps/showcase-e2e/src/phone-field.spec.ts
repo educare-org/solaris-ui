@@ -10,17 +10,17 @@ test.describe('Phone Field', () => {
     phoneField = new PhoneFieldPageObject(page);
   });
 
-  test('shows the fixed dial-code for the default country', async () => {
+  test('shows the default calling code in the input placeholder', async () => {
     await expect(phoneField.input()).toHaveAttribute('type', 'tel');
-    await expect(phoneField.dialCode()).toHaveText('+55');
+    await expect(phoneField.input()).toHaveAttribute('placeholder', /\+55/);
   });
 
-  test('formats the number as the user types', async () => {
+  test('formats the number with the calling code as the user types', async () => {
     await phoneField.input().fill('11999998888');
-    await expect(phoneField.input()).toHaveValue('(11) 99999-8888');
+    await expect(phoneField.input()).toHaveValue('+55 (11) 99999-8888');
   });
 
-  test('opens the country selector and updates the dial-code on selection', async () => {
+  test('opens the country selector and rewrites the input prefix on selection', async () => {
     await phoneField.openCountrySelector();
     await expect(phoneField.listbox()).toBeVisible();
 
@@ -29,7 +29,14 @@ test.describe('Phone Field', () => {
 
     await phoneField.selectCountry(0);
     await expect(phoneField.listbox()).toHaveCount(0);
-    await expect(phoneField.dialCode()).toHaveText(firstCode!);
+    // The calling code lives in the editable input now (no fixed dial-code
+    // element): typing a national number picks up the selected prefix.
+    await phoneField.input().fill('701234567');
+    const escaped = (firstCode as string).replace(
+      /[.*+?^${}()|[\]\\]/g,
+      '\\$&',
+    );
+    await expect(phoneField.input()).toHaveValue(new RegExp(`^${escaped}`));
   });
 
   test('filters countries by search', async () => {

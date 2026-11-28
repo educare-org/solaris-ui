@@ -15,10 +15,6 @@ export class PhoneFieldPageObject {
     return this.field(index).locator('input[solaris-input]');
   }
 
-  dialCode(index = 0): Locator {
-    return this.field(index).locator('.solaris-phone-field__dial-code');
-  }
-
   listbox(): Locator {
     return this.page.locator('.solaris-phone-country-list__list');
   }
