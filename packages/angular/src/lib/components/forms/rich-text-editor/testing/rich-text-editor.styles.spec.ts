@@ -34,7 +34,7 @@ describe('rich-text-editor content shell', () => {
   it('animates the drag grip entrance with motion and opacity tokens', () => {
     expect(shell).toContain('@keyframes solaris-block-grip-enter');
     expect(shell).toContain('animation: solaris-block-grip-enter');
-    expect(shell).toContain('var(--solaris-motion-duration-fast)');
+    expect(shell).toContain('var(--solaris-motion-duration-normal)');
     expect(shell).toContain('var(--solaris-motion-easing-decelerate)');
     expect(shell).toContain('var(--solaris-motion-translate-sm)');
     expect(shell).toContain('var(--solaris-opacity-0)');
@@ -69,11 +69,33 @@ describe('rich-text-editor content shell', () => {
     expect(shell).toContain('padding-right: calc(');
     expect(shell).toContain('--solaris-rich-text-grip-gutter');
     expect(shell).toContain(
-      '--solaris-rich-text-grip-gutter: var(--solaris-spacing-8)',
+      '--solaris-rich-text-grip-gutter: var(--solaris-spacing-7)',
     );
   });
 
-  it('collapses the grip gutter when the editor is empty', () => {
-    expect(shell).toContain('.solaris-rich-text-editor-area[data-empty]');
+  it('keeps the grip gutter reserved when the editor is empty', () => {
+    expect(shell).not.toContain('.solaris-rich-text-editor-area[data-empty]');
+  });
+
+  it('renders the code grip in the editor gutter instead of inside pre', () => {
+    expect(shell).toContain('.solaris-block-grip--detached');
+  });
+
+  it('styles quotes with serif italic, quote marks and a tertiary bar', () => {
+    expect(shell).toContain('font-family: var(--solaris-font-family-serif);');
+    expect(shell).toContain('font-style: italic;');
+    expect(shell).toContain('content: open-quote;');
+    expect(shell).toContain('margin-left: var(--solaris-spacing-6);');
+    expect(shell).toContain(
+      'border-left: var(--solaris-border-width-lg) solid',
+    );
+  });
+
+  it('keeps quote links in the primary color', () => {
+    expect(shell).toContain('.solaris-rich-text-editor-area blockquote a');
+  });
+
+  it('hides the opening mark on empty first lines', () => {
+    expect(shell).toContain('blockquote[data-hide-open]::before');
   });
 });

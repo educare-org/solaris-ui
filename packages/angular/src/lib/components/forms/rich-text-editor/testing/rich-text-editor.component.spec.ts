@@ -520,11 +520,15 @@ describe('SolarisRichTextEditorComponent', () => {
     expect(getLines()).toHaveLength(1);
     const first = getLines()[0] as HTMLElement;
     placeCaret(area, first.firstChild as Node, 0);
-    area.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    area.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Enter', shiftKey: true }),
+    );
     expect(getLines()).toHaveLength(2);
     const second = getLines()[1] as HTMLElement;
     placeCaret(area, second.firstChild as Node, 0);
-    area.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    area.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Enter', shiftKey: true }),
+    );
     expect(getLines()).toHaveLength(3);
   });
 
@@ -548,6 +552,313 @@ describe('SolarisRichTextEditorComponent', () => {
       '.solaris-rich-text-code-line',
     ) as HTMLElement;
     expect(updated.textContent).toBe('co  de');
+  });
+
+  it('exits the code block on Enter when the last line is empty', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>code</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const text = area.querySelector('p')?.firstChild as Node;
+    placeCaret(area, text, text.textContent?.length ?? 0);
+    fixture.componentInstance['formatBlock']('pre');
+    const pre = area.querySelector('pre') as HTMLElement;
+    const first = pre.querySelector(
+      '.solaris-rich-text-code-line',
+    ) as HTMLElement;
+    placeCaret(area, first.firstChild as Node, 4);
+    area.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    const lines = pre.querySelectorAll('.solaris-rich-text-code-line');
+    expect(lines).toHaveLength(2);
+    const second = lines[1] as HTMLElement;
+    placeCaret(area, second.firstChild as Node, 0);
+    area.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    const remaining = pre.querySelectorAll('.solaris-rich-text-code-line');
+    expect(remaining).toHaveLength(1);
+    expect(remaining[0]?.textContent).toBe('code');
+    const next = pre.nextElementSibling;
+    expect(next?.tagName).toBe('P');
+  });
+
+  it('replaces a single empty code block on Enter', () => {
+    create();
+    fixture.componentInstance.writeValue('<p><br /></p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const br = area.querySelector('p')?.firstChild as Node;
+    placeCaret(area, br, 0);
+    fixture.componentInstance['formatBlock']('pre');
+    const pre = area.querySelector('pre') as HTMLElement;
+    const line = pre.querySelector(
+      '.solaris-rich-text-code-line',
+    ) as HTMLElement;
+    placeCaret(area, line.firstChild as Node, 0);
+    area.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    expect(area.querySelector('pre')).toBeNull();
+    expect(area.querySelector('p')).toBeTruthy();
+  });
+
+  it('keeps Shift+Enter as a newline even on an empty last line', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>code</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const text = area.querySelector('p')?.firstChild as Node;
+    placeCaret(area, text, text.textContent?.length ?? 0);
+    fixture.componentInstance['formatBlock']('pre');
+    const pre = area.querySelector('pre') as HTMLElement;
+    const first = pre.querySelector(
+      '.solaris-rich-text-code-line',
+    ) as HTMLElement;
+    placeCaret(area, first.firstChild as Node, 4);
+    area.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    const lines = pre.querySelectorAll('.solaris-rich-text-code-line');
+    expect(lines).toHaveLength(2);
+    const second = lines[1] as HTMLElement;
+    placeCaret(area, second.firstChild as Node, 0);
+    area.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Enter', shiftKey: true }),
+    );
+    expect(pre.querySelectorAll('.solaris-rich-text-code-line')).toHaveLength(
+      3,
+    );
+    expect(pre.nextElementSibling?.tagName).not.toBe('P');
+  });
+
+  it('exits the quote on plain Enter moving trailing content after it', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>hello</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const text = area.querySelector('p')?.firstChild as Node;
+    placeCaret(area, text, text.textContent?.length ?? 0);
+    fixture.componentInstance['formatBlock']('blockquote');
+    const quote = area.querySelector('blockquote') as HTMLElement;
+    placeCaret(area, quote.firstChild as Node, 2);
+    area.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    const next = quote.nextElementSibling;
+    expect(next?.tagName).toBe('P');
+    expect(next?.textContent).toBe('llo');
+    // The closing mark is managed live DOM chrome: it stays hugging the
+    // remaining quote content.
+    expect(quote.textContent).toBe('he”');
+  });
+
+  it('creates a visible paragraph when exiting at the end of quote text', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>hello</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const text = area.querySelector('p')?.firstChild as Node;
+    placeCaret(area, text, text.textContent?.length ?? 0);
+    fixture.componentInstance['formatBlock']('blockquote');
+    const quote = area.querySelector('blockquote') as HTMLElement;
+    // Caret at the end of the text, before the managed closing mark: the
+    // extracted remainder is mark-only, so the new paragraph must still get
+    // a <br> (otherwise it renders zero-height and typing falls back into
+    // the quote).
+    const quoteText = quote.firstChild as Node;
+    placeCaret(area, quoteText, quoteText.textContent?.length ?? 0);
+    area.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    const next = quote.nextElementSibling;
+    expect(next?.tagName).toBe('P');
+    expect(next?.querySelector('br')).toBeTruthy();
+    expect(next?.textContent).toBe('');
+    expect(quote.textContent).toBe('hello”');
+  });
+
+  it('hugs the closing mark to the last content line and strips quote chrome on commit', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>hello</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const text = area.querySelector('p')?.firstChild as Node;
+    placeCaret(area, text, text.textContent?.length ?? 0);
+    fixture.componentInstance['formatBlock']('blockquote');
+    const quote = area.querySelector('blockquote') as HTMLElement;
+    const sync = (): void =>
+      fixture.componentInstance['syncQuoteMarkVisibility'](area);
+    quote.innerHTML = 'hello<br><br>';
+    sync();
+    expect(quote.hasAttribute('data-hide-open')).toBe(false);
+    let mark = quote.querySelector(
+      '.solaris-rich-text-quote-close',
+    ) as HTMLElement | null;
+    expect(mark?.nextSibling?.nodeName).toBe('BR');
+    quote.innerHTML = 'hello<br>C';
+    sync();
+    expect(quote.hasAttribute('data-hide-open')).toBe(false);
+    mark = quote.querySelector(
+      '.solaris-rich-text-quote-close',
+    ) as HTMLElement | null;
+    expect(mark?.previousSibling?.textContent).toBe('C');
+    expect(mark?.nextSibling).toBeNull();
+    quote.innerHTML = '<br><br>hello';
+    sync();
+    expect(quote.hasAttribute('data-hide-open')).toBe(true);
+    mark = quote.querySelector(
+      '.solaris-rich-text-quote-close',
+    ) as HTMLElement | null;
+    expect(mark?.previousSibling?.textContent).toBe('hello');
+    fixture.componentInstance['emitFromDom']();
+    expect(fixture.componentInstance.value().html).not.toContain('quote-close');
+    expect(fixture.componentInstance.value().html).not.toContain('data-hide');
+  });
+
+  it('strips managed quote marks written programmatically (F1)', () => {
+    create();
+    fixture.componentInstance.writeValue(
+      '<blockquote>a<span class="solaris-rich-text-quote-close" contenteditable="false" aria-hidden="true">”</span></blockquote>',
+    );
+    expect(fixture.componentInstance.value().html).toBe(
+      '<blockquote>a</blockquote>',
+    );
+  });
+
+  it('strips non-empty data-hide-open from committed HTML (F2)', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>hello</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    area.innerHTML = '<blockquote data-hide-open="true">x</blockquote>';
+    fixture.componentInstance['emitFromDom']();
+    expect(fixture.componentInstance.value().html).not.toContain(
+      'data-hide-open',
+    );
+  });
+
+  it('exits the quote on Enter with a ranged selection (F3)', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>hello</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const text = area.querySelector('p')?.firstChild as Node;
+    placeCaret(area, text, text.textContent?.length ?? 0);
+    fixture.componentInstance['formatBlock']('blockquote');
+    const quote = area.querySelector('blockquote') as HTMLElement;
+    const quoteText = quote.firstChild as Node;
+    const range = document.createRange();
+    range.setStart(quoteText, 1);
+    range.setEnd(quoteText, 4);
+    document.getSelection()?.removeAllRanges();
+    document.getSelection()?.addRange(range);
+    area.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    const next = quote.nextElementSibling;
+    expect(next?.tagName).toBe('P');
+    expect(quote.textContent).toBe('h”');
+    expect(next?.textContent).toBe('o');
+  });
+
+  it('keeps the closing mark when maxLength reverts input inside a quote (F4)', () => {
+    create();
+    fixture.componentRef.setInput('maxLength', 5);
+    fixture.componentInstance.writeValue('<blockquote>hello</blockquote>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const quote = area.querySelector('blockquote') as HTMLElement;
+    (quote.firstChild as Text).appendData('!');
+    fixture.componentInstance['onEditorInput']({
+      target: area,
+    } as unknown as Event);
+    expect(area.querySelector('.solaris-rich-text-quote-close')).not.toBeNull();
+    expect(fixture.componentInstance.value().text).toBe('hello');
+  });
+
+  it('treats quotes holding only empty structural blocks as empty (F5)', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>x</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const text = area.querySelector('p')?.firstChild as Node;
+    placeCaret(area, text, text.textContent?.length ?? 0);
+    fixture.componentInstance['formatBlock']('blockquote');
+    const quote = area.querySelector('blockquote') as HTMLElement;
+    quote.innerHTML = '<ul><li><br></li></ul>';
+    fixture.componentInstance['syncQuoteMarkVisibility'](area);
+    expect(quote.hasAttribute('data-hide-open')).toBe(true);
+    expect(quote.querySelector('.solaris-rich-text-quote-close')).toBeNull();
+  });
+
+  it('unwraps text blocks nested inside quotes and splits quotes out of paragraphs (F6)', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>q</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const text = area.querySelector('p')?.firstChild as Node;
+    placeCaret(area, text, text.textContent?.length ?? 0);
+    fixture.componentInstance['formatBlock']('blockquote');
+    const quote = area.querySelector('blockquote') as HTMLElement;
+    quote.innerHTML = 'a<p>b</p>';
+    fixture.componentInstance['emitFromDom']();
+    expect(quote.querySelector('p')).toBeNull();
+    expect(fixture.componentInstance.value().html).toBe(
+      '<blockquote>a<br>b</blockquote>',
+    );
+    area.innerHTML = '<p>a<blockquote>q</blockquote>b</p>';
+    fixture.componentInstance['emitFromDom']();
+    expect(area.querySelector('p > blockquote')).toBeNull();
+    expect(area.children[0].tagName).toBe('P');
+    expect(area.children[1].tagName).toBe('BLOCKQUOTE');
+    expect(area.children[2].tagName).toBe('P');
+  });
+
+  it('collapses an empty quote when exiting it (F7)', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>x</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const text = area.querySelector('p')?.firstChild as Node;
+    placeCaret(area, text, text.textContent?.length ?? 0);
+    fixture.componentInstance['formatBlock']('blockquote');
+    const quote = area.querySelector('blockquote') as HTMLElement;
+    quote.innerHTML = '<br>';
+    fixture.componentInstance['syncQuoteMarkVisibility'](area);
+    placeCaret(area, quote, 0);
+    area.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    expect(area.querySelector('blockquote')).toBeNull();
+    const paragraph = area.querySelector('p');
+    expect(paragraph).not.toBeNull();
+    expect(paragraph?.querySelector('br')).not.toBeNull();
+  });
+
+  it('converts a leading "> " into a quote on Space (F8)', () => {
+    create();
+    fixture.componentInstance.writeValue('<p>&gt;</p>');
+    fixture.detectChanges();
+    const area = fixture.nativeElement.querySelector(
+      '.solaris-rich-text-editor-area',
+    ) as HTMLElement;
+    const text = area.querySelector('p')?.firstChild as Node;
+    placeCaret(area, text, text.textContent?.length ?? 0);
+    area.dispatchEvent(new KeyboardEvent('keydown', { key: ' ' }));
+    expect(area.querySelector('p')).toBeNull();
+    const quote = area.querySelector('blockquote') as HTMLElement | null;
+    expect(quote).not.toBeNull();
+    expect(quote?.querySelector('br')).not.toBeNull();
   });
 
   it('manages code block language, line numbers and copy', async () => {

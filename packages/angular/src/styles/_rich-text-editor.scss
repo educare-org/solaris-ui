@@ -9,7 +9,7 @@
   font-family: var(--solaris-font-family-sans), system-ui;
   padding: var(--solaris-rich-text-padding-y) var(--solaris-rich-text-padding-x);
   position: relative;
-  --solaris-rich-text-grip-gutter: var(--solaris-spacing-8);
+  --solaris-rich-text-grip-gutter: var(--solaris-spacing-7);
 }
 
 .solaris-rich-text-editor[data-variant='composer']
@@ -500,9 +500,38 @@
 }
 
 .solaris-rich-text-editor-area blockquote {
+  margin-left: var(--solaris-spacing-6);
   padding-left: var(--solaris-spacing-3);
-  border-left: var(--solaris-spacing-1) solid
-    var(--solaris-neutral-border-strong);
+  border-left: var(--solaris-border-width-lg) solid
+    var(--solaris-neutral-text-tertiary);
+  color: var(--solaris-neutral-text-tertiary);
+  font-family: var(--solaris-font-family-serif);
+  font-style: italic;
+  quotes: '\201C' '\201D' '\2018' '\2019';
+}
+
+.solaris-rich-text-editor-area blockquote::before {
+  content: open-quote;
+}
+
+// The opening mark hides on empty first lines (toggled from the live edge
+// lines — structural CSS cannot see text nodes). The closing mark is a
+// managed span hugging the last content line instead of ::after, so it never
+// dangles on an empty trailing line.
+.solaris-rich-text-editor-area blockquote[data-hide-open]::before {
+  content: none;
+}
+
+.solaris-rich-text-editor-area blockquote a {
+  color: var(--solaris-primary-solid);
+}
+
+.solaris-rich-text-editor-area blockquote > .solaris-block-grip {
+  // The quote border occupies the grip lane; shift the grip further left so
+  // it clears the border line instead of touching it.
+  left: calc(
+    -1 * var(--solaris-rich-text-grip-gutter) - var(--solaris-border-width-lg)
+  );
 }
 
 .solaris-rich-text-editor-area blockquote + blockquote {
@@ -733,11 +762,6 @@
   );
 }
 
-.solaris-rich-text-editor:not([data-variant='composer'])
-  .solaris-rich-text-editor-area[data-empty] {
-  padding-inline: var(--solaris-rich-text-padding-x);
-}
-
 .solaris-rich-text-editor-area li {
   position: relative;
 }
@@ -766,7 +790,7 @@
   align-items: center;
   justify-content: center;
   top: var(--solaris-spacing-2);
-  width: var(--solaris-spacing-8);
+  width: var(--solaris-spacing-7);
   height: var(--solaris-spacing-9);
   z-index: var(--solaris-z-index-content);
   border-radius: var(--solaris-radius-sm);
@@ -779,6 +803,10 @@
 
 .solaris-block-grip:hover {
   background: var(--solaris-neutral-subtle);
+}
+
+.solaris-block-grip--detached {
+  left: var(--solaris-rich-text-padding-x);
 }
 
 .solaris-block-grip:active {

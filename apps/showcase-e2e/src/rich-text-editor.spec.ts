@@ -71,6 +71,9 @@ test.describe('Rich Text Editor', () => {
       process.platform === 'darwin' ? 'Meta+A' : 'Control+A',
     );
     await richText.toolbarButton('color', 0).click();
+    // Why: the color popover opens with an overlay transition — wait for it
+    // before picking a swatch so the click never lands during the open.
+    await expect(richText.colorPanel()).toBeVisible();
     await richText.colorPanel().locator('button[data-color="blue"]').click();
     await expect(area.locator('span[data-color="blue"]')).toContainText(
       'hello',
@@ -144,6 +147,7 @@ test.describe('Rich Text Editor', () => {
     const area = richText.area(0);
     await area.click();
     await richText.toolbarButton('color', 0).click();
+    await expect(richText.colorPanel()).toBeVisible();
     await richText.colorPanel().locator('button[data-color="blue"]').click();
     await page.keyboard.type('hello');
     await expect(area.locator('span[data-color="blue"]')).toContainText(
@@ -174,6 +178,7 @@ test.describe('Rich Text Editor', () => {
       process.platform === 'darwin' ? 'Meta+A' : 'Control+A',
     );
     await richText.toolbarButton('color', 0).click();
+    await expect(richText.colorPanel()).toBeVisible();
     await richText.colorPanel().locator('button[data-color="red"]').click();
     await expect(area.locator('span[data-color="red"]')).toContainText('hello');
   });
@@ -186,6 +191,7 @@ test.describe('Rich Text Editor', () => {
       process.platform === 'darwin' ? 'Meta+A' : 'Control+A',
     );
     await richText.toolbarButton('color', 0).click();
+    await expect(richText.colorPanel()).toBeVisible();
     await richText
       .colorPanel()
       .locator('button[data-highlight="green"]')
@@ -198,6 +204,7 @@ test.describe('Rich Text Editor', () => {
       process.platform === 'darwin' ? 'Meta+A' : 'Control+A',
     );
     await richText.toolbarButton('color', 0).click();
+    await expect(richText.colorPanel()).toBeVisible();
     await richText
       .colorPanel()
       .locator('[data-action="remove-highlight"]')
@@ -888,6 +895,148 @@ test.describe('Rich Text Editor', () => {
     await expect(area.locator(':scope > p').allTextContents()).resolves.toEqual(
       before,
     );
+  });
+
+  test('caret keeps the same gutter empty or filled', async ({ page }) => {
+    // Why: the grip gutter used to collapse when empty, so the first
+    // keystroke shifted the caret by the full gutter width.
+    const area = richText.area(0);
+    const empty = await area.evaluate((el) => getComputedStyle(el).paddingLeft);
+    await area.click();
+    await page.keyboard.type('T');
+    const filled = await area.evaluate(
+      (el) => getComputedStyle(el).paddingLeft,
+    );
+    expect(empty).toBe(filled);
+  });
+
+  test('quote grip clears the border and Enter leaves the group', async ({
+    page,
+  }) => {
+    const area = richText.area(0);
+    await area.click();
+    await page.keyboard.type('hello');
+    await page.keyboard.press('ControlOrMeta+a');
+    await richText.toolbarCombobox(0, 0).click();
+    await richText.listboxOption(4).click();
+    const quote = area.locator('blockquote');
+    await expect(quote).toContainText('hello');
+    await expect(quote).toHaveCSS('font-style', 'italic');
+    await expect(quote).toHaveCSS('border-left-width', '3px');
+    const fontFamily = await quote.evaluate(
+      (el) => getComputedStyle(el).fontFamily,
+    );
+    expect(fontFamily).toContain('IBM Plex Serif');
+    const quoteColor = await quote.evaluate((el) => getComputedStyle(el).color);
+    const tertiary = await page.evaluate(() =>
+      getComputedStyle(document.documentElement).getPropertyValue(
+        '--solaris-neutral-text-tertiary',
+      ),
+    );
+    const toRgb = (hex: string): string => {
+      const clean = hex.trim().replace('#', '');
+      const full =
+        clean.length === 3
+          ? clean
+              .split('')
+              .map((c) => c + c)
+              .join('')
+          : clean;
+      const parts = [0, 2, 4].map((i) => parseInt(full.slice(i, i + 2), 16));
+      return `rgb(${parts[0]}, ${parts[1]}, ${parts[2]})`;
+    };
+    expect(quoteColor).toBe(toRgb(tertiary));
+    const openMark = await quote.evaluate(
+      (el) => getComputedStyle(el, '::before').content,
+    );
+    expect(openMark).not.toBe('none');
+    await quote.hover();
+    const grip = quote.locator(':scope > .solaris-block-grip');
+    await expect(grip).toBeVisible();
+    const [gripBox, quoteBox] = await Promise.all([
+      grip.boundingBox(),
+      quote.boundingBox(),
+    ]);
+    expect(gripBox).not.toBeNull();
+    expect(quoteBox).not.toBeNull();
+    if (gripBox && quoteBox) {
+      expect(gripBox.x + gripBox.width).toBeLessThanOrEqual(quoteBox.x);
+    }
+    await page.keyboard.press('End');
+    await page.keyboard.press('Enter');
+    await expect(area.locator('blockquote + p')).toBeVisible();
+  });
+
+  test('code block moves as one group with a single detached grip', async ({
+    page,
+  }) => {
+    const area = richText.area(0);
+    await area.click();
+    await page.keyboard.type('code');
+    await page.keyboard.press('ControlOrMeta+a');
+    await richText.toolbarCombobox(0, 0).click();
+    await richText.listboxOption(5).click();
+    const pre = area.locator('pre');
+    await expect(pre).toBeVisible();
+    await page.keyboard.press('End');
+    await page.keyboard.press('Enter');
+    await expect(pre.locator('.solaris-rich-text-code-line')).toHaveCount(2);
+    await pre.hover();
+    const grip = area.locator('.solaris-block-grip--detached');
+    await expect(grip).toHaveCount(1);
+    await expect(grip.first()).toBeVisible();
+    await page.keyboard.press('Enter');
+    await expect(area.locator('pre + p')).toBeVisible();
+  });
+
+  test('closing mark stays on the content line while typing', async ({
+    page,
+  }) => {
+    // Why: a trailing ::after would dangle on the fresh empty line; the
+    // managed span hugs the last content instead.
+    const area = richText.area(0);
+    await area.click();
+    await page.keyboard.type('hello');
+    await page.keyboard.press('ControlOrMeta+a');
+    await richText.toolbarCombobox(0, 0).click();
+    await richText.listboxOption(4).click();
+    const quote = area.locator('blockquote');
+    await expect(quote).toContainText('hello');
+    const textOf = (): Promise<string> =>
+      quote.evaluate((el) => el.innerText as string);
+    expect(await textOf()).toBe('hello”');
+    await page.keyboard.press('End');
+    await page.keyboard.press('Shift+Enter');
+    // The mark stays glued to line 1 instead of dangling on the new line.
+    expect((await textOf()).split('\n')[0]).toBe('hello”');
+    await page.keyboard.type('C');
+    const lines = (await textOf()).split('\n').filter((l) => l.length > 0);
+    expect(lines).toEqual(['hello', 'C”']);
+  });
+
+  test('exiting at the end of quote text leaves a usable paragraph', async ({
+    page,
+  }) => {
+    // Why: exiting with the caret before the managed closing mark used to
+    // extract the mark alone, birthing a br-less (invisible) paragraph that
+    // swallowed the next keystrokes back into the quote.
+    const area = richText.area(0);
+    await area.click();
+    await page.keyboard.type('hello');
+    await page.keyboard.press('ControlOrMeta+a');
+    await richText.toolbarCombobox(0, 0).click();
+    await richText.listboxOption(4).click();
+    const quote = area.locator('blockquote');
+    await expect(quote).toContainText('hello');
+    await page.keyboard.press('End');
+    await page.keyboard.press('ArrowLeft');
+    await page.keyboard.press('Enter');
+    const paragraph = area.locator('blockquote + p');
+    await expect(paragraph).toBeVisible();
+    await expect(paragraph.locator('br')).toHaveCount(1);
+    await page.keyboard.type('world');
+    await expect(paragraph).toContainText('world');
+    await expect(quote).not.toContainText('world');
   });
 
   test('composer Aa toggle stays reachable in plain mode', async ({ page }) => {

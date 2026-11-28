@@ -91,6 +91,19 @@ describe('SolarisRichTextViewComponent', () => {
     expect(content()?.querySelector('input[type="text"]')).toBeNull();
   });
 
+  it('places the closing mark after the last content line', () => {
+    create();
+    fixture.componentRef.setInput(
+      'value',
+      '<blockquote>hello<br><br></blockquote>',
+    );
+    fixture.detectChanges();
+    const quote = content()?.querySelector('blockquote');
+    const mark = quote?.querySelector('.solaris-rich-text-quote-close');
+    expect(mark?.nextSibling?.nodeName).toBe('BR');
+    expect(quote?.hasAttribute('data-hide-open')).toBe(false);
+  });
+
   it('exposes a region role only when labelled', () => {
     create();
     expect(fixture.nativeElement.getAttribute('role')).toBeNull();

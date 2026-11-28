@@ -169,7 +169,7 @@ export function normalizeEditorValue(
   if (input === null || input === undefined) return createEmptyValue();
   if (typeof input === 'string') {
     if (input.trim().length === 0) return createEmptyValue();
-    const html = sanitizeRichTextHtml(stripZeroWidthSpaces(input));
+    const html = cleanCommittedHtml(input);
     return {
       html,
       text: stripHtmlToText(html),
@@ -183,7 +183,7 @@ export function normalizeEditorValue(
       version: SOLARIS_RICH_TEXT_VERSION,
     };
   }
-  const html = sanitizeRichTextHtml(stripZeroWidthSpaces(input.html));
+  const html = cleanCommittedHtml(input.html);
   return {
     html,
     text: stripHtmlToText(html),
@@ -863,8 +863,15 @@ export function stripZeroWidthSpaces(value: string): string {
   return value.split(RICH_TEXT_ZERO_WIDTH_SPACE).join('');
 }
 
+export function stripQuoteCloseMarks(html: string): string {
+  return html.replace(
+    /<span[^<>]*solaris-rich-text-quote-close[^<>]*>[\s\S]*?<\/span>/gi,
+    '',
+  );
+}
+
 export function cleanCommittedHtml(html: string): string {
-  return sanitizeRichTextHtml(stripZeroWidthSpaces(html))
+  return sanitizeRichTextHtml(stripZeroWidthSpaces(stripQuoteCloseMarks(html)))
     .replace(/<(strong|em|u|s)(\s[^<>]*)?>(?:\s|<br\s*\/?>)*<\/\1>/gi, '')
     .replace(/<span(?=[^<>]*data-color)[^<>]*>(?:\s|<br\s*\/?>)*<\/span>/gi, '')
     .replace(
@@ -876,11 +883,12 @@ export function cleanCommittedHtml(html: string): string {
     .replace(/<div[^<>]*solaris-block-drop-line[^<>]*><\/div>/gi, '')
     .replace(/<span[^<>]*solaris-image-size-badge[^<>]*>.*?<\/span>/gi, '')
     .replace(/<div[^<>]*solaris-image-snap-guides[^<>]*>.*?<\/div>/gi, '')
-    .replace(/\sdata-selected=""/gi, '')
-    .replace(/\sdata-hover=""/gi, '')
-    .replace(/\sdata-resizing=""/gi, '')
-    .replace(/\sdata-snapped=""/gi, '')
-    .replace(/\sdata-dragging=""/gi, '');
+    .replace(/\sdata-selected(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+))?/gi, '')
+    .replace(/\sdata-hover(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+))?/gi, '')
+    .replace(/\sdata-resizing(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+))?/gi, '')
+    .replace(/\sdata-snapped(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+))?/gi, '')
+    .replace(/\sdata-dragging(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+))?/gi, '')
+    .replace(/\sdata-hide-open(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+))?/gi, '');
 }
 
 export function insertTableBlock(

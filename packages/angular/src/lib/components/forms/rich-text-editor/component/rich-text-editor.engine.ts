@@ -777,6 +777,10 @@ export class SolarisRichTextEditingEngine {
 
   attachBlockGrip(block: HTMLElement): void {
     if (typeof document === 'undefined') return;
+    if (block.tagName === 'PRE') {
+      this.attachDetachedBlockGrip(block);
+      return;
+    }
     if (block.querySelector(':scope > .solaris-block-grip')) {
       this.gripAttached = true;
       return;
@@ -791,6 +795,39 @@ export class SolarisRichTextEditingEngine {
     // solaris grip-vertical icon); no consumer HTML.
     grip.innerHTML = BLOCK_GRIP_SVG;
     block.prepend(grip);
+    this.gripAttached = true;
+  }
+
+  /**
+   * Attaches the drag grip for scroll-clipped blocks (code <pre>) as a
+   * sibling in the editor gutter instead of a child: a child with a
+   * negative offset would be clipped by the block's own overflow, and it
+   * would corrupt the code-line model (isCodeBlockClean/writeCodeLines).
+   * The whole <pre> stays a single draggable group — never per line.
+   */
+  private attachDetachedBlockGrip(block: HTMLElement): void {
+    const parent = block.parentElement;
+    if (!parent) return;
+    const prev = block.previousElementSibling;
+    if (
+      prev instanceof HTMLElement &&
+      prev.classList.contains('solaris-block-grip')
+    ) {
+      prev.style.top = `${block.offsetTop + 2}px`;
+      this.gripAttached = true;
+      return;
+    }
+    this.clearBlockGrip();
+    const grip = document.createElement('span');
+    grip.className = 'solaris-block-grip solaris-block-grip--detached';
+    grip.setAttribute('contenteditable', 'false');
+    grip.setAttribute('draggable', 'false');
+    grip.setAttribute('aria-hidden', 'true');
+    // SECURITY_EXCEPTION: static six-dot grip glyph (same artwork as the
+    // solaris grip-vertical icon); no consumer HTML.
+    grip.innerHTML = BLOCK_GRIP_SVG;
+    grip.style.top = `${block.offsetTop + 2}px`;
+    parent.insertBefore(grip, block);
     this.gripAttached = true;
   }
 

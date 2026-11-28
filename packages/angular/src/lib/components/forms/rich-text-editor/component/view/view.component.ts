@@ -15,6 +15,11 @@ import {
   isEmptyValue,
   normalizeEditorValue,
 } from '../../functions/rich-text-editor.utils';
+import {
+  isQuoteEdgeLineEmpty,
+  quoteCloseMarkReference,
+} from '../../functions/rich-text-editor.dom';
+import { SOLARIS_RICH_TEXT_QUOTE_CLOSE_MARK_CLASS } from '../../model/rich-text-editor.defaults';
 
 import type { SolarisRichTextValue } from '../../model/rich-text-editor.types';
 
@@ -141,11 +146,39 @@ export class SolarisRichTextViewComponent {
       }
       this.cleanViewAttributes(child);
       this.cleanViewNodes(child);
+      if (tag === 'blockquote' && child instanceof HTMLElement) {
+        // Static views never run the editor sync: hide a lonely opening
+        // mark and place the closing mark after the last content line.
+        child.toggleAttribute(
+          'data-hide-open',
+          isQuoteEdgeLineEmpty(child, true),
+        );
+        this.placeQuoteCloseMark(child);
+      }
     }
   }
 
   private hasCodeLineClass(el: Element): boolean {
     return el.classList.contains('solaris-rich-text-code-line');
+  }
+
+  private placeQuoteCloseMark(quote: HTMLElement): void {
+    for (const child of Array.from(quote.childNodes)) {
+      if (
+        child instanceof Element &&
+        child.classList.contains(SOLARIS_RICH_TEXT_QUOTE_CLOSE_MARK_CLASS)
+      ) {
+        child.remove();
+      }
+    }
+    const { insert, before } = quoteCloseMarkReference(quote);
+    if (!insert || typeof document === 'undefined') return;
+    const mark = document.createElement('span');
+    mark.className = SOLARIS_RICH_TEXT_QUOTE_CLOSE_MARK_CLASS;
+    mark.setAttribute('contenteditable', 'false');
+    mark.setAttribute('aria-hidden', 'true');
+    mark.textContent = '”';
+    quote.insertBefore(mark, before);
   }
 
   private isTaskCheckbox(el: Element): boolean {

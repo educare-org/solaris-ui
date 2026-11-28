@@ -88,6 +88,9 @@ export const SOLARIS_RICH_TEXT_ALLOWED_TAGS: readonly string[] = [
 
 export const SOLARIS_RICH_TEXT_CODE_LINE_CLASS = 'solaris-rich-text-code-line';
 
+export const SOLARIS_RICH_TEXT_QUOTE_CLOSE_MARK_CLASS =
+  'solaris-rich-text-quote-close';
+
 const SOLARIS_RICH_TEXT_CODE_LANGUAGE_IDS: readonly Exclude<
   SolarisRichTextCodeLanguage,
   'auto'

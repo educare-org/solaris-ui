@@ -111,4 +111,27 @@ describe('SolarisRichTextEditingEngine', () => {
     expect(selection?.anchorOffset).toBe(2);
     host.remove();
   });
+
+  it('prepends the grip inside plain blocks', () => {
+    const paragraph = document.createElement('p');
+    editor.append(paragraph);
+    engine.attachBlockGrip(paragraph);
+    expect(
+      paragraph.querySelector(':scope > .solaris-block-grip'),
+    ).toBeTruthy();
+    host.remove();
+  });
+
+  it('attaches a single detached grip as a sibling of code blocks', () => {
+    const pre = document.createElement('pre');
+    editor.append(pre);
+    engine.writeCodeLines(pre, ['first'], null);
+    engine.attachBlockGrip(pre);
+    expect(pre.querySelector('.solaris-block-grip')).toBeNull();
+    const grip = pre.previousElementSibling as HTMLElement | null;
+    expect(grip?.classList.contains('solaris-block-grip')).toBe(true);
+    expect(grip?.classList.contains('solaris-block-grip--detached')).toBe(true);
+    expect(engine.isCodeBlockClean(pre)).toBe(true);
+    host.remove();
+  });
 });

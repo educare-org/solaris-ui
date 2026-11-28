@@ -72,6 +72,7 @@ import {
   sanitizeRichTextHtml,
   shouldCoalesceHistory,
   stripHtmlToText,
+  stripQuoteCloseMarks,
   toPlainText,
   trimTrailingWhitespace,
   unwrapInlineFormatting,
@@ -82,6 +83,8 @@ import {
   describeFigureWidth,
   expandRangeToInlineAncestors,
   isEmptyMarker,
+  isQuoteEdgeLineEmpty,
+  quoteCloseMarkReference,
   sharedInlineAncestor,
   SOLARIS_RICH_TEXT_BLOCK_BOUNDARY_TAG_NAMES,
   SOLARIS_RICH_TEXT_INLINE_TAG_NAMES,
@@ -118,6 +121,7 @@ import {
   SOLARIS_RICH_TEXT_IMAGE_PRESET_WIDTHS,
   SOLARIS_RICH_TEXT_INLINE_TAG_SHORTCUTS,
   SOLARIS_RICH_TEXT_MAX_HISTORY,
+  SOLARIS_RICH_TEXT_QUOTE_CLOSE_MARK_CLASS,
 } from '../model/rich-text-editor.defaults';
 
 @Component({
@@ -194,6 +198,7 @@ export class SolarisRichTextEditorComponent
       // initial [(value)] without ControlValueAccessor) requires writing
       // native innerHTML; same pattern as writeValue below. Write-only.
       editor.innerHTML = next.html;
+      this.syncQuoteMarkVisibility(editor);
     });
   }
 
@@ -513,15 +518,26 @@ export class SolarisRichTextEditorComponent
     const host = this.editorRef()?.nativeElement ?? null;
     if (!host) return;
     this.removeEmptyFigures(host);
+    this.normalizeQuoteStructure(host);
+    // Skip the quote-mark sync mid-composition: rebuilding the managed
+    // closing span next to the caret can cancel some IMEs. The final input
+    // after compositionend syncs it back.
+    const composing =
+      (event as Partial<InputEvent> | undefined)?.isComposing === true;
+    if (!composing) this.syncQuoteMarkVisibility(host);
     // SECURITY_EXCEPTION: reading edited HTML requires the native property; same pattern as Angular CDK form controls. Read-only.
     const rawHtml = host.innerHTML ?? '';
+    // Managed quote marks are live chrome, not content: keep them out of
+    // counts, limits and plain-text conversions (commitValue strips them too).
+    const rawText = stripHtmlToText(stripQuoteCloseMarks(rawHtml));
     if (this.contentFormat() === 'plain') {
-      const text = stripHtmlToText(rawHtml);
+      const text = rawText;
       const expected = text.length > 0 ? `<p>${escapeHtml(text)}</p>` : '';
       const max = this.maxLength();
       if (max !== undefined && Array.from(text).length > max) {
         // SECURITY_EXCEPTION: reverting over-limit input to the last committed HTML; write-only.
         host.innerHTML = this.value().html;
+        this.syncQuoteMarkVisibility(host);
         this.placeCaretAtEnd(host);
         return;
       }
@@ -539,11 +555,12 @@ export class SolarisRichTextEditorComponent
       this.engine.rememberSelection();
       return;
     }
-    const text = stripHtmlToText(rawHtml);
+    const text = rawText;
     const max = this.maxLength();
     if (max !== undefined && Array.from(text).length > max) {
       // SECURITY_EXCEPTION: reverting over-limit input to the last committed HTML; write-only.
       host.innerHTML = this.value().html;
+      this.syncQuoteMarkVisibility(host);
       this.placeCaretAtEnd(host);
       this.engine.rememberSelection();
       return;
@@ -788,6 +805,8 @@ export class SolarisRichTextEditorComponent
       (e) => this.handleListShortcuts(e),
       (e) => this.handleTaskListEnter(e),
       (e) => this.handleWrapExitEnter(e),
+      (e) => this.handleQuoteEnter(e),
+      (e) => this.handleQuoteMarkdownSpace(e),
       (e) => this.handleBlockMoveKey(e),
       (e) => this.handleTableTab(e),
       (e) => this.handleListTab(e),
@@ -1161,7 +1180,15 @@ export class SolarisRichTextEditorComponent
     if (!editor) return;
     const target = event.target as HTMLElement | null;
     const grip = target?.closest?.('.solaris-block-grip') as HTMLElement | null;
-    const block = grip?.parentElement ?? null;
+    let block = grip?.parentElement ?? null;
+    if (grip && block === editor) {
+      // Detached grips (e.g. code <pre>) are siblings of their block.
+      const next = grip.nextElementSibling;
+      block =
+        next instanceof HTMLElement && this.engine.isMovableBlock(next)
+          ? next
+          : null;
+    }
     if (
       !grip ||
       !block ||
@@ -1204,6 +1231,11 @@ export class SolarisRichTextEditorComponent
       if (moved <= SOLARIS_RICH_TEXT_BLOCK_DRAG_ACTIVATE_PX) return;
       pending.active = true;
       pending.block.setAttribute('data-dragging', '');
+      if (pending.block.tagName === 'PRE') {
+        // The detached code grip is a sibling at the old position, not a
+        // child that travels with the block — remove it during the drag.
+        this.engine.clearBlockGrip();
+      }
       this.draggingBlock = pending.block;
       this.dropTarget = null;
       this.dropValid = false;
@@ -2147,18 +2179,69 @@ export class SolarisRichTextEditorComponent
       this.insertCodeText(code, range, '  ');
       return true;
     }
-    const offset = this.engine.codeCaretOffset(code, range);
-    const text = this.engine.codeTextContent(code);
+    // Enter adds a line within the code group; only Enter on an empty last
+    // line leaves the group. Shift+Enter always stays (plain newline).
+    if (!event.shiftKey && this.isLastCodeLineEmpty(code, range)) {
+      if (this.isEffectivelyDisabled() || this.readonlyInput()) return true;
+      this.exitCodeBlock(code);
+      return true;
+    }
+    this.insertCodeNewline(code, range);
+    return true;
+  }
+
+  private isLastCodeLineEmpty(pre: HTMLElement, range: Range): boolean {
+    const offset = this.engine.codeCaretOffset(pre, range);
+    const text = this.engine.codeTextContent(pre);
+    const lineStart = text.lastIndexOf('\n', offset - 1) + 1;
+    const lineEnd = text.indexOf('\n', offset);
+    const line =
+      lineEnd === -1 ? text.slice(lineStart) : text.slice(lineStart, lineEnd);
+    return lineEnd === -1 && line.trim().length === 0;
+  }
+
+  private insertCodeNewline(pre: HTMLElement, range: Range): void {
+    const offset = this.engine.codeCaretOffset(pre, range);
+    const text = this.engine.codeTextContent(pre);
     const lineStart = text.lastIndexOf('\n', offset - 1) + 1;
     const indent = /^[ \t]*/.exec(text.slice(lineStart, offset))?.[0] ?? '';
     const next = `${text.slice(0, offset)}\n${indent}${text.slice(offset)}`;
     this.engine.writeCodeLines(
-      code,
+      pre,
       next.split('\n'),
       offset + 1 + indent.length,
     );
     this.emitFromDom();
-    return true;
+  }
+
+  private exitCodeBlock(pre: HTMLElement): void {
+    if (typeof document === 'undefined') return;
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!editor) return;
+    const paragraph = document.createElement('p');
+    paragraph.append(document.createElement('br'));
+    if (this.engine.codeTextContent(pre).trim().length === 0) {
+      // Single empty line: the code group vanishes, replaced by the paragraph.
+      pre.replaceWith(paragraph);
+    } else {
+      // Drop the empty last line, keep the remaining code lines.
+      const lines = this.engine.codeTextContent(pre).split('\n');
+      lines.pop();
+      this.engine.writeCodeLines(pre, lines.length > 0 ? lines : [''], null);
+      pre.after(paragraph);
+    }
+    try {
+      const selection = document.getSelection();
+      const caret = document.createRange();
+      caret.selectNodeContents(paragraph);
+      caret.collapse(true);
+      selection?.removeAllRanges();
+      selection?.addRange(caret);
+      editor.focus({ preventScroll: true });
+    } catch {
+      if (isDevMode()) console.warn('[SolarisRichText] Code exit failed.');
+    }
+    this.emitFromDom();
   }
 
   private insertCodeText(
@@ -2515,6 +2598,165 @@ export class SolarisRichTextEditorComponent
     } else {
       this.splitTaskListItem(li);
     }
+    return true;
+  }
+
+  private handleQuoteEnter(event: KeyboardEvent): boolean {
+    if (event.key !== 'Enter') return false;
+    if (event.shiftKey || event.ctrlKey || event.metaKey || event.altKey)
+      return false;
+    if (typeof document === 'undefined') return false;
+    if (this.contentFormat() !== 'rich') return false;
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!editor) return false;
+    const selection = document.getSelection();
+    if (!selection || selection.rangeCount === 0) return false;
+    const range = selection.getRangeAt(0);
+    if (!editor.contains(range.commonAncestorContainer)) return false;
+    let quote = closestTag(range.startContainer, 'BLOCKQUOTE', editor);
+    if ((!quote || !editor.contains(quote)) && !selection.isCollapsed) {
+      quote =
+        closestTag(range.endContainer, 'BLOCKQUOTE', editor) ??
+        closestTag(range.commonAncestorContainer, 'BLOCKQUOTE', editor);
+    }
+    if (!quote || !editor.contains(quote)) return false;
+    event.preventDefault();
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) return true;
+    if (!selection.isCollapsed) {
+      // A ranged Enter inside a quote exits the group instead of running
+      // the native block split (which would leave two quotes and no
+      // paragraph). Drop the selection first, then split at the caret.
+      try {
+        range.deleteContents();
+        range.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      } catch {
+        if (isDevMode()) console.warn('[SolarisRichText] Quote exit failed.');
+      }
+    }
+    this.exitQuote(quote as HTMLElement, range);
+    return true;
+  }
+
+  private exitQuote(quote: HTMLElement, range: Range): void {
+    if (typeof document === 'undefined') return;
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!editor) return;
+    const wasEmpty = this.isEmptyBlock(quote);
+    try {
+      const afterRange = document.createRange();
+      afterRange.setStart(range.startContainer, range.startOffset);
+      afterRange.setEndAfter(quote.lastChild ?? quote);
+      const fragment = afterRange.extractContents();
+      // The managed closing mark may be the only extracted node (exiting at
+      // the end of the text). It is chrome, not content: drop it so the new
+      // paragraph is not judged visible by the mark alone — otherwise the
+      // paragraph is born without a <br>, renders zero-height on the same
+      // visual line, and typed text falls back into the quote.
+      for (const mark of Array.from(
+        fragment.querySelectorAll(
+          `.${SOLARIS_RICH_TEXT_QUOTE_CLOSE_MARK_CLASS}`,
+        ),
+      )) {
+        mark.remove();
+      }
+      const visible =
+        (fragment.textContent ?? '').replace(/[\u200b\u00a0\s]/g, '').length >
+          0 ||
+        fragment.querySelector?.('img, table, figure, input, br') !== null;
+      const paragraph = document.createElement('p');
+      if (visible) {
+        paragraph.append(fragment);
+      } else {
+        paragraph.append(document.createElement('br'));
+      }
+      if (this.isEmptyBlock(quote)) {
+        quote.append(document.createElement('br'));
+      }
+      quote.after(paragraph);
+      if (wasEmpty) {
+        // Exiting an empty quote collapses it (parity with single-line
+        // empty code blocks): the stray empty group is dropped and only
+        // the editable paragraph remains.
+        quote.remove();
+      }
+      const selection = document.getSelection();
+      const caret = document.createRange();
+      caret.selectNodeContents(paragraph);
+      caret.collapse(true);
+      selection?.removeAllRanges();
+      selection?.addRange(caret);
+      editor.focus({ preventScroll: true });
+    } catch {
+      if (isDevMode()) console.warn('[SolarisRichText] Quote exit failed.');
+      const fallback = document.createElement('p');
+      fallback.append(document.createElement('br'));
+      quote.after(fallback);
+      editor.focus({ preventScroll: true });
+    }
+    this.emitFromDom();
+  }
+
+  /**
+   * Markdown shortcut for quotes (F8): typing `>␣` at the start of an
+   * empty-ish text block converts it to a `blockquote`. A `Ctrl+Shift+Q`
+   * accelerator was deliberately avoided: it quits Chrome and collides
+   * with browser-reserved chords, while `>`+Space matches Notion/GDocs
+   * muscle memory and needs no modifier.
+   */
+  private handleQuoteMarkdownSpace(event: KeyboardEvent): boolean {
+    if (event.key !== ' ') return false;
+    if (event.shiftKey || event.ctrlKey || event.metaKey || event.altKey)
+      return false;
+    if (typeof document === 'undefined') return false;
+    if (this.contentFormat() !== 'rich') return false;
+    const editor = this.editorRef()?.nativeElement ?? null;
+    if (!editor) return false;
+    const selection = document.getSelection();
+    if (!selection || selection.rangeCount === 0 || !selection.isCollapsed)
+      return false;
+    const range = selection.getRangeAt(0);
+    if (!editor.contains(range.commonAncestorContainer)) return false;
+    let el =
+      range.startContainer instanceof Element
+        ? range.startContainer
+        : range.startContainer.parentElement;
+    while (
+      el &&
+      el !== editor &&
+      !/^(P|H1|H2|H3|DIV|BLOCKQUOTE|PRE)$/.test(el.tagName)
+    ) {
+      el = el.parentElement;
+    }
+    if (!el || el === editor || !editor.contains(el)) return false;
+    if (el.tagName === 'BLOCKQUOTE' || el.tagName === 'PRE') return false;
+    if ((el.textContent ?? '').replace(/[\u200b\u00a0]/g, '') !== '>') {
+      return false;
+    }
+    // Caret must sit right after the marker for `>␣` to convert.
+    if (
+      range.startContainer.nodeType === Node.TEXT_NODE &&
+      range.startOffset !== (range.startContainer.textContent ?? '').length
+    ) {
+      return false;
+    }
+    event.preventDefault();
+    if (this.isEffectivelyDisabled() || this.readonlyInput()) return true;
+    const quote = document.createElement('blockquote');
+    quote.append(document.createElement('br'));
+    el.replaceWith(quote);
+    try {
+      const caret = document.createRange();
+      caret.selectNodeContents(quote);
+      caret.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(caret);
+      editor.focus({ preventScroll: true });
+    } catch {
+      if (isDevMode()) console.warn('[SolarisRichText] Quote insert failed.');
+    }
+    this.emitFromDom(insertBlockEntry(this.value().blocks, 'quote', ''));
     return true;
   }
 
@@ -3999,11 +4241,16 @@ export class SolarisRichTextEditorComponent
     probe.style.visibility = 'hidden';
     probe.style.pointerEvents = 'none';
     probe.setAttribute('aria-hidden', 'true');
+    // The probe mutates the live editor DOM while a color popover may be
+    // open: preserve the document selection so appending/removing it can
+    // never shift a caret/range owned by the editor (color-flake source).
+    const saved = this.captureDocumentSelection(area);
     area.appendChild(probe);
     try {
       return parseCssRgb(getComputedStyle(probe).color);
     } finally {
       probe.remove();
+      this.restoreDocumentSelection(saved, area);
     }
   }
 
@@ -4016,12 +4263,43 @@ export class SolarisRichTextEditorComponent
     probe.style.visibility = 'hidden';
     probe.style.pointerEvents = 'none';
     probe.setAttribute('aria-hidden', 'true');
+    const saved = this.captureDocumentSelection(area);
     area.appendChild(probe);
     try {
       const parsed = parseCssRgba(getComputedStyle(probe).backgroundColor);
       return parsed && parsed.alpha >= 1 ? parsed.color : null;
     } finally {
       probe.remove();
+      this.restoreDocumentSelection(saved, area);
+    }
+  }
+
+  private captureDocumentSelection(area: HTMLElement): Range | null {
+    try {
+      const selection = document.getSelection();
+      if (!selection || selection.rangeCount === 0) return null;
+      const range = selection.getRangeAt(0);
+      if (!area.contains(range.commonAncestorContainer)) return null;
+      return range.cloneRange();
+    } catch {
+      return null;
+    }
+  }
+
+  private restoreDocumentSelection(
+    saved: Range | null,
+    area: HTMLElement,
+  ): void {
+    if (!saved) return;
+    try {
+      if (!area.contains(saved.commonAncestorContainer)) return;
+      const selection = document.getSelection();
+      if (!selection) return;
+      selection.removeAllRanges();
+      selection.addRange(saved);
+    } catch {
+      if (isDevMode())
+        console.warn('[SolarisRichText] Probe selection restore failed.');
     }
   }
 
@@ -4200,6 +4478,8 @@ export class SolarisRichTextEditorComponent
   private emitFromDom(blocks = this.value().blocks): void {
     const editor = this.editorRef();
     if (!editor) return;
+    this.normalizeQuoteStructure(editor.nativeElement);
+    this.syncQuoteMarkVisibility(editor.nativeElement);
     // SECURITY_EXCEPTION: reading edited HTML requires the native property. Read-only.
     const rawHtml = editor.nativeElement.innerHTML ?? '';
     const html = cleanCommittedHtml(rawHtml);
@@ -4257,5 +4537,120 @@ export class SolarisRichTextEditorComponent
     const current = editor.nativeElement.innerHTML ?? '';
     const next = this.value().html;
     if (current !== next) editor.nativeElement.innerHTML = next;
+    this.syncQuoteMarkVisibility(editor.nativeElement);
+  }
+
+  /**
+   * Repairs quote structures the browser builds natively (F6): pasted or
+   * dropped markup and Delete-merges can nest text blocks (`p/h1-h3/div`)
+   * inside a `blockquote`, or swallow a `blockquote` inside a paragraph.
+   * Text blocks nested in a quote become `<br>`-separated lines (node
+   * identity is preserved, so the caret survives); a quote swallowed by a
+   * paragraph splits it back into `before/quote/after`. Lists, code,
+   * figures and tables are valid quote content and are left alone.
+   */
+  private normalizeQuoteStructure(host: HTMLElement): void {
+    if (typeof document === 'undefined') return;
+    for (const quote of Array.from(host.querySelectorAll('blockquote'))) {
+      if (!(quote instanceof HTMLElement) || !host.contains(quote)) continue;
+      for (const child of Array.from(quote.childNodes)) {
+        if (
+          !(child instanceof HTMLElement) ||
+          !/^(P|H1|H2|H3|DIV)$/.test(child.tagName)
+        ) {
+          continue;
+        }
+        const prev = child.previousSibling;
+        const needsBreak =
+          prev !== null &&
+          prev.nodeName !== 'BR' &&
+          !(
+            prev instanceof Element &&
+            (prev.classList.contains('solaris-block-grip') ||
+              prev.classList.contains(SOLARIS_RICH_TEXT_QUOTE_CLOSE_MARK_CLASS))
+          );
+        if (needsBreak) quote.insertBefore(document.createElement('br'), child);
+        while (child.firstChild) quote.insertBefore(child.firstChild, child);
+        child.remove();
+      }
+    }
+    for (const quote of Array.from(host.querySelectorAll('p > blockquote'))) {
+      if (!(quote instanceof HTMLElement)) continue;
+      const parent = quote.parentElement;
+      if (
+        !(parent instanceof HTMLElement) ||
+        parent.tagName !== 'P' ||
+        parent.parentElement !== host
+      ) {
+        continue;
+      }
+      const before = document.createElement('p');
+      const after = document.createElement('p');
+      let node = parent.firstChild;
+      while (node && node !== quote) {
+        const next = node.nextSibling;
+        before.appendChild(node);
+        node = next;
+      }
+      let rest = quote.nextSibling;
+      while (rest) {
+        const next = rest.nextSibling;
+        after.appendChild(rest);
+        rest = next;
+      }
+      const hasVisible = (el: HTMLElement): boolean =>
+        (el.textContent ?? '').replace(/[\u200b\u00a0\s]/g, '').length > 0 ||
+        el.querySelector('img, table, figure, input') !== null;
+      const parts: Node[] = [];
+      if (before.hasChildNodes() && hasVisible(before)) parts.push(before);
+      parts.push(quote);
+      if (after.hasChildNodes() && hasVisible(after)) parts.push(after);
+      if (parts.length === 1) {
+        parent.replaceWith(quote);
+      } else {
+        parent.replaceWith(...parts);
+      }
+    }
+  }
+
+  /**
+   * Toggles the quote-mark visibility from the live edge lines. The opening
+   * mark hides on empty first lines; the closing mark is a managed span that
+   * hugs the last content (structural CSS cannot see text nodes). Both are
+   * transient chrome: stripped back out by `cleanCommittedHtml`.
+   */
+  private syncQuoteMarkVisibility(host: HTMLElement): void {
+    for (const stray of Array.from(
+      host.querySelectorAll(`.${SOLARIS_RICH_TEXT_QUOTE_CLOSE_MARK_CLASS}`),
+    )) {
+      if (stray.closest('blockquote') === null) stray.remove();
+    }
+    for (const quote of Array.from(host.querySelectorAll('blockquote'))) {
+      if (!(quote instanceof HTMLElement)) continue;
+      quote.toggleAttribute(
+        'data-hide-open',
+        isQuoteEdgeLineEmpty(quote, true),
+      );
+      this.syncQuoteCloseMark(quote);
+    }
+  }
+
+  private syncQuoteCloseMark(quote: HTMLElement): void {
+    for (const child of Array.from(quote.childNodes)) {
+      if (
+        child instanceof Element &&
+        child.classList.contains(SOLARIS_RICH_TEXT_QUOTE_CLOSE_MARK_CLASS)
+      ) {
+        child.remove();
+      }
+    }
+    const { insert, before } = quoteCloseMarkReference(quote);
+    if (!insert || typeof document === 'undefined') return;
+    const mark = document.createElement('span');
+    mark.className = SOLARIS_RICH_TEXT_QUOTE_CLOSE_MARK_CLASS;
+    mark.setAttribute('contenteditable', 'false');
+    mark.setAttribute('aria-hidden', 'true');
+    mark.textContent = '”';
+    quote.insertBefore(mark, before);
   }
 }
